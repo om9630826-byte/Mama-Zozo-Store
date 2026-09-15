@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم - مكتبة ماما زوزو</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .login,
+    .panel {
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      margin-top: 20px;
+      box-shadow: 0 5px 20px #0001;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
+      cursor: pointer;
+      background: #7c3aed;
+      color: white;
+      font-size: 15px;
+      margin: 5px;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .danger {
+      background: #dc2626;
+    }
+
+    .success {
+      background: #16a34a;
+    }
+
+    .logout {
+      background: #111827;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 15px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .msg {
+      padding: 12px;
+      border-radius: 10px;
+      margin: 10px 0;
+      background: #fef3c7;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      text-align: right;
+    }
+
+    @media(max-width:600px) {
+      table {
+        font-size: 12px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛍️ لوحة تحكم مكتبة ماما زوزو</h1>
+  <p>إدارة المنتجات والطلبات والمخزون</p>
+</header>
+
+<div class="container">
+
+  <!-- تسجيل الدخول -->
+  <div id="loginBox" class="login">
+
+    <h2>🔐 دخول الأدمن</h2>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="البريد الإلكتروني">
+
+    <input
+      type="password"
+      id="password"
+      placeholder="كلمة المرور">
+
+    <button onclick="login()">دخول</button>
+
+    <div id="loginMsg"></div>
+
+  </div>
+
+
+  <!-- لوحة التحكم -->
+  <div id="dashboard" class="hidden">
+
+    <div class="panel">
+
+      <h2>👋 أهلاً بيك</h2>
+
+      <button class="logout" onclick="logout()">تسجيل الخروج</button>
+
+    </div>
+
+
+    <!-- الإحصائيات -->
+    <div class="grid">
+
+      <div class="card">
+        <h3>📦 المنتجات</h3>
+        <h2 id="productsCount">0</h2>
+      </div>
+
+      <div class="card">
+        <h3>🛒 الطلبات</h3>
+        <h2 id="ordersCount">0</h2>
+      </div>
+
+      <div class="card">
+        <h3>💬 الشكاوى</h3>
+        <h2 id="complaintsCount">0</h2>
+      </div>
+
+    </div>
+
+
+    <!-- إضافة منتج -->
+    <div class="panel">
+
+      <h2>➕ إضافة منتج</h2>
+
+      <input id="productName" placeholder="اسم المنتج">
+
+      <input
+        id="productPrice"
+        type="number"
+        placeholder="السعر">
+
+      <input
+        id="oldPrice"
+        type="number"
+        placeholder="السعر القديم">
+
+      <input
+        id="productStock"
+        type="number"
+        placeholder="الكمية في المخزون">
+
+      <input
+        id="productCategory"
+        placeholder="القسم">
+
+      <textarea
+        id="productDescription"
+        placeholder="وصف المنتج"></textarea>
+
+      <input
+        id="productImage"
+        placeholder="رابط صورة المنتج">
+
+      <input
+        id="productVideo"
+        placeholder="رابط فيديو المنتج">
+
+      <button class="success" onclick="addProduct()">
+        إضافة المنتج
+      </button>
+
+      <div id="productMsg"></div>
+
+    </div>
+
+
+    <!-- المنتجات -->
+    <div class="panel">
+
+      <h2>📦 المنتجات الحالية</h2>
+
+      <button onclick="loadProducts()">
+        🔄 تحديث
+      </button>
+
+      <div id="productsList"></div>
+
+    </div>
+
+
+    <!-- الطلبات -->
+    <div class="panel">
+
+      <h2>🛒 الطلبات</h2>
+
+      <button onclick="loadOrders()">
+        🔄 تحديث الطلبات
+      </button>
+
+      <div id="ordersList"></div>
+
+    </div>
+
+
+    <!-- الشكاوى -->
+    <div class="panel">
+
+      <h2>💬 الشكاوى والاقتراحات</h2>
+
+      <button onclick="loadComplaints()">
+        🔄 تحديث
+      </button>
+
+      <div id="complaintsList"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://tzjtivfzawffqgisrowv.supabase.co";
+
+const SUPABASE_KEY =
+  "ضع_مفتاح_Supabase_الخاص_بك_هنا";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+// تسجيل الدخول
+async function login() {
+
+  const email =
+    document.getElementById("email").value;
+
+  const password =
+    document.getElementById("password").value;
+
+  const msg =
+    document.getElementById("loginMsg");
+
+  if (!email || !password) {
+
+    msg.innerHTML =
+      "<div class='msg'>اكتب الإيميل والباسورد</div>";
+
+    return;
+  }
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
+
+    msg.innerHTML =
+      "<div class='msg'>❌ بيانات الدخول غير صحيحة</div>";
+
+    return;
+  }
+
+  document.getElementById("loginBox")
+    .classList.add("hidden");
+
+  document.getElementById("dashboard")
+    .classList.remove("hidden");
+
+  await loadAll();
+
+}
+
+
+// تسجيل الخروج
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  location.reload();
+
+}
+
+
+// تحميل كل البيانات
+async function loadAll() {
+
+  await loadProducts();
+
+  await loadOrders();
+
+  await loadComplaints();
+
+}
+
+
+// المنتجات
+async function loadProducts() {
+
+  const { data, error } =
+    await supabaseClient
+      .from("products")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    document.getElementById("productsList")
+      .innerHTML =
+      "❌ لا يمكن تحميل المنتجات";
+
+    return;
+  }
+
+  document.getElementById("productsCount")
+    .innerText = data.length;
+
+  let html = "";
+
+  data.forEach(product => {
+
+    html += `
+
+      <div class="card">
+
+        <h3>${escapeHtml(product.name)}</h3>
+
+        <p>💰 السعر: ${product.price} جنيه</p>
+
+        <p>📦 المخزون: ${product.stock}</p>
+
+        <p>🏷️ القسم:
+          ${escapeHtml(product.category || "-")}
+        </p>
+
+        <button
+          class="danger"
+          onclick="deleteProduct(${product.id})">
+
+          حذف
+
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+  document.getElementById("products
