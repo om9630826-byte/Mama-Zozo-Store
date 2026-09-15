@@ -139,6 +139,21 @@ nav{white-space:nowrap;overflow:auto}
 <footer>
 © 2026 مكتبة ماما زوزو 🧸
 </footer>
+<script>
+let cart = [];
 
+function addToCart(product) {
+  cart.push(product);
+  alert("تم إضافة " + product + " للسلة 🛒");
+}
+
+function showCart() {
+  if (cart.length === 0) {
+    alert("السلة فاضية 🛒");
+  } else {
+    alert("🛒 محتويات السلة:\n\n" + cart.join("\n"));
+  }
+}
+</script>
 </body>
 </html>
