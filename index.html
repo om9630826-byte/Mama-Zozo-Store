@@ -56,4 +56,2145 @@ header{
   border-bottom:1px solid var(--border);
   position:sticky;
   top:0;
- 
+  z-index:1000;
+}
+
+.header{
+  max-width:1200px;
+  margin:auto;
+  min-height:76px;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:220px;
+}
+
+.logo-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:var(--blue-light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+}
+
+.logo h1{
+  font-size:20px;
+  color:var(--blue-dark);
+}
+
+.logo span{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.search{
+  flex:1;
+  position:relative;
+}
+
+.search input{
+  width:100%;
+  height:46px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:0 45px 0 15px;
+  outline:none;
+  background:#faf9f6;
+  color:var(--text);
+}
+
+.search input:focus{
+  border-color:var(--blue);
+}
+
+.search-icon{
+  position:absolute;
+  right:15px;
+  top:10px;
+  font-size:20px;
+}
+
+.header-actions{
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn{
+  border:1px solid var(--border);
+  background:white;
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  font-size:20px;
+  position:relative;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  left:-5px;
+  background:var(--yellow);
+  color:white;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  font-size:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* NAV */
+
+nav{
+  background:var(--blue-dark);
+  color:white;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:0 20px;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:25px;
+  overflow:auto;
+}
+
+.nav button{
+  border:0;
+  background:none;
+  color:white;
+  white-space:nowrap;
+  padding:8px 3px;
+  opacity:.9;
+}
+
+.nav button:hover{
+  opacity:1;
+}
+
+/* HERO */
+
+.hero{
+  max-width:1200px;
+  margin:25px auto;
+  padding:0 20px;
+}
+
+.hero-box{
+  min-height:350px;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 85% 20%,rgba(255,255,255,.7),transparent 25%),
+    linear-gradient(135deg,#e8f0f3,#f8efd8);
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero-content{
+  padding:50px;
+  width:58%;
+  position:relative;
+  z-index:2;
+}
+
+.hero-content small{
+  color:var(--green);
+  font-weight:bold;
+}
+
+.hero-content h2{
+  font-size:42px;
+  line-height:1.3;
+  color:var(--blue-dark);
+  margin:12px 0;
+}
+
+.hero-content p{
+  color:var(--muted);
+  max-width:600px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:25px;
+  flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn{
+  border:0;
+  padding:13px 22px;
+  border-radius:13px;
+  font-weight:bold;
+}
+
+.primary-btn{
+  background:var(--blue);
+  color:white;
+}
+
+.secondary-btn{
+  background:white;
+  color:var(--blue-dark);
+  border:1px solid var(--border);
+}
+
+.hero-art{
+  position:absolute;
+  left:30px;
+  bottom:10px;
+  font-size:150px;
+  opacity:.55;
+}
+
+/* TRUST */
+
+.trust{
+  max-width:1200px;
+  margin:0 auto 30px;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.trust-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  box-shadow:var(--shadow);
+}
+
+.trust-card strong{
+  display:block;
+  font-size:14px;
+}
+
+.trust-card span{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* SECTIONS */
+
+.section{
+  max-width:1200px;
+  margin:45px auto;
+  padding:0 20px;
+}
+
+.section-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+.section-head h2{
+  color:var(--blue-dark);
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* CATEGORIES */
+
+.categories{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.category{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:25px 15px;
+  text-align:center;
+  transition:.2s;
+}
+
+.category:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+.category .emoji{
+  font-size:45px;
+  margin-bottom:8px;
+}
+
+.category h3{
+  font-size:16px;
+  color:var(--blue-dark);
+}
+
+.category p{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* FILTERS */
+
+.filters{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.filter-btn,
+.sort-select{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:9px 15px;
+  color:var(--text);
+}
+
+.filter-btn.active{
+  background:var(--blue);
+  color:white;
+  border-color:var(--blue);
+}
+
+/* PRODUCTS */
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.product{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:.2s;
+  position:relative;
+}
+
+.product:hover{
+  transform:translateY(-4px);
+}
+
+.product-image{
+  height:210px;
+  background:var(--blue-light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.product-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.product-placeholder{
+  font-size:85px;
+  opacity:.75;
+}
+
+.discount{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:var(--yellow);
+  color:white;
+  padding:4px 9px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.fav{
+  position:absolute;
+  top:10px;
+  left:10px;
+  width:36px;
+  height:36px;
+  border:0;
+  background:white;
+  border-radius:50%;
+  font-size:18px;
+}
+
+.product-body{
+  padding:15px;
+}
+
+.category-name{
+  color:var(--green);
+  font-size:11px;
+}
+
+.product h3{
+  font-size:16px;
+  margin:4px 0;
+  color:var(--blue-dark);
+}
+
+.rating{
+  color:#c79527;
+  font-size:13px;
+}
+
+.price{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:8px 0;
+}
+
+.price strong{
+  font-size:19px;
+  color:var(--blue-dark);
+}
+
+.old-price{
+  color:#9ba3a7;
+  text-decoration:line-through;
+  font-size:12px;
+}
+
+.product-actions{
+  display:grid;
+  grid-template-columns:1fr 42px;
+  gap:7px;
+}
+
+.add-cart{
+  border:0;
+  border-radius:11px;
+  background:var(--blue);
+  color:white;
+  padding:10px;
+  font-weight:bold;
+}
+
+.details-btn{
+  border:1px solid var(--border);
+  background:white;
+  border-radius:11px;
+}
+
+/* PROMO */
+
+.promo{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:18px;
+}
+
+.promo-main,
+.promo-small{
+  border-radius:22px;
+  padding:30px;
+  background:var(--blue-light);
+}
+
+.promo-main{
+  background:linear-gradient(135deg,#e8f0f3,#f4f0e7);
+}
+
+.promo h2{
+  color:var(--blue-dark);
+  margin-bottom:8px;
+}
+
+.promo p{
+  color:var(--muted);
+}
+
+.code{
+  display:inline-block;
+  margin-top:15px;
+  background:white;
+  border:1px dashed var(--yellow);
+  padding:8px 15px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+/* REVIEWS */
+
+.reviews{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.review{
+  background:white;
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:var(--radius);
+}
+
+.review p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.review strong{
+  display:block;
+  margin-top:10px;
+}
+
+/* CONTACT */
+
+.contact{
+  background:var(--blue-dark);
+  color:white;
+  border-radius:25px;
+  padding:35px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+}
+
+.contact h2{
+  margin-bottom:10px;
+}
+
+.contact p{
+  opacity:.85;
+}
+
+.contact-info{
+  display:grid;
+  gap:10px;
+}
+
+.contact-item{
+  background:rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:12px;
+}
+
+.contact-form{
+  display:grid;
+  gap:10px;
+}
+
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:12px;
+  outline:none;
+}
+
+.contact-form textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+/* FOOTER */
+
+footer{
+  background:#263c48;
+  color:white;
+  margin-top:50px;
+}
+
+.footer{
+  max-width:1200px;
+  margin:auto;
+  padding:35px 20px;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+.footer h3{
+  margin-bottom:10px;
+}
+
+.footer p,
+.footer li{
+  color:#d4dde0;
+  font-size:13px;
+}
+
+.footer ul{
+  list-style:none;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.1);
+  padding:15px;
+  text-align:center;
+  font-size:12px;
+  color:#c7d0d3;
+}
+
+/* MODALS */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(20,30,35,.5);
+  z-index:2000;
+  padding:20px;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:white;
+  width:min(600px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:22px;
+  padding:25px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  top:12px;
+  left:12px;
+  width:35px;
+  height:35px;
+  border:0;
+  background:#f1f1ed;
+  border-radius:50%;
+}
+
+.cart-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-bottom:1px solid var(--border);
+  padding:13px 0;
+}
+
+.cart-img{
+  width:65px;
+  height:65px;
+  background:var(--blue-light);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+}
+
+.cart-info{
+  flex:1;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:5px;
+}
+
+.qty button{
+  width:27px;
+  height:27px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:7px;
+}
+
+.delete{
+  border:0;
+  background:none;
+  color:#a45d5d;
+}
+
+.total{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 0;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.form{
+  display:grid;
+  gap:12px;
+}
+
+.form label{
+  font-size:13px;
+  color:var(--blue-dark);
+  font-weight:bold;
+}
+
+.form input,
+.form select,
+.form textarea{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:11px;
+  outline:none;
+}
+
+.form textarea{
+  min-height:80px;
+}
+
+.checkout-btn{
+  width:100%;
+  border:0;
+  background:var(--blue);
+  color:white;
+  padding:13px;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--blue-dark);
+  color:white;
+  padding:13px 18px;
+  border-radius:12px;
+  transform:translateY(100px);
+  opacity:0;
+  transition:.3s;
+  z-index:3000;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+  .products{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .trust{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .categories{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero-content{
+    width:70%;
+    padding:35px;
+  }
+
+  .hero-content h2{
+    font-size:32px;
+  }
+}
+
+@media(max-width:650px){
+  .header{
+    flex-wrap:wrap;
+  }
+
+  .logo{
+    min-width:auto;
+    flex:1;
+  }
+
+  .search{
+    order:3;
+    flex-basis:100%;
+  }
+
+  .hero-box{
+    min-height:440px;
+  }
+
+  .hero-content{
+    width:100%;
+    padding:30px;
+    align-self:flex-start;
+  }
+
+  .hero-art{
+    font-size:100px;
+    left:20px;
+    bottom:20px;
+  }
+
+  .products{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+
+  .product-image{
+    height:170px;
+  }
+
+  .product-placeholder{
+    font-size:65px;
+  }
+
+  .promo,
+  .contact,
+  .footer{
+    grid-template-columns:1fr;
+  }
+
+  .reviews{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:400px){
+  .products{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .product h3{
+    font-size:14px;
+  }
+
+  .price strong{
+    font-size:16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header">
+
+    <a href="#" class="logo">
+      <div class="logo-icon">🧸</div>
+      <div>
+        <h1>مكتبة ماما زوزو</h1>
+        <span>ألعاب • أدوات مدرسية • هدايا</span>
+      </div>
+    </a>
+
+    <div class="search">
+      <span class="search-icon">🔎</span>
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="ابحث عن لعبة أو منتج..."
+        oninput="searchProducts()"
+      >
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn" onclick="openWishlist()">
+        ❤️
+        <span class="badge" id="wishCount">0</span>
+      </button>
+
+      <button class="icon-btn" onclick="openCart()">
+        🛒
+        <span class="badge" id="cartCount">0</span>
+      </button>
+    </div>
+
+  </div>
+
+  <nav>
+    <div class="nav">
+      <button onclick="filterProducts('all')">الرئيسية</button>
+      <button onclick="filterProducts('ألعاب')">الألعاب</button>
+      <button onclick="filterProducts('أدوات مدرسية')">أدوات مدرسية</button>
+      <button onclick="filterProducts('شنط')">الشنط</button>
+      <button onclick="filterProducts('قرطاسية')">القرطاسية</button>
+      <button onclick="scrollToSection('offers')">العروض</button>
+      <button onclick="scrollToSection('contact')">تواصل معنا</button>
+    </div>
+  </nav>
+</header>
+
+
+<main>
+
+<section class="hero">
+  <div class="hero-box">
+
+    <div class="hero-content">
+      <small>أهلاً بيك في مكتبة ماما زوزو</small>
+
+      <h2>
+        كل اللي طفلك محتاجه...
+        <br>
+        في مكان واحد
+      </h2>
+
+      <p>
+        ألعاب ممتعة، أدوات مدرسية، شنط وقرطاسية
+        باختيارات مناسبة للأطفال والكبار.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="primary-btn" onclick="scrollToSection('products')">
+          تسوق الآن
+        </button>
+
+        <button class="secondary-btn" onclick="scrollToSection('offers')">
+          شوف العروض
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-art">🎒🧸✏️</div>
+
+  </div>
+</section>
+
+
+<section class="trust">
+
+  <div class="trust-card">
+    <div>🚚</div>
+    <div>
+      <strong>توصيل الطلبات</strong>
+      <span>حسب نطاق التوصيل المتاح</span>
+    </div>
+  </div>
+
+  <div class="trust-card">
+    <div>💳</div>
+    <div>
+      <strong>طرق دفع متعددة</strong>
+      <span>نحددها معاك عند الطلب</span>
+    </div>
+  </div>
+
+  <div class="trust-card">
+    <div>🎁</div>
+    <div>
+      <strong>اختيارات متنوعة</strong>
+      <span>ألعاب وأدوات مدرسية</span>
+    </div>
+  </div>
+
+  <div class="trust-card">
+    <div>💬</div>
+    <div>
+      <strong>خدمة عملاء</strong>
+      <span>تواصل معنا بسهولة</span>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-head">
+    <div>
+      <h2>تسوق حسب القسم</h2>
+      <p>اختار القسم اللي بتدور عليه</p>
+    </div>
+  </div>
+
+  <div class="categories">
+
+    <button class="category" onclick="filterProducts('ألعاب')">
+      <div class="emoji">🧸</div>
+      <h3>ألعاب</h3>
+      <p>ألعاب تعليمية وترفيهية</p>
+    </button>
+
+    <button class="category" onclick="filterProducts('أدوات مدرسية')">
+      <div class="emoji">✏️</div>
+      <h3>أدوات مدرسية</h3>
+      <p>كل مستلزمات المدرسة</p>
+    </button>
+
+    <button class="category" onclick="filterProducts('شنط')">
+      <div class="emoji">🎒</div>
+      <h3>شنط</h3>
+      <p>شنط مدرسية متنوعة</p>
+    </button>
+
+    <button class="category" onclick="filterProducts('قرطاسية')">
+      <div class="emoji">📚</div>
+      <h3>قرطاسية</h3>
+      <p>كشاكيل وأقلام ومستلزمات</p>
+    </button>
+
+  </div>
+
+</section>
+
+
+<section class="section" id="products">
+
+  <div class="section-head">
+    <div>
+      <h2>منتجات ماما زوزو</h2>
+      <p id="productsSubtitle">اختيارات متنوعة للأطفال والطلاب</p>
+    </div>
+
+    <select class="sort-select" onchange="sortProducts(this.value)">
+      <option value="default">الترتيب</option>
+      <option value="low">السعر: الأقل أولاً</option>
+      <option value="high">السعر: الأعلى أولاً</option>
+      <option value="rating">الأعلى تقييماً</option>
+    </select>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterProducts('all',this)">الكل</button>
+    <button class="filter-btn" onclick="filterProducts('ألعاب',this)">ألعاب</button>
+    <button class="filter-btn" onclick="filterProducts('أدوات مدرسية',this)">أدوات مدرسية</button>
+    <button class="filter-btn" onclick="filterProducts('شنط',this)">شنط</button>
+    <button class="filter-btn" onclick="filterProducts('قرطاسية',this)">قرطاسية</button>
+  </div>
+
+  <div class="products" id="productsGrid"></div>
+
+</section>
+
+
+<section class="section" id="offers">
+
+  <div class="section-head">
+    <div>
+      <h2>عروض ماما زوزو 🎁</h2>
+      <p>وفر أكتر مع العروض والكوبونات</p>
+    </div>
+  </div>
+
+  <div class="promo">
+
+    <div class="promo-main">
+      <h2>خصم 10 جنيه 🎉</h2>
+      <p>
+        استخدم كود الخصم عند إتمام الطلب.
+      </p>
+      <span class="code">MAMA10</span>
+    </div>
+
+    <div class="promo-small">
+      <h2>اختيارات الأسبوع</h2>
+      <p>
+        منتجات مناسبة للمدرسة واللعب.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-head">
+    <div>
+      <h2>آراء العملاء ⭐</h2>
+      <p>آراء وتجارب العملاء</p>
+    </div>
+  </div>
+
+  <div class="reviews">
+
+    <div class="review">
+      <div class="rating">★★★★★</div>
+      <p>
+        منتجات متنوعة والموقع سهل في الاستخدام.
+      </p>
+      <strong>عميل من قليوب</strong>
+    </div>
+
+    <div class="review">
+      <div class="rating">★★★★★</div>
+      <p>
+        اختيار الألعاب والأدوات المدرسية جميل.
+      </p>
+      <strong>ولي أمر</strong>
+    </div>
+
+    <div class="review">
+      <div class="rating">★★★★☆</div>
+      <p>
+        مستنيين إضافة منتجات وصور أكتر.
+      </p>
+      <strong>عميل</strong>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section" id="contact">
+
+  <div class="contact">
+
+    <div>
+      <h2>تواصل مع مكتبة ماما زوزو 💬</h2>
+
+      <p>
+        عندك سؤال أو اقتراح أو مشكلة في طلب؟
+        تواصل معنا.
+      </p>
+
+      <div class="contact-info">
+
+        <div class="contact-item">
+          📞 0242131877
+        </div>
+
+        <div class="contact-item">
+          📍 6 ش داليا - قليوب - القليوبية
+        </div>
+
+        <div class="contact-item">
+          ✉️ mamazozu.store@gmail.com
+        </div>
+
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="sendComplaint(event)">
+
+      <input id="complaintName" placeholder="اسمك">
+
+      <input id="complaintPhone" placeholder="رقم الموبايل">
+
+      <textarea
+        id="complaintText"
+        placeholder="اكتب شكواك أو اقتراحك..."
+      ></textarea>
+
+      <button class="primary-btn" type="submit">
+        إرسال
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer">
+
+    <div>
+      <h3>مكتبة ماما زوزو 🧸</h3>
+      <p>
+        متجر يهتم بالألعاب والأدوات المدرسية
+        والمنتجات المناسبة للأطفال والطلاب.
+      </p>
+    </div>
+
+    <div>
+      <h3>روابط</h3>
+      <ul>
+        <li><a href="#" onclick="scrollToSection('products')">المنتجات</a></li>
+        <li><a href="#" onclick="scrollToSection('offers')">العروض</a></li>
+        <li><a href="#" onclick="scrollToSection('contact')">تواصل معنا</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>خدمة العملاء</h3>
+      <ul>
+        <li>📞 0242131877</li>
+        <li>📍 قليوب - القليوبية</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    © 2026 مكتبة ماما زوزو - جميع الحقوق محفوظة
+  </div>
+
+</footer>
+
+
+<!-- CART MODAL -->
+
+<div class="modal" id="cartModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('cartModal')">×</button>
+
+    <h2>🛒 سلة المشتريات</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="total">
+      <span>الإجمالي</span>
+      <span id="cartTotal">0 جنيه</span>
+    </div>
+
+    <button class="checkout-btn" onclick="openCheckout()">
+      إتمام الطلب
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- PRODUCT MODAL -->
+
+<div class="modal" id="productModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('productModal')">×</button>
+
+    <div id="productDetails"></div>
+
+  </div>
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div class="modal" id="checkoutModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('checkoutModal')">×</button>
+
+    <h2>📦 إتمام الطلب</h2>
+
+    <br>
+
+    <form class="form" onsubmit="submitOrder(event)">
+
+      <div>
+        <label>الاسم</label>
+        <input id="customerName" required>
+      </div>
+
+      <div>
+        <label>رقم الموبايل</label>
+        <input id="customerPhone" type="tel" required>
+      </div>
+
+      <div>
+        <label>المحافظة</label>
+        <select id="governorate" required>
+          <option value="">اختر المحافظة</option>
+          <option>القليوبية</option>
+          <option>القاهرة</option>
+          <option>الجيزة</option>
+          <option>الشرقية</option>
+          <option>الدقهلية</option>
+          <option>المنوفية</option>
+          <option>الغربية</option>
+          <option>البحيرة</option>
+          <option>أخرى</option>
+        </select>
+      </div>
+
+      <div>
+        <label>العنوان بالتفصيل</label>
+        <textarea id="customerAddress" required></textarea>
+      </div>
+
+      <div>
+        <label>طريقة الدفع</label>
+        <select id="paymentMethod" required>
+          <option value="">اختر طريقة الدفع</option>
+          <option>الدفع عند الاستلام</option>
+          <option>تحويل / دفع إلكتروني</option>
+        </select>
+      </div>
+
+      <div>
+        <label>ملاحظات</label>
+        <textarea id="orderNotes"></textarea>
+      </div>
+
+      <button class="checkout-btn">
+        تأكيد الطلب
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- WISHLIST -->
+
+<div class="modal" id="wishlistModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModal('wishlistModal')">×</button>
+
+    <h2>❤️ المفضلة</h2>
+
+    <div id="wishlistItems"></div>
+
+  </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================
+   المنتجات
+   ========================= */
+
+const products = [
+
+  {
+    id:1,
+    name:"شنطة مدرسية أطفال",
+    category:"شنط",
+    price:450,
+    oldPrice:500,
+    rating:4.8,
+    emoji:"🎒",
+    description:"شنطة مدرسية عملية ومناسبة للاستخدام اليومي."
+  },
+
+  {
+    id:2,
+    name:"سيارة تحكم عن بعد",
+    category:"ألعاب",
+    price:320,
+    oldPrice:380,
+    rating:4.7,
+    emoji:"🚗",
+    description:"لعبة سيارة ممتعة للأطفال."
+  },
+
+  {
+    id:3,
+    name:"طقم أدوات هندسية",
+    category:"أدوات مدرسية",
+    price:85,
+    oldPrice:100,
+    rating:4.6,
+    emoji:"📐",
+    description:"طقم هندسي مناسب للطلاب."
+  },
+
+  {
+    id:4,
+    name:"دبدوب لطيف",
+    category:"ألعاب",
+    price:180,
+    oldPrice:220,
+    rating:4.9,
+    emoji:"🧸",
+    description:"دبدوب لطيف كهدية للأطفال."
+  },
+
+  {
+    id:5,
+    name:"كشكول مدرسي",
+    category:"قرطاسية",
+    price:45,
+    oldPrice:55,
+    rating:4.5,
+    emoji:"📓",
+    description:"كشكول مناسب للمدرسة والمذاكرة."
+  },
+
+  {
+    id:6,
+    name:"علبة ألوان",
+    category:"أدوات مدرسية",
+    price:75,
+    oldPrice:90,
+    rating:4.7,
+    emoji:"🖍️",
+    description:"ألوان للرسم والأنشطة المدرسية."
+  },
+
+  {
+    id:7,
+    name:"مكعبات تركيب",
+    category:"ألعاب",
+    price:240,
+    oldPrice:280,
+    rating:4.8,
+    emoji:"🧱",
+    description:"مكعبات تساعد على تنمية الإبداع."
+  },
+
+  {
+    id:8,
+    name:"مقلمة مدرسية",
+    category:"قرطاسية",
+    price:70,
+    oldPrice:85,
+    rating:4.4,
+    emoji:"✏️",
+    description:"مقلمة عملية لحفظ الأدوات."
+  },
+
+  {
+    id:9,
+    name:"كرة أطفال",
+    category:"ألعاب",
+    price:120,
+    oldPrice:150,
+    rating:4.6,
+    emoji:"⚽",
+    description:"كرة مناسبة للعب والترفيه."
+  },
+
+  {
+    id:10,
+    name:"أقلام ملونة",
+    category:"قرطاسية",
+    price:65,
+    oldPrice:80,
+    rating:4.7,
+    emoji:"🖊️",
+    description:"مجموعة أقلام ملونة للمدرسة والرسم."
+  },
+
+  {
+    id:11,
+    name:"حقيبة ظهر صغيرة",
+    category:"شنط",
+    price:280,
+    oldPrice:330,
+    rating:4.6,
+    emoji:"🎒",
+    description:"حقيبة ظهر خفيفة للأطفال."
+  },
+
+  {
+    id:12,
+    name:"لعبة تعليمية",
+    category:"ألعاب",
+    price:210,
+    oldPrice:250,
+    rating:4.8,
+    emoji:"🧩",
+    description:"لعبة تعليمية ممتعة للأطفال."
+  }
+
+];
+
+
+/* =========================
+   حالة الموقع
+   ========================= */
+
+let cart = JSON.parse(localStorage.getItem("mamaZozoCart")) || [];
+
+let wishlist =
+  JSON.parse(localStorage.getItem("mamaZozoWishlist")) || [];
+
+let currentProducts = [...products];
+
+
+/* =========================
+   عرض المنتجات
+   ========================= */
+
+function renderProducts(list){
+
+  const grid = document.getElementById("productsGrid");
+
+  if(!list.length){
+
+    grid.innerHTML =
+      `<div class="empty">مفيش منتجات مطابقة للبحث.</div>`;
+
+    return;
+  }
+
+  grid.innerHTML = list.map(p => `
+
+    <article class="product">
+
+      <div class="product-image">
+
+        <button
+          class="fav"
+          onclick="toggleWishlist(${p.id})"
+        >
+          ${wishlist.includes(p.id) ? "❤️" : "♡"}
+        </button>
+
+        <span class="discount">
+          عرض
+        </span>
+
+        <!--
+        لاحقًا لما ترفع الصور الحقيقية:
+        غيّر p.emoji إلى صورة داخل هذا المكان.
+        مثال:
+        <img src="images/bag.jpg" alt="شنطة مدرسية">
+        -->
+
+        <div class="product-placeholder">
+          ${p.emoji}
+        </div>
+
+      </div>
+
+      <div class="product-body">
+
+        <span class="category-name">
+          ${p.category}
+        </span>
+
+        <h3>${p.name}</h3>
+
+        <div class="rating">
+          ★★★★★ ${p.rating}
+        </div>
+
+        <div class="price">
+          <strong>${p.price} جنيه</strong>
+          <span class="old-price">
+            ${p.oldPrice} جنيه
+          </span>
+        </div>
+
+        <div class="product-actions">
+
+          <button
+            class="add-cart"
+            onclick="addToCart(${p.id})"
+          >
+            أضف للسلة
+          </button>
+
+          <button
+            class="details-btn"
+            onclick="openProduct(${p.id})"
+          >
+            👁️
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `).join("");
+
+}
+
+
+/* =========================
+   البحث
+   ========================= */
+
+function searchProducts(){
+
+  const text =
+    document.getElementById("searchInput").value
+    .trim()
+    .toLowerCase();
+
+  const result = products.filter(p =>
+    p.name.toLowerCase().includes(text) ||
+    p.category.toLowerCase().includes(text)
+  );
+
+  currentProducts = result;
+
+  renderProducts(result);
+}
+
+
+/* =========================
+   الفلاتر
+   ========================= */
+
+function filterProducts(category,button){
+
+  if(button){
+
+    document
+      .querySelectorAll(".filter-btn")
+      .forEach(b => b.classList.remove("active"));
+
+    button.classList.add("active");
+
+  }
+
+  if(category === "all"){
+
+    currentProducts = [...products];
+
+  }else{
+
+    currentProducts =
+      products.filter(p => p.category === category);
+
+  }
+
+  renderProducts(currentProducts);
+
+  scrollToSection("products");
+}
+
+
+/* =========================
+   الترتيب
+   ========================= */
+
+function sortProducts(type){
+
+  let list = [...currentProducts];
+
+  if(type === "low"){
+    list.sort((a,b)=>a.price-b.price);
+  }
+
+  if(type === "high"){
+    list.sort((a,b)=>b.price-a.price);
+  }
+
+  if(type === "rating"){
+    list.sort((a,b)=>b.rating-a.rating);
+  }
+
+  renderProducts(list);
+}
+
+
+/* =========================
+   السلة
+   ========================= */
+
+function addToCart(id){
+
+  const item = cart.find(x => x.id === id);
+
+  if(item){
+    item.qty++;
+  }else{
+    cart.push({
+      id:id,
+      qty:1
+    });
+  }
+
+  saveCart();
+
+  showToast("تم إضافة المنتج للسلة 🛒");
+}
+
+
+function saveCart(){
+
+  localStorage.setItem(
+    "mamaZozoCart",
+    JSON.stringify(cart)
+  );
+
+  updateBadges();
+}
+
+
+function updateBadges(){
+
+  const count =
+    cart.reduce((sum,item)=>sum+item.qty,0);
+
+  document.getElementById("cartCount").textContent = count;
+
+  document.getElementById("wishCount").textContent =
+    wishlist.length;
+}
+
+
+function openCart(){
+
+  renderCart();
+
+  document
+    .getElementById("cartModal")
+    .classList.add("show");
+}
+
+
+function renderCart(){
+
+  const box =
+    document.getElementById("cartItems");
+
+  if(!cart.length){
+
+    box.innerHTML =
+      `<div class="empty">السلة فاضية 🛒</div>`;
+
+    document.getElementById("cartTotal").textContent =
+      "0 جنيه";
+
+    return;
+  }
+
+  let total = 0;
+
+  box.innerHTML = cart.map(item => {
+
+    const p =
+      products.find(x => x.id === item.id);
+
+    if(!p) return "";
+
+    total += p.price * item.qty;
+
+    return `
+
+      <div class="cart-item">
+
+        <div class="cart-img">
+          ${p.emoji}
+        </div>
+
+        <div class="cart-info">
+
+          <strong>${p.name}</strong>
+
+          <div>${p.price} جنيه</div>
+
+          <div class="qty">
+
+            <button onclick="changeQty(${p.id},1)">
+              +
+            </button>
+
+            <span>${item.qty}</span>
+
+            <button onclick="changeQty(${p.id},-1)">
+              -
+            </button>
+
+          </div>
+
+        </div>
+
+        <button
+          class="delete"
+          onclick="removeFromCart(${p.id})"
+        >
+          🗑️
+        </button>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+  document.getElementById("cartTotal").textContent =
+    total + " جنيه";
+}
+
+
+function changeQty(id,change){
+
+  const item =
+    cart.find(x=>x.id===id);
+
+  if(!item) return;
+
+  item.qty += change;
+
+  if(item.qty <= 0){
+
+    cart =
+      cart.filter(x=>x.id!==id);
+
+  }
+
+  saveCart();
+
+  renderCart();
+}
+
+
+function removeFromCart(id){
+
+  cart =
+    cart.filter(x=>x.id!==id);
+
+  saveCart();
+
+  renderCart();
+
+  showToast("تم حذف المنتج");
+}
+
+
+/* =========================
+   تفاصيل المنتج
+   ========================= */
+
+function openProduct(id){
+
+  const p =
+    products.find(x=>x.id===id);
+
+  document.getElementById("productDetails").innerHTML = `
+
+    <div style="text-align:center">
+
+      <div style="
+        background:#e8f0f3;
+        border-radius:18px;
+        padding:35px;
+        font-size:100px;
+        margin-bottom:20px;
+      ">
+        ${p.emoji}
+      </div>
+
+      <span class="category-name">
+        ${p.category}
+      </span>
+
+      <h2 style="color:#355365;margin:7px 0">
+        ${p.name}
+      </h2>
+
+      <div class="rating">
+        ★★★★★ ${p.rating}
+      </div>
+
+      <h2 style="color:#54758c;margin:15px 0">
+        ${p.price} جنيه
+      </h2>
+
+      <p style="color:#718087">
+        ${p.description}
+      </p>
+
+      <br>
+
+      <button
+        class="checkout-btn"
+        onclick="addToCart(${p.id});closeModal('productModal')"
+      >
+        أضف للسلة 🛒
+      </button>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("productModal")
+    .classList.add("show");
+}
+
+
+/* =========================
+   المفضلة
+   ========================= */
+
+function toggleWishlist(id){
+
+  if(wishlist.includes(id)){
+
+    wishlist =
+      wishlist.filter(x=>x!==id);
+
+    showToast("تم حذف المنتج من المفضلة");
+
+  }else{
+
+    wishlist.push(id);
+
+    showToast("تمت الإضافة للمفضلة ❤️");
+
+  }
+
+  localStorage.setItem(
+    "mamaZozoWishlist",
+    JSON.stringify(wishlist)
+  );
+
+  updateBadges();
+
+  renderProducts(currentProducts);
+}
+
+
+function openWishlist(){
+
+  const box =
+    document.getElementById("wishlistItems");
+
+  const list =
+    products.filter(p=>wishlist.includes(p.id));
+
+  if(!list.length){
+
+    box.innerHTML =
+      `<div class="empty">المفضلة فاضية ❤️</div>`;
+
+  }else{
+
+    box.innerHTML = list.map(p => `
+
+      <div class="cart-item">
+
+        <div class="cart-img">
+          ${p.emoji}
+        </div>
+
+        <div class="cart-info">
+
+          <strong>${p.name}</strong>
+
+          <div>${p.price} جنيه</div>
+
+        </div>
+
+        <button
+          class="add-cart"
+          onclick="addToCart(${p.id})"
+        >
+          للسلة
+        </button>
+
+      </div>
+
+    `).join("");
+
+  }
+
+  document
+    .getElementById("wishlistModal")
+    .classList.add("show");
+}
+
+
+/* =========================
+   إتمام الطلب
+   ========================= */
+
+function openCheckout(){
+
+  if(!cart.length){
+
+    showToast("السلة فاضية");
+
+    return;
+  }
+
+  closeModal("cartModal");
+
+  document
+    .getElementById("checkoutModal")
+    .classList.add("show");
+}
+
+
+function submitOrder(event){
+
+  event.preventDefault();
+
+  const order = {
+
+    customer:{
+      name:
+        document.getElementById("customerName").value,
+
+      phone:
+        document.getElementById("customerPhone").value,
+
+      governorate:
+        document.getElementById("governorate").value,
+
+      address:
+        document.getElementById("customerAddress").value,
+
+      payment:
+        document.getElementById("paymentMethod").value,
+
+      notes:
+        document.getElementById("orderNotes").value
+    },
+
+    products:cart,
+
+    date:new Date().toISOString()
+
+  };
+
+  /*
+    حاليًا نحفظ الطلب على الجهاز فقط.
+    لاحقًا هنربطه بقاعدة بيانات ولوحة تحكم.
+  */
+
+  localStorage.setItem(
+    "mamaZozoLastOrder",
+    JSON.stringify(order)
+  );
+
+  cart = [];
+
+  saveCart();
+
+  closeModal("checkoutModal");
+
+  showToast(
+    "تم تسجيل الطلب بنجاح 🎉"
+  );
+
+  event.target.reset();
+}
+
+
+/* =========================
+   الشكاوى
+   ========================= */
+
+function sendComplaint(event){
+
+  event.preventDefault();
+
+  const complaint = {
+
+    name:
+      document.getElementById("complaintName").value,
+
+    phone:
+      document.getElementById("complaintPhone").value,
+
+    message:
+      document.getElementById("complaintText").value,
+
+    date:new Date().toISOString()
+
+  };
+
+  localStorage.setItem(
+    "mamaZozoComplaint",
+    JSON.stringify(complaint)
+  );
+
+  event.target.reset();
+
+  showToast(
+    "تم تسجيل رسالتك ❤️"
+  );
+}
+
+
+/* =========================
+   الأدوات
+   ========================= */
+
+function closeModal(id){
+
+  document
+    .getElementById(id)
+    .classList.remove("show");
+}
+
+
+function scrollToSection(id){
+
+  const element =
+    document.getElementById(id);
+
+  if(element){
+
+    element.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  }
+
+}
+
+
+function showToast(text){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = text;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },2200);
+
+}
+
+
+/* =========================
+   البداية
+   ========================= */
+
+renderProducts(products);
+
+updateBadges();
+
+</script>
+
+</body>
+</html>
