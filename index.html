@@ -155,5 +155,17 @@ function showCart() {
   }
 }
 </script>
+<script>
+document.getElementById("search").addEventListener("input", function() {
+  let text = this.value.toLowerCase();
+
+  document.querySelectorAll(".product").forEach(function(product) {
+    product.style.display =
+      product.innerText.toLowerCase().includes(text)
+      ? "block"
+      : "none";
+  });
+});
+</script>
 </body>
 </html>
