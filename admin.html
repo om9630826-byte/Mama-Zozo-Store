@@ -1,1280 +1,392 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة تحكم - مكتبة ماما زوزو</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      background: #f5f7fb;
-      color: #222;
-    }
-
-    header {
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: white;
-      padding: 25px 15px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0 0 8px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .panel {
-      background: white;
-      border-radius: 18px;
-      padding: 22px;
-      margin: 18px 0;
-      box-shadow: 0 5px 20px #0001;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 13px;
-      margin: 7px 0;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 12px 18px;
-      margin: 5px 0;
-      cursor: pointer;
-      background: #7c3aed;
-      color: white;
-      font-size: 15px;
-    }
-
-    button:hover {
-      opacity: .9;
-    }
-
-    .danger {
-      background: #dc2626;
-    }
-
-    .success {
-      background: #16a34a;
-    }
-
-    .dark {
-      background: #111827;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(200px, 1fr)
-      );
-      gap: 15px;
-    }
-
-    .stat {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 4px 15px #0001;
-    }
-
-    .stat h2 {
-      margin: 8px 0 0;
-      color: #7c3aed;
-    }
-
-    .product,
-    .order,
-    .complaint {
-      border: 1px solid #eee;
-      background: #fafafa;
-      border-radius: 15px;
-      padding: 17px;
-      margin: 12px 0;
-    }
-
-    .product img {
-      width: 150px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 12px;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .msg {
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 10px;
-      background: #fef3c7;
-    }
-
-    .ok {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 25px;
-      color: #777;
-    }
-
-    @media(max-width:600px) {
-      .container {
-        padding: 10px;
-      }
-
-      .panel {
-        padding: 15px;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة تحكم مكتبة ماما زوزو</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#fff5fb;color:#35263b}
+header{background:linear-gradient(135deg,#ff69b4,#a66cff);color:white;padding:22px;text-align:center}
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{background:white;border-radius:18px;padding:20px;margin:15px 0;box-shadow:0 5px 20px #0001}
+input,textarea,select{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+button{border:0;border-radius:10px;padding:11px 16px;cursor:pointer;font-weight:bold;margin:4px}
+.primary{background:#ff69b4;color:white}
+.blue{background:#6c63ff;color:white}
+.green{background:#20a464;color:white}
+.red{background:#e74c3c;color:white}
+.gray{background:#eee}
+.hidden{display:none}
+.product{border:1px solid #eee;border-radius:14px;padding:15px;margin:10px 0}
+.product img{width:90px;height:90px;object-fit:cover;border-radius:10px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+h2{margin-top:5px}
+.error{background:#ffe1e1;color:#a00;padding:12px;border-radius:10px;margin:10px 0}
+.success{background:#ddffe9;color:#087a35;padding:12px;border-radius:10px;margin:10px 0}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🛍️ مكتبة ماما زوزو</h1>
-  <p>لوحة تحكم الإدارة</p>
+<h1>🎀 لوحة تحكم مكتبة ماما زوزو</h1>
+<p>إدارة المنتجات والطلبات</p>
 </header>
 
 <div class="container">
 
-  <!-- تسجيل الدخول -->
-  <div id="loginBox" class="panel">
-
-    <h2>🔐 تسجيل دخول الإدارة</h2>
-
-    <input
-      type="email"
-      id="email"
-      placeholder="البريد الإلكتروني">
-
-    <input
-      type="password"
-      id="password"
-      placeholder="كلمة المرور">
-
-    <button onclick="login()">
-      دخول
-    </button>
-
-    <div id="loginMsg"></div>
-
-  </div>
-
-
-  <!-- لوحة التحكم -->
-  <div id="dashboard" class="hidden">
-
-    <div class="panel">
-
-      <h2>👋 أهلاً بيك</h2>
-
-      <p>
-        أنت داخل لوحة تحكم مكتبة ماما زوزو.
-      </p>
-
-      <button
-        class="dark"
-        onclick="logout()">
-        تسجيل الخروج
-      </button>
-
-    </div>
-
-
-    <!-- الإحصائيات -->
-    <div class="grid">
-
-      <div class="stat">
-        <div>📦 المنتجات</div>
-        <h2 id="productsCount">0</h2>
-      </div>
-
-      <div class="stat">
-        <div>🛒 الطلبات</div>
-        <h2 id="ordersCount">0</h2>
-      </div>
-
-      <div class="stat">
-        <div>💬 الشكاوى</div>
-        <h2 id="complaintsCount">0</h2>
-      </div>
-
-    </div>
-
-
-    <!-- إضافة منتج -->
-    <div class="panel">
-
-      <h2>➕ إضافة منتج</h2>
-
-      <input
-        id="productName"
-        placeholder="اسم المنتج">
-
-      <input
-        id="productPrice"
-        type="number"
-        step="0.01"
-        placeholder="السعر">
-
-      <input
-        id="oldPrice"
-        type="number"
-        step="0.01"
-        placeholder="السعر القديم - اختياري">
-
-      <input
-        id="productStock"
-        type="number"
-        min="0"
-        placeholder="الكمية في المخزون">
-
-      <input
-        id="productCategory"
-        placeholder="القسم">
-
-      <textarea
-        id="productDescription"
-        placeholder="وصف المنتج"></textarea>
-
-      <input
-        id="productImage"
-        placeholder="رابط صورة المنتج">
-
-      <input
-        id="productVideo"
-        placeholder="رابط فيديو المنتج - اختياري">
-
-      <button
-        class="success"
-        onclick="addProduct()">
-        ➕ إضافة المنتج
-      </button>
-
-      <div id="productMsg"></div>
-
-    </div>
-
-
-    <!-- المنتجات -->
-    <div class="panel">
-
-      <h2>📦 المنتجات</h2>
-
-      <button onclick="loadProducts()">
-        🔄 تحديث
-      </button>
-
-      <div id="productsList"></div>
-
-    </div>
-
-
-    <!-- الطلبات -->
-    <div class="panel">
-
-      <h2>🛒 الطلبات</h2>
-
-      <button onclick="loadOrders()">
-        🔄 تحديث الطلبات
-      </button>
-
-      <div id="ordersList"></div>
-
-    </div>
-
-
-    <!-- الشكاوى -->
-    <div class="panel">
-
-      <h2>💬 الشكاوى والاقتراحات</h2>
-
-      <button onclick="loadComplaints()">
-        🔄 تحديث الشكاوى
-      </button>
-
-      <div id="complaintsList"></div>
-
-    </div>
-
-  </div>
-
+<div id="loginBox" class="card">
+<h2>🔐 تسجيل دخول الأدمن</h2>
+<input id="email" type="email" placeholder="البريد الإلكتروني">
+<input id="password" type="password" placeholder="كلمة المرور">
+<button class="primary" onclick="login()">دخول</button>
+<div id="loginMsg"></div>
 </div>
 
+<div id="adminBox" class="hidden">
+
+<div class="card">
+<div class="row">
+<h2>👑 لوحة الإدارة</h2>
+<button class="red" onclick="logout()">تسجيل الخروج</button>
+</div>
+</div>
+
+<div class="card">
+<h2>➕ إضافة منتج</h2>
+
+<input id="pname" placeholder="اسم المنتج">
+<textarea id="pdesc" placeholder="وصف المنتج"></textarea>
+
+<div class="row">
+<input id="pprice" type="number" placeholder="السعر">
+<input id="poldprice" type="number" placeholder="السعر القديم">
+</div>
+
+<div class="row">
+<input id="pstock" type="number" placeholder="الكمية في المخزون">
+<input id="pcategory" placeholder="القسم">
+</div>
+
+<input id="pimage" placeholder="رابط صورة المنتج">
+<input id="pvideo" placeholder="رابط فيديو المنتج">
+
+<button class="primary" onclick="addProduct()">إضافة المنتج</button>
+<div id="productMsg"></div>
+</div>
+
+<div class="card">
+<h2>📦 المنتجات</h2>
+<button class="blue" onclick="loadProducts()">🔄 تحديث</button>
+<div id="products"></div>
+</div>
+
+<div class="card">
+<h2>🛒 الطلبات</h2>
+<button class="blue" onclick="loadOrders()">🔄 تحديث الطلبات</button>
+<div id="orders"></div>
+</div>
+
+<div class="card">
+<h2>💬 الشكاوى والاقتراحات</h2>
+<button class="blue" onclick="loadComplaints()">🔄 تحديث</button>
+<div id="complaints"></div>
+</div>
+
+</div>
+</div>
 
 <script>
+const SUPABASE_URL="https://tzjtivfzawffqgisrowv.supabase.co";
 
-/* =====================================================
-   🔑 SUPABASE
-   ===================================================== */
+const SUPABASE_KEY="sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
 
-const SUPABASE_URL =
-  "https://tzjtivfzawffqgisrowv.supabase.co";
-const SUPABASE_KEY =
-  "sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+const client=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
+async function login(){
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
 
-/* =====================================================
-   أدوات مساعدة
-   ===================================================== */
+ const msg=document.getElementById("loginMsg");
+ msg.innerHTML="";
 
-function escapeHtml(value) {
+ const {error}=await client.auth.signInWithPassword({
+   email,
+   password
+ });
 
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+ if(error){
+   msg.innerHTML='<div class="error">'+error.message+'</div>';
+   return;
+ }
 
+ showAdmin();
 }
 
+async function showAdmin(){
+ document.getElementById("loginBox").classList.add("hidden");
+ document.getElementById("adminBox").classList.remove("hidden");
 
-function message(id, text, type = "") {
-
-  const element =
-    document.getElementById(id);
-
-  if (!element) return;
-
-  element.innerHTML =
-    `<div class="msg ${type}">
-      ${text}
-    </div>`;
-
+ await loadProducts();
+ await loadOrders();
+ await loadComplaints();
 }
 
-
-/* =====================================================
-   تسجيل الدخول
-   ===================================================== */
-
-async function login() {
-
-  const email =
-    document
-      .getElementById("email")
-      .value
-      .trim();
-
-  const password =
-    document
-      .getElementById("password")
-      .value;
-
-
-  if (!email || !password) {
-
-    message(
-      "loginMsg",
-      "❌ اكتب البريد الإلكتروني وكلمة المرور",
-      "error"
-    );
-
-    return;
-  }
-
-
-  message(
-    "loginMsg",
-    "⏳ جاري تسجيل الدخول..."
-  );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.signInWithPassword({
-
-      email: email,
-
-      password: password
-
-    });
-
-
-  if (error) {
-
-    console.error(error);
-
-    message(
-      "loginMsg",
-      "❌ فشل تسجيل الدخول: " +
-      escapeHtml(error.message),
-      "error"
-    );
-
-    return;
-  }
-
-
-  document
-    .getElementById("loginBox")
-    .classList.add("hidden");
-
-
-  document
-    .getElementById("dashboard")
-    .classList.remove("hidden");
-
-
-  await loadAll();
-
+async function logout(){
+ await client.auth.signOut();
+ location.reload();
 }
 
+async function addProduct(){
 
-/* =====================================================
-   تسجيل الخروج
-   ===================================================== */
+ const msg=document.getElementById("productMsg");
+ msg.innerHTML="جارٍ الإضافة...";
 
-async function logout() {
+ const product={
+   name:document.getElementById("pname").value.trim(),
+   description:document.getElementById("pdesc").value.trim(),
+   price:Number(document.getElementById("pprice").value),
+   old_price:Number(document.getElementById("poldprice").value)||null,
+   stock:Number(document.getElementById("pstock").value)||0,
+   category:document.getElementById("pcategory").value.trim(),
+   image_url:document.getElementById("pimage").value.trim()||null,
+   video_url:document.getElementById("pvideo").value.trim()||null,
+   is_active:true
+ };
 
-  await supabaseClient.auth.signOut();
+ if(!product.name || !product.price){
+   msg.innerHTML='<div class="error">اكتب اسم المنتج والسعر.</div>';
+   return;
+ }
 
-  location.reload();
+ const {error}=await client
+   .from("products")
+   .insert(product);
 
+ if(error){
+   msg.innerHTML='<div class="error">'+error.message+'</div>';
+   return;
+ }
+
+ msg.innerHTML='<div class="success">✅ تمت إضافة المنتج بنجاح</div>';
+
+ document.getElementById("pname").value="";
+ document.getElementById("pdesc").value="";
+ document.getElementById("pprice").value="";
+ document.getElementById("poldprice").value="";
+ document.getElementById("pstock").value="";
+ document.getElementById("pcategory").value="";
+ document.getElementById("pimage").value="";
+ document.getElementById("pvideo").value="";
+
+ loadProducts();
 }
 
+async function loadProducts(){
 
-/* =====================================================
-   تحميل البيانات
-   ===================================================== */
+ const box=document.getElementById("products");
+ box.innerHTML="جارٍ تحميل المنتجات...";
 
-async function loadAll() {
+ const {data,error}=await client
+   .from("products")
+   .select("*")
+   .order("id",{ascending:false});
 
-  await loadProducts();
+ if(error){
+   box.innerHTML='<div class="error">'+error.message+'</div>';
+   return;
+ }
 
-  await loadOrders();
+ if(!data.length){
+   box.innerHTML="<p>لا توجد منتجات.</p>";
+   return;
+ }
 
-  await loadComplaints();
+ box.innerHTML=data.map(p=>`
+ <div class="product">
+   <div class="row">
+     ${p.image_url?`<img src="${escapeHtml(p.image_url)}">`:""}
+     <div>
+       <h3>${escapeHtml(p.name)}</h3>
+       <p>السعر: <b>${p.price} جنيه</b></p>
+       <p>المخزون: <b>${p.stock}</b></p>
+       <p>القسم: ${escapeHtml(p.category||"غير محدد")}</p>
+     </div>
+   </div>
 
+   <hr>
+
+   <div class="row">
+     <input id="price-${p.id}" type="number" value="${p.price}" placeholder="السعر">
+     <input id="stock-${p.id}" type="number" value="${p.stock}" placeholder="المخزون">
+   </div>
+
+   <input id="name-${p.id}" value="${escapeAttr(p.name)}" placeholder="اسم المنتج">
+
+   <button class="green" onclick="updateProduct(${p.id})">
+     💾 حفظ التعديل
+   </button>
+
+   <button class="red" onclick="deleteProduct(${p.id})">
+     🗑️ حذف
+   </button>
+ </div>
+ `).join("");
 }
 
+async function updateProduct(id){
 
-/* =====================================================
-   المنتجات
-   ===================================================== */
+ const name=document.getElementById("name-"+id).value.trim();
+ const price=Number(document.getElementById("price-"+id).value);
+ const stock=Number(document.getElementById("stock-"+id).value);
 
-async function loadProducts() {
+ if(!name || !price){
+   alert("اكتب اسم المنتج والسعر");
+   return;
+ }
 
-  const list =
-    document.getElementById(
-      "productsList"
-    );
+ const {error}=await client
+   .from("products")
+   .update({
+     name,
+     price,
+     stock
+   })
+   .eq("id",id);
 
+ if(error){
+   alert("فشل التعديل: "+error.message);
+   return;
+ }
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("products")
-      .select("*")
-      .order("created_at", {
-        ascending: false
-      });
-
-
-  if (error) {
-
-    console.error(error);
-
-    list.innerHTML =
-      `<div class="msg error">
-        ❌ فشل تحميل المنتجات:<br>
-        ${escapeHtml(error.message)}
-      </div>`;
-
-    return;
-  }
-
-
-  document
-    .getElementById("productsCount")
-    .innerText = data.length;
-
-
-  if (!data.length) {
-
-    list.innerHTML =
-      `<div class="empty">
-        لا توجد منتجات
-      </div>`;
-
-    return;
-  }
-
-
-  let html = "";
-
-
-  data.forEach(product => {
-
-    const image =
-      product.image_url
-        ? `
-          <img
-            src="${escapeHtml(
-              product.image_url
-            )}"
-            alt="${escapeHtml(
-              product.name
-            )}"
-            onerror="
-              this.style.display='none'
-            ">
-        `
-        : "";
-
-
-    html += `
-
-      <div class="product">
-
-        ${image}
-
-        <h3>
-          ${escapeHtml(
-            product.name
-          )}
-        </h3>
-
-        <p>
-          💰 السعر:
-          <strong>
-            ${product.price} جنيه
-          </strong>
-        </p>
-
-        ${
-          product.old_price
-            ? `
-              <p>
-                🏷️ السعر القديم:
-                ${product.old_price} جنيه
-              </p>
-            `
-            : ""
-        }
-
-        <p>
-          📦 المخزون:
-          ${product.stock}
-        </p>
-
-        <p>
-          🏷️ القسم:
-          ${escapeHtml(
-            product.category || "-"
-          )}
-        </p>
-
-        <button
-          class="danger"
-          onclick="
-            deleteProduct(${product.id})
-          ">
-          🗑️ حذف
-        </button>
-
-      </div>
-
-    `;
-
-  });
-
-
-  list.innerHTML = html;
-
+ alert("✅ تم تعديل المنتج");
+ loadProducts();
 }
 
+async function deleteProduct(id){
 
-/* =====================================================
-   إضافة منتج
-   ===================================================== */
+ if(!confirm("متأكد إنك عايز تحذف المنتج؟")) return;
 
-async function addProduct() {
+ const {error}=await client
+   .from("products")
+   .delete()
+   .eq("id",id);
 
-  const name =
-    document
-      .getElementById("productName")
-      .value
-      .trim();
+ if(error){
+   alert("فشل الحذف: "+error.message);
+   return;
+ }
 
-
-  const price =
-    Number(
-      document
-        .getElementById("productPrice")
-        .value
-    );
-
-
-  const oldPriceText =
-    document
-      .getElementById("oldPrice")
-      .value
-      .trim();
-
-
-  const old_price =
-    oldPriceText
-      ? Number(oldPriceText)
-      : null;
-
-
-  const stockText =
-    document
-      .getElementById("productStock")
-      .value
-      .trim();
-
-
-  const stock =
-    stockText
-      ? Number(stockText)
-      : 0;
-
-
-  const category =
-    document
-      .getElementById("productCategory")
-      .value
-      .trim();
-
-
-  const description =
-    document
-      .getElementById("productDescription")
-      .value
-      .trim();
-
-
-  const image_url =
-    document
-      .getElementById("productImage")
-      .value
-      .trim();
-
-
-  const video_url =
-    document
-      .getElementById("productVideo")
-      .value
-      .trim();
-
-
-  if (!name) {
-
-    message(
-      "productMsg",
-      "❌ اكتب اسم المنتج",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (!price || price <= 0) {
-
-    message(
-      "productMsg",
-      "❌ اكتب سعر صحيح",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (stock < 0) {
-
-    message(
-      "productMsg",
-      "❌ المخزون غير صحيح",
-      "error"
-    );
-
-    return;
-  }
-
-
-  message(
-    "productMsg",
-    "⏳ جاري إضافة المنتج..."
-  );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("products")
-      .insert({
-
-        name: name,
-
-        price: price,
-
-        old_price: old_price,
-
-        stock: stock,
-
-        category:
-          category || null,
-
-        description:
-          description || null,
-
-        image_url:
-          image_url || null,
-
-        video_url:
-          video_url || null,
-
-        is_active: true
-
-      })
-      .select()
-      .single();
-
-
-  if (error) {
-
-    console.error(
-      "ADD PRODUCT ERROR:",
-      error
-    );
-
-
-    message(
-      "productMsg",
-      "❌ لم تتم إضافة المنتج:<br><br>" +
-      escapeHtml(
-        error.message
-      ),
-      "error"
-    );
-
-    return;
-  }
-
-
-  message(
-    "productMsg",
-    "✅ تمت إضافة المنتج بنجاح 🎉",
-    "ok"
-  );
-
-
-  document
-    .getElementById("productName")
-    .value = "";
-
-  document
-    .getElementById("productPrice")
-    .value = "";
-
-  document
-    .getElementById("oldPrice")
-    .value = "";
-
-  document
-    .getElementById("productStock")
-    .value = "";
-
-  document
-    .getElementById("productCategory")
-    .value = "";
-
-  document
-    .getElementById("productDescription")
-    .value = "";
-
-  document
-    .getElementById("productImage")
-    .value = "";
-
-  document
-    .getElementById("productVideo")
-    .value = "";
-
-
-  await loadProducts();
-
+ alert("✅ تم حذف المنتج");
+ loadProducts();
 }
 
+async function loadOrders(){
 
-/* =====================================================
-   حذف منتج
-   ===================================================== */
+ const box=document.getElementById("orders");
+ box.innerHTML="جارٍ تحميل الطلبات...";
 
-async function deleteProduct(id) {
+ const {data,error}=await client
+   .from("orders")
+   .select("*")
+   .order("created_at",{ascending:false});
 
-  if (
-    !confirm(
-      "⚠️ هل أنت متأكد من حذف المنتج؟"
-    )
-  ) {
-    return;
-  }
+ if(error){
+   box.innerHTML='<div class="error">'+error.message+'</div>';
+   return;
+ }
 
+ if(!data.length){
+   box.innerHTML="<p>لا توجد طلبات.</p>";
+   return;
+ }
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("products")
-      .delete()
-      .eq("id", id);
+ box.innerHTML=data.map(o=>`
+ <div class="product">
+   <h3>طلب #${o.id}</h3>
+   <p>العميل: ${escapeHtml(o.customer_name)}</p>
+   <p>الهاتف: ${escapeHtml(o.phone)}</p>
+   <p>العنوان: ${escapeHtml(o.address||"")}</p>
+   <p>الإجمالي: <b>${o.total} جنيه</b></p>
 
-
-  if (error) {
-
-    alert(
-      "❌ فشل الحذف:\n\n" +
-      error.message
-    );
-
-    console.error(error);
-
-    return;
-  }
-
-
-  await loadProducts();
-
+   <select onchange="updateOrderStatus(${o.id},this.value)">
+     ${["pending","confirmed","processing","shipped","delivered","cancelled"]
+       .map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${s}</option>`).join("")}
+   </select>
+ </div>
+ `).join("");
 }
 
+async function updateOrderStatus(id,status){
 
-/* =====================================================
-   الطلبات
-   ===================================================== */
+ const {error}=await client
+   .from("orders")
+   .update({status})
+   .eq("id",id);
 
-async function loadOrders() {
+ if(error){
+   alert("فشل تحديث الطلب: "+error.message);
+   return;
+ }
 
-  const list =
-    document.getElementById(
-      "ordersList"
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("orders")
-      .select("*")
-      .order("created_at", {
-        ascending: false
-      });
-
-
-  if (error) {
-
-    console.error(error);
-
-    list.innerHTML =
-      `<div class="msg error">
-        ❌ فشل تحميل الطلبات:<br>
-        ${escapeHtml(error.message)}
-      </div>`;
-
-    return;
-  }
-
-
-  document
-    .getElementById("ordersCount")
-    .innerText = data.length;
-
-
-  if (!data.length) {
-
-    list.innerHTML =
-      `<div class="empty">
-        لا توجد طلبات
-      </div>`;
-
-    return;
-  }
-
-
-  let html = "";
-
-
-  data.forEach(order => {
-
-    html += `
-
-      <div class="order">
-
-        <h3>
-          🛒 طلب #${order.id}
-        </h3>
-
-        <p>
-          👤 العميل:
-          ${escapeHtml(
-            order.customer_name
-          )}
-        </p>
-
-        <p>
-          📞 الهاتف:
-          ${escapeHtml(
-            order.phone
-          )}
-        </p>
-
-        <p>
-          📍 المحافظة:
-          ${escapeHtml(
-            order.governorate || "-"
-          )}
-        </p>
-
-        <p>
-          🏠 العنوان:
-          ${escapeHtml(
-            order.address || "-"
-          )}
-        </p>
-
-        <p>
-          💰 الإجمالي:
-          <strong>
-            ${order.total} جنيه
-          </strong>
-        </p>
-
-        <p>
-          📌 الحالة:
-          ${escapeHtml(
-            order.status
-          )}
-        </p>
-
-        <select
-          onchange="
-            updateOrderStatus(
-              ${order.id},
-              this.value
-            )
-          ">
-
-          <option
-            value="pending"
-            ${
-              order.status === "pending"
-                ? "selected"
-                : ""
-            }>
-            قيد المراجعة
-          </option>
-
-          <option
-            value="confirmed"
-            ${
-              order.status === "confirmed"
-                ? "selected"
-                : ""
-            }>
-            مؤكد
-          </option>
-
-          <option
-            value="shipped"
-            ${
-              order.status === "shipped"
-                ? "selected"
-                : ""
-            }>
-            تم الشحن
-          </option>
-
-          <option
-            value="delivered"
-            ${
-              order.status === "delivered"
-                ? "selected"
-                : ""
-            }>
-            تم التسليم
-          </option>
-
-          <option
-            value="cancelled"
-            ${
-              order.status === "cancelled"
-                ? "selected"
-                : ""
-            }>
-            ملغي
-          </option>
-
-        </select>
-
-      </div>
-
-    `;
-
-  });
-
-
-  list.innerHTML = html;
-
+ alert("✅ تم تحديث حالة الطلب");
 }
 
+async function loadComplaints(){
 
-/* =====================================================
-   تحديث حالة الطلب
-   ===================================================== */
+ const box=document.getElementById("complaints");
+ box.innerHTML="جارٍ تحميل الشكاوى...";
 
-async function updateOrderStatus(
-  id,
-  status
-) {
+ const {data,error}=await client
+   .from("complaints")
+   .select("*")
+   .order("created_at",{ascending:false});
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("orders")
-      .update({
-        status: status
-      })
-      .eq("id", id);
+ if(error){
+   box.innerHTML='<div class="error">'+error.message+'</div>';
+   return;
+ }
 
+ if(!data.length){
+   box.innerHTML="<p>لا توجد شكاوى أو اقتراحات.</p>";
+   return;
+ }
 
-  if (error) {
-
-    alert(
-      "❌ فشل تحديث الطلب:\n\n" +
-      error.message
-    );
-
-    console.error(error);
-
-    return;
-  }
-
-
-  await loadOrders();
-
+ box.innerHTML=data.map(c=>`
+ <div class="product">
+   <h3>${escapeHtml(c.name||"عميل")}</h3>
+   <p>الهاتف: ${escapeHtml(c.phone||"")}</p>
+   <p>${escapeHtml(c.message)}</p>
+   <p>الحالة: <b>${escapeHtml(c.status||"new")}</b></p>
+ </div>
+ `).join("");
 }
 
-
-/* =====================================================
-   الشكاوى
-   ===================================================== */
-
-async function loadComplaints() {
-
-  const list =
-    document.getElementById(
-      "complaintsList"
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("complaints")
-      .select("*")
-      .order("created_at", {
-        ascending: false
-      });
-
-
-  if (error) {
-
-    console.error(error);
-
-    list.innerHTML =
-      `<div class="msg error">
-        ❌ فشل تحميل الشكاوى:<br>
-        ${escapeHtml(error.message)}
-      </div>`;
-
-    return;
-  }
-
-
-  document
-    .getElementById("complaintsCount")
-    .innerText = data.length;
-
-
-  if (!data.length) {
-
-    list.innerHTML =
-      `<div class="empty">
-        لا توجد شكاوى أو اقتراحات
-      </div>`;
-
-    return;
-  }
-
-
-  let html = "";
-
-
-  data.forEach(item => {
-
-    html += `
-
-      <div class="complaint">
-
-        <h3>
-          💬 ${escapeHtml(
-            item.name || "عميل"
-          )}
-        </h3>
-
-        <p>
-          📞 ${escapeHtml(
-            item.phone || "-"
-          )}
-        </p>
-
-        <p>
-          📝 ${escapeHtml(
-            item.message
-          )}
-        </p>
-
-        <p>
-          📌 الحالة:
-          ${escapeHtml(
-            item.status || "new"
-          )}
-        </p>
-
-        ${
-          item.admin_reply
-            ? `
-              <p>
-                👨‍💼 رد الإدارة:
-                ${escapeHtml(
-                  item.admin_reply
-                )}
-              </p>
-            `
-            : ""
-        }
-
-      </div>
-
-    `;
-
-  });
-
-
-  list.innerHTML = html;
-
+function escapeHtml(value){
+ return String(value??"")
+   .replaceAll("&","&amp;")
+   .replaceAll("<","&lt;")
+   .replaceAll(">","&gt;")
+   .replaceAll('"',"&quot;")
+   .replaceAll("'","&#039;");
 }
 
-
-/* =====================================================
-   التحقق من الجلسة
-   ===================================================== */
-
-async function checkSession() {
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .auth
-      .getSession();
-
-
-  if (error) {
-
-    console.error(error);
-
-    return;
-  }
-
-
-  if (data.session) {
-
-    document
-      .getElementById("loginBox")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("dashboard")
-      .classList.remove("hidden");
-
-
-    await loadAll();
-
-  }
-
+function escapeAttr(value){
+ return escapeHtml(value);
 }
 
+async function checkSession(){
+ const {data}=await client.auth.getSession();
 
-/* تشغيل الصفحة */
+ if(data.session){
+   showAdmin();
+ }
+}
+
 checkSession();
-
 </script>
 
 </body>
