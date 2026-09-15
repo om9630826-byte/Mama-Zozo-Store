@@ -442,10 +442,12 @@ document
 .trim()
 ||null;
 
-const file =
-document
-.getElementById("pimagefile")
-.files[0];
+const files =
+Array.from(
+  document
+    .getElementById("pimagefile")
+    .files
+);
 
 
 if(!name || !price){
@@ -456,16 +458,23 @@ msg.innerHTML =
 return;
 }
 
+/* رفع الصور */
 
-/* رفع الصورة */
+let image_url = null;
+let uploadedImages = [];
 
-let image_url=null;
+if(files.length){
 
-if(file){
+  for(let i = 0; i < files.length; i++){
 
-image_url =
-await uploadImage(file);
+    const url =
+      await uploadImage(files[i]);
 
+    uploadedImages.push(url);
+
+  }
+
+  image_url = uploadedImages[0];
 }
 
 
@@ -498,12 +507,42 @@ is_active:true
 
 
 if(error)
-throw error;
+  throw error;
 
+/* حفظ كل الصور */
+if(uploadedImages.length){
+
+  /* نجيب رقم المنتج اللي اتضاف */
+  const { data: product, error: productError } =
+    await client
+      .from("products")
+      .select("id")
+      .eq("name", name)
+      .order("id", { ascending:false })
+      .limit(1)
+      .single();
+
+  if(productError)
+    throw productError;
+
+  const imageRows =
+    uploadedImages.map((url, index) => ({
+      product_id: product.id,
+      image_url: url,
+      is_main: index === 0
+    }));
+
+  const { error: imagesError } =
+    await client
+      .from("product_images")
+      .insert(imageRows);
+
+  if(imagesError)
+    throw imagesError;
+}
 
 msg.innerHTML =
-'<div class="msg success">✅ تمت إضافة المنتج والصورة بنجاح</div>';
-
+  '<div class="msg success">✅ تمت إضافة المنتج وكل الصور بنجاح</div>';
 
 /* تنظيف */
 
