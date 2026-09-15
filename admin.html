@@ -3,29 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>لوحة تحكم مكتبة ماما زوزو</title>
+<title>إدارة مكتبة ماما زوزو</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#fff5fb;color:#35263b}
-header{background:linear-gradient(135deg,#ff69b4,#a66cff);color:white;padding:22px;text-align:center}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#fff4fb;
+  color:#39263d
+}
+header{
+  background:linear-gradient(135deg,#ff69b4,#9b6cff);
+  color:white;
+  padding:22px;
+  text-align:center
+}
 .container{max-width:1100px;margin:auto;padding:20px}
-.card{background:white;border-radius:18px;padding:20px;margin:15px 0;box-shadow:0 5px 20px #0001}
-input,textarea,select{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
-button{border:0;border-radius:10px;padding:11px 16px;cursor:pointer;font-weight:bold;margin:4px}
+.card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin:15px 0;
+  box-shadow:0 5px 20px #0001
+}
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:15px
+}
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
+  margin:4px
+}
 .primary{background:#ff69b4;color:white}
 .blue{background:#6c63ff;color:white}
 .green{background:#20a464;color:white}
 .red{background:#e74c3c;color:white}
 .gray{background:#eee}
 .hidden{display:none}
-.product{border:1px solid #eee;border-radius:14px;padding:15px;margin:10px 0}
-.product img{width:90px;height:90px;object-fit:cover;border-radius:10px}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .row>*{flex:1}
-h2{margin-top:5px}
-.error{background:#ffe1e1;color:#a00;padding:12px;border-radius:10px;margin:10px 0}
-.success{background:#ddffe9;color:#087a35;padding:12px;border-radius:10px;margin:10px 0}
+.product{
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:15px;
+  margin:10px 0
+}
+.product img{
+  width:110px;
+  height:110px;
+  object-fit:cover;
+  border-radius:12px
+}
+.msg{
+  padding:12px;
+  border-radius:10px;
+  margin:10px 0
+}
+.error{background:#ffe0e0;color:#a00000}
+.success{background:#dcffe9;color:#087a35}
+.preview{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  border-radius:15px;
+  display:none;
+  margin:10px 0
+}
 </style>
 </head>
 
@@ -38,14 +91,20 @@ h2{margin-top:5px}
 
 <div class="container">
 
+<!-- LOGIN -->
 <div id="loginBox" class="card">
-<h2>🔐 تسجيل دخول الأدمن</h2>
+<h2>🔐 تسجيل الدخول</h2>
+
 <input id="email" type="email" placeholder="البريد الإلكتروني">
 <input id="password" type="password" placeholder="كلمة المرور">
+
 <button class="primary" onclick="login()">دخول</button>
+
 <div id="loginMsg"></div>
 </div>
 
+
+<!-- ADMIN -->
 <div id="adminBox" class="hidden">
 
 <div class="card">
@@ -55,10 +114,14 @@ h2{margin-top:5px}
 </div>
 </div>
 
+
+<!-- ADD PRODUCT -->
 <div class="card">
+
 <h2>➕ إضافة منتج</h2>
 
 <input id="pname" placeholder="اسم المنتج">
+
 <textarea id="pdesc" placeholder="وصف المنتج"></textarea>
 
 <div class="row">
@@ -67,326 +130,888 @@ h2{margin-top:5px}
 </div>
 
 <div class="row">
-<input id="pstock" type="number" placeholder="الكمية في المخزون">
+<input id="pstock" type="number" placeholder="المخزون">
 <input id="pcategory" placeholder="القسم">
 </div>
 
-<input id="pimage" placeholder="رابط صورة المنتج">
-<input id="pvideo" placeholder="رابط فيديو المنتج">
+<h3>📸 صورة المنتج</h3>
 
-<button class="primary" onclick="addProduct()">إضافة المنتج</button>
+<input
+id="pimagefile"
+type="file"
+accept="image/*"
+onchange="previewImage(event)"
+>
+
+<img id="imagePreview" class="preview">
+
+<input
+id="pvideo"
+placeholder="رابط فيديو المنتج - اختياري"
+>
+
+<button class="primary" onclick="addProduct()">
+➕ إضافة المنتج
+</button>
+
 <div id="productMsg"></div>
+
 </div>
 
+
+<!-- PRODUCTS -->
 <div class="card">
+
 <h2>📦 المنتجات</h2>
-<button class="blue" onclick="loadProducts()">🔄 تحديث</button>
+
+<button class="blue" onclick="loadProducts()">
+🔄 تحديث المنتجات
+</button>
+
 <div id="products"></div>
+
 </div>
 
+
+<!-- ORDERS -->
 <div class="card">
+
 <h2>🛒 الطلبات</h2>
-<button class="blue" onclick="loadOrders()">🔄 تحديث الطلبات</button>
+
+<button class="blue" onclick="loadOrders()">
+🔄 تحديث الطلبات
+</button>
+
 <div id="orders"></div>
+
 </div>
 
+
+<!-- COMPLAINTS -->
 <div class="card">
+
 <h2>💬 الشكاوى والاقتراحات</h2>
-<button class="blue" onclick="loadComplaints()">🔄 تحديث</button>
+
+<button class="blue" onclick="loadComplaints()">
+🔄 تحديث
+</button>
+
 <div id="complaints"></div>
+
 </div>
 
 </div>
 </div>
+
 
 <script>
-const SUPABASE_URL="https://tzjtivfzawffqgisrowv.supabase.co";
 
-const SUPABASE_KEY="sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
+const SUPABASE_URL =
+"https://tzjtivfzawffqgisrowv.supabase.co";
+const SUPABASE_KEY =
+"sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
 
-const client=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const client =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =========================
+   LOGIN
+========================= */
 
 async function login(){
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
 
- const msg=document.getElementById("loginMsg");
- msg.innerHTML="";
+const email =
+document.getElementById("email").value.trim();
 
- const {error}=await client.auth.signInWithPassword({
-   email,
-   password
- });
+const password =
+document.getElementById("password").value;
 
- if(error){
-   msg.innerHTML='<div class="error">'+error.message+'</div>';
-   return;
- }
+const msg =
+document.getElementById("loginMsg");
 
- showAdmin();
+msg.innerHTML="";
+
+const {error} =
+await client.auth.signInWithPassword({
+email,
+password
+});
+
+if(error){
+
+msg.innerHTML =
+'<div class="msg error">'+
+error.message+
+'</div>';
+
+return;
 }
+
+showAdmin();
+}
+
+
+/* =========================
+   SHOW ADMIN
+========================= */
 
 async function showAdmin(){
- document.getElementById("loginBox").classList.add("hidden");
- document.getElementById("adminBox").classList.remove("hidden");
 
- await loadProducts();
- await loadOrders();
- await loadComplaints();
+document
+.getElementById("loginBox")
+.classList.add("hidden");
+
+document
+.getElementById("adminBox")
+.classList.remove("hidden");
+
+await loadProducts();
+await loadOrders();
+await loadComplaints();
 }
+
+
+/* =========================
+   LOGOUT
+========================= */
 
 async function logout(){
- await client.auth.signOut();
- location.reload();
+
+await client.auth.signOut();
+
+location.reload();
 }
+
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
+function previewImage(event){
+
+const file =
+event.target.files[0];
+
+const preview =
+document.getElementById("imagePreview");
+
+if(!file){
+
+preview.style.display="none";
+return;
+}
+
+preview.src =
+URL.createObjectURL(file);
+
+preview.style.display="block";
+}
+
+
+/* =========================
+   UPLOAD IMAGE
+========================= */
+
+async function uploadImage(file){
+
+if(!file)
+return null;
+
+const ext =
+file.name.split(".").pop();
+
+const fileName =
+Date.now()+"-"+Math.random()
+.toString(36)
+.substring(2)+
+"."+
+ext;
+
+const filePath =
+"products/"+fileName;
+
+
+const {error} =
+await client.storage
+.from("product-images")
+.upload(
+filePath,
+file,
+{
+cacheControl:"3600",
+upsert:false
+}
+);
+
+if(error){
+
+throw error;
+
+}
+
+
+const {data} =
+client.storage
+.from("product-images")
+.getPublicUrl(filePath);
+
+
+return data.publicUrl;
+}
+
+
+/* =========================
+   ADD PRODUCT
+========================= */
 
 async function addProduct(){
 
- const msg=document.getElementById("productMsg");
- msg.innerHTML="جارٍ الإضافة...";
+const msg =
+document.getElementById("productMsg");
 
- const product={
-   name:document.getElementById("pname").value.trim(),
-   description:document.getElementById("pdesc").value.trim(),
-   price:Number(document.getElementById("pprice").value),
-   old_price:Number(document.getElementById("poldprice").value)||null,
-   stock:Number(document.getElementById("pstock").value)||0,
-   category:document.getElementById("pcategory").value.trim(),
-   image_url:document.getElementById("pimage").value.trim()||null,
-   video_url:document.getElementById("pvideo").value.trim()||null,
-   is_active:true
- };
+msg.innerHTML =
+'<div class="msg">⏳ جاري إضافة المنتج...</div>';
 
- if(!product.name || !product.price){
-   msg.innerHTML='<div class="error">اكتب اسم المنتج والسعر.</div>';
-   return;
- }
 
- const {error}=await client
-   .from("products")
-   .insert(product);
+try{
 
- if(error){
-   msg.innerHTML='<div class="error">'+error.message+'</div>';
-   return;
- }
+const name =
+document
+.getElementById("pname")
+.value
+.trim();
 
- msg.innerHTML='<div class="success">✅ تمت إضافة المنتج بنجاح</div>';
+const description =
+document
+.getElementById("pdesc")
+.value
+.trim();
 
- document.getElementById("pname").value="";
- document.getElementById("pdesc").value="";
- document.getElementById("pprice").value="";
- document.getElementById("poldprice").value="";
- document.getElementById("pstock").value="";
- document.getElementById("pcategory").value="";
- document.getElementById("pimage").value="";
- document.getElementById("pvideo").value="";
+const price =
+Number(
+document
+.getElementById("pprice")
+.value
+);
 
- loadProducts();
+const old_price =
+Number(
+document
+.getElementById("poldprice")
+.value
+)||null;
+
+const stock =
+Number(
+document
+.getElementById("pstock")
+.value
+)||0;
+
+const category =
+document
+.getElementById("pcategory")
+.value
+.trim();
+
+const video_url =
+document
+.getElementById("pvideo")
+.value
+.trim()
+||null;
+
+const file =
+document
+.getElementById("pimagefile")
+.files[0];
+
+
+if(!name || !price){
+
+msg.innerHTML =
+'<div class="msg error">اكتب اسم المنتج والسعر.</div>';
+
+return;
 }
+
+
+/* رفع الصورة */
+
+let image_url=null;
+
+if(file){
+
+image_url =
+await uploadImage(file);
+
+}
+
+
+/* إضافة المنتج */
+
+const {error} =
+await client
+.from("products")
+.insert({
+
+name:name,
+
+description:description,
+
+price:price,
+
+old_price:old_price,
+
+stock:stock,
+
+category:category,
+
+image_url:image_url,
+
+video_url:video_url,
+
+is_active:true
+
+});
+
+
+if(error)
+throw error;
+
+
+msg.innerHTML =
+'<div class="msg success">✅ تمت إضافة المنتج والصورة بنجاح</div>';
+
+
+/* تنظيف */
+
+document.getElementById("pname").value="";
+document.getElementById("pdesc").value="";
+document.getElementById("pprice").value="";
+document.getElementById("poldprice").value="";
+document.getElementById("pstock").value="";
+document.getElementById("pcategory").value="";
+document.getElementById("pvideo").value="";
+document.getElementById("pimagefile").value="";
+
+document.getElementById("imagePreview").style.display="none";
+
+
+loadProducts();
+
+
+}catch(error){
+
+msg.innerHTML =
+'<div class="msg error">❌ '+
+error.message+
+'</div>';
+
+}
+
+}
+
+
+/* =========================
+   LOAD PRODUCTS
+========================= */
 
 async function loadProducts(){
 
- const box=document.getElementById("products");
- box.innerHTML="جارٍ تحميل المنتجات...";
+const box =
+document.getElementById("products");
 
- const {data,error}=await client
-   .from("products")
-   .select("*")
-   .order("id",{ascending:false});
+box.innerHTML="⏳ جاري تحميل المنتجات...";
 
- if(error){
-   box.innerHTML='<div class="error">'+error.message+'</div>';
-   return;
- }
 
- if(!data.length){
-   box.innerHTML="<p>لا توجد منتجات.</p>";
-   return;
- }
+const {data,error} =
+await client
+.from("products")
+.select("*")
+.order("id",{ascending:false});
 
- box.innerHTML=data.map(p=>`
- <div class="product">
-   <div class="row">
-     ${p.image_url?`<img src="${escapeHtml(p.image_url)}">`:""}
-     <div>
-       <h3>${escapeHtml(p.name)}</h3>
-       <p>السعر: <b>${p.price} جنيه</b></p>
-       <p>المخزون: <b>${p.stock}</b></p>
-       <p>القسم: ${escapeHtml(p.category||"غير محدد")}</p>
-     </div>
-   </div>
 
-   <hr>
+if(error){
 
-   <div class="row">
-     <input id="price-${p.id}" type="number" value="${p.price}" placeholder="السعر">
-     <input id="stock-${p.id}" type="number" value="${p.stock}" placeholder="المخزون">
-   </div>
+box.innerHTML =
+'<div class="msg error">'+
+error.message+
+'</div>';
 
-   <input id="name-${p.id}" value="${escapeAttr(p.name)}" placeholder="اسم المنتج">
-
-   <button class="green" onclick="updateProduct(${p.id})">
-     💾 حفظ التعديل
-   </button>
-
-   <button class="red" onclick="deleteProduct(${p.id})">
-     🗑️ حذف
-   </button>
- </div>
- `).join("");
+return;
 }
+
+
+if(!data.length){
+
+box.innerHTML =
+"<p>لا توجد منتجات.</p>";
+
+return;
+}
+
+
+box.innerHTML =
+data.map(p=>`
+
+<div class="product">
+
+<div class="row">
+
+${
+p.image_url
+?
+`<img src="${escapeHtml(p.image_url)}">`
+:
+""
+}
+
+<div>
+
+<h3>
+${escapeHtml(p.name)}
+</h3>
+
+<p>
+السعر:
+<b>${p.price} جنيه</b>
+</p>
+
+<p>
+المخزون:
+<b>${p.stock}</b>
+</p>
+
+<p>
+القسم:
+${escapeHtml(p.category||"غير محدد")}
+</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<input
+id="name-${p.id}"
+value="${escapeAttr(p.name)}"
+placeholder="اسم المنتج"
+>
+
+<div class="row">
+
+<input
+id="price-${p.id}"
+type="number"
+value="${p.price}"
+placeholder="السعر"
+>
+
+<input
+id="stock-${p.id}"
+type="number"
+value="${p.stock}"
+placeholder="المخزون"
+>
+
+</div>
+
+<button
+class="green"
+onclick="updateProduct(${p.id})"
+>
+💾 حفظ التعديل
+</button>
+
+<button
+class="red"
+onclick="deleteProduct(${p.id})"
+>
+🗑️ حذف
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   UPDATE PRODUCT
+========================= */
 
 async function updateProduct(id){
 
- const name=document.getElementById("name-"+id).value.trim();
- const price=Number(document.getElementById("price-"+id).value);
- const stock=Number(document.getElementById("stock-"+id).value);
+const name =
+document
+.getElementById("name-"+id)
+.value
+.trim();
 
- if(!name || !price){
-   alert("اكتب اسم المنتج والسعر");
-   return;
- }
+const price =
+Number(
+document
+.getElementById("price-"+id)
+.value
+);
 
- const {error}=await client
-   .from("products")
-   .update({
-     name,
-     price,
-     stock
-   })
-   .eq("id",id);
+const stock =
+Number(
+document
+.getElementById("stock-"+id)
+.value
+);
 
- if(error){
-   alert("فشل التعديل: "+error.message);
-   return;
- }
 
- alert("✅ تم تعديل المنتج");
- loadProducts();
+if(!name || !price){
+
+alert("اكتب اسم المنتج والسعر");
+
+return;
+
 }
+
+
+const {error} =
+await client
+.from("products")
+.update({
+
+name:name,
+
+price:price,
+
+stock:stock
+
+})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"❌ فشل التعديل: "+
+error.message
+);
+
+return;
+
+}
+
+
+alert("✅ تم تعديل المنتج");
+
+loadProducts();
+
+}
+
+
+/* =========================
+   DELETE PRODUCT
+========================= */
 
 async function deleteProduct(id){
 
- if(!confirm("متأكد إنك عايز تحذف المنتج؟")) return;
+if(
+!confirm(
+"هل أنت متأكد من حذف المنتج؟"
+)
+)
+return;
 
- const {error}=await client
-   .from("products")
-   .delete()
-   .eq("id",id);
 
- if(error){
-   alert("فشل الحذف: "+error.message);
-   return;
- }
+const {error} =
+await client
+.from("products")
+.delete()
+.eq("id",id);
 
- alert("✅ تم حذف المنتج");
- loadProducts();
+
+if(error){
+
+alert(
+"❌ فشل الحذف: "+
+error.message
+);
+
+return;
+
 }
+
+
+alert("✅ تم حذف المنتج");
+
+loadProducts();
+
+}
+
+
+/* =========================
+   ORDERS
+========================= */
 
 async function loadOrders(){
 
- const box=document.getElementById("orders");
- box.innerHTML="جارٍ تحميل الطلبات...";
+const box =
+document.getElementById("orders");
 
- const {data,error}=await client
-   .from("orders")
-   .select("*")
-   .order("created_at",{ascending:false});
+box.innerHTML =
+"⏳ جاري تحميل الطلبات...";
 
- if(error){
-   box.innerHTML='<div class="error">'+error.message+'</div>';
-   return;
- }
 
- if(!data.length){
-   box.innerHTML="<p>لا توجد طلبات.</p>";
-   return;
- }
+const {data,error} =
+await client
+.from("orders")
+.select("*")
+.order(
+"created_at",
+{ascending:false}
+);
 
- box.innerHTML=data.map(o=>`
- <div class="product">
-   <h3>طلب #${o.id}</h3>
-   <p>العميل: ${escapeHtml(o.customer_name)}</p>
-   <p>الهاتف: ${escapeHtml(o.phone)}</p>
-   <p>العنوان: ${escapeHtml(o.address||"")}</p>
-   <p>الإجمالي: <b>${o.total} جنيه</b></p>
 
-   <select onchange="updateOrderStatus(${o.id},this.value)">
-     ${["pending","confirmed","processing","shipped","delivered","cancelled"]
-       .map(s=>`<option value="${s}" ${o.status===s?"selected":""}>${s}</option>`).join("")}
-   </select>
- </div>
- `).join("");
+if(error){
+
+box.innerHTML =
+'<div class="msg error">'+
+error.message+
+'</div>';
+
+return;
+
 }
 
-async function updateOrderStatus(id,status){
 
- const {error}=await client
-   .from("orders")
-   .update({status})
-   .eq("id",id);
+if(!data.length){
 
- if(error){
-   alert("فشل تحديث الطلب: "+error.message);
-   return;
- }
+box.innerHTML =
+"<p>لا توجد طلبات.</p>";
 
- alert("✅ تم تحديث حالة الطلب");
+return;
+
 }
+
+
+box.innerHTML =
+data.map(o=>`
+
+<div class="product">
+
+<h3>
+طلب #${o.id}
+</h3>
+
+<p>
+العميل:
+${escapeHtml(o.customer_name)}
+</p>
+
+<p>
+الهاتف:
+${escapeHtml(o.phone)}
+</p>
+
+<p>
+العنوان:
+${escapeHtml(o.address||"")}
+</p>
+
+<p>
+الإجمالي:
+<b>${o.total} جنيه</b>
+</p>
+
+<select
+onchange="updateOrderStatus(${o.id},this.value)"
+>
+
+${
+[
+"pending",
+"confirmed",
+"processing",
+"shipped",
+"delivered",
+"cancelled"
+]
+.map(s=>`
+
+<option
+value="${s}"
+${o.status===s?"selected":""}
+>
+${s}
+</option>
+
+`).join("")
+}
+
+</select>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   UPDATE ORDER
+========================= */
+
+async function updateOrderStatus(
+id,
+status
+){
+
+const {error} =
+await client
+.from("orders")
+.update({status})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"❌ فشل تحديث الطلب: "+
+error.message
+);
+
+return;
+
+}
+
+
+alert("✅ تم تحديث حالة الطلب");
+
+}
+
+
+/* =========================
+   COMPLAINTS
+========================= */
 
 async function loadComplaints(){
 
- const box=document.getElementById("complaints");
- box.innerHTML="جارٍ تحميل الشكاوى...";
+const box =
+document.getElementById("complaints");
 
- const {data,error}=await client
-   .from("complaints")
-   .select("*")
-   .order("created_at",{ascending:false});
+box.innerHTML =
+"⏳ جاري تحميل الشكاوى...";
 
- if(error){
-   box.innerHTML='<div class="error">'+error.message+'</div>';
-   return;
- }
 
- if(!data.length){
-   box.innerHTML="<p>لا توجد شكاوى أو اقتراحات.</p>";
-   return;
- }
+const {data,error} =
+await client
+.from("complaints")
+.select("*")
+.order(
+"created_at",
+{ascending:false}
+);
 
- box.innerHTML=data.map(c=>`
- <div class="product">
-   <h3>${escapeHtml(c.name||"عميل")}</h3>
-   <p>الهاتف: ${escapeHtml(c.phone||"")}</p>
-   <p>${escapeHtml(c.message)}</p>
-   <p>الحالة: <b>${escapeHtml(c.status||"new")}</b></p>
- </div>
- `).join("");
+
+if(error){
+
+box.innerHTML =
+'<div class="msg error">'+
+error.message+
+'</div>';
+
+return;
+
 }
 
+
+if(!data.length){
+
+box.innerHTML =
+"<p>لا توجد شكاوى أو اقتراحات.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+data.map(c=>`
+
+<div class="product">
+
+<h3>
+${escapeHtml(c.name||"عميل")}
+</h3>
+
+<p>
+الهاتف:
+${escapeHtml(c.phone||"")}
+</p>
+
+<p>
+${escapeHtml(c.message)}
+</p>
+
+<p>
+الحالة:
+<b>
+${escapeHtml(c.status||"new")}
+</b>
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   SECURITY HELPERS
+========================= */
+
 function escapeHtml(value){
- return String(value??"")
-   .replaceAll("&","&amp;")
-   .replaceAll("<","&lt;")
-   .replaceAll(">","&gt;")
-   .replaceAll('"',"&quot;")
-   .replaceAll("'","&#039;");
+
+return String(value??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
 }
 
 function escapeAttr(value){
- return escapeHtml(value);
+
+return escapeHtml(value);
+
 }
 
-async function checkSession(){
- const {data}=await client.auth.getSession();
 
- if(data.session){
-   showAdmin();
- }
+/* =========================
+   SESSION
+========================= */
+
+async function checkSession(){
+
+const {data} =
+await client.auth.getSession();
+
+if(data.session){
+
+showAdmin();
+
+}
+
 }
 
 checkSession();
+
 </script>
 
 </body>
