@@ -3,83 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>لوحة تحكم - مكتبة ماما زوزو</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f7fb;
-  color:#222
-}
-header{
-  background:linear-gradient(135deg,#7c3aed,#ec4899);
-  color:white;
-  padding:25px;
-  text-align:center
-}
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:15px
-}
-.box{
-  background:white;
-  padding:20px;
-  margin:15px 0;
-  border-radius:18px;
-  box-shadow:0 5px 20px #0001
-}
-input,textarea,select{
-  width:100%;
-  padding:13px;
-  margin:6px 0;
-  border:1px solid #ddd;
-  border-radius:10px
-}
-button{
-  border:0;
-  padding:12px 18px;
-  margin:5px;
-  border-radius:10px;
-  background:#7c3aed;
-  color:white;
-  cursor:pointer
-}
-.red{background:#dc2626}
-.green{background:#16a34a}
-.black{background:#111827}
+body{margin:0;font-family:Arial;background:#f5f7fb;color:#222}
+header{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;padding:25px;text-align:center}
+.container{max-width:1100px;margin:auto;padding:15px}
+.box{background:white;padding:20px;margin:15px 0;border-radius:18px;box-shadow:0 5px 20px #0001}
+input,textarea,select{width:100%;padding:13px;margin:6px 0;border:1px solid #ddd;border-radius:10px}
+button{border:0;padding:12px 18px;margin:5px;border-radius:10px;background:#7c3aed;color:white;cursor:pointer}
+.red{background:#dc2626}.green{background:#16a34a}.black{background:#111827}
 .hidden{display:none}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px
-}
-.card{
-  background:#fafafa;
-  border:1px solid #eee;
-  border-radius:15px;
-  padding:15px
-}
-.msg{
-  padding:12px;
-  margin-top:10px;
-  border-radius:10px;
-  background:#fff3cd
-}
-table{
-  width:100%;
-  border-collapse:collapse
-}
-th,td{
-  padding:10px;
-  border-bottom:1px solid #ddd;
-  text-align:right
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.card{background:#fafafa;border:1px solid #eee;border-radius:15px;padding:15px}
+.msg{padding:12px;margin-top:10px;border-radius:10px;background:#fff3cd}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #ddd;text-align:right}
 </style>
 </head>
 
@@ -92,41 +34,24 @@ th,td{
 
 <div class="container">
 
-<!-- LOGIN -->
 <div id="loginBox" class="box">
-
 <h2>🔐 تسجيل دخول الأدمن</h2>
 
-<input
-id="email"
-type="email"
-placeholder="البريد الإلكتروني">
-
-<input
-id="password"
-type="password"
-placeholder="كلمة المرور">
+<input id="email" type="email" placeholder="البريد الإلكتروني">
+<input id="password" type="password" placeholder="كلمة المرور">
 
 <button onclick="login()">دخول</button>
 
 <div id="loginMsg"></div>
-
 </div>
 
-
-<!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
 
 <div class="box">
 <h2>👋 أهلاً بيك في لوحة التحكم</h2>
-
-<button class="black" onclick="logout()">
-تسجيل الخروج
-</button>
+<button class="black" onclick="logout()">تسجيل الخروج</button>
 </div>
 
-
-<!-- STATS -->
 <div class="grid">
 
 <div class="card">
@@ -146,132 +71,60 @@ placeholder="كلمة المرور">
 
 </div>
 
-
-<!-- ADD PRODUCT -->
 <div class="box">
 
 <h2>➕ إضافة منتج</h2>
 
-<input
-id="productName"
-placeholder="اسم المنتج">
+<input id="productName" placeholder="اسم المنتج">
+<input id="productPrice" type="number" placeholder="السعر">
+<input id="oldPrice" type="number" placeholder="السعر القديم">
+<input id="productStock" type="number" placeholder="الكمية">
+<input id="productCategory" placeholder="القسم">
 
-<input
-id="productPrice"
-type="number"
-placeholder="السعر">
+<textarea id="productDescription" placeholder="وصف المنتج"></textarea>
 
-<input
-id="oldPrice"
-type="number"
-placeholder="السعر القديم">
+<input id="productImage" placeholder="رابط صورة المنتج">
+<input id="productVideo" placeholder="رابط فيديو المنتج">
 
-<input
-id="productStock"
-type="number"
-placeholder="الكمية">
-
-<input
-id="productCategory"
-placeholder="القسم">
-
-<textarea
-id="productDescription"
-placeholder="وصف المنتج"></textarea>
-
-<input
-id="productImage"
-placeholder="رابط صورة المنتج">
-
-<input
-id="productVideo"
-placeholder="رابط فيديو المنتج">
-
-<button class="green" onclick="addProduct()">
-إضافة المنتج
-</button>
+<button class="green" onclick="addProduct()">إضافة المنتج</button>
 
 <div id="productMsg"></div>
-
 </div>
 
-
-<!-- PRODUCTS -->
 <div class="box">
-
 <h2>📦 المنتجات</h2>
-
-<button onclick="loadProducts()">
-🔄 تحديث
-</button>
-
+<button onclick="loadProducts()">🔄 تحديث</button>
 <div id="productsList"></div>
-
 </div>
 
-
-<!-- ORDERS -->
 <div class="box">
-
 <h2>🛒 الطلبات</h2>
-
-<button onclick="loadOrders()">
-🔄 تحديث الطلبات
-</button>
-
+<button onclick="loadOrders()">🔄 تحديث الطلبات</button>
 <div id="ordersList"></div>
-
 </div>
 
-
-<!-- COMPLAINTS -->
 <div class="box">
-
 <h2>💬 الشكاوى والاقتراحات</h2>
-
-<button onclick="loadComplaints()">
-🔄 تحديث
-</button>
-
+<button onclick="loadComplaints()">🔄 تحديث</button>
 <div id="complaintsList"></div>
-
 </div>
 
 </div>
-
 </div>
-
 
 <script>
-
-/* =========================
-   SUPABASE
-========================= */
 
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
 
-
-/*
-  مهم:
-  هنا حط نفس Publishable Key
-  الموجود عندك حاليًا في الملف.
-*/
-
 const SUPABASE_KEY =
 "sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
-
 
 const db =
 window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
-
-
-/* =========================
-   LOGIN
-========================= */
 
 async function login(){
 
@@ -284,237 +137,133 @@ document.getElementById("password").value;
 const msg =
 document.getElementById("loginMsg");
 
-
 if(!email || !password){
-
 msg.innerHTML =
 "<div class='msg'>⚠️ اكتب الإيميل وكلمة المرور</div>";
-
 return;
 }
 
-
-const result =
+const {data,error} =
 await db.auth.signInWithPassword({
 email:email,
 password:password
 });
 
-
-if(result.error){
-
-console.error(result.error);
-
+if(error){
+console.error(error);
 msg.innerHTML =
-"<div class='msg'>❌ الإيميل أو كلمة المرور غير صحيحة</div>";
-
+"<div class='msg'>❌ بيانات الدخول غير صحيحة</div>";
 return;
 }
 
-
-document
-.getElementById("loginBox")
+document.getElementById("loginBox")
 .classList.add("hidden");
 
-document
-.getElementById("dashboard")
+document.getElementById("dashboard")
 .classList.remove("hidden");
 
-
 await loadAll();
-
 }
-
-
-/* =========================
-   LOGOUT
-========================= */
 
 async function logout(){
-
 await db.auth.signOut();
-
 location.reload();
-
 }
-
-
-/* =========================
-   LOAD ALL
-========================= */
 
 async function loadAll(){
-
 await loadProducts();
-
 await loadOrders();
-
 await loadComplaints();
-
 }
-
-
-/* =========================
-   PRODUCTS
-========================= */
 
 async function loadProducts(){
 
-const result =
-await db
-.from("products")
+const {data,error} =
+await db.from("products")
 .select("*")
 .order("created_at",{ascending:false});
 
-
-if(result.error){
-
-console.error(result.error);
-
-document.getElementById("productsList")
-.innerHTML =
+if(error){
+console.error(error);
+document.getElementById("productsList").innerHTML =
 "<div class='msg'>❌ لا يمكن تحميل المنتجات</div>";
-
 return;
 }
 
+const products=data||[];
 
-const products =
-result.data || [];
-
-
-document.getElementById("productsCount")
-.innerText =
+document.getElementById("productsCount").innerText=
 products.length;
 
-
-if(products.length === 0){
-
-document.getElementById("productsList")
-.innerHTML =
+if(products.length===0){
+document.getElementById("productsList").innerHTML=
 "<p>لا توجد منتجات حتى الآن.</p>";
-
 return;
 }
-
 
 let html="";
 
+products.forEach(p=>{
 
-products.forEach(product=>{
-
-html += `
-
+html+=`
 <div class="card">
 
-<h3>${safe(product.name)}</h3>
+<h3>${safe(p.name)}</h3>
 
 <p>💰 السعر:
-<strong>${product.price}</strong>
-جنيه</p>
+<strong>${p.price}</strong> جنيه</p>
 
-<p>📦 المخزون:
-${product.stock}</p>
+<p>📦 المخزون: ${p.stock}</p>
 
 <p>🏷️ القسم:
-${safe(product.category || "-")}</p>
+${safe(p.category||"-")}</p>
 
-<button
-class="red"
-onclick="deleteProduct(${product.id})">
-
+<button class="red"
+onclick="deleteProduct(${p.id})">
 🗑️ حذف
-
 </button>
 
 </div>
-
 `;
 
 });
 
-
-document.getElementById("productsList")
-.innerHTML =
+document.getElementById("productsList").innerHTML=
 `<div class="grid">${html}</div>`;
-
 }
-
-
-/* =========================
-   ADD PRODUCT
-========================= */
 
 async function addProduct(){
 
-const name =
-document.getElementById("productName").value.trim();
+const product={
+name:document.getElementById("productName").value.trim(),
+price:Number(document.getElementById("productPrice").value),
+old_price:Number(document.getElementById("oldPrice").value)||null,
+stock:Number(document.getElementById("productStock").value)||0,
+category:document.getElementById("productCategory").value.trim(),
+description:document.getElementById("productDescription").value.trim(),
+image_url:document.getElementById("productImage").value.trim(),
+video_url:document.getElementById("productVideo").value.trim()
+};
 
-const price =
-Number(document.getElementById("productPrice").value);
-
-const oldPrice =
-Number(document.getElementById("oldPrice").value) || null;
-
-const stock =
-Number(document.getElementById("productStock").value) || 0;
-
-const category =
-document.getElementById("productCategory").value.trim();
-
-const description =
-document.getElementById("productDescription").value.trim();
-
-const image_url =
-document.getElementById("productImage").value.trim();
-
-const video_url =
-document.getElementById("productVideo").value.trim();
-
-
-if(!name || !price){
-
-document.getElementById("productMsg")
-.innerHTML =
+if(!product.name||!product.price){
+document.getElementById("productMsg").innerHTML=
 "<div class='msg'>⚠️ اكتب اسم المنتج والسعر</div>";
-
 return;
 }
 
-
-const result =
-await db
+const {error}=await db
 .from("products")
-.insert({
+.insert(product);
 
-name:name,
-price:price,
-old_price:oldPrice,
-stock:stock,
-category:category,
-description:description,
-image_url:image_url,
-video_url:video_url
-
-});
-
-
-if(result.error){
-
-console.error(result.error);
-
-document.getElementById("productMsg")
-.innerHTML =
+if(error){
+console.error(error);
+document.getElementById("productMsg").innerHTML=
 "<div class='msg'>❌ لم تتم إضافة المنتج</div>";
-
 return;
 }
 
-
-document.getElementById("productMsg")
-.innerHTML =
-"<div class='msg'>✅ تمت إضافة المنتج بنجاح</div>";
-
+document.getElementById("productMsg").innerHTML=
+"<div class='msg'>✅ تمت إضافة المنتج</div>";
 
 document.getElementById("productName").value="";
 document.getElementById("productPrice").value="";
@@ -525,91 +274,54 @@ document.getElementById("productDescription").value="";
 document.getElementById("productImage").value="";
 document.getElementById("productVideo").value="";
 
-
 await loadProducts();
-
 }
-
-
-/* =========================
-   DELETE PRODUCT
-========================= */
 
 async function deleteProduct(id){
 
 if(!confirm("هل تريد حذف المنتج؟")) return;
 
-
-const result =
-await db
+const {error}=await db
 .from("products")
 .delete()
 .eq("id",id);
 
-
-if(result.error){
-
-console.error(result.error);
-
+if(error){
 alert("❌ لا توجد صلاحية لحذف المنتج");
-
+console.error(error);
 return;
 }
 
-
 await loadProducts();
-
 }
-
-
-/* =========================
-   ORDERS
-========================= */
 
 async function loadOrders(){
 
-const result =
-await db
+const {data,error}=await db
 .from("orders")
 .select("*")
 .order("created_at",{ascending:false});
 
-
-if(result.error){
-
-console.error(result.error);
-
-document.getElementById("ordersList")
-.innerHTML =
+if(error){
+console.error(error);
+document.getElementById("ordersList").innerHTML=
 "<div class='msg'>❌ لا يمكن تحميل الطلبات</div>";
-
 return;
 }
 
+const orders=data||[];
 
-const orders =
-result.data || [];
-
-
-document.getElementById("ordersCount")
-.innerText =
+document.getElementById("ordersCount").innerText=
 orders.length;
 
-
-if(orders.length === 0){
-
-document.getElementById("ordersList")
-.innerHTML =
+if(!orders.length){
+document.getElementById("ordersList").innerHTML=
 "<p>لا توجد طلبات.</p>";
-
 return;
 }
 
-
-let html = `
-
+let html=`
 <table>
-
 <tr>
 <th>رقم</th>
 <th>العميل</th>
@@ -617,57 +329,48 @@ let html = `
 <th>الإجمالي</th>
 <th>الحالة</th>
 </tr>
-
 `;
 
+orders.forEach(o=>{
 
-orders.forEach(order=>{
-
-html += `
-
+html+=`
 <tr>
 
-<td>${order.id}</td>
+<td>${o.id}</td>
 
-<td>
-${safe(order.customer_name)}
-</td>
+<td>${safe(o.customer_name)}</td>
 
-<td>
-${safe(order.phone)}
-</td>
+<td>${safe(o.phone)}</td>
 
-<td>
-${order.total} جنيه
-</td>
+<td>${o.total} جنيه</td>
 
 <td>
 
 <select
-onchange="changeStatus(${order.id},this.value)">
+onchange="changeStatus(${o.id},this.value)">
 
 <option value="pending"
-${order.status==="pending"?"selected":""}>
+${o.status==="pending"?"selected":""}>
 جديد
 </option>
 
 <option value="confirmed"
-${order.status==="confirmed"?"selected":""}>
+${o.status==="confirmed"?"selected":""}>
 تم التأكيد
 </option>
 
 <option value="shipped"
-${order.status==="shipped"?"selected":""}>
+${o.status==="shipped"?"selected":""}>
 تم الشحن
 </option>
 
 <option value="delivered"
-${order.status==="delivered"?"selected":""}>
+${o.status==="delivered"?"selected":""}>
 تم التسليم
 </option>
 
 <option value="cancelled"
-${order.status==="cancelled"?"selected":""}>
+${o.status==="cancelled"?"selected":""}>
 ملغي
 </option>
 
@@ -676,141 +379,85 @@ ${order.status==="cancelled"?"selected":""}>
 </td>
 
 </tr>
-
 `;
 
 });
 
+html+="</table>";
 
-html += "</table>";
-
-
-document.getElementById("ordersList")
-.innerHTML = html;
-
+document.getElementById("ordersList").innerHTML=html;
 }
-
-
-/* =========================
-   CHANGE ORDER STATUS
-========================= */
 
 async function changeStatus(id,status){
 
-const result =
-await db
+const {error}=await db
 .from("orders")
 .update({status:status})
 .eq("id",id);
 
-
-if(result.error){
-
-console.error(result.error);
-
+if(error){
 alert("❌ لا توجد صلاحية لتعديل الطلب");
-
+console.error(error);
 return;
 }
 
-
 alert("✅ تم تحديث حالة الطلب");
-
 }
-
-
-/* =========================
-   COMPLAINTS
-========================= */
 
 async function loadComplaints(){
 
-const result =
-await db
+const {data,error}=await db
 .from("complaints")
 .select("*")
 .order("created_at",{ascending:false});
 
-
-if(result.error){
-
-console.error(result.error);
-
-document.getElementById("complaintsList")
-.innerHTML =
+if(error){
+console.error(error);
+document.getElementById("complaintsList").innerHTML=
 "<div class='msg'>❌ لا يمكن تحميل الشكاوى</div>";
-
 return;
 }
 
+const complaints=data||[];
 
-const complaints =
-result.data || [];
-
-
-document.getElementById("complaintsCount")
-.innerText =
+document.getElementById("complaintsCount").innerText=
 complaints.length;
 
-
-if(complaints.length===0){
-
-document.getElementById("complaintsList")
-.innerHTML =
+if(!complaints.length){
+document.getElementById("complaintsList").innerHTML=
 "<p>لا توجد شكاوى.</p>";
-
 return;
 }
-
 
 let html="";
 
+complaints.forEach(c=>{
 
-complaints.forEach(item=>{
-
-html += `
-
+html+=`
 <div class="card">
 
-<h3>
-👤 ${safe(item.name || "عميل")}
-</h3>
+<h3>👤 ${safe(c.name||"عميل")}</h3>
 
-<p>
-📞 ${safe(item.phone || "-")}
-</p>
+<p>📞 ${safe(c.phone||"-")}</p>
 
-<p>
-💬 ${safe(item.message)}
-</p>
+<p>💬 ${safe(c.message)}</p>
 
-<p>
-الحالة:
-<strong>${safe(item.status || "new")}</strong>
+<p>الحالة:
+<strong>${safe(c.status||"new")}</strong>
 </p>
 
 </div>
-
 `;
 
 });
 
-
-document.getElementById("complaintsList")
-.innerHTML =
+document.getElementById("complaintsList").innerHTML=
 `<div class="grid">${html}</div>`;
-
 }
-
-
-/* =========================
-   SECURITY
-========================= */
 
 function safe(text){
 
-if(text === null || text === undefined)
-return "";
+if(text===null||text===undefined) return "";
 
 return String(text)
 .replaceAll("&","&amp;")
@@ -818,40 +465,27 @@ return String(text)
 .replaceAll(">","&gt;")
 .replaceAll('"',"&quot;")
 .replaceAll("'","&#039;");
-
 }
-
-
-/* =========================
-   CHECK SESSION
-========================= */
 
 async function checkSession(){
 
-const result =
-await db.auth.getSession();
+const {data}=await db.auth.getSession();
 
+if(data.session){
 
-if(result.data.session){
-
-document
-.getElementById("loginBox")
+document.getElementById("loginBox")
 .classList.add("hidden");
 
-document
-.getElementById("dashboard")
+document.getElementById("dashboard")
 .classList.remove("hidden");
 
 await loadAll();
-
 }
-
 }
-
 
 checkSession();
 
 </script>
 
 </body>
-  </html>
+</html>
