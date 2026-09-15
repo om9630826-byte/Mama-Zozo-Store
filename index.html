@@ -1,74 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مكتبة ماما زوزو</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <div class="topbar">🚚 توصيل للطلبة في أسرع وقت</div>
-    <div class="header">
-      <div class="brand">📚 <span>مكتبة ماما زوزو</span></div>
-      <div class="search-wrap">
-        <input id="search" type="search" placeholder="ابحث عن منتج...">
-        <span>🔎</span>
-      </div>
-      <button class="cart-btn" onclick="openCart()">🛒 السلة <b id="cartCount">0</b></button>
-    </div>
-    <nav>
-      <button class="active" onclick="filterProducts('الكل')">الرئيسية</button>
-      <button onclick="filterProducts('الألعاب')">🎮 الألعاب</button>
-      <button onclick="filterProducts('الأدوات المدرسية')">✏️ الأدوات المدرسية</button>
-      <button onclick="filterProducts('العروض')">🏷️ العروض</button>
-      <button onclick="filterProducts('الجديد')">⭐ المنتجات الجديدة</button>
-    </nav>
-  </header>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مكتبة ماما زوزو</title>
 
-  <main>
-    <section class="hero">
-      <div>
-        <div class="small">كل اللي تحتاجه</div>
-        <h1>مكتبة ماما زوزو</h1>
-        <p>كل اللي تحتاجه للمدرسة واللعب في مكان واحد ❤️</p>
-        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">تسوق الآن 🛒</button>
-      </div>
-      <div class="hero-art">🎒 ✏️ 🧸 🎮 📚</div>
-    </section>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+font-family:Arial,Tahoma,sans-serif;
+background:#fffaf2;
+color:#243447;
+line-height:1.7
+}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:0}
 
-    <section class="categories">
-      <button onclick="filterProducts('الجديد')">✨ <strong>المنتجات الجديدة</strong><small>أحدث التشكيلات</small></button>
-      <button onclick="filterProducts('الأدوات المدرسية')">🎒 <strong>الأدوات المدرسية</strong><small>لوازم مستقبلك أهم</small></button>
-      <button onclick="filterProducts('الألعاب')">🧸 <strong>الألعاب</strong><small>متعة لكل الأعمار</small></button>
-      <button onclick="filterProducts('العروض')">🎁 <strong>العروض</strong><small>أسعار مميزة</small></button>
-    </section>
+.top{
+background:#263b55;
+color:white;
+text-align:center;
+padding:8px;
+font-size:14px
+}
 
-    <section id="products" class="products-section">
-      <div class="section-title">
-        <h2>⭐ أحدث المنتجات</h2>
-        <button onclick="filterProducts('الكل')">عرض الكل ←</button>
-      </div>
-      <div id="productsGrid" class="products-grid"></div>
-    </section>
-  </main>
+header{
+background:white;
+padding:15px 6%;
+display:flex;
+align-items:center;
+gap:25px;
+justify-content:space-between;
+box-shadow:0 3px 15px #00000010;
+position:sticky;
+top:0;
+z-index:10
+}
 
-  <div id="cartModal" class="modal hidden">
-    <div class="modal-box">
-      <button class="close" onclick="closeCart()">×</button>
-      <h2>🛒 سلة المشتريات</h2>
-      <div id="cartItems"></div>
-      <div class="total">الإجمالي: <span id="cartTotal">0</span> جنيه</div>
-      <button class="checkout" onclick="checkout()">إتمام الطلب</button>
-    </div>
-  </div>
+.logo{
+font-size:25px;
+font-weight:bold;
+color:#263b55;
+white-space:nowrap
+}
+.logo span{color:#f4b942}
 
-  <footer>
-    <div><h3>مكتبة ماما زوزو</h3><p>كل اللي تحتاجه للمدرسة واللعب ❤️</p></div>
-    <div><h3>روابط سريعة</h3><p>الرئيسية · الألعاب · الأدوات المدرسية · العروض</p></div>
-    <div><h3>معلومات التواصل</h3><p>📞 رقم المحل: سيتم إضافته لاحقًا</p><p>📍 العنوان: سيتم إضافته لاحقًا</p></div>
-  </footer>
+.search{
+flex:1;
+max-width:500px;
+position:relative
+}
+.search input{
+width:100%;
+padding:13px 20px;
+border:2px solid #e9edf2;
+border-radius:30px;
+outline:none;
+font-size:15px
+}
+.search input:focus{border-color:#6bb7c9}
 
-  <script src="script.js"></script>
-</body>
-</html>
+.cart{
+background
