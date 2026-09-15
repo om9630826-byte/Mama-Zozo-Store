@@ -3,906 +3,236 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مكتبة ماما زوزو 🧸</title>
 
-<title>مكتبة ماما زوزو | ألعاب وأدوات مدرسية</title>
+<!-- الخريطة -->
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-:root{
-  --cream:#f7f4ed;
-  --white:#ffffff;
-  --blue:#54758c;
-  --blue-dark:#355365;
-  --blue-light:#e8f0f3;
-  --yellow:#d9ad4f;
-  --yellow-light:#f8efd8;
-  --green:#668875;
-  --text:#29343a;
-  --muted:#718087;
-  --border:#e5e1d8;
-  --shadow:0 8px 25px rgba(45,65,75,.08);
-  --radius:18px;
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:Tahoma,Arial,sans-serif;
-  background:var(--cream);
-  color:var(--text);
-  line-height:1.7;
+font-family:Arial,Tahoma,sans-serif;
+background:#f8f4ec;
+color:#263746;
+line-height:1.7
 }
-
-button,input,select,textarea{
-  font-family:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-/* HEADER */
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+a{text-decoration:none;color:inherit}
 
 header{
-  background:rgba(255,255,255,.96);
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  z-index:1000;
+position:sticky;top:0;z-index:1000;
+background:rgba(255,255,255,.95);
+backdrop-filter:blur(12px);
+box-shadow:0 3px 18px #00000012
 }
-
-.header{
-  max-width:1200px;
-  margin:auto;
-  min-height:76px;
-  padding:12px 20px;
-  display:flex;
-  align-items:center;
-  gap:20px;
+.top{
+max-width:1200px;margin:auto;padding:14px 20px;
+display:flex;align-items:center;gap:15px
 }
-
 .logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:220px;
+font-size:24px;font-weight:900;color:#345b70;
+white-space:nowrap
 }
-
-.logo-icon{
-  width:48px;
-  height:48px;
-  border-radius:14px;
-  background:var(--blue-light);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-}
-
-.logo h1{
-  font-size:20px;
-  color:var(--blue-dark);
-}
-
-.logo span{
-  display:block;
-  font-size:12px;
-  color:var(--muted);
-}
-
+.logo span{color:#e6a83c}
 .search{
-  flex:1;
-  position:relative;
+flex:1;position:relative
 }
-
 .search input{
-  width:100%;
-  height:46px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:0 45px 0 15px;
-  outline:none;
-  background:#faf9f6;
-  color:var(--text);
+width:100%;padding:12px 18px;border:1px solid #ddd;
+border-radius:30px;outline:none;background:#fafafa
 }
-
-.search input:focus{
-  border-color:var(--blue);
+.actions{display:flex;gap:8px}
+.iconBtn{
+background:#edf4f5;padding:10px 13px;border-radius:14px;
+font-size:18px
 }
-
-.search-icon{
-  position:absolute;
-  right:15px;
-  top:10px;
-  font-size:20px;
-}
-
-.header-actions{
-  display:flex;
-  gap:8px;
-}
-
-.icon-btn{
-  border:1px solid var(--border);
-  background:white;
-  width:46px;
-  height:46px;
-  border-radius:14px;
-  font-size:20px;
-  position:relative;
-}
-
-.badge{
-  position:absolute;
-  top:-5px;
-  left:-5px;
-  background:var(--yellow);
-  color:white;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  font-size:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* NAV */
-
-nav{
-  background:var(--blue-dark);
-  color:white;
-}
-
 .nav{
-  max-width:1200px;
-  margin:auto;
-  padding:0 20px;
-  min-height:44px;
-  display:flex;
-  align-items:center;
-  gap:25px;
-  overflow:auto;
+max-width:1200px;margin:auto;display:flex;gap:8px;
+padding:0 20px 12px;overflow:auto
 }
-
 .nav button{
-  border:0;
-  background:none;
-  color:white;
-  white-space:nowrap;
-  padding:8px 3px;
-  opacity:.9;
+background:#f0e8d8;padding:8px 15px;border-radius:20px;
+white-space:nowrap;color:#345b70
 }
-
-.nav button:hover{
-  opacity:1;
-}
-
-/* HERO */
 
 .hero{
-  max-width:1200px;
-  margin:25px auto;
-  padding:0 20px;
+max-width:1200px;margin:25px auto;padding:45px 35px;
+border-radius:28px;
+background:
+radial-gradient(circle at 85% 20%,#f4d987 0 8%,transparent 9%),
+radial-gradient(circle at 15% 80%,#cfe3e7 0 10%,transparent 11%),
+linear-gradient(135deg,#dcecef,#fff1cf);
+display:flex;align-items:center;justify-content:space-between;
+gap:30px
 }
-
-.hero-box{
-  min-height:350px;
-  border-radius:28px;
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,255,255,.7),transparent 25%),
-    linear-gradient(135deg,#e8f0f3,#f8efd8);
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  position:relative;
+.hero h1{font-size:42px;color:#345b70;margin-bottom:10px}
+.hero p{font-size:18px;margin-bottom:20px}
+.primary{
+background:#e6a83c;color:white;padding:12px 24px;
+border-radius:14px;font-weight:bold
 }
+.heroEmoji{font-size:100px}
 
-.hero-content{
-  padding:50px;
-  width:58%;
-  position:relative;
-  z-index:2;
+.container{max-width:1200px;margin:auto;padding:15px 20px}
+.sectionTitle{
+display:flex;justify-content:space-between;align-items:center;
+margin:25px 0 15px
 }
+.sectionTitle h2{color:#345b70}
 
-.hero-content small{
-  color:var(--green);
-  font-weight:bold;
+.cards{
+display:grid;grid-template-columns:repeat(4,1fr);gap:15px
 }
-
-.hero-content h2{
-  font-size:42px;
-  line-height:1.3;
-  color:var(--blue-dark);
-  margin:12px 0;
+.infoCard{
+background:white;padding:20px;border-radius:20px;
+box-shadow:0 4px 16px #0000000b
 }
-
-.hero-content p{
-  color:var(--muted);
-  max-width:600px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:10px;
-  margin-top:25px;
-  flex-wrap:wrap;
-}
-
-.primary-btn,
-.secondary-btn{
-  border:0;
-  padding:13px 22px;
-  border-radius:13px;
-  font-weight:bold;
-}
-
-.primary-btn{
-  background:var(--blue);
-  color:white;
-}
-
-.secondary-btn{
-  background:white;
-  color:var(--blue-dark);
-  border:1px solid var(--border);
-}
-
-.hero-art{
-  position:absolute;
-  left:30px;
-  bottom:10px;
-  font-size:150px;
-  opacity:.55;
-}
-
-/* TRUST */
-
-.trust{
-  max-width:1200px;
-  margin:0 auto 30px;
-  padding:0 20px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-}
-
-.trust-card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:18px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  box-shadow:var(--shadow);
-}
-
-.trust-card strong{
-  display:block;
-  font-size:14px;
-}
-
-.trust-card span{
-  font-size:12px;
-  color:var(--muted);
-}
-
-/* SECTIONS */
-
-.section{
-  max-width:1200px;
-  margin:45px auto;
-  padding:0 20px;
-}
-
-.section-head{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  margin-bottom:20px;
-}
-
-.section-head h2{
-  color:var(--blue-dark);
-}
-
-.section-head p{
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* CATEGORIES */
-
-.categories{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-.category{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:25px 15px;
-  text-align:center;
-  transition:.2s;
-}
-
-.category:hover{
-  transform:translateY(-3px);
-  box-shadow:var(--shadow);
-}
-
-.category .emoji{
-  font-size:45px;
-  margin-bottom:8px;
-}
-
-.category h3{
-  font-size:16px;
-  color:var(--blue-dark);
-}
-
-.category p{
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* FILTERS */
+.infoCard b{display:block;margin-bottom:5px}
 
 .filters{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
+display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px
 }
-
-.filter-btn,
-.sort-select{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:9px 15px;
-  color:var(--text);
+.filters select{
+padding:10px;border:1px solid #ddd;border-radius:12px;
+background:white
 }
-
-.filter-btn.active{
-  background:var(--blue);
-  color:white;
-  border-color:var(--blue);
-}
-
-/* PRODUCTS */
 
 .products{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px
 }
-
 .product{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  transition:.2s;
-  position:relative;
+background:white;border-radius:20px;overflow:hidden;
+box-shadow:0 5px 20px #0000000d;
+position:relative
 }
-
-.product:hover{
-  transform:translateY(-4px);
+.productImg{
+height:190px;background:linear-gradient(135deg,#edf5f5,#fff0ce);
+display:flex;align-items:center;justify-content:center;
+font-size:75px
 }
-
-.product-image{
-  height:210px;
-  background:var(--blue-light);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
+.productInfo{padding:15px}
+.productInfo h3{font-size:17px;margin-bottom:4px}
+.rating{color:#e5a52f}
+.price{font-size:20px;font-weight:bold;color:#345b70}
+.old{text-decoration:line-through;color:#999;font-size:13px}
+.badge{
+position:absolute;top:10px;right:10px;
+background:#d8785f;color:white;padding:4px 9px;
+border-radius:15px;font-size:12px
 }
-
-.product-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.productBtns{display:flex;gap:7px;margin-top:10px}
+.productBtns button{
+flex:1;padding:9px;border-radius:11px
 }
+.add{background:#345b70;color:white}
+.fav{background:#f1ece2}
 
-.product-placeholder{
-  font-size:85px;
-  opacity:.75;
+.offer{
+margin-top:30px;padding:25px;border-radius:22px;
+background:linear-gradient(135deg,#345b70,#507d91);
+color:white
 }
-
-.discount{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:var(--yellow);
-  color:white;
-  padding:4px 9px;
-  border-radius:8px;
-  font-size:11px;
-  font-weight:bold;
-}
-
-.fav{
-  position:absolute;
-  top:10px;
-  left:10px;
-  width:36px;
-  height:36px;
-  border:0;
-  background:white;
-  border-radius:50%;
-  font-size:18px;
-}
-
-.product-body{
-  padding:15px;
-}
-
-.category-name{
-  color:var(--green);
-  font-size:11px;
-}
-
-.product h3{
-  font-size:16px;
-  margin:4px 0;
-  color:var(--blue-dark);
-}
-
-.rating{
-  color:#c79527;
-  font-size:13px;
-}
-
-.price{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin:8px 0;
-}
-
-.price strong{
-  font-size:19px;
-  color:var(--blue-dark);
-}
-
-.old-price{
-  color:#9ba3a7;
-  text-decoration:line-through;
-  font-size:12px;
-}
-
-.product-actions{
-  display:grid;
-  grid-template-columns:1fr 42px;
-  gap:7px;
-}
-
-.add-cart{
-  border:0;
-  border-radius:11px;
-  background:var(--blue);
-  color:white;
-  padding:10px;
-  font-weight:bold;
-}
-
-.details-btn{
-  border:1px solid var(--border);
-  background:white;
-  border-radius:11px;
-}
-
-/* PROMO */
-
-.promo{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:18px;
-}
-
-.promo-main,
-.promo-small{
-  border-radius:22px;
-  padding:30px;
-  background:var(--blue-light);
-}
-
-.promo-main{
-  background:linear-gradient(135deg,#e8f0f3,#f4f0e7);
-}
-
-.promo h2{
-  color:var(--blue-dark);
-  margin-bottom:8px;
-}
-
-.promo p{
-  color:var(--muted);
-}
-
-.code{
-  display:inline-block;
-  margin-top:15px;
-  background:white;
-  border:1px dashed var(--yellow);
-  padding:8px 15px;
-  border-radius:9px;
-  font-weight:bold;
-}
-
-/* REVIEWS */
 
 .reviews{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
+display:grid;grid-template-columns:repeat(3,1fr);gap:15px
 }
-
 .review{
-  background:white;
-  border:1px solid var(--border);
-  padding:20px;
-  border-radius:var(--radius);
+background:white;padding:18px;border-radius:18px
 }
 
-.review p{
-  color:var(--muted);
-  font-size:14px;
+form{
+background:white;padding:20px;border-radius:20px;
+box-shadow:0 4px 18px #0000000b
 }
-
-.review strong{
-  display:block;
-  margin-top:10px;
+.formGrid{
+display:grid;grid-template-columns:1fr 1fr;gap:12px
 }
-
-/* CONTACT */
-
-.contact{
-  background:var(--blue-dark);
-  color:white;
-  border-radius:25px;
-  padding:35px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
+.field{margin-bottom:12px}
+.field label{display:block;font-weight:bold;margin-bottom:5px}
+.field input,.field select,.field textarea{
+width:100%;padding:11px;border:1px solid #ddd;
+border-radius:11px;outline:none
 }
-
-.contact h2{
-  margin-bottom:10px;
-}
-
-.contact p{
-  opacity:.85;
-}
-
-.contact-info{
-  display:grid;
-  gap:10px;
-}
-
-.contact-item{
-  background:rgba(255,255,255,.08);
-  border-radius:12px;
-  padding:12px;
-}
-
-.contact-form{
-  display:grid;
-  gap:10px;
-}
-
-.contact-form input,
-.contact-form textarea{
-  width:100%;
-  border:0;
-  border-radius:11px;
-  padding:12px;
-  outline:none;
-}
-
-.contact-form textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
-/* FOOTER */
+.field textarea{min-height:100px;resize:vertical}
 
 footer{
-  background:#263c48;
-  color:white;
-  margin-top:50px;
+margin-top:40px;background:#294653;color:white;padding:35px 20px
 }
-
-.footer{
-  max-width:1200px;
-  margin:auto;
-  padding:35px 20px;
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:30px;
+.footerGrid{
+max-width:1200px;margin:auto;
+display:grid;grid-template-columns:repeat(3,1fr);gap:25px
 }
-
-.footer h3{
-  margin-bottom:10px;
+footer h3{margin-bottom:8px;color:#f2ca72}
+.contactBtn{
+display:inline-block;background:#e6a83c;color:white;
+padding:8px 13px;border-radius:10px;margin-top:7px
 }
-
-.footer p,
-.footer li{
-  color:#d4dde0;
-  font-size:13px;
-}
-
-.footer ul{
-  list-style:none;
-}
-
-.copyright{
-  border-top:1px solid rgba(255,255,255,.1);
-  padding:15px;
-  text-align:center;
-  font-size:12px;
-  color:#c7d0d3;
-}
-
-/* MODALS */
 
 .modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(20,30,35,.5);
-  z-index:2000;
-  padding:20px;
-  align-items:center;
-  justify-content:center;
+display:none;position:fixed;inset:0;background:#0008;
+z-index:3000;align-items:center;justify-content:center;
+padding:15px
 }
-
-.modal.show{
-  display:flex;
+.modal.show{display:flex}
+.modalBox{
+background:#fff;border-radius:22px;width:min(650px,100%);
+max-height:90vh;overflow:auto;padding:25px;position:relative
 }
-
-.modal-box{
-  background:white;
-  width:min(600px,100%);
-  max-height:90vh;
-  overflow:auto;
-  border-radius:22px;
-  padding:25px;
-  position:relative;
-}
-
 .close{
-  position:absolute;
-  top:12px;
-  left:12px;
-  width:35px;
-  height:35px;
-  border:0;
-  background:#f1f1ed;
-  border-radius:50%;
+position:absolute;left:15px;top:12px;
+background:#eee;border-radius:50%;width:35px;height:35px
 }
 
-.cart-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  border-bottom:1px solid var(--border);
-  padding:13px 0;
+.cartItem{
+display:flex;align-items:center;gap:10px;
+padding:12px 0;border-bottom:1px solid #eee
 }
-
-.cart-img{
-  width:65px;
-  height:65px;
-  background:var(--blue-light);
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-}
-
-.cart-info{
-  flex:1;
-}
-
+.cartItem .grow{flex:1}
 .qty{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  margin-top:5px;
+display:flex;align-items:center;gap:7px
 }
-
 .qty button{
-  width:27px;
-  height:27px;
-  border:1px solid var(--border);
-  background:white;
-  border-radius:7px;
+width:30px;height:30px;border-radius:8px;background:#eee
 }
-
-.delete{
-  border:0;
-  background:none;
-  color:#a45d5d;
-}
-
 .total{
-  display:flex;
-  justify-content:space-between;
-  padding:20px 0;
-  font-size:18px;
-  font-weight:bold;
+font-size:20px;font-weight:bold;margin:18px 0
+}
+.empty{text-align:center;padding:30px;color:#777}
+
+#map{
+height:330px;border-radius:15px;margin:10px 0
 }
 
-.form{
-  display:grid;
-  gap:12px;
+.userBox{
+background:#edf5f5;padding:15px;border-radius:15px;
+margin-bottom:15px
 }
 
-.form label{
-  font-size:13px;
-  color:var(--blue-dark);
-  font-weight:bold;
-}
-
-.form input,
-.form select,
-.form textarea{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:11px;
-  outline:none;
-}
-
-.form textarea{
-  min-height:80px;
-}
-
-.checkout-btn{
-  width:100%;
-  border:0;
-  background:var(--blue);
-  color:white;
-  padding:13px;
-  border-radius:12px;
-  font-weight:bold;
-}
-
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:30px;
-}
-
-/* TOAST */
+.hidden{display:none!important}
 
 .toast{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:var(--blue-dark);
-  color:white;
-  padding:13px 18px;
-  border-radius:12px;
-  transform:translateY(100px);
-  opacity:0;
-  transition:.3s;
-  z-index:3000;
+position:fixed;bottom:20px;right:20px;
+background:#294653;color:white;padding:13px 18px;
+border-radius:12px;z-index:5000;
+display:none
 }
-
-.toast.show{
-  transform:translateY(0);
-  opacity:1;
-}
-
-/* MOBILE */
 
 @media(max-width:900px){
-  .products{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .trust{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .categories{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .hero-content{
-    width:70%;
-    padding:35px;
-  }
-
-  .hero-content h2{
-    font-size:32px;
-  }
+.cards,.products{grid-template-columns:repeat(2,1fr)}
+.reviews{grid-template-columns:1fr}
 }
-
-@media(max-width:650px){
-  .header{
-    flex-wrap:wrap;
-  }
-
-  .logo{
-    min-width:auto;
-    flex:1;
-  }
-
-  .search{
-    order:3;
-    flex-basis:100%;
-  }
-
-  .hero-box{
-    min-height:440px;
-  }
-
-  .hero-content{
-    width:100%;
-    padding:30px;
-    align-self:flex-start;
-  }
-
-  .hero-art{
-    font-size:100px;
-    left:20px;
-    bottom:20px;
-  }
-
-  .products{
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-  }
-
-  .product-image{
-    height:170px;
-  }
-
-  .product-placeholder{
-    font-size:65px;
-  }
-
-  .promo,
-  .contact,
-  .footer{
-    grid-template-columns:1fr;
-  }
-
-  .reviews{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:400px){
-  .products{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .product h3{
-    font-size:14px;
-  }
-
-  .price strong{
-    font-size:16px;
-  }
+@media(max-width:600px){
+.top{flex-wrap:wrap}
+.search{order:3;flex-basis:100%}
+.hero{padding:30px 20px}
+.hero h1{font-size:30px}
+.heroEmoji{font-size:65px}
+.cards,.products,.footerGrid{grid-template-columns:1fr}
+.formGrid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -910,1291 +240,778 @@ footer{
 <body>
 
 <header>
-  <div class="header">
+<div class="top">
+<div class="logo">🧸 مكتبة <span>ماما زوزو</span></div>
 
-    <a href="#" class="logo">
-      <div class="logo-icon">🧸</div>
-      <div>
-        <h1>مكتبة ماما زوزو</h1>
-        <span>ألعاب • أدوات مدرسية • هدايا</span>
-      </div>
-    </a>
+<div class="search">
+<input id="searchInput" placeholder="ابحث عن لعبة، شنطة، أدوات مدرسية...">
+</div>
 
-    <div class="search">
-      <span class="search-icon">🔎</span>
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="ابحث عن لعبة أو منتج..."
-        oninput="searchProducts()"
-      >
-    </div>
+<div class="actions">
+<button class="iconBtn" onclick="openAccount()">👤</button>
+<button class="iconBtn" onclick="openWishlist()">❤️ <span id="favCount">0</span></button>
+<button class="iconBtn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+</div>
+</div>
 
-    <div class="header-actions">
-      <button class="icon-btn" onclick="openWishlist()">
-        ❤️
-        <span class="badge" id="wishCount">0</span>
-      </button>
-
-      <button class="icon-btn" onclick="openCart()">
-        🛒
-        <span class="badge" id="cartCount">0</span>
-      </button>
-    </div>
-
-  </div>
-
-  <nav>
-    <div class="nav">
-      <button onclick="filterProducts('all')">الرئيسية</button>
-      <button onclick="filterProducts('ألعاب')">الألعاب</button>
-      <button onclick="filterProducts('أدوات مدرسية')">أدوات مدرسية</button>
-      <button onclick="filterProducts('شنط')">الشنط</button>
-      <button onclick="filterProducts('قرطاسية')">القرطاسية</button>
-      <button onclick="scrollToSection('offers')">العروض</button>
-      <button onclick="scrollToSection('contact')">تواصل معنا</button>
-    </div>
-  </nav>
+<div class="nav">
+<button onclick="filterCategory('all')">الكل</button>
+<button onclick="filterCategory('school')">🎒 أدوات مدرسية</button>
+<button onclick="filterCategory('toys')">🧸 ألعاب</button>
+<button onclick="filterCategory('educational')">🧠 ألعاب تعليمية</button>
+<button onclick="filterCategory('bags')">🎒 شنط</button>
+<button onclick="scrollToSection('complaints')">📝 الشكاوى</button>
+</div>
 </header>
 
-
-<main>
-
 <section class="hero">
-  <div class="hero-box">
-
-    <div class="hero-content">
-      <small>أهلاً بيك في مكتبة ماما زوزو</small>
-
-      <h2>
-        كل اللي طفلك محتاجه...
-        <br>
-        في مكان واحد
-      </h2>
-
-      <p>
-        ألعاب ممتعة، أدوات مدرسية، شنط وقرطاسية
-        باختيارات مناسبة للأطفال والكبار.
-      </p>
-
-      <div class="hero-buttons">
-        <button class="primary-btn" onclick="scrollToSection('products')">
-          تسوق الآن
-        </button>
-
-        <button class="secondary-btn" onclick="scrollToSection('offers')">
-          شوف العروض
-        </button>
-      </div>
-    </div>
-
-    <div class="hero-art">🎒🧸✏️</div>
-
-  </div>
+<div>
+<h1>كل اللي بتحبه في مكان واحد 💛</h1>
+<p>ألعاب وأدوات مدرسية مختارة بعناية من مكتبة ماما زوزو.</p>
+<button class="primary" onclick="scrollToSection('products')">
+تسوق دلوقتي 🛍️
+</button>
+</div>
+<div class="heroEmoji">🧸🎒📚</div>
 </section>
 
+<div class="container">
 
-<section class="trust">
+<div class="cards">
+<div class="infoCard">🚚 <b>توصيل</b>اطلب بسهولة من الموقع</div>
+<div class="infoCard">💳 <b>دفع عند الاستلام</b>اختيار متاح عند الطلب</div>
+<div class="infoCard">⭐ <b>اختيارات مميزة</b>منتجات للأطفال والطلاب</div>
+<div class="infoCard">📞 <b>تواصل معنا</b>اتصل أو واتساب</div>
+</div>
 
-  <div class="trust-card">
-    <div>🚚</div>
-    <div>
-      <strong>توصيل الطلبات</strong>
-      <span>حسب نطاق التوصيل المتاح</span>
-    </div>
-  </div>
+<div class="sectionTitle" id="products">
+<h2>🛍️ المنتجات</h2>
+</div>
 
-  <div class="trust-card">
-    <div>💳</div>
-    <div>
-      <strong>طرق دفع متعددة</strong>
-      <span>نحددها معاك عند الطلب</span>
-    </div>
-  </div>
+<div class="filters">
+<select id="categoryFilter" onchange="applyFilters()">
+<option value="all">كل الأقسام</option>
+<option value="school">أدوات مدرسية</option>
+<option value="toys">ألعاب</option>
+<option value="educational">ألعاب تعليمية</option>
+<option value="bags">شنط</option>
+</select>
 
-  <div class="trust-card">
-    <div>🎁</div>
-    <div>
-      <strong>اختيارات متنوعة</strong>
-      <span>ألعاب وأدوات مدرسية</span>
-    </div>
-  </div>
+<select id="sortFilter" onchange="applyFilters()">
+<option value="default">الترتيب</option>
+<option value="low">السعر من الأقل</option>
+<option value="high">السعر من الأعلى</option>
+<option value="rating">الأعلى تقييمًا</option>
+</select>
+</div>
 
-  <div class="trust-card">
-    <div>💬</div>
-    <div>
-      <strong>خدمة عملاء</strong>
-      <span>تواصل معنا بسهولة</span>
-    </div>
-  </div>
+<div class="products" id="productsGrid"></div>
 
-</section>
+<div class="offer">
+<h2>🎁 عرض ماما زوزو</h2>
+<p>استخدم الكود <b>MAMA10</b> واحصل على خصم 10 جنيه على الطلب.</p>
+</div>
 
+<div class="sectionTitle">
+<h2>⭐ آراء العملاء</h2>
+</div>
 
-<section class="section">
+<div class="reviews">
+<div class="review">⭐⭐⭐⭐⭐<br>منتجات جميلة والتعامل ممتاز.</div>
+<div class="review">⭐⭐⭐⭐⭐<br>الألعاب التعليمية عجبت الأطفال جدًا.</div>
+<div class="review">⭐⭐⭐⭐⭐<br>الشنطة والأدوات المدرسية ممتازة.</div>
+</div>
 
-  <div class="section-head">
-    <div>
-      <h2>تسوق حسب القسم</h2>
-      <p>اختار القسم اللي بتدور عليه</p>
-    </div>
-  </div>
+<div class="sectionTitle" id="complaints">
+<h2>📝 الشكاوى والاقتراحات</h2>
+</div>
 
-  <div class="categories">
+<form onsubmit="sendComplaint(event)">
+<div class="formGrid">
+<div class="field">
+<label>الاسم</label>
+<input id="complaintName" required>
+</div>
+<div class="field">
+<label>رقم الموبايل</label>
+<input id="complaintPhone" required>
+</div>
+</div>
 
-    <button class="category" onclick="filterProducts('ألعاب')">
-      <div class="emoji">🧸</div>
-      <h3>ألعاب</h3>
-      <p>ألعاب تعليمية وترفيهية</p>
-    </button>
+<div class="field">
+<label>نوع الرسالة</label>
+<select id="complaintType">
+<option>شكوى</option>
+<option>اقتراح</option>
+<option>استفسار</option>
+</select>
+</div>
 
-    <button class="category" onclick="filterProducts('أدوات مدرسية')">
-      <div class="emoji">✏️</div>
-      <h3>أدوات مدرسية</h3>
-      <p>كل مستلزمات المدرسة</p>
-    </button>
+<div class="field">
+<label>الرسالة</label>
+<textarea id="complaintText" required></textarea>
+</div>
 
-    <button class="category" onclick="filterProducts('شنط')">
-      <div class="emoji">🎒</div>
-      <h3>شنط</h3>
-      <p>شنط مدرسية متنوعة</p>
-    </button>
+<button class="primary">إرسال</button>
+</form>
 
-    <button class="category" onclick="filterProducts('قرطاسية')">
-      <div class="emoji">📚</div>
-      <h3>قرطاسية</h3>
-      <p>كشاكيل وأقلام ومستلزمات</p>
-    </button>
-
-  </div>
-
-</section>
-
-
-<section class="section" id="products">
-
-  <div class="section-head">
-    <div>
-      <h2>منتجات ماما زوزو</h2>
-      <p id="productsSubtitle">اختيارات متنوعة للأطفال والطلاب</p>
-    </div>
-
-    <select class="sort-select" onchange="sortProducts(this.value)">
-      <option value="default">الترتيب</option>
-      <option value="low">السعر: الأقل أولاً</option>
-      <option value="high">السعر: الأعلى أولاً</option>
-      <option value="rating">الأعلى تقييماً</option>
-    </select>
-  </div>
-
-  <div class="filters">
-    <button class="filter-btn active" onclick="filterProducts('all',this)">الكل</button>
-    <button class="filter-btn" onclick="filterProducts('ألعاب',this)">ألعاب</button>
-    <button class="filter-btn" onclick="filterProducts('أدوات مدرسية',this)">أدوات مدرسية</button>
-    <button class="filter-btn" onclick="filterProducts('شنط',this)">شنط</button>
-    <button class="filter-btn" onclick="filterProducts('قرطاسية',this)">قرطاسية</button>
-  </div>
-
-  <div class="products" id="productsGrid"></div>
-
-</section>
-
-
-<section class="section" id="offers">
-
-  <div class="section-head">
-    <div>
-      <h2>عروض ماما زوزو 🎁</h2>
-      <p>وفر أكتر مع العروض والكوبونات</p>
-    </div>
-  </div>
-
-  <div class="promo">
-
-    <div class="promo-main">
-      <h2>خصم 10 جنيه 🎉</h2>
-      <p>
-        استخدم كود الخصم عند إتمام الطلب.
-      </p>
-      <span class="code">MAMA10</span>
-    </div>
-
-    <div class="promo-small">
-      <h2>اختيارات الأسبوع</h2>
-      <p>
-        منتجات مناسبة للمدرسة واللعب.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="section">
-
-  <div class="section-head">
-    <div>
-      <h2>آراء العملاء ⭐</h2>
-      <p>آراء وتجارب العملاء</p>
-    </div>
-  </div>
-
-  <div class="reviews">
-
-    <div class="review">
-      <div class="rating">★★★★★</div>
-      <p>
-        منتجات متنوعة والموقع سهل في الاستخدام.
-      </p>
-      <strong>عميل من قليوب</strong>
-    </div>
-
-    <div class="review">
-      <div class="rating">★★★★★</div>
-      <p>
-        اختيار الألعاب والأدوات المدرسية جميل.
-      </p>
-      <strong>ولي أمر</strong>
-    </div>
-
-    <div class="review">
-      <div class="rating">★★★★☆</div>
-      <p>
-        مستنيين إضافة منتجات وصور أكتر.
-      </p>
-      <strong>عميل</strong>
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="section" id="contact">
-
-  <div class="contact">
-
-    <div>
-      <h2>تواصل مع مكتبة ماما زوزو 💬</h2>
-
-      <p>
-        عندك سؤال أو اقتراح أو مشكلة في طلب؟
-        تواصل معنا.
-      </p>
-
-      <div class="contact-info">
-
-        <div class="contact-item">
-          📞 0242131877
-        </div>
-
-        <div class="contact-item">
-          📍 6 ش داليا - قليوب - القليوبية
-        </div>
-
-        <div class="contact-item">
-          ✉️ mamazozu.store@gmail.com
-        </div>
-
-      </div>
-    </div>
-
-    <form class="contact-form" onsubmit="sendComplaint(event)">
-
-      <input id="complaintName" placeholder="اسمك">
-
-      <input id="complaintPhone" placeholder="رقم الموبايل">
-
-      <textarea
-        id="complaintText"
-        placeholder="اكتب شكواك أو اقتراحك..."
-      ></textarea>
-
-      <button class="primary-btn" type="submit">
-        إرسال
-      </button>
-
-    </form>
-
-  </div>
-
-</section>
-
-</main>
-
+</div>
 
 <footer>
+<div class="footerGrid">
+<div>
+<h3>🧸 مكتبة ماما زوزو</h3>
+<p>ألعاب وأدوات مدرسية.</p>
+</div>
 
-  <div class="footer">
+<div>
+<h3>📍 العنوان</h3>
+<p>6 ش داليا - قليوب - القليوبية</p>
+</div>
 
-    <div>
-      <h3>مكتبة ماما زوزو 🧸</h3>
-      <p>
-        متجر يهتم بالألعاب والأدوات المدرسية
-        والمنتجات المناسبة للأطفال والطلاب.
-      </p>
-    </div>
-
-    <div>
-      <h3>روابط</h3>
-      <ul>
-        <li><a href="#" onclick="scrollToSection('products')">المنتجات</a></li>
-        <li><a href="#" onclick="scrollToSection('offers')">العروض</a></li>
-        <li><a href="#" onclick="scrollToSection('contact')">تواصل معنا</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h3>خدمة العملاء</h3>
-      <ul>
-        <li>📞 0242131877</li>
-        <li>📍 قليوب - القليوبية</li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div class="copyright">
-    © 2026 مكتبة ماما زوزو - جميع الحقوق محفوظة
-  </div>
-
+<div>
+<h3>📞 تواصل معنا</h3>
+<p>0242131877</p>
+<p>01006192349</p>
+<p>01000607703</p>
+<a class="contactBtn" href="tel:0242131877">اتصل بنا</a>
+<a class="contactBtn"
+href="https://wa.me/201006192349"
+target="_blank">واتساب</a>
+</div>
+</div>
 </footer>
 
+<!-- الحساب -->
+<div class="modal" id="accountModal">
+<div class="modalBox">
+<button class="close" onclick="closeModal('accountModal')">×</button>
 
-<!-- CART MODAL -->
+<div id="loggedOut">
+<h2>👤 حساب ماما زوزو</h2>
 
+<form onsubmit="login(event)">
+<div class="field">
+<label>الإيميل</label>
+<input id="loginEmail" type="email" required>
+</div>
+<div class="field">
+<label>كلمة المرور</label>
+<input id="loginPassword" type="password" required>
+</div>
+<button class="primary">تسجيل الدخول</button>
+</form>
+
+<hr style="margin:20px 0">
+
+<h3>مستخدم جديد؟</h3>
+
+<form onsubmit="register(event)">
+<div class="field">
+<label>الاسم</label>
+<input id="registerName" required>
+</div>
+<div class="field">
+<label>رقم الموبايل</label>
+<input id="registerPhone" required>
+</div>
+<div class="field">
+<label>الإيميل</label>
+<input id="registerEmail" type="email" required>
+</div>
+<div class="field">
+<label>كلمة المرور</label>
+<input id="registerPassword" type="password" minlength="6" required>
+</div>
+<button class="primary">إنشاء حساب</button>
+</form>
+</div>
+
+<div id="loggedIn" class="hidden">
+<h2>أهلًا يا <span id="userName"></span> 👋</h2>
+
+<div class="userBox">
+<p>📧 <span id="userEmail"></span></p>
+<p>📱 <span id="userPhone"></span></p>
+</div>
+
+<h3>📦 طلباتي</h3>
+<div id="ordersBox">لا توجد طلبات حتى الآن.</div>
+
+<button class="primary" style="margin-top:15px"
+onclick="logout()">تسجيل الخروج</button>
+</div>
+</div>
+</div>
+
+<!-- السلة -->
 <div class="modal" id="cartModal">
+<div class="modalBox">
+<button class="close" onclick="closeModal('cartModal')">×</button>
+<h2>🛒 سلة المشتريات</h2>
+<div id="cartItems"></div>
 
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModal('cartModal')">×</button>
-
-    <h2>🛒 سلة المشتريات</h2>
-
-    <div id="cartItems"></div>
-
-    <div class="total">
-      <span>الإجمالي</span>
-      <span id="cartTotal">0 جنيه</span>
-    </div>
-
-    <button class="checkout-btn" onclick="openCheckout()">
-      إتمام الطلب
-    </button>
-
-  </div>
-
+<div class="field">
+<label>كود الخصم</label>
+<input id="coupon" placeholder="مثال: MAMA10">
+<button class="primary" style="margin-top:8px" onclick="applyCoupon()">
+تطبيق
+</button>
 </div>
 
+<div id="cartTotals"></div>
 
-<!-- PRODUCT MODAL -->
-
-<div class="modal" id="productModal">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModal('productModal')">×</button>
-
-    <div id="productDetails"></div>
-
-  </div>
-
+<button class="primary" onclick="openCheckout()">
+إتمام الطلب 📦
+</button>
+</div>
 </div>
 
-
-<!-- CHECKOUT -->
-
-<div class="modal" id="checkoutModal">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModal('checkoutModal')">×</button>
-
-    <h2>📦 إتمام الطلب</h2>
-
-    <br>
-
-    <form class="form" onsubmit="submitOrder(event)">
-
-      <div>
-        <label>الاسم</label>
-        <input id="customerName" required>
-      </div>
-
-      <div>
-        <label>رقم الموبايل</label>
-        <input id="customerPhone" type="tel" required>
-      </div>
-
-      <div>
-        <label>المحافظة</label>
-        <select id="governorate" required>
-          <option value="">اختر المحافظة</option>
-          <option>القليوبية</option>
-          <option>القاهرة</option>
-          <option>الجيزة</option>
-          <option>الشرقية</option>
-          <option>الدقهلية</option>
-          <option>المنوفية</option>
-          <option>الغربية</option>
-          <option>البحيرة</option>
-          <option>أخرى</option>
-        </select>
-      </div>
-
-      <div>
-        <label>العنوان بالتفصيل</label>
-        <textarea id="customerAddress" required></textarea>
-      </div>
-
-      <div>
-        <label>طريقة الدفع</label>
-        <select id="paymentMethod" required>
-          <option value="">اختر طريقة الدفع</option>
-          <option>الدفع عند الاستلام</option>
-          <option>تحويل / دفع إلكتروني</option>
-        </select>
-      </div>
-
-      <div>
-        <label>ملاحظات</label>
-        <textarea id="orderNotes"></textarea>
-      </div>
-
-      <button class="checkout-btn">
-        تأكيد الطلب
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- WISHLIST -->
-
+<!-- المفضلة -->
 <div class="modal" id="wishlistModal">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModal('wishlistModal')">×</button>
-
-    <h2>❤️ المفضلة</h2>
-
-    <div id="wishlistItems"></div>
-
-  </div>
-
+<div class="modalBox">
+<button class="close" onclick="closeModal('wishlistModal')">×</button>
+<h2>❤️ المفضلة</h2>
+<div id="wishlistItems"></div>
+</div>
 </div>
 
+<!-- تفاصيل المنتج -->
+<div class="modal" id="productModal">
+<div class="modalBox">
+<button class="close" onclick="closeModal('productModal')">×</button>
+<div id="productDetails"></div>
+</div>
+</div>
+
+<!-- الدفع واللوكيشن -->
+<div class="modal" id="checkoutModal">
+<div class="modalBox">
+<button class="close" onclick="closeModal('checkoutModal')">×</button>
+
+<h2>📦 تأكيد الطلب</h2>
+
+<div id="checkoutLoginWarning"
+class="userBox hidden">
+لازم تسجل دخول أو تنشئ حساب الأول.
+</div>
+
+<form onsubmit="submitOrder(event)">
+
+<div class="formGrid">
+<div class="field">
+<label>الاسم</label>
+<input id="orderName" required>
+</div>
+
+<div class="field">
+<label>رقم الموبايل</label>
+<input id="orderPhone" required>
+</div>
+</div>
+
+<div class="field">
+<label>المحافظة</label>
+<select id="governorate">
+<option>القليوبية</option>
+<option>القاهرة</option>
+<option>الجيزة</option>
+<option>المنوفية</option>
+<option>الشرقية</option>
+<option>الدقهلية</option>
+<option>أخرى</option>
+</select>
+</div>
+
+<div class="field">
+<label>العنوان بالتفصيل</label>
+<textarea id="orderAddress" required
+placeholder="اسم الشارع، رقم البيت، الدور..."></textarea>
+</div>
+
+<h3>📍 حدد مكانك على الخريطة</h3>
+<p>اضغط على الخريطة في مكان التوصيل.</p>
+
+<div id="map"></div>
+
+<input type="hidden" id="latitude">
+<input type="hidden" id="longitude">
+
+<div class="field">
+<label>طريقة الدفع</label>
+<select id="payment">
+<option>الدفع عند الاستلام</option>
+</select>
+</div>
+
+<div class="field">
+<label>ملاحظات</label>
+<textarea id="orderNotes"
+placeholder="أي ملاحظات خاصة بالطلب..."></textarea>
+</div>
+
+<div id="checkoutTotal" class="total"></div>
+
+<button class="primary">تأكيد الطلب ✅</button>
+</form>
+</div>
+</div>
 
 <div class="toast" id="toast"></div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-
-/* =========================
-   المنتجات
-   ========================= */
-
-const products = [
-
-  {
-    id:1,
-    name:"شنطة مدرسية أطفال",
-    category:"شنط",
-    price:450,
-    oldPrice:500,
-    rating:4.8,
-    emoji:"🎒",
-    description:"شنطة مدرسية عملية ومناسبة للاستخدام اليومي."
-  },
-
-  {
-    id:2,
-    name:"سيارة تحكم عن بعد",
-    category:"ألعاب",
-    price:320,
-    oldPrice:380,
-    rating:4.7,
-    emoji:"🚗",
-    description:"لعبة سيارة ممتعة للأطفال."
-  },
-
-  {
-    id:3,
-    name:"طقم أدوات هندسية",
-    category:"أدوات مدرسية",
-    price:85,
-    oldPrice:100,
-    rating:4.6,
-    emoji:"📐",
-    description:"طقم هندسي مناسب للطلاب."
-  },
-
-  {
-    id:4,
-    name:"دبدوب لطيف",
-    category:"ألعاب",
-    price:180,
-    oldPrice:220,
-    rating:4.9,
-    emoji:"🧸",
-    description:"دبدوب لطيف كهدية للأطفال."
-  },
-
-  {
-    id:5,
-    name:"كشكول مدرسي",
-    category:"قرطاسية",
-    price:45,
-    oldPrice:55,
-    rating:4.5,
-    emoji:"📓",
-    description:"كشكول مناسب للمدرسة والمذاكرة."
-  },
-
-  {
-    id:6,
-    name:"علبة ألوان",
-    category:"أدوات مدرسية",
-    price:75,
-    oldPrice:90,
-    rating:4.7,
-    emoji:"🖍️",
-    description:"ألوان للرسم والأنشطة المدرسية."
-  },
-
-  {
-    id:7,
-    name:"مكعبات تركيب",
-    category:"ألعاب",
-    price:240,
-    oldPrice:280,
-    rating:4.8,
-    emoji:"🧱",
-    description:"مكعبات تساعد على تنمية الإبداع."
-  },
-
-  {
-    id:8,
-    name:"مقلمة مدرسية",
-    category:"قرطاسية",
-    price:70,
-    oldPrice:85,
-    rating:4.4,
-    emoji:"✏️",
-    description:"مقلمة عملية لحفظ الأدوات."
-  },
-
-  {
-    id:9,
-    name:"كرة أطفال",
-    category:"ألعاب",
-    price:120,
-    oldPrice:150,
-    rating:4.6,
-    emoji:"⚽",
-    description:"كرة مناسبة للعب والترفيه."
-  },
-
-  {
-    id:10,
-    name:"أقلام ملونة",
-    category:"قرطاسية",
-    price:65,
-    oldPrice:80,
-    rating:4.7,
-    emoji:"🖊️",
-    description:"مجموعة أقلام ملونة للمدرسة والرسم."
-  },
-
-  {
-    id:11,
-    name:"حقيبة ظهر صغيرة",
-    category:"شنط",
-    price:280,
-    oldPrice:330,
-    rating:4.6,
-    emoji:"🎒",
-    description:"حقيبة ظهر خفيفة للأطفال."
-  },
-
-  {
-    id:12,
-    name:"لعبة تعليمية",
-    category:"ألعاب",
-    price:210,
-    oldPrice:250,
-    rating:4.8,
-    emoji:"🧩",
-    description:"لعبة تعليمية ممتعة للأطفال."
-  }
-
+const products=[
+{id:1,name:"شنطة مدرسية للأطفال",cat:"bags",price:650,old:750,rating:4.8,emoji:"🎒",desc:"شنطة عملية وخفيفة للمدرسة."},
+{id:2,name:"ألوان خشب 24 لون",cat:"school",price:85,old:100,rating:4.7,emoji:"🖍️",desc:"ألوان مناسبة للرسم والأنشطة."},
+{id:3,name:"سيارة تحكم عن بعد",cat:"toys",price:450,old:500,rating:4.6,emoji:"🚗",desc:"لعبة ممتعة للأطفال."},
+{id:4,name:"طقم هندسة",cat:"school",price:75,old:90,rating:4.5,emoji:"📐",desc:"طقم هندسة للطلاب."},
+{id:5,name:"دبدوب لطيف",cat:"toys",price:300,old:350,rating:4.9,emoji:"🧸",desc:"دبدوب ناعم ولطيف."},
+{id:6,name:"كراسة مدرسية",cat:"school",price:35,old:40,rating:4.4,emoji:"📓",desc:"كراسة بجودة ممتازة."},
+{id:7,name:"مكعبات تعليمية",cat:"educational",price:220,old:260,rating:4.8,emoji:"🧩",desc:"مكعبات تساعد على التعلم والإبداع."},
+{id:8,name:"مقلمة مدرسية",cat:"school",price:120,old:145,rating:4.6,emoji:"✏️",desc:"مقلمة عملية."},
+{id:9,name:"كرة أطفال",cat:"toys",price:150,old:180,rating:4.5,emoji:"⚽",desc:"كرة للعب والترفيه."},
+{id:10,name:"ماركرز 12 لون",cat:"school",price:95,old:110,rating:4.7,emoji:"🖊️",desc:"ألوان ماركر متعددة."},
+{id:11,name:"بازل تعليمي",cat:"educational",price:180,old:220,rating:4.9,emoji:"🧠",desc:"لعبة لتنمية التركيز."},
+{id:12,name:"سبورة تعليمية",cat:"educational",price:280,old:320,rating:4.7,emoji:"📝",desc:"سبورة مناسبة للتعلم والكتابة."}
 ];
 
+let cart=JSON.parse(localStorage.getItem("mz_cart")||"[]");
+let wishlist=JSON.parse(localStorage.getItem("mz_wishlist")||"[]");
+let users=JSON.parse(localStorage.getItem("mz_users")||"[]");
+let currentUser=JSON.parse(localStorage.getItem("mz_current")||"null");
+let orders=JSON.parse(localStorage.getItem("mz_orders")||"[]");
+let discount=0;
+let map=null;
+let marker=null;
 
-/* =========================
-   حالة الموقع
-   ========================= */
-
-let cart = JSON.parse(localStorage.getItem("mamaZozoCart")) || [];
-
-let wishlist =
-  JSON.parse(localStorage.getItem("mamaZozoWishlist")) || [];
-
-let currentProducts = [...products];
-
-
-/* =========================
-   عرض المنتجات
-   ========================= */
-
-function renderProducts(list){
-
-  const grid = document.getElementById("productsGrid");
-
-  if(!list.length){
-
-    grid.innerHTML =
-      `<div class="empty">مفيش منتجات مطابقة للبحث.</div>`;
-
-    return;
-  }
-
-  grid.innerHTML = list.map(p => `
-
-    <article class="product">
-
-      <div class="product-image">
-
-        <button
-          class="fav"
-          onclick="toggleWishlist(${p.id})"
-        >
-          ${wishlist.includes(p.id) ? "❤️" : "♡"}
-        </button>
-
-        <span class="discount">
-          عرض
-        </span>
-
-        <!--
-        لاحقًا لما ترفع الصور الحقيقية:
-        غيّر p.emoji إلى صورة داخل هذا المكان.
-        مثال:
-        <img src="images/bag.jpg" alt="شنطة مدرسية">
-        -->
-
-        <div class="product-placeholder">
-          ${p.emoji}
-        </div>
-
-      </div>
-
-      <div class="product-body">
-
-        <span class="category-name">
-          ${p.category}
-        </span>
-
-        <h3>${p.name}</h3>
-
-        <div class="rating">
-          ★★★★★ ${p.rating}
-        </div>
-
-        <div class="price">
-          <strong>${p.price} جنيه</strong>
-          <span class="old-price">
-            ${p.oldPrice} جنيه
-          </span>
-        </div>
-
-        <div class="product-actions">
-
-          <button
-            class="add-cart"
-            onclick="addToCart(${p.id})"
-          >
-            أضف للسلة
-          </button>
-
-          <button
-            class="details-btn"
-            onclick="openProduct(${p.id})"
-          >
-            👁️
-          </button>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  `).join("");
-
+function save(){
+localStorage.setItem("mz_cart",JSON.stringify(cart));
+localStorage.setItem("mz_wishlist",JSON.stringify(wishlist));
+localStorage.setItem("mz_users",JSON.stringify(users));
+localStorage.setItem("mz_orders",JSON.stringify(orders));
 }
 
-
-/* =========================
-   البحث
-   ========================= */
-
-function searchProducts(){
-
-  const text =
-    document.getElementById("searchInput").value
-    .trim()
-    .toLowerCase();
-
-  const result = products.filter(p =>
-    p.name.toLowerCase().includes(text) ||
-    p.category.toLowerCase().includes(text)
-  );
-
-  currentProducts = result;
-
-  renderProducts(result);
+function money(n){
+return n.toLocaleString("ar-EG")+" جنيه";
 }
-
-
-/* =========================
-   الفلاتر
-   ========================= */
-
-function filterProducts(category,button){
-
-  if(button){
-
-    document
-      .querySelectorAll(".filter-btn")
-      .forEach(b => b.classList.remove("active"));
-
-    button.classList.add("active");
-
-  }
-
-  if(category === "all"){
-
-    currentProducts = [...products];
-
-  }else{
-
-    currentProducts =
-      products.filter(p => p.category === category);
-
-  }
-
-  renderProducts(currentProducts);
-
-  scrollToSection("products");
-}
-
-
-/* =========================
-   الترتيب
-   ========================= */
-
-function sortProducts(type){
-
-  let list = [...currentProducts];
-
-  if(type === "low"){
-    list.sort((a,b)=>a.price-b.price);
-  }
-
-  if(type === "high"){
-    list.sort((a,b)=>b.price-a.price);
-  }
-
-  if(type === "rating"){
-    list.sort((a,b)=>b.rating-a.rating);
-  }
-
-  renderProducts(list);
-}
-
-
-/* =========================
-   السلة
-   ========================= */
-
-function addToCart(id){
-
-  const item = cart.find(x => x.id === id);
-
-  if(item){
-    item.qty++;
-  }else{
-    cart.push({
-      id:id,
-      qty:1
-    });
-  }
-
-  saveCart();
-
-  showToast("تم إضافة المنتج للسلة 🛒");
-}
-
-
-function saveCart(){
-
-  localStorage.setItem(
-    "mamaZozoCart",
-    JSON.stringify(cart)
-  );
-
-  updateBadges();
-}
-
-
-function updateBadges(){
-
-  const count =
-    cart.reduce((sum,item)=>sum+item.qty,0);
-
-  document.getElementById("cartCount").textContent = count;
-
-  document.getElementById("wishCount").textContent =
-    wishlist.length;
-}
-
-
-function openCart(){
-
-  renderCart();
-
-  document
-    .getElementById("cartModal")
-    .classList.add("show");
-}
-
-
-function renderCart(){
-
-  const box =
-    document.getElementById("cartItems");
-
-  if(!cart.length){
-
-    box.innerHTML =
-      `<div class="empty">السلة فاضية 🛒</div>`;
-
-    document.getElementById("cartTotal").textContent =
-      "0 جنيه";
-
-    return;
-  }
-
-  let total = 0;
-
-  box.innerHTML = cart.map(item => {
-
-    const p =
-      products.find(x => x.id === item.id);
-
-    if(!p) return "";
-
-    total += p.price * item.qty;
-
-    return `
-
-      <div class="cart-item">
-
-        <div class="cart-img">
-          ${p.emoji}
-        </div>
-
-        <div class="cart-info">
-
-          <strong>${p.name}</strong>
-
-          <div>${p.price} جنيه</div>
-
-          <div class="qty">
-
-            <button onclick="changeQty(${p.id},1)">
-              +
-            </button>
-
-            <span>${item.qty}</span>
-
-            <button onclick="changeQty(${p.id},-1)">
-              -
-            </button>
-
-          </div>
-
-        </div>
-
-        <button
-          class="delete"
-          onclick="removeFromCart(${p.id})"
-        >
-          🗑️
-        </button>
-
-      </div>
-
-    `;
-
-  }).join("");
-
-  document.getElementById("cartTotal").textContent =
-    total + " جنيه";
-}
-
-
-function changeQty(id,change){
-
-  const item =
-    cart.find(x=>x.id===id);
-
-  if(!item) return;
-
-  item.qty += change;
-
-  if(item.qty <= 0){
-
-    cart =
-      cart.filter(x=>x.id!==id);
-
-  }
-
-  saveCart();
-
-  renderCart();
-}
-
-
-function removeFromCart(id){
-
-  cart =
-    cart.filter(x=>x.id!==id);
-
-  saveCart();
-
-  renderCart();
-
-  showToast("تم حذف المنتج");
-}
-
-
-/* =========================
-   تفاصيل المنتج
-   ========================= */
-
-function openProduct(id){
-
-  const p =
-    products.find(x=>x.id===id);
-
-  document.getElementById("productDetails").innerHTML = `
-
-    <div style="text-align:center">
-
-      <div style="
-        background:#e8f0f3;
-        border-radius:18px;
-        padding:35px;
-        font-size:100px;
-        margin-bottom:20px;
-      ">
-        ${p.emoji}
-      </div>
-
-      <span class="category-name">
-        ${p.category}
-      </span>
-
-      <h2 style="color:#355365;margin:7px 0">
-        ${p.name}
-      </h2>
-
-      <div class="rating">
-        ★★★★★ ${p.rating}
-      </div>
-
-      <h2 style="color:#54758c;margin:15px 0">
-        ${p.price} جنيه
-      </h2>
-
-      <p style="color:#718087">
-        ${p.description}
-      </p>
-
-      <br>
-
-      <button
-        class="checkout-btn"
-        onclick="addToCart(${p.id});closeModal('productModal')"
-      >
-        أضف للسلة 🛒
-      </button>
-
-    </div>
-
-  `;
-
-  document
-    .getElementById("productModal")
-    .classList.add("show");
-}
-
-
-/* =========================
-   المفضلة
-   ========================= */
-
-function toggleWishlist(id){
-
-  if(wishlist.includes(id)){
-
-    wishlist =
-      wishlist.filter(x=>x!==id);
-
-    showToast("تم حذف المنتج من المفضلة");
-
-  }else{
-
-    wishlist.push(id);
-
-    showToast("تمت الإضافة للمفضلة ❤️");
-
-  }
-
-  localStorage.setItem(
-    "mamaZozoWishlist",
-    JSON.stringify(wishlist)
-  );
-
-  updateBadges();
-
-  renderProducts(currentProducts);
-}
-
-
-function openWishlist(){
-
-  const box =
-    document.getElementById("wishlistItems");
-
-  const list =
-    products.filter(p=>wishlist.includes(p.id));
-
-  if(!list.length){
-
-    box.innerHTML =
-      `<div class="empty">المفضلة فاضية ❤️</div>`;
-
-  }else{
-
-    box.innerHTML = list.map(p => `
-
-      <div class="cart-item">
-
-        <div class="cart-img">
-          ${p.emoji}
-        </div>
-
-        <div class="cart-info">
-
-          <strong>${p.name}</strong>
-
-          <div>${p.price} جنيه</div>
-
-        </div>
-
-        <button
-          class="add-cart"
-          onclick="addToCart(${p.id})"
-        >
-          للسلة
-        </button>
-
-      </div>
-
-    `).join("");
-
-  }
-
-  document
-    .getElementById("wishlistModal")
-    .classList.add("show");
-}
-
-
-/* =========================
-   إتمام الطلب
-   ========================= */
-
-function openCheckout(){
-
-  if(!cart.length){
-
-    showToast("السلة فاضية");
-
-    return;
-  }
-
-  closeModal("cartModal");
-
-  document
-    .getElementById("checkoutModal")
-    .classList.add("show");
-}
-
-
-function submitOrder(event){
-
-  event.preventDefault();
-
-  const order = {
-
-    customer:{
-      name:
-        document.getElementById("customerName").value,
-
-      phone:
-        document.getElementById("customerPhone").value,
-
-      governorate:
-        document.getElementById("governorate").value,
-
-      address:
-        document.getElementById("customerAddress").value,
-
-      payment:
-        document.getElementById("paymentMethod").value,
-
-      notes:
-        document.getElementById("orderNotes").value
-    },
-
-    products:cart,
-
-    date:new Date().toISOString()
-
-  };
-
-  /*
-    حاليًا نحفظ الطلب على الجهاز فقط.
-    لاحقًا هنربطه بقاعدة بيانات ولوحة تحكم.
-  */
-
-  localStorage.setItem(
-    "mamaZozoLastOrder",
-    JSON.stringify(order)
-  );
-
-  cart = [];
-
-  saveCart();
-
-  closeModal("checkoutModal");
-
-  showToast(
-    "تم تسجيل الطلب بنجاح 🎉"
-  );
-
-  event.target.reset();
-}
-
-
-/* =========================
-   الشكاوى
-   ========================= */
-
-function sendComplaint(event){
-
-  event.preventDefault();
-
-  const complaint = {
-
-    name:
-      document.getElementById("complaintName").value,
-
-    phone:
-      document.getElementById("complaintPhone").value,
-
-    message:
-      document.getElementById("complaintText").value,
-
-    date:new Date().toISOString()
-
-  };
-
-  localStorage.setItem(
-    "mamaZozoComplaint",
-    JSON.stringify(complaint)
-  );
-
-  event.target.reset();
-
-  showToast(
-    "تم تسجيل رسالتك ❤️"
-  );
-}
-
-
-/* =========================
-   الأدوات
-   ========================= */
-
-function closeModal(id){
-
-  document
-    .getElementById(id)
-    .classList.remove("show");
-}
-
-
-function scrollToSection(id){
-
-  const element =
-    document.getElementById(id);
-
-  if(element){
-
-    element.scrollIntoView({
-      behavior:"smooth"
-    });
-
-  }
-
-}
-
 
 function showToast(text){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent = text;
-
-  toast.classList.add("show");
-
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },2200);
-
+const t=document.getElementById("toast");
+t.textContent=text;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",2500);
 }
 
+function renderProducts(list=products){
+const grid=document.getElementById("productsGrid");
 
-/* =========================
-   البداية
-   ========================= */
+if(!list.length){
+grid.innerHTML='<div class="empty">مفيش منتجات مطابقة للبحث.</div>';
+return;
+}
 
-renderProducts(products);
+grid.innerHTML=list.map(p=>`
+<div class="product">
+${p.old>p.price?'<div class="badge">خصم</div>':''}
+<div class="productImg">${p.emoji}</div>
+<div class="productInfo">
+<h3>${p.name}</h3>
+<div class="rating">★★★★★ ${p.rating}</div>
+<div>
+<span class="price">${money(p.price)}</span>
+<span class="old">${money(p.old)}</span>
+</div>
+<p>${p.desc}</p>
 
-updateBadges();
+<div class="productBtns">
+<button class="add" onclick="addToCart(${p.id})">🛒 أضف</button>
+<button class="fav" onclick="toggleFav(${p.id})">❤️</button>
+<button class="fav" onclick="openProduct(${p.id})">👁️</button>
+</div>
+</div>
+</div>
+`).join("");
+}
 
+function applyFilters(){
+const search=document.getElementById("searchInput").value.toLowerCase();
+const cat=document.getElementById("categoryFilter").value;
+const sort=document.getElementById("sortFilter").value;
+
+let list=products.filter(p=>{
+return (cat==="all"||p.cat===cat)&&
+p.name.toLowerCase().includes(search);
+});
+
+if(sort==="low")list.sort((a,b)=>a.price-b.price);
+if(sort==="high")list.sort((a,b)=>b.price-a.price);
+if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);
+
+renderProducts(list);
+}
+
+document.getElementById("searchInput")
+.addEventListener("input",applyFilters);
+
+function filterCategory(cat){
+document.getElementById("categoryFilter").value=cat;
+scrollToSection("products");
+applyFilters();
+}
+
+function addToCart(id){
+const item=cart.find(x=>x.id===id);
+if(item)item.qty++;
+else cart.push({id,qty:1});
+save();
+updateCounts();
+showToast("تمت إضافة المنتج للسلة 🛒");
+}
+
+function removeCart(id){
+cart=cart.filter(x=>x.id!==id);
+save();
+renderCart();
+updateCounts();
+}
+
+function changeQty(id,change){
+const item=cart.find(x=>x.id===id);
+if(!item)return;
+item.qty+=change;
+if(item.qty<=0)removeCart(id);
+save();
+renderCart();
+updateCounts();
+}
+
+function updateCounts(){
+document.getElementById("cartCount").textContent=
+cart.reduce((a,b)=>a+b.qty,0);
+
+document.getElementById("favCount").textContent=wishlist.length;
+}
+
+function openCart(){
+renderCart();
+document.getElementById("cartModal").classList.add("show");
+}
+
+function renderCart(){
+const box=document.getElementById("cartItems");
+
+if(!cart.length){
+box.innerHTML='<div class="empty">السلة فاضية 🛒</div>';
+document.getElementById("cartTotals").innerHTML="";
+return;
+}
+
+let subtotal=0;
+
+box.innerHTML=cart.map(item=>{
+const p=products.find(x=>x.id===item.id);
+const total=p.price*item.qty;
+subtotal+=total;
+
+return `
+<div class="cartItem">
+<div style="font-size:35px">${p.emoji}</div>
+<div class="grow">
+<b>${p.name}</b>
+<div>${money(p.price)}</div>
+</div>
+<div class="qty">
+<button onclick="changeQty(${p.id},-1)">−</button>
+<span>${item.qty}</span>
+<button onclick="changeQty(${p.id},1)">+</button>
+</div>
+<button onclick="removeCart(${p.id})">🗑️</button>
+</div>`;
+}).join("");
+
+let shipping=subtotal?35:0;
+let final=Math.max(0,subtotal+shipping-discount);
+
+document.getElementById("cartTotals").innerHTML=`
+<p>الإجمالي الفرعي: ${money(subtotal)}</p>
+<p>التوصيل: ${money(shipping)}</p>
+<p>الخصم: ${money(discount)}</p>
+<div class="total">الإجمالي: ${money(final)}</div>
+`;
+}
+
+function applyCoupon(){
+const code=document.getElementById("coupon").value.trim().toUpperCase();
+
+if(code==="MAMA10"){
+discount=10;
+showToast("تم تطبيق الخصم 🎁");
+}else{
+discount=0;
+showToast("الكود غير صحيح");
+}
+renderCart();
+}
+
+function toggleFav(id){
+if(wishlist.includes(id)){
+wishlist=wishlist.filter(x=>x!==id);
+showToast("تمت الإزالة من المفضلة");
+}else{
+wishlist.push(id);
+showToast("تمت الإضافة للمفضلة ❤️");
+}
+save();
+updateCounts();
+}
+
+function openWishlist(){
+const box=document.getElementById("wishlistItems");
+const list=products.filter(p=>wishlist.includes(p.id));
+
+box.innerHTML=list.length?list.map(p=>`
+<div class="cartItem">
+<div style="font-size:35px">${p.emoji}</div>
+<div class="grow"><b>${p.name}</b><br>${money(p.price)}</div>
+<button onclick="addToCart(${p.id})">🛒</button>
+<button onclick="toggleFav(${p.id});openWishlist()">❌</button>
+</div>
+`).join(""):'<div class="empty">المفضلة فاضية ❤️</div>';
+
+document.getElementById("wishlistModal").classList.add("show");
+}
+
+function openProduct(id){
+const p=products.find(x=>x.id===id);
+
+document.getElementById("productDetails").innerHTML=`
+<div style="text-align:center;font-size:100px">${p.emoji}</div>
+<h2>${p.name}</h2>
+<div class="rating">★★★★★ ${p.rating}</div>
+<h2 class="price">${money(p.price)}</h2>
+<p>${p.desc}</p>
+<br>
+<button class="primary" onclick="addToCart(${p.id});closeModal('productModal')">
+أضف للسلة 🛒
+</button>
+`;
+
+document.getElementById("productModal").classList.add("show");
+}
+
+function openAccount(){
+updateAccountUI();
+document.getElementById("accountModal").classList.add("show");
+}
+
+function updateAccountUI(){
+document.getElementById("loggedOut").classList.toggle("hidden",!!currentUser);
+document.getElementById("loggedIn").classList.toggle("hidden",!currentUser);
+
+if(currentUser){
+document.getElementById("userName").textContent=currentUser.name;
+document.getElementById("userEmail").textContent=currentUser.email;
+document.getElementById("userPhone").textContent=currentUser.phone;
+
+const mine=orders.filter(o=>o.email===currentUser.email);
+
+document.getElementById("ordersBox").innerHTML=mine.length?
+mine.map(o=>`
+<div class="userBox">
+<b>طلب #${o.id}</b><br>
+الإجمالي: ${money(o.total)}<br>
+الحالة: ${o.status}
+</div>
+`).join(""):"لا توجد طلبات حتى الآن.";
+}
+}
+
+function register(e){
+e.preventDefault();
+
+const name=document.getElementById("registerName").value.trim();
+const phone=document.getElementById("registerPhone").value.trim();
+const email=document.getElementById("registerEmail").value.trim().toLowerCase();
+const password=document.getElementById("registerPassword").value;
+
+if(users.some(u=>u.email===email)){
+showToast("الإيميل مسجل بالفعل");
+return;
+}
+
+const user={name,phone,email,password};
+users.push(user);
+currentUser=user;
+
+save();
+updateAccountUI();
+showToast("تم إنشاء الحساب 🎉");
+}
+
+function login(e){
+e.preventDefault();
+
+const email=document.getElementById("loginEmail").value.trim().toLowerCase();
+const password=document.getElementById("loginPassword").value;
+
+const user=users.find(u=>u.email===email&&u.password===password);
+
+if(!user){
+showToast("بيانات الدخول غير صحيحة");
+return;
+}
+
+currentUser=user;
+save();
+updateAccountUI();
+showToast("تم تسجيل الدخول 👋");
+}
+
+function logout(){
+currentUser=null;
+save();
+updateAccountUI();
+showToast("تم تسجيل الخروج");
+}
+
+function openCheckout(){
+if(!cart.length){
+showToast("السلة فاضية");
+return;
+}
+
+closeModal("cartModal");
+
+if(!currentUser){
+document.getElementById("checkoutLoginWarning").classList.remove("hidden");
+}else{
+document.getElementById("checkoutLoginWarning").classList.add("hidden");
+document.getElementById("orderName").value=currentUser.name;
+document.getElementById("orderPhone").value=currentUser.phone;
+}
+
+let subtotal=cart.reduce((sum,item)=>{
+const p=products.find(x=>x.id===item.id);
+return sum+p.price*item.qty;
+},0);
+
+document.getElementById("checkoutTotal").textContent=
+"الإجمالي: "+money(subtotal+35-discount);
+
+document.getElementById("checkoutModal").classList.add("show");
+
+setTimeout(initMap,200);
+}
+
+function initMap(){
+if(map)return;
+
+map=L.map("map").setView([30.1798,31.2056],12);
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+attribution:"© OpenStreetMap"
+}).addTo(map);
+
+map.on("click",function(e){
+setLocation(e.latlng.lat,e.latlng.lng);
+});
+}
+
+function setLocation(lat,lng){
+document.getElementById("latitude").value=lat;
+document.getElementById("longitude").value=lng;
+
+if(marker)marker.setLatLng([lat,lng]);
+else marker=L.marker([lat,lng]).addTo(map);
+
+showToast("تم تحديد اللوكيشن 📍");
+}
+
+function submitOrder(e){
+e.preventDefault();
+
+if(!currentUser){
+showToast("سجل دخول الأول");
+return;
+}
+
+if(!document.getElementById("latitude").value){
+showToast("حدد مكانك على الخريطة 📍");
+return;
+}
+
+let subtotal=cart.reduce((sum,item)=>{
+const p=products.find(x=>x.id===item.id);
+return sum+p.price*item.qty;
+},0);
+
+const order={
+id:Date.now(),
+email:currentUser.email,
+name:document.getElementById("orderName").value,
+phone:document.getElementById("orderPhone").value,
+governorate:document.getElementById("governorate").value,
+address:document.getElementById("orderAddress").value,
+lat:document.getElementById("latitude").value,
+lng:document.getElementById("longitude").value,
+payment:document.getElementById("payment").value,
+notes:document.getElementById("orderNotes").value,
+items:[...cart],
+total:subtotal+35-discount,
+status:"تم استلام الطلب"
+};
+
+orders.push(order);
+cart=[];
+discount=0;
+
+save();
+updateCounts();
+closeModal("checkoutModal");
+
+alert(
+"تم تسجيل طلبك بنجاح ✅\n"+
+"رقم الطلب: "+order.id+
+"\nملاحظة: النسخة الحالية تحفظ الطلب محليًا."
+);
+}
+
+function sendComplaint(e){
+e.preventDefault();
+
+const complaint={
+name:document.getElementById("complaintName").value,
+phone:document.getElementById("complaintPhone").value,
+type:document.getElementById("complaintType").value,
+text:document.getElementById("complaintText").value,
+date:new Date().toLocaleString("ar-EG")
+};
+
+localStorage.setItem(
+"mz_last_complaint",
+JSON.stringify(complaint)
+);
+
+e.target.reset();
+showToast("تم تسجيل رسالتك ✅");
+}
+
+function closeModal(id){
+document.getElementById(id).classList.remove("show");
+}
+
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+renderProducts();
+updateCounts();
+updateAccountUI();
 </script>
 
 </body>
-</html>
+  </html>
