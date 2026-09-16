@@ -4,33 +4,396 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>اختبار دخول ماما زوزو</title>
+<title>إدارة مكتبة ماما زوزو</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#fff4fb;
+  color:#39263d;
+}
+
+header{
+  background:linear-gradient(135deg,#ff69b4,#9b6cff);
+  color:white;
+  padding:22px;
+  text-align:center;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin:15px 0;
+  box-shadow:0 5px 20px #0001;
+}
+
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:15px;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
+  margin:4px;
+}
+
+.primary{background:#ff69b4;color:white}
+.blue{background:#6c63ff;color:white}
+.green{background:#20a464;color:white}
+.red{background:#e74c3c;color:white}
+.gray{background:#eee}
+
+.hidden{
+  display:none!important;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.row>*{
+  flex:1;
+}
+
+.product{
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:15px;
+  margin:10px 0;
+}
+
+.product img{
+  width:110px;
+  height:110px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.msg{
+  padding:12px;
+  border-radius:10px;
+  margin:10px 0;
+}
+
+.error{
+  background:#ffe0e0;
+  color:#a00000;
+}
+
+.success{
+  background:#dcffe9;
+  color:#087a35;
+}
+
+.preview{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  border-radius:15px;
+  display:none;
+  margin:10px 0;
+}
+
+.image-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+
+.image-list img{
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#f3e8ff;
+  margin:3px;
+  font-size:12px;
+}
+
+/* =========================
+   PASSWORD BOX
+========================= */
+
+.password-box{
+  position:relative;
+}
+
+.password-box input{
+  padding-left:55px;
+}
+
+.password-box button{
+  position:absolute;
+  left:8px;
+  top:50%;
+  transform:translateY(-50%);
+  margin:0;
+  padding:6px 10px;
+  background:transparent;
+  font-size:20px;
+  color:#39263d;
+}
+
+</style>
 </head>
 
-<body style="font-family:Arial;padding:30px">
+<body>
 
-<h2>🔐 تسجيل دخول الأدمن</h2>
+<header>
+<h1>🎀 لوحة تحكم مكتبة ماما زوزو</h1>
+<p>إدارة المنتجات والطلبات والشكاوى</p>
+</header>
 
-<input id="email"
+<div class="container">
+
+<!-- LOGIN -->
+
+<div id="loginBox" class="card">
+
+<h2>🔐 تسجيل الدخول</h2>
+
+<input
+id="email"
 type="email"
 placeholder="البريد الإلكتروني"
-style="display:block;padding:12px;width:100%;margin:10px 0">
+>
 
-<input id="password"
+<div class="password-box">
+
+<input
+id="password"
 type="password"
 placeholder="كلمة المرور"
-style="display:block;padding:12px;width:100%;margin:10px 0">
+>
 
-<button onclick="login()"
-style="padding:12px 25px">
+<button
+type="button"
+id="togglePassword"
+onclick="togglePassword()"
+aria-label="إظهار كلمة المرور"
+>👁️</button>
+
+</div>
+
+<button
+class="primary"
+onclick="login()"
+>
 دخول
 </button>
 
-<div id="msg"></div>
+<div id="loginMsg"></div>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div id="adminBox" class="hidden">
+
+
+<div class="card">
+
+<div class="row">
+
+<h2>👑 لوحة الإدارة</h2>
+
+<button
+class="red"
+onclick="logout()"
+>
+تسجيل الخروج
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ADD PRODUCT -->
+
+<div class="card">
+
+<h2>➕ إضافة منتج</h2>
+
+<input
+id="pname"
+placeholder="اسم المنتج"
+>
+
+<textarea
+id="pdesc"
+placeholder="وصف المنتج"
+></textarea>
+
+
+<div class="row">
+
+<input
+id="pprice"
+type="number"
+placeholder="السعر"
+>
+
+<input
+id="poldprice"
+type="number"
+placeholder="السعر القديم"
+>
+
+</div>
+
+
+<div class="row">
+
+<input
+id="pstock"
+type="number"
+placeholder="المخزون"
+>
+
+<input
+id="pcategory"
+placeholder="القسم"
+>
+
+</div>
+
+
+<h3>📸 صور المنتج</h3>
+
+<input
+id="pimagefile"
+type="file"
+accept="image/*"
+multiple
+>
+
+<div
+id="imagePreviewList"
+class="image-list"
+></div>
+
+
+<h3>🎥 فيديو المنتج</h3>
+
+<input
+id="pvideofile"
+type="file"
+accept="video/*"
+>
+
+
+<button
+class="primary"
+onclick="addProduct()"
+>
+➕ إضافة المنتج
+</button>
+
+<div id="productMsg"></div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div class="card">
+
+<h2>📦 المنتجات</h2>
+
+<button
+class="blue"
+onclick="loadProducts()"
+>
+🔄 تحديث المنتجات
+</button>
+
+<div id="products"></div>
+
+</div>
+
+
+<!-- ORDERS -->
+
+<div class="card">
+
+<h2>🛒 الطلبات</h2>
+
+<button
+class="blue"
+onclick="loadOrders()"
+>
+🔄 تحديث الطلبات
+</button>
+
+<div id="orders"></div>
+
+</div>
+
+
+<!-- COMPLAINTS -->
+
+<div class="card">
+
+<h2>💬 الشكاوى والاقتراحات</h2>
+
+<button
+class="blue"
+onclick="loadComplaints()"
+>
+🔄 تحديث
+</button>
+
+<div id="complaints"></div>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
@@ -44,23 +407,73 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-async function login(){
 
-const msg =
-document.getElementById("msg");
+/* =========================
+   PASSWORD TOGGLE
+========================= */
 
-msg.innerHTML =
-"⏳ جاري الاتصال...";
-
-const email =
-document.getElementById("email").value.trim();
+function togglePassword(){
 
 const password =
-document.getElementById("password").value;
+document.getElementById("password");
+
+const button =
+document.getElementById("togglePassword");
+
+if(password.type === "password"){
+
+password.type = "text";
+
+button.textContent = "🙈";
+
+button.setAttribute(
+"aria-label",
+"إخفاء كلمة المرور"
+);
+
+}else{
+
+password.type = "password";
+
+button.textContent = "👁️";
+
+button.setAttribute(
+"aria-label",
+"إظهار كلمة المرور"
+);
+
+}
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function login(){
+
+const email =
+document
+.getElementById("email")
+.value
+.trim();
+
+const password =
+document
+.getElementById("password")
+.value;
+
+const msg =
+document.getElementById("loginMsg");
+
+msg.innerHTML =
+"⏳ جاري تسجيل الدخول...";
+
 
 try{
 
-const result =
+const {error} =
 await client.auth.signInWithPassword({
 
 email:email,
@@ -68,28 +481,1035 @@ password:password
 
 });
 
-if(result.error){
+
+if(error)
+throw error;
+
+
+msg.innerHTML="";
+
+await showAdmin();
+
+
+}catch(error){
 
 msg.innerHTML =
-"❌ "+result.error.message;
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+}
+
+}
+
+
+/* =========================
+   SHOW ADMIN
+========================= */
+
+async function showAdmin(){
+
+document
+.getElementById("loginBox")
+.classList.add("hidden");
+
+document
+.getElementById("adminBox")
+.classList.remove("hidden");
+
+await loadProducts();
+await loadOrders();
+await loadComplaints();
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+await client.auth.signOut();
+
+location.reload();
+
+}
+
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
+document
+.getElementById("pimagefile")
+.addEventListener(
+"change",
+function(){
+
+const files =
+Array.from(this.files);
+
+const box =
+document.getElementById(
+"imagePreviewList"
+);
+
+box.innerHTML="";
+
+files.forEach(file=>{
+
+const img =
+document.createElement("img");
+
+img.src =
+URL.createObjectURL(file);
+
+box.appendChild(img);
+
+});
+
+}
+);
+
+
+/* =========================
+   UPLOAD IMAGE
+========================= */
+
+async function uploadImage(file){
+
+const ext =
+file.name
+.split(".")
+.pop()
+.toLowerCase();
+
+const fileName =
+"products/" +
+Date.now() +
+"-" +
+Math.random()
+.toString(36)
+.substring(2) +
+"." +
+ext;
+
+
+const {error} =
+await client.storage
+.from("product-images")
+.upload(
+fileName,
+file,
+{
+cacheControl:"3600",
+upsert:false
+}
+);
+
+
+if(error)
+throw error;
+
+
+const {data} =
+client.storage
+.from("product-images")
+.getPublicUrl(
+fileName
+);
+
+
+return data.publicUrl;
+
+}
+
+
+/* =========================
+   UPLOAD VIDEO
+========================= */
+
+async function uploadVideo(file){
+
+if(!file)
+return null;
+
+
+const ext =
+file.name
+.split(".")
+.pop()
+.toLowerCase();
+
+const fileName =
+"products/" +
+Date.now() +
+"-" +
+Math.random()
+.toString(36)
+.substring(2) +
+"." +
+ext;
+
+
+const {error} =
+await client.storage
+.from("product-videos")
+.upload(
+fileName,
+file,
+{
+cacheControl:"3600",
+upsert:false
+}
+);
+
+
+if(error)
+throw error;
+
+
+const {data} =
+client.storage
+.from("product-videos")
+.getPublicUrl(
+fileName
+);
+
+
+return data.publicUrl;
+
+}
+
+
+/* =========================
+   ADD PRODUCT
+========================= */
+
+async function addProduct(){
+
+const msg =
+document.getElementById(
+"productMsg"
+);
+
+msg.innerHTML =
+'<div class="msg">⏳ جاري إضافة المنتج...</div>';
+
+
+try{
+
+const name =
+document
+.getElementById("pname")
+.value
+.trim();
+
+
+const description =
+document
+.getElementById("pdesc")
+.value
+.trim();
+
+
+const price =
+Number(
+document
+.getElementById("pprice")
+.value
+);
+
+
+const old_price =
+Number(
+document
+.getElementById("poldprice")
+.value
+) || null;
+
+
+const stock =
+Number(
+document
+.getElementById("pstock")
+.value
+) || 0;
+
+
+const category =
+document
+.getElementById("pcategory")
+.value
+.trim();
+
+
+const imageFiles =
+Array.from(
+document
+.getElementById("pimagefile")
+.files
+);
+
+
+const videoFile =
+document
+.getElementById("pvideofile")
+.files[0];
+
+
+if(!name || !price){
+
+msg.innerHTML =
+'<div class="msg error">❌ اكتب اسم المنتج والسعر.</div>';
 
 return;
 
 }
 
+
+/* رفع الصور */
+
+let uploadedImages=[];
+
+for(
+let i=0;
+i<imageFiles.length;
+i++
+){
+
+const url =
+await uploadImage(
+imageFiles[i]
+);
+
+uploadedImages.push(url);
+
+}
+
+
+/* رفع الفيديو */
+
+let video_url=null;
+
+if(videoFile){
+
+video_url =
+await uploadVideo(
+videoFile
+);
+
+}
+
+
+/* الصورة الرئيسية */
+
+const image_url =
+uploadedImages.length
+?
+uploadedImages[0]
+:
+null;
+
+
+/* إضافة المنتج والحصول على ID */
+
+const {data:product,error} =
+await client
+.from("products")
+.insert({
+
+name:name,
+description:description,
+price:price,
+old_price:old_price,
+stock:stock,
+category:category,
+image_url:image_url,
+video_url:video_url,
+is_active:true
+
+})
+.select("id")
+.single();
+
+
+if(error)
+throw error;
+
+
+/* حفظ جميع الصور */
+
+if(uploadedImages.length){
+
+const imageRows =
+uploadedImages.map(
+(url,index)=>({
+
+product_id:product.id,
+image_url:url,
+is_main:index===0
+
+})
+);
+
+
+const {error:imagesError} =
+await client
+.from("product_images")
+.insert(imageRows);
+
+
+if(imagesError)
+throw imagesError;
+
+}
+
+
+/* نجاح */
+
 msg.innerHTML =
-"✅ تسجيل الدخول نجح";
+'<div class="msg success">✅ تمت إضافة المنتج والصور والفيديو بنجاح</div>';
+
+
+/* تنظيف */
+
+document
+.getElementById("pname")
+.value="";
+
+document
+.getElementById("pdesc")
+.value="";
+
+document
+.getElementById("pprice")
+.value="";
+
+document
+.getElementById("poldprice")
+.value="";
+
+document
+.getElementById("pstock")
+.value="";
+
+document
+.getElementById("pcategory")
+.value="";
+
+document
+.getElementById("pimagefile")
+.value="";
+
+document
+.getElementById("pvideofile")
+.value="";
+
+document
+.getElementById("imagePreviewList")
+.innerHTML="";
+
+
+await loadProducts();
+
 
 }catch(error){
 
 msg.innerHTML =
-"❌ حدث خطأ: "+error.message;
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
 
 }
 
 }
+
+
+/* =========================
+   LOAD PRODUCTS
+========================= */
+
+async function loadProducts(){
+
+const box =
+document.getElementById(
+"products"
+);
+
+box.innerHTML =
+"⏳ جاري تحميل المنتجات...";
+
+
+const {data,error} =
+await client
+.from("products")
+.select("*")
+.order(
+"id",
+{ascending:false}
+);
+
+
+if(error){
+
+box.innerHTML =
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+return;
+
+}
+
+
+if(!data || !data.length){
+
+box.innerHTML =
+"<p>لا توجد منتجات.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+data.map(
+p=>`
+
+<div class="product">
+
+<div class="row">
+
+${
+p.image_url
+?
+`<img src="${escapeAttr(p.image_url)}">`
+:
+""
+}
+
+<div>
+
+<h3>
+${escapeHtml(p.name)}
+</h3>
+
+<p>
+السعر:
+<b>${p.price} جنيه</b>
+</p>
+
+<p>
+المخزون:
+<b>${p.stock}</b>
+</p>
+
+<p>
+القسم:
+${escapeHtml(p.category || "غير محدد")}
+</p>
+
+${
+p.video_url
+?
+'<span class="badge">🎥 يوجد فيديو</span>'
+:
+""
+}
+
+</div>
+
+</div>
+
+<hr>
+
+
+<input
+id="name-${p.id}"
+value="${escapeAttr(p.name)}"
+placeholder="اسم المنتج"
+>
+
+
+<div class="row">
+
+<input
+id="price-${p.id}"
+type="number"
+value="${p.price}"
+placeholder="السعر"
+>
+
+<input
+id="stock-${p.id}"
+type="number"
+value="${p.stock}"
+placeholder="المخزون"
+>
+
+</div>
+
+
+<button
+class="green"
+onclick="updateProduct(${p.id})"
+>
+💾 حفظ التعديل
+</button>
+
+
+<button
+class="red"
+onclick="deleteProduct(${p.id})"
+>
+🗑️ حذف
+</button>
+
+</div>
+
+`
+).join("");
+
+}
+
+
+/* =========================
+   UPDATE PRODUCT
+========================= */
+
+async function updateProduct(id){
+
+const name =
+document
+.getElementById(
+"name-"+id
+)
+.value
+.trim();
+
+
+const price =
+Number(
+document
+.getElementById(
+"price-"+id
+)
+.value
+);
+
+
+const stock =
+Number(
+document
+.getElementById(
+"stock-"+id
+)
+.value
+);
+
+
+if(!name || !price){
+
+alert(
+"اكتب اسم المنتج والسعر"
+);
+
+return;
+
+}
+
+
+const {error} =
+await client
+.from("products")
+.update({
+
+name:name,
+price:price,
+stock:stock
+
+})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"❌ فشل التعديل: "+
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"✅ تم تعديل المنتج"
+);
+
+await loadProducts();
+
+}
+
+
+/* =========================
+   DELETE PRODUCT
+========================= */
+
+async function deleteProduct(id){
+
+if(
+!confirm(
+"هل أنت متأكد من حذف المنتج؟"
+)
+)
+return;
+
+
+const {error} =
+await client
+.from("products")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"❌ فشل الحذف: "+
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"✅ تم حذف المنتج"
+);
+
+await loadProducts();
+
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+async function loadOrders(){
+
+const box =
+document.getElementById(
+"orders"
+);
+
+box.innerHTML =
+"⏳ جاري تحميل الطلبات...";
+
+
+const {data,error} =
+await client
+.from("orders")
+.select("*")
+.order(
+"created_at",
+{ascending:false}
+);
+
+
+if(error){
+
+box.innerHTML =
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+return;
+
+}
+
+
+if(!data || !data.length){
+
+box.innerHTML =
+"<p>لا توجد طلبات.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+data.map(
+o=>`
+
+<div class="product">
+
+<h3>
+🛒 طلب #${o.id}
+</h3>
+
+<p>
+العميل:
+${escapeHtml(o.customer_name)}
+</p>
+
+<p>
+الهاتف:
+${escapeHtml(o.phone)}
+</p>
+
+<p>
+العنوان:
+${escapeHtml(o.address || "")}
+</p>
+
+<p>
+الإجمالي:
+<b>${o.total} جنيه</b>
+</p>
+
+
+<select
+onchange="
+updateOrderStatus(
+${o.id},
+this.value
+)
+"
+>
+
+${
+[
+"pending",
+"confirmed",
+"processing",
+"shipped",
+"delivered",
+"cancelled"
+]
+.map(
+s=>`
+
+<option
+value="${s}"
+${o.status===s?"selected":""}
+>
+${s}
+</option>
+
+`
+)
+.join("")
+}
+
+</select>
+
+</div>
+
+`
+)
+.join("");
+
+}
+
+
+/* =========================
+   UPDATE ORDER
+========================= */
+
+async function updateOrderStatus(
+id,
+status
+){
+
+const {error} =
+await client
+.from("orders")
+.update({
+status:status
+})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"❌ فشل تحديث الطلب: "+
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"✅ تم تحديث حالة الطلب"
+);
+
+}
+
+
+/* =========================
+   COMPLAINTS
+========================= */
+
+async function loadComplaints(){
+
+const box =
+document.getElementById(
+"complaints"
+);
+
+box.innerHTML =
+"⏳ جاري تحميل الشكاوى...";
+
+
+const {data,error} =
+await client
+.from("complaints")
+.select("*")
+.order(
+"created_at",
+{ascending:false}
+);
+
+
+if(error){
+
+box.innerHTML =
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+return;
+
+}
+
+
+if(!data || !data.length){
+
+box.innerHTML =
+"<p>لا توجد شكاوى أو اقتراحات.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+data.map(
+c=>`
+
+<div class="product">
+
+<h3>
+${escapeHtml(c.name || "عميل")}
+</h3>
+
+<p>
+الهاتف:
+${escapeHtml(c.phone || "")}
+</p>
+
+<p>
+${escapeHtml(c.message || "")}
+</p>
+
+<p>
+الحالة:
+<b>
+${escapeHtml(c.status || "new")}
+</b>
+</p>
+
+</div>
+
+`
+)
+.join("");
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHtml(value){
+
+return String(value ?? "")
+.replaceAll(
+"&",
+"&amp;"
+)
+.replaceAll(
+"<",
+"&lt;"
+)
+.replaceAll(
+">",
+"&gt;"
+)
+.replaceAll(
+'"',
+"&quot;"
+)
+.replaceAll(
+"'",
+"&#039;"
+);
+
+}
+
+
+function escapeAttr(value){
+
+return escapeHtml(value);
+
+}
+
+
+/* =========================
+   SESSION
+========================= */
+
+async function checkSession(){
+
+try{
+
+const {data} =
+await client.auth.getSession();
+
+if(data && data.session){
+
+await showAdmin();
+
+}
+
+}catch(error){
+
+console.error(
+"Session error:",
+error
+);
+
+}
+
+}
+
+
+/* تشغيل فحص الجلسة */
+
+checkSession();
 
 </script>
 
 </body>
-</html>
+  </html>
