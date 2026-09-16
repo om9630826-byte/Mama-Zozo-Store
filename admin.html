@@ -66,7 +66,8 @@ button{
 .blue{background:#6c63ff;color:white}
 .green{background:#20a464;color:white}
 .red{background:#e74c3c;color:white}
-.gray{background:#eee}
+.gray{background:#eee;color:#333}
+.orange{background:#ff9800;color:white}
 
 .hidden{
   display:none!important;
@@ -87,14 +88,15 @@ button{
   border:1px solid #eee;
   border-radius:14px;
   padding:15px;
-  margin:10px 0;
+  margin:15px 0;
 }
 
-.product img{
-  width:110px;
-  height:110px;
+.product-main-image{
+  width:130px;
+  height:130px;
   object-fit:cover;
-  border-radius:12px;
+  border-radius:14px;
+  display:block;
 }
 
 .msg{
@@ -113,27 +115,45 @@ button{
   color:#087a35;
 }
 
-.preview{
-  width:150px;
-  height:150px;
-  object-fit:cover;
-  border-radius:15px;
-  display:none;
-  margin:10px 0;
-}
-
 .image-list{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  gap:10px;
   margin-top:10px;
 }
 
-.image-list img{
-  width:80px;
-  height:80px;
+.image-item{
+  width:120px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:6px;
+  background:#fafafa;
+  text-align:center;
+}
+
+.image-item img{
+  width:100%;
+  height:100px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:9px;
+}
+
+.image-item button{
+  width:100%;
+  margin:3px 0;
+  padding:7px;
+  font-size:12px;
+}
+
+.main-badge{
+  display:block;
+  background:#fff0a8;
+  color:#765d00;
+  border-radius:8px;
+  padding:5px;
+  margin:4px 0;
+  font-size:11px;
+  font-weight:bold;
 }
 
 .badge{
@@ -145,9 +165,19 @@ button{
   font-size:12px;
 }
 
-/* =========================
-   PASSWORD BOX
-========================= */
+.video-box{
+  margin-top:15px;
+  padding:12px;
+  background:#fafafa;
+  border-radius:12px;
+}
+
+.video-box video{
+  width:100%;
+  max-height:300px;
+  border-radius:12px;
+  background:#000;
+}
 
 .password-box{
   position:relative;
@@ -169,6 +199,11 @@ button{
   color:#39263d;
 }
 
+hr{
+  border:0;
+  border-top:1px solid #eee;
+  margin:20px 0;
+}
 </style>
 </head>
 
@@ -226,7 +261,6 @@ onclick="login()"
 
 <div id="adminBox" class="hidden">
 
-
 <div class="card">
 
 <div class="row">
@@ -261,7 +295,6 @@ id="pdesc"
 placeholder="وصف المنتج"
 ></textarea>
 
-
 <div class="row">
 
 <input
@@ -278,7 +311,6 @@ placeholder="السعر القديم"
 
 </div>
 
-
 <div class="row">
 
 <input
@@ -294,7 +326,6 @@ placeholder="القسم"
 
 </div>
 
-
 <h3>📸 صور المنتج</h3>
 
 <input
@@ -309,7 +340,6 @@ id="imagePreviewList"
 class="image-list"
 ></div>
 
-
 <h3>🎥 فيديو المنتج</h3>
 
 <input
@@ -317,7 +347,6 @@ id="pvideofile"
 type="file"
 accept="video/*"
 >
-
 
 <button
 class="primary"
@@ -391,9 +420,9 @@ onclick="loadComplaints()"
 
 <script>
 
-/* =========================
+/* =====================================================
    SUPABASE
-========================= */
+===================================================== */
 
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
@@ -408,9 +437,9 @@ SUPABASE_KEY
 );
 
 
-/* =========================
-   PASSWORD TOGGLE
-========================= */
+/* =====================================================
+   PASSWORD
+===================================================== */
 
 function togglePassword(){
 
@@ -447,9 +476,9 @@ button.setAttribute(
 }
 
 
-/* =========================
+/* =====================================================
    LOGIN
-========================= */
+===================================================== */
 
 async function login(){
 
@@ -467,9 +496,17 @@ document
 const msg =
 document.getElementById("loginMsg");
 
+if(!email || !password){
+
+msg.innerHTML =
+'<div class="msg error">❌ اكتب البريد الإلكتروني وكلمة المرور.</div>';
+
+return;
+
+}
+
 msg.innerHTML =
 "⏳ جاري تسجيل الدخول...";
-
 
 try{
 
@@ -481,15 +518,12 @@ password:password
 
 });
 
-
 if(error)
 throw error;
-
 
 msg.innerHTML="";
 
 await showAdmin();
-
 
 }catch(error){
 
@@ -503,9 +537,9 @@ escapeHtml(error.message)+
 }
 
 
-/* =========================
+/* =====================================================
    SHOW ADMIN
-========================= */
+===================================================== */
 
 async function showAdmin(){
 
@@ -524,9 +558,9 @@ await loadComplaints();
 }
 
 
-/* =========================
+/* =====================================================
    LOGOUT
-========================= */
+===================================================== */
 
 async function logout(){
 
@@ -537,9 +571,9 @@ location.reload();
 }
 
 
-/* =========================
+/* =====================================================
    IMAGE PREVIEW
-========================= */
+===================================================== */
 
 document
 .getElementById("pimagefile")
@@ -573,11 +607,14 @@ box.appendChild(img);
 );
 
 
-/* =========================
+/* =====================================================
    UPLOAD IMAGE
-========================= */
+===================================================== */
 
 async function uploadImage(file){
+
+if(!file)
+return null;
 
 const ext =
 file.name
@@ -595,7 +632,6 @@ Math.random()
 "." +
 ext;
 
-
 const {error} =
 await client.storage
 .from("product-images")
@@ -608,10 +644,8 @@ upsert:false
 }
 );
 
-
 if(error)
 throw error;
-
 
 const {data} =
 client.storage
@@ -620,22 +654,20 @@ client.storage
 fileName
 );
 
-
 return data.publicUrl;
 
 }
 
 
-/* =========================
+/* =====================================================
    UPLOAD VIDEO
-========================= */
+===================================================== */
 
 async function uploadVideo(file){
 
 if(!file)
 return null;
 
-
 const ext =
 file.name
 .split(".")
@@ -652,7 +684,6 @@ Math.random()
 "." +
 ext;
 
-
 const {error} =
 await client.storage
 .from("product-videos")
@@ -665,10 +696,8 @@ upsert:false
 }
 );
 
-
 if(error)
 throw error;
-
 
 const {data} =
 client.storage
@@ -677,15 +706,14 @@ client.storage
 fileName
 );
 
-
 return data.publicUrl;
 
 }
 
 
-/* =========================
+/* =====================================================
    ADD PRODUCT
-========================= */
+===================================================== */
 
 async function addProduct(){
 
@@ -697,7 +725,6 @@ document.getElementById(
 msg.innerHTML =
 '<div class="msg">⏳ جاري إضافة المنتج...</div>';
 
-
 try{
 
 const name =
@@ -706,13 +733,11 @@ document
 .value
 .trim();
 
-
 const description =
 document
 .getElementById("pdesc")
 .value
 .trim();
-
 
 const price =
 Number(
@@ -721,14 +746,12 @@ document
 .value
 );
 
-
 const old_price =
 Number(
 document
 .getElementById("poldprice")
 .value
 ) || null;
-
 
 const stock =
 Number(
@@ -737,13 +760,11 @@ document
 .value
 ) || 0;
 
-
 const category =
 document
 .getElementById("pcategory")
 .value
 .trim();
-
 
 const imageFiles =
 Array.from(
@@ -752,12 +773,10 @@ document
 .files
 );
 
-
 const videoFile =
 document
 .getElementById("pvideofile")
 .files[0];
-
 
 if(!name || !price){
 
@@ -773,16 +792,10 @@ return;
 
 let uploadedImages=[];
 
-for(
-let i=0;
-i<imageFiles.length;
-i++
-){
+for(const file of imageFiles){
 
 const url =
-await uploadImage(
-imageFiles[i]
-);
+await uploadImage(file);
 
 uploadedImages.push(url);
 
@@ -796,9 +809,7 @@ let video_url=null;
 if(videoFile){
 
 video_url =
-await uploadVideo(
-videoFile
-);
+await uploadVideo(videoFile);
 
 }
 
@@ -813,7 +824,7 @@ uploadedImages[0]
 null;
 
 
-/* إضافة المنتج والحصول على ID */
+/* إضافة المنتج */
 
 const {data:product,error} =
 await client
@@ -834,12 +845,11 @@ is_active:true
 .select("id")
 .single();
 
-
 if(error)
 throw error;
 
 
-/* حفظ جميع الصور */
+/* حفظ الصور */
 
 if(uploadedImages.length){
 
@@ -854,12 +864,10 @@ is_main:index===0
 })
 );
 
-
 const {error:imagesError} =
 await client
 .from("product_images")
 .insert(imageRows);
-
 
 if(imagesError)
 throw imagesError;
@@ -870,50 +878,22 @@ throw imagesError;
 /* نجاح */
 
 msg.innerHTML =
-'<div class="msg success">✅ تمت إضافة المنتج والصور والفيديو بنجاح</div>';
+'<div class="msg success">✅ تمت إضافة المنتج بنجاح</div>';
 
 
 /* تنظيف */
 
-document
-.getElementById("pname")
-.value="";
-
-document
-.getElementById("pdesc")
-.value="";
-
-document
-.getElementById("pprice")
-.value="";
-
-document
-.getElementById("poldprice")
-.value="";
-
-document
-.getElementById("pstock")
-.value="";
-
-document
-.getElementById("pcategory")
-.value="";
-
-document
-.getElementById("pimagefile")
-.value="";
-
-document
-.getElementById("pvideofile")
-.value="";
-
-document
-.getElementById("imagePreviewList")
-.innerHTML="";
-
+document.getElementById("pname").value="";
+document.getElementById("pdesc").value="";
+document.getElementById("pprice").value="";
+document.getElementById("poldprice").value="";
+document.getElementById("pstock").value="";
+document.getElementById("pcategory").value="";
+document.getElementById("pimagefile").value="";
+document.getElementById("pvideofile").value="";
+document.getElementById("imagePreviewList").innerHTML="";
 
 await loadProducts();
-
 
 }catch(error){
 
@@ -927,20 +907,17 @@ escapeHtml(error.message)+
 }
 
 
-/* =========================
+/* =====================================================
    LOAD PRODUCTS
-========================= */
+===================================================== */
 
 async function loadProducts(){
 
 const box =
-document.getElementById(
-"products"
-);
+document.getElementById("products");
 
 box.innerHTML =
 "⏳ جاري تحميل المنتجات...";
-
 
 const {data,error} =
 await client
@@ -950,7 +927,6 @@ await client
 "id",
 {ascending:false}
 );
-
 
 if(error){
 
@@ -963,7 +939,6 @@ return;
 
 }
 
-
 if(!data || !data.length){
 
 box.innerHTML =
@@ -974,21 +949,76 @@ return;
 }
 
 
+/* تحميل صور المنتجات */
+
+const productIds =
+data.map(p=>p.id);
+
+const {data:allImages,error:imagesError} =
+await client
+.from("product_images")
+.select("*")
+.in(
+"product_id",
+productIds
+)
+.order(
+"created_at",
+{ascending:true}
+);
+
+if(imagesError){
+
+box.innerHTML =
+'<div class="msg error">❌ خطأ في تحميل الصور: '+
+escapeHtml(imagesError.message)+
+'</div>';
+
+return;
+
+}
+
+const imageMap={};
+
+(allImages || []).forEach(img=>{
+
+if(!imageMap[img.product_id])
+imageMap[img.product_id]=[];
+
+imageMap[img.product_id].push(img);
+
+});
+
+
 box.innerHTML =
 data.map(
-p=>`
+p=>{
+
+const images =
+imageMap[p.id] || [];
+
+return `
 
 <div class="product">
 
 <div class="row">
 
+<div>
+
 ${
 p.image_url
 ?
-`<img src="${escapeAttr(p.image_url)}">`
+`
+<img
+class="product-main-image"
+src="${escapeAttr(p.image_url)}"
+>
+`
 :
-""
+"<div>📷 لا توجد صورة</div>"
 }
+
+</div>
 
 <div>
 
@@ -1016,15 +1046,18 @@ p.video_url
 ?
 '<span class="badge">🎥 يوجد فيديو</span>'
 :
-""
+'<span class="badge">🚫 لا يوجد فيديو</span>'
 }
 
 </div>
 
 </div>
 
+
 <hr>
 
+
+<h3>✏️ تعديل بيانات المنتج</h3>
 
 <input
 id="name-${p.id}"
@@ -1032,6 +1065,10 @@ value="${escapeAttr(p.name)}"
 placeholder="اسم المنتج"
 >
 
+<textarea
+id="desc-${p.id}"
+placeholder="وصف المنتج"
+>${escapeHtml(p.description || "")}</textarea>
 
 <div class="row">
 
@@ -1051,6 +1088,11 @@ placeholder="المخزون"
 
 </div>
 
+<input
+id="category-${p.id}"
+value="${escapeAttr(p.category || "")}"
+placeholder="القسم"
+>
 
 <button
 class="green"
@@ -1060,24 +1102,159 @@ onclick="updateProduct(${p.id})"
 </button>
 
 
+<hr>
+
+
+<h3>📸 صور المنتج</h3>
+
+<div class="image-list">
+
+${
+images.length
+?
+images.map(img=>`
+
+<div class="image-item">
+
+<img
+src="${escapeAttr(img.image_url)}"
+>
+
+${
+img.is_main
+?
+'<span class="main-badge">⭐ الصورة الرئيسية</span>'
+:
+`
+<button
+class="orange"
+onclick="setMainImage(${img.id},${p.id})"
+>
+⭐ جعلها رئيسية
+</button>
+`
+}
+
 <button
 class="red"
-onclick="deleteProduct(${p.id})"
+onclick="deleteProductImage(${img.id},${p.id})"
 >
-🗑️ حذف
+❌ حذف الصورة
 </button>
 
 </div>
 
+`).join("")
+:
+"<p>لا توجد صور محفوظة.</p>"
+}
+
+</div>
+
+
+<h4>➕ إضافة صور جديدة</h4>
+
+<input
+id="new-images-${p.id}"
+type="file"
+accept="image/*"
+multiple
+>
+
+<button
+class="primary"
+onclick="addMoreImages(${p.id})"
+>
+📸 إضافة الصور
+</button>
+
+
+<hr>
+
+
+<h3>🎥 فيديو المنتج</h3>
+
+<div class="video-box">
+
+${
+p.video_url
+?
 `
+<video
+controls
+src="${escapeAttr(p.video_url)}"
+>
+</video>
+
+<br>
+
+<button
+class="red"
+onclick="deleteProductVideo(${p.id})"
+>
+❌ حذف الفيديو
+</button>
+
+<h4>🔄 استبدال الفيديو</h4>
+
+<input
+id="replace-video-${p.id}"
+type="file"
+accept="video/*"
+>
+
+<button
+class="orange"
+onclick="replaceProductVideo(${p.id})"
+>
+🔄 استبدال الفيديو
+</button>
+`
+:
+`
+<p>🚫 لا يوجد فيديو لهذا المنتج.</p>
+
+<input
+id="replace-video-${p.id}"
+type="file"
+accept="video/*"
+>
+
+<button
+class="primary"
+onclick="replaceProductVideo(${p.id})"
+>
+🎥 إضافة فيديو
+</button>
+`
+}
+
+</div>
+
+
+<hr>
+
+
+<button
+class="red"
+onclick="deleteProduct(${p.id})"
+>
+🗑️ حذف المنتج بالكامل
+</button>
+
+</div>
+
+`;
+
+}
 ).join("");
 
 }
 
 
-/* =========================
+/* =====================================================
    UPDATE PRODUCT
-========================= */
+===================================================== */
 
 async function updateProduct(id){
 
@@ -1089,6 +1266,13 @@ document
 .value
 .trim();
 
+const description =
+document
+.getElementById(
+"desc-"+id
+)
+.value
+.trim();
 
 const price =
 Number(
@@ -1099,7 +1283,6 @@ document
 .value
 );
 
-
 const stock =
 Number(
 document
@@ -1109,6 +1292,13 @@ document
 .value
 );
 
+const category =
+document
+.getElementById(
+"category-"+id
+)
+.value
+.trim();
 
 if(!name || !price){
 
@@ -1120,19 +1310,22 @@ return;
 
 }
 
-
 const {error} =
 await client
 .from("products")
 .update({
 
 name:name,
+description:description,
 price:price,
-stock:stock
+stock:stock,
+category:category
 
 })
-.eq("id",id);
-
+.eq(
+"id",
+id
+);
 
 if(error){
 
@@ -1145,7 +1338,6 @@ return;
 
 }
 
-
 alert(
 "✅ تم تعديل المنتج"
 );
@@ -1155,51 +1347,635 @@ await loadProducts();
 }
 
 
-/* =========================
+/* =====================================================
+   ADD MORE IMAGES
+===================================================== */
+
+async function addMoreImages(productId){
+
+const input =
+document.getElementById(
+"new-images-"+productId
+);
+
+const files =
+Array.from(input.files);
+
+if(!files.length){
+
+alert(
+"اختار صورة واحدة على الأقل."
+);
+
+return;
+
+}
+
+try{
+
+let uploaded=[];
+
+for(const file of files){
+
+const url =
+await uploadImage(file);
+
+uploaded.push(url);
+
+}
+
+const rows =
+uploaded.map(url=>({
+
+product_id:productId,
+image_url:url,
+is_main:false
+
+}));
+
+const {error} =
+await client
+.from("product_images")
+.insert(rows);
+
+if(error)
+throw error;
+
+alert(
+"✅ تمت إضافة الصور بنجاح"
+);
+
+await loadProducts();
+
+}catch(error){
+
+alert(
+"❌ فشل إضافة الصور: "+
+error.message
+);
+
+}
+
+}
+
+
+/* =====================================================
+   SET MAIN IMAGE
+===================================================== */
+
+async function setMainImage(
+imageId,
+productId
+){
+
+try{
+
+/* إلغاء الصورة الرئيسية الحالية */
+
+const {error:resetError} =
+await client
+.from("product_images")
+.update({
+is_main:false
+})
+.eq(
+"product_id",
+productId
+);
+
+if(resetError)
+throw resetError;
+
+
+/* جعل الصورة المختارة رئيسية */
+
+const {data:image,error:imageError} =
+await client
+.from("product_images")
+.update({
+is_main:true
+})
+.eq(
+"id",
+imageId
+)
+.select("image_url")
+.single();
+
+if(imageError)
+throw imageError;
+
+
+/* تحديث الصورة في products */
+
+const {error:productError} =
+await client
+.from("products")
+.update({
+image_url:image.image_url
+})
+.eq(
+"id",
+productId
+);
+
+if(productError)
+throw productError;
+
+alert(
+"⭐ تم تغيير الصورة الرئيسية"
+);
+
+await loadProducts();
+
+}catch(error){
+
+alert(
+"❌ فشل تغيير الصورة الرئيسية: "+
+error.message
+);
+
+}
+
+}
+
+
+/* =====================================================
+   DELETE PRODUCT IMAGE
+===================================================== */
+
+async function deleteProductImage(
+imageId,
+productId
+){
+
+if(
+!confirm(
+"هل أنت متأكد من حذف هذه الصورة؟"
+)
+)
+return;
+
+try{
+
+/* الحصول على الصورة */
+
+const {data:image,error:findError} =
+await client
+.from("product_images")
+.select("*")
+.eq(
+"id",
+imageId
+)
+.single();
+
+if(findError)
+throw findError;
+
+const wasMain =
+image.is_main;
+
+
+/* حذفها من الجدول */
+
+const {error:deleteError} =
+await client
+.from("product_images")
+.delete()
+.eq(
+"id",
+imageId
+);
+
+if(deleteError)
+throw deleteError;
+
+
+/* حذفها من Storage */
+
+await deleteStorageFile(
+"product-images",
+image.image_url
+);
+
+
+/* لو كانت الرئيسية */
+
+if(wasMain){
+
+const {data:nextImage,error:nextError} =
+await client
+.from("product_images")
+.select("*")
+.eq(
+"product_id",
+productId
+)
+.order(
+"created_at",
+{ascending:true}
+)
+.limit(1)
+.maybeSingle();
+
+if(nextError)
+throw nextError;
+
+if(nextImage){
+
+await client
+.from("product_images")
+.update({
+is_main:true
+})
+.eq(
+"id",
+nextImage.id
+);
+
+await client
+.from("products")
+.update({
+image_url:nextImage.image_url
+})
+.eq(
+"id",
+productId
+);
+
+}else{
+
+await client
+.from("products")
+.update({
+image_url:null
+})
+.eq(
+"id",
+productId
+);
+
+}
+
+}
+
+alert(
+"✅ تم حذف الصورة"
+);
+
+await loadProducts();
+
+}catch(error){
+
+alert(
+"❌ فشل حذف الصورة: "+
+error.message
+);
+
+}
+
+}
+
+
+/* =====================================================
+   REPLACE / ADD VIDEO
+===================================================== */
+
+async function replaceProductVideo(productId){
+
+const input =
+document.getElementById(
+"replace-video-"+productId
+);
+
+const file =
+input.files[0];
+
+if(!file){
+
+alert(
+"اختار فيديو أولاً."
+);
+
+return;
+
+}
+
+try{
+
+/* الفيديو القديم */
+
+const {data:product,error:findError} =
+await client
+.from("products")
+.select("video_url")
+.eq(
+"id",
+productId
+)
+.single();
+
+if(findError)
+throw findError;
+
+
+/* رفع الفيديو الجديد */
+
+const newVideoUrl =
+await uploadVideo(file);
+
+
+/* تحديث المنتج */
+
+const {error:updateError} =
+await client
+.from("products")
+.update({
+video_url:newVideoUrl
+})
+.eq(
+"id",
+productId
+);
+
+if(updateError)
+throw updateError;
+
+
+/* حذف القديم */
+
+if(product.video_url){
+
+await deleteStorageFile(
+"product-videos",
+product.video_url
+);
+
+}
+
+alert(
+"✅ تم حفظ الفيديو الجديد"
+);
+
+await loadProducts();
+
+}catch(error){
+
+alert(
+"❌ فشل حفظ الفيديو: "+
+error.message
+);
+
+}
+
+}
+
+
+/* =====================================================
+   DELETE VIDEO
+===================================================== */
+
+async function deleteProductVideo(productId){
+
+if(
+!confirm(
+"هل أنت متأكد من حذف الفيديو؟"
+)
+)
+return;
+
+try{
+
+const {data:product,error:findError} =
+await client
+.from("products")
+.select("video_url")
+.eq(
+"id",
+productId
+)
+.single();
+
+if(findError)
+throw findError;
+
+if(!product.video_url){
+
+alert(
+"لا يوجد فيديو."
+);
+
+return;
+
+}
+
+
+/* إزالة الرابط */
+
+const {error:updateError} =
+await client
+.from("products")
+.update({
+video_url:null
+})
+.eq(
+"id",
+productId
+);
+
+if(updateError)
+throw updateError;
+
+
+/* حذف الملف */
+
+await deleteStorageFile(
+"product-videos",
+product.video_url
+);
+
+alert(
+"✅ تم حذف الفيديو"
+);
+
+await loadProducts();
+
+}catch(error){
+
+alert(
+"❌ فشل حذف الفيديو: "+
+error.message
+);
+
+}
+
+}
+
+
+/* =====================================================
+   DELETE STORAGE FILE
+===================================================== */
+
+async function deleteStorageFile(
+bucket,
+publicUrl
+){
+
+if(!publicUrl)
+return;
+
+try{
+
+const marker =
+"/storage/v1/object/public/" +
+bucket +
+"/";
+
+const index =
+publicUrl.indexOf(marker);
+
+if(index === -1)
+return;
+
+const path =
+decodeURIComponent(
+publicUrl.substring(
+index + marker.length
+)
+);
+
+const {error} =
+await client.storage
+.from(bucket)
+.remove([path]);
+
+if(error){
+
+console.warn(
+"Storage delete warning:",
+error.message
+);
+
+}
+
+}catch(error){
+
+console.warn(
+"Storage delete warning:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
    DELETE PRODUCT
-========================= */
+===================================================== */
 
 async function deleteProduct(id){
 
 if(
 !confirm(
-"هل أنت متأكد من حذف المنتج؟"
+"⚠️ هل أنت متأكد من حذف المنتج بالكامل؟"
 )
 )
 return;
 
+try{
+
+/* بيانات المنتج */
+
+const {data:product,error:productError} =
+await client
+.from("products")
+.select("*")
+.eq(
+"id",
+id
+)
+.single();
+
+if(productError)
+throw productError;
+
+
+/* الصور */
+
+const {data:images,error:imagesError} =
+await client
+.from("product_images")
+.select("*")
+.eq(
+"product_id",
+id
+);
+
+if(imagesError)
+throw imagesError;
+
+
+/* حذف ملفات الصور */
+
+for(const image of (images || [])){
+
+await deleteStorageFile(
+"product-images",
+image.image_url
+);
+
+}
+
+
+/* حذف الفيديو */
+
+if(product.video_url){
+
+await deleteStorageFile(
+"product-videos",
+product.video_url
+);
+
+}
+
+
+/* حذف المنتج */
 
 const {error} =
 await client
 .from("products")
 .delete()
-.eq("id",id);
-
-
-if(error){
-
-alert(
-"❌ فشل الحذف: "+
-error.message
+.eq(
+"id",
+id
 );
 
-return;
-
-}
-
+if(error)
+throw error;
 
 alert(
-"✅ تم حذف المنتج"
+"✅ تم حذف المنتج وكل ملفاته"
 );
 
 await loadProducts();
 
+}catch(error){
+
+alert(
+"❌ فشل حذف المنتج: "+
+error.message
+);
+
+}
+
 }
 
 
-/* =========================
+/* =====================================================
    ORDERS
-========================= */
+===================================================== */
 
 async function loadOrders(){
 
@@ -1211,7 +1987,6 @@ document.getElementById(
 box.innerHTML =
 "⏳ جاري تحميل الطلبات...";
 
-
 const {data,error} =
 await client
 .from("orders")
@@ -1220,7 +1995,6 @@ await client
 "created_at",
 {ascending:false}
 );
-
 
 if(error){
 
@@ -1233,7 +2007,6 @@ return;
 
 }
 
-
 if(!data || !data.length){
 
 box.innerHTML =
@@ -1242,7 +2015,6 @@ box.innerHTML =
 return;
 
 }
-
 
 box.innerHTML =
 data.map(
@@ -1265,15 +2037,24 @@ ${escapeHtml(o.phone)}
 </p>
 
 <p>
+المحافظة:
+${escapeHtml(o.governorate || "")}
+</p>
+
+<p>
 العنوان:
 ${escapeHtml(o.address || "")}
+</p>
+
+<p>
+طريقة الدفع:
+${escapeHtml(o.payment_method || "")}
 </p>
 
 <p>
 الإجمالي:
 <b>${o.total} جنيه</b>
 </p>
-
 
 <select
 onchange="
@@ -1319,9 +2100,9 @@ ${s}
 }
 
 
-/* =========================
+/* =====================================================
    UPDATE ORDER
-========================= */
+===================================================== */
 
 async function updateOrderStatus(
 id,
@@ -1334,8 +2115,10 @@ await client
 .update({
 status:status
 })
-.eq("id",id);
-
+.eq(
+"id",
+id
+);
 
 if(error){
 
@@ -1348,7 +2131,6 @@ return;
 
 }
 
-
 alert(
 "✅ تم تحديث حالة الطلب"
 );
@@ -1356,9 +2138,9 @@ alert(
 }
 
 
-/* =========================
+/* =====================================================
    COMPLAINTS
-========================= */
+===================================================== */
 
 async function loadComplaints(){
 
@@ -1370,7 +2152,6 @@ document.getElementById(
 box.innerHTML =
 "⏳ جاري تحميل الشكاوى...";
 
-
 const {data,error} =
 await client
 .from("complaints")
@@ -1379,7 +2160,6 @@ await client
 "created_at",
 {ascending:false}
 );
-
 
 if(error){
 
@@ -1392,7 +2172,6 @@ return;
 
 }
 
-
 if(!data || !data.length){
 
 box.innerHTML =
@@ -1401,7 +2180,6 @@ box.innerHTML =
 return;
 
 }
-
 
 box.innerHTML =
 data.map(
@@ -1429,6 +2207,21 @@ ${escapeHtml(c.status || "new")}
 </b>
 </p>
 
+${
+c.admin_reply
+?
+`
+<p>
+رد الإدارة:
+<b>
+${escapeHtml(c.admin_reply)}
+</b>
+</p>
+`
+:
+""
+}
+
 </div>
 
 `
@@ -1438,9 +2231,9 @@ ${escapeHtml(c.status || "new")}
 }
 
 
-/* =========================
+/* =====================================================
    SECURITY
-========================= */
+===================================================== */
 
 function escapeHtml(value){
 
@@ -1468,7 +2261,6 @@ return String(value ?? "")
 
 }
 
-
 function escapeAttr(value){
 
 return escapeHtml(value);
@@ -1476,9 +2268,9 @@ return escapeHtml(value);
 }
 
 
-/* =========================
+/* =====================================================
    SESSION
-========================= */
+===================================================== */
 
 async function checkSession(){
 
@@ -1505,7 +2297,7 @@ error
 }
 
 
-/* تشغيل فحص الجلسة */
+/* START */
 
 checkSession();
 
