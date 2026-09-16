@@ -3,82 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>إدارة مكتبة ماما زوزو</title>
+<title>لوحة تحكم - مكتبة ماما زوزو</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#fff4fb;
-  color:#39263d
-}
-header{
-  background:linear-gradient(135deg,#ff69b4,#9b6cff);
-  color:white;
-  padding:22px;
-  text-align:center
-}
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  margin:15px 0;
-  box-shadow:0 5px 20px #0001
-}
-input,textarea,select{
-  width:100%;
-  padding:12px;
-  margin:7px 0;
-  border:1px solid #ddd;
-  border-radius:10px;
-  font-size:15px
-}
-button{
-  border:0;
-  border-radius:10px;
-  padding:11px 16px;
-  cursor:pointer;
-  font-weight:bold;
-  margin:4px
-}
-.primary{background:#ff69b4;color:white}
-.blue{background:#6c63ff;color:white}
-.green{background:#20a464;color:white}
-.red{background:#e74c3c;color:white}
-.gray{background:#eee}
-.hidden{display:none}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+body{margin:0;font-family:Arial,sans-serif;background:#fff4fb;color:#39263d}
+header{background:linear-gradient(135deg,#ff69b4,#8b5cf6);color:#fff;padding:22px;text-align:center}
+.container{max-width:1100px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:20px;margin:15px 0;box-shadow:0 5px 20px #0001}
+input,textarea,select{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+textarea{min-height:90px}
+button{border:0;border-radius:10px;padding:11px 16px;margin:4px;font-weight:bold;cursor:pointer}
+.primary{background:#ff69b4;color:#fff}
+.blue{background:#6c63ff;color:#fff}
+.green{background:#20a464;color:#fff}
+.red{background:#e74c3c;color:#fff}
+.hidden{display:none!important}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .row>*{flex:1}
-.product{
-  border:1px solid #eee;
-  border-radius:14px;
-  padding:15px;
-  margin:10px 0
-}
-.product img{
-  width:110px;
-  height:110px;
-  object-fit:cover;
-  border-radius:12px
-}
-.msg{
-  padding:12px;
-  border-radius:10px;
-  margin:10px 0
-}
+.msg{padding:12px;border-radius:10px;margin:10px 0}
 .error{background:#ffe0e0;color:#a00000}
 .success{background:#dcffe9;color:#087a35}
-.preview{
-  width:150px;
-  height:150px;
-  object-fit:cover;
-  border-radius:15px;
-  display:none;
-  margin:10px 0
-}
+.product{border:1px solid #eee;border-radius:14px;padding:15px;margin:12px 0}
+.product-main{display:flex;gap:15px;align-items:center}
+.product-main img{width:100px;height:100px;object-fit:cover;border-radius:12px}
+.images{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.images img{width:70px;height:70px;object-fit:cover;border-radius:9px}
+.badge{display:inline-block;background:#f1e7ff;padding:5px 9px;border-radius:20px;font-size:12px}
 </style>
 </head>
 
@@ -86,12 +38,12 @@ button{
 
 <header>
 <h1>🎀 لوحة تحكم مكتبة ماما زوزو</h1>
-<p>إدارة المنتجات والطلبات</p>
+<p>إدارة المنتجات والطلبات والشكاوى</p>
 </header>
 
 <div class="container">
 
-<!-- LOGIN -->
+<!-- تسجيل الدخول -->
 <div id="loginBox" class="card">
 <h2>🔐 تسجيل الدخول</h2>
 
@@ -104,7 +56,7 @@ button{
 </div>
 
 
-<!-- ADMIN -->
+<!-- لوحة الإدارة -->
 <div id="adminBox" class="hidden">
 
 <div class="card">
@@ -115,7 +67,7 @@ button{
 </div>
 
 
-<!-- ADD PRODUCT -->
+<!-- إضافة منتج -->
 <div class="card">
 
 <h2>➕ إضافة منتج</h2>
@@ -134,7 +86,8 @@ button{
 <input id="pcategory" placeholder="القسم">
 </div>
 
-<h3>📸 صورة المنتج</h3>
+<h3>📸 صور المنتج</h3>
+
 <input
 id="pimagefile"
 type="file"
@@ -142,15 +95,15 @@ accept="image/*"
 multiple
 >
 
+<div id="imagePreview" class="images"></div>
 
-<img id="imagePreview" class="preview">
+<h3>🎥 فيديو المنتج</h3>
 
 <input
-  id="pvideofile"
-  type="file"
-  accept="video/*"
+id="pvideofile"
+type="file"
+accept="video/*"
 >
-
 
 <button class="primary" onclick="addProduct()">
 ➕ إضافة المنتج
@@ -161,42 +114,36 @@ multiple
 </div>
 
 
-<!-- PRODUCTS -->
+<!-- المنتجات -->
 <div class="card">
 
 <h2>📦 المنتجات</h2>
 
-<button class="blue" onclick="loadProducts()">
-🔄 تحديث المنتجات
-</button>
+<button class="blue" onclick="loadProducts()">🔄 تحديث المنتجات</button>
 
 <div id="products"></div>
 
 </div>
 
 
-<!-- ORDERS -->
+<!-- الطلبات -->
 <div class="card">
 
 <h2>🛒 الطلبات</h2>
 
-<button class="blue" onclick="loadOrders()">
-🔄 تحديث الطلبات
-</button>
+<button class="blue" onclick="loadOrders()">🔄 تحديث الطلبات</button>
 
 <div id="orders"></div>
 
 </div>
 
 
-<!-- COMPLAINTS -->
+<!-- الشكاوى -->
 <div class="card">
 
 <h2>💬 الشكاوى والاقتراحات</h2>
 
-<button class="blue" onclick="loadComplaints()">
-🔄 تحديث
-</button>
+<button class="blue" onclick="loadComplaints()">🔄 تحديث</button>
 
 <div id="complaints"></div>
 
@@ -208,8 +155,13 @@ multiple
 
 <script>
 
+/* ===============================
+   🔑 Supabase
+=============================== */
+
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
+
 const SUPABASE_KEY =
 "sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
 
@@ -220,9 +172,9 @@ SUPABASE_KEY
 );
 
 
-/* =========================
-   LOGIN
-========================= */
+/* ===============================
+   تسجيل الدخول
+=============================== */
 
 async function login(){
 
@@ -235,31 +187,44 @@ document.getElementById("password").value;
 const msg =
 document.getElementById("loginMsg");
 
-msg.innerHTML="";
-
-const {error} =
-await client.auth.signInWithPassword({
-email,
-password
-});
-
-if(error){
+if(!email || !password){
 
 msg.innerHTML =
-'<div class="msg error">'+
-error.message+
-'</div>';
+'<div class="msg error">اكتب البريد الإلكتروني وكلمة المرور.</div>';
 
 return;
 }
 
-showAdmin();
+msg.innerHTML =
+'<div class="msg">⏳ جاري تسجيل الدخول...</div>';
+
+try{
+
+const {error} =
+await client.auth.signInWithPassword({
+email:email,
+password:password
+});
+
+if(error) throw error;
+
+await showAdmin();
+
+}catch(error){
+
+msg.innerHTML =
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+}
+
 }
 
 
-/* =========================
-   SHOW ADMIN
-========================= */
+/* ===============================
+   عرض لوحة الإدارة
+=============================== */
 
 async function showAdmin(){
 
@@ -274,89 +239,76 @@ document
 await loadProducts();
 await loadOrders();
 await loadComplaints();
+
 }
 
 
-/* =========================
-   LOGOUT
-========================= */
+/* ===============================
+   تسجيل الخروج
+=============================== */
 
 async function logout(){
 
 await client.auth.signOut();
 
 location.reload();
+
 }
 
 
-/* =========================
-   IMAGE PREVIEW
-========================= */
+/* ===============================
+   معاينة الصور
+=============================== */
 
-function previewImage(event){
+document
+.getElementById("pimagefile")
+.addEventListener(
+"change",
+function(){
 
-const file =
-event.target.files[0];
-
-const preview =
+const box =
 document.getElementById("imagePreview");
 
-if(!file){
+box.innerHTML="";
 
-preview.style.display="none";
-return;
-}
+Array.from(this.files).forEach(file=>{
 
-preview.src =
+const img =
+document.createElement("img");
+
+img.src =
 URL.createObjectURL(file);
 
-preview.style.display="block";
+box.appendChild(img);
+
+});
+
 }
+);
 
 
-/* =========================
-   UPLOAD IMAGE
-========================= */
+/* ===============================
+   رفع صورة
+=============================== */
 
-async function uploadImage(file) {
-  const ext = file.name.split('.').pop();
-  const fileName = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from('product-images')
-    .upload(fileName, file);
-
-  if (uploadError) throw uploadError;
-
-  const { data } = supabase.storage
-    .from('product-images')
-    .getPublicUrl(fileName);
-
-  return data.publicUrl;
-}{
-
-if(!file)
-return null;
+async function uploadImage(file){
 
 const ext =
-file.name.split(".").pop();
+file.name.split(".").pop().toLowerCase();
 
-const fileName =
-Date.now()+"-"+Math.random()
-.toString(36)
-.substring(2)+
-"."+
+const path =
+"products/" +
+Date.now() +
+"-" +
+Math.random().toString(36).substring(2) +
+"." +
 ext;
-
-const filePath =
-"products/"+fileName;
-
 
 const {error} =
 await client.storage
 .from("product-images")
 .upload(
-filePath,
+path,
 file,
 {
 cacheControl:"3600",
@@ -364,26 +316,64 @@ upsert:false
 }
 );
 
-if(error){
-
-throw error;
-
-}
-
+if(error) throw error;
 
 const {data} =
 client.storage
 .from("product-images")
-.getPublicUrl(filePath);
-
+.getPublicUrl(path);
 
 return data.publicUrl;
+
 }
 
 
-/* =========================
-   ADD PRODUCT
-========================= */
+/* ===============================
+   رفع فيديو
+=============================== */
+
+async function uploadVideo(file){
+
+if(!file) return null;
+
+const ext =
+file.name.split(".").pop().toLowerCase();
+
+const path =
+"products/" +
+Date.now() +
+"-" +
+Math.random().toString(36).substring(2) +
+"." +
+ext;
+
+const {error} =
+await client.storage
+.from("product-videos")
+.upload(
+path,
+file,
+{
+cacheControl:"3600",
+upsert:false
+}
+);
+
+if(error) throw error;
+
+const {data} =
+client.storage
+.from("product-videos")
+.getPublicUrl(path);
+
+return data.publicUrl;
+
+}
+
+
+/* ===============================
+   إضافة المنتج
+=============================== */
 
 async function addProduct(){
 
@@ -393,156 +383,126 @@ document.getElementById("productMsg");
 msg.innerHTML =
 '<div class="msg">⏳ جاري إضافة المنتج...</div>';
 
-
 try{
 
 const name =
-document
-.getElementById("pname")
-.value
-.trim();
+document.getElementById("pname").value.trim();
 
 const description =
-document
-.getElementById("pdesc")
-.value
-.trim();
+document.getElementById("pdesc").value.trim();
 
 const price =
-Number(
-document
-.getElementById("pprice")
-.value
-);
+Number(document.getElementById("pprice").value);
 
 const old_price =
-Number(
-document
-.getElementById("poldprice")
-.value
-)||null;
+Number(document.getElementById("poldprice").value) || null;
 
 const stock =
-Number(
-document
-.getElementById("pstock")
-.value
-)||0;
+Number(document.getElementById("pstock").value) || 0;
 
 const category =
-document
-.getElementById("pcategory")
-.value
-.trim();
+document.getElementById("pcategory").value.trim();
 
-const video_url =
-document
-.getElementById("pvideo")
-.value
-.trim()
-||null;
-
-const files =
+const imageFiles =
 Array.from(
-  document
-    .getElementById("pimagefile")
-    .files
+document.getElementById("pimagefile").files
 );
 
+const videoFile =
+document.getElementById("pvideofile").files[0];
 
 if(!name || !price){
 
 msg.innerHTML =
-'<div class="msg error">اكتب اسم المنتج والسعر.</div>';
+'<div class="msg error">❌ اكتب اسم المنتج والسعر.</div>';
 
 return;
 }
 
+
 /* رفع الصور */
 
-let image_url = null;
-let uploadedImages = [];
+let uploadedImages=[];
 
-if(files.length){
+for(const file of imageFiles){
 
-  for(let i = 0; i < files.length; i++){
+const url =
+await uploadImage(file);
 
-    const url =
-      await uploadImage(files[i]);
+uploadedImages.push(url);
 
-    uploadedImages.push(url);
+}
 
-  }
 
-  image_url = uploadedImages[0];
+/* رفع الفيديو */
+
+let video_url=null;
+
+if(videoFile){
+
+video_url =
+await uploadVideo(videoFile);
+
 }
 
 
 /* إضافة المنتج */
 
-const {error} =
+const {data:product,error} =
 await client
 .from("products")
 .insert({
 
 name:name,
-
 description:description,
-
 price:price,
-
 old_price:old_price,
-
 stock:stock,
-
 category:category,
-
-image_url:image_url,
-
+image_url:
+uploadedImages.length
+?
+uploadedImages[0]
+:
+null,
 video_url:video_url,
-
 is_active:true
 
-});
+})
+.select("id")
+.single();
+
+if(error) throw error;
 
 
-if(error)
-  throw error;
+/* حفظ الصور كلها */
 
-/* حفظ كل الصور */
 if(uploadedImages.length){
 
-  /* نجيب رقم المنتج اللي اتضاف */
-  const { data: product, error: productError } =
-    await client
-      .from("products")
-      .select("id")
-      .eq("name", name)
-      .order("id", { ascending:false })
-      .limit(1)
-      .single();
+const rows =
+uploadedImages.map(
+(url,index)=>({
 
-  if(productError)
-    throw productError;
+product_id:product.id,
+image_url:url,
+is_main:index===0
 
-  const imageRows =
-    uploadedImages.map((url, index) => ({
-      product_id: product.id,
-      image_url: url,
-      is_main: index === 0
-    }));
+})
+);
 
-  const { error: imagesError } =
-    await client
-      .from("product_images")
-      .insert(imageRows);
+const {error:imageError} =
+await client
+.from("product_images")
+.insert(rows);
 
-  if(imagesError)
-    throw imagesError;
+if(imageError) throw imageError;
+
 }
 
+
 msg.innerHTML =
-  '<div class="msg success">✅ تمت إضافة المنتج وكل الصور بنجاح</div>';
+'<div class="msg success">✅ تمت إضافة المنتج بنجاح</div>';
+
 
 /* تنظيف */
 
@@ -552,20 +512,17 @@ document.getElementById("pprice").value="";
 document.getElementById("poldprice").value="";
 document.getElementById("pstock").value="";
 document.getElementById("pcategory").value="";
-document.getElementById("pvideo").value="";
 document.getElementById("pimagefile").value="";
+document.getElementById("pvideofile").value="";
+document.getElementById("imagePreview").innerHTML="";
 
-document.getElementById("imagePreview").style.display="none";
-
-
-loadProducts();
-
+await loadProducts();
 
 }catch(error){
 
 msg.innerHTML =
 '<div class="msg error">❌ '+
-error.message+
+escapeHtml(error.message)+
 '</div>';
 
 }
@@ -573,17 +530,17 @@ error.message+
 }
 
 
-/* =========================
-   LOAD PRODUCTS
-========================= */
+/* ===============================
+   تحميل المنتجات
+=============================== */
 
 async function loadProducts(){
 
 const box =
 document.getElementById("products");
 
-box.innerHTML="⏳ جاري تحميل المنتجات...";
-
+box.innerHTML =
+"⏳ جاري تحميل المنتجات...";
 
 const {data,error} =
 await client
@@ -591,47 +548,41 @@ await client
 .select("*")
 .order("id",{ascending:false});
 
-
 if(error){
 
 box.innerHTML =
-'<div class="msg error">'+
-error.message+
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
 '</div>';
 
 return;
 }
 
+if(!data || !data.length){
 
-if(!data.length){
-
-box.innerHTML =
-"<p>لا توجد منتجات.</p>";
+box.innerHTML="<p>لا توجد منتجات.</p>";
 
 return;
 }
-
 
 box.innerHTML =
 data.map(p=>`
 
 <div class="product">
 
-<div class="row">
+<div class="product-main">
 
 ${
 p.image_url
 ?
-`<img src="${escapeHtml(p.image_url)}">`
+`<img src="${escapeAttr(p.image_url)}">`
 :
 ""
 }
 
 <div>
 
-<h3>
-${escapeHtml(p.name)}
-</h3>
+<h3>${escapeHtml(p.name)}</h3>
 
 <p>
 السعر:
@@ -645,8 +596,16 @@ ${escapeHtml(p.name)}
 
 <p>
 القسم:
-${escapeHtml(p.category||"غير محدد")}
+${escapeHtml(p.category || "غير محدد")}
 </p>
+
+${
+p.video_url
+?
+'<span class="badge">🎥 يوجد فيديو</span>'
+:
+""
+}
 
 </div>
 
@@ -699,41 +658,32 @@ onclick="deleteProduct(${p.id})"
 }
 
 
-/* =========================
-   UPDATE PRODUCT
-========================= */
+/* ===============================
+   تعديل المنتج
+=============================== */
 
 async function updateProduct(id){
 
 const name =
-document
-.getElementById("name-"+id)
-.value
-.trim();
+document.getElementById("name-"+id).value.trim();
 
 const price =
 Number(
-document
-.getElementById("price-"+id)
-.value
+document.getElementById("price-"+id).value
 );
 
 const stock =
 Number(
-document
-.getElementById("stock-"+id)
-.value
+document.getElementById("stock-"+id).value
 );
-
 
 if(!name || !price){
 
-alert("اكتب اسم المنتج والسعر");
+alert("اكتب اسم المنتج والسعر.");
 
 return;
 
 }
-
 
 const {error} =
 await client
@@ -741,14 +691,11 @@ await client
 .update({
 
 name:name,
-
 price:price,
-
 stock:stock
 
 })
 .eq("id",id);
-
 
 if(error){
 
@@ -761,17 +708,16 @@ return;
 
 }
 
-
 alert("✅ تم تعديل المنتج");
 
-loadProducts();
+await loadProducts();
 
 }
 
 
-/* =========================
-   DELETE PRODUCT
-========================= */
+/* ===============================
+   حذف المنتج
+=============================== */
 
 async function deleteProduct(id){
 
@@ -782,13 +728,11 @@ if(
 )
 return;
 
-
 const {error} =
 await client
 .from("products")
 .delete()
 .eq("id",id);
-
 
 if(error){
 
@@ -801,17 +745,16 @@ return;
 
 }
 
-
 alert("✅ تم حذف المنتج");
 
-loadProducts();
+await loadProducts();
 
 }
 
 
-/* =========================
-   ORDERS
-========================= */
+/* ===============================
+   الطلبات
+=============================== */
 
 async function loadOrders(){
 
@@ -820,7 +763,6 @@ document.getElementById("orders");
 
 box.innerHTML =
 "⏳ جاري تحميل الطلبات...";
-
 
 const {data,error} =
 await client
@@ -831,20 +773,18 @@ await client
 {ascending:false}
 );
 
-
 if(error){
 
 box.innerHTML =
-'<div class="msg error">'+
-error.message+
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
 '</div>';
 
 return;
 
 }
 
-
-if(!data.length){
+if(!data || !data.length){
 
 box.innerHTML =
 "<p>لا توجد طلبات.</p>";
@@ -853,15 +793,12 @@ return;
 
 }
 
-
 box.innerHTML =
 data.map(o=>`
 
 <div class="product">
 
-<h3>
-طلب #${o.id}
-</h3>
+<h3>🛒 طلب #${o.id}</h3>
 
 <p>
 العميل:
@@ -875,7 +812,7 @@ ${escapeHtml(o.phone)}
 
 <p>
 العنوان:
-${escapeHtml(o.address||"")}
+${escapeHtml(o.address || "")}
 </p>
 
 <p>
@@ -917,21 +854,19 @@ ${s}
 }
 
 
-/* =========================
-   UPDATE ORDER
-========================= */
+/* ===============================
+   تحديث حالة الطلب
+=============================== */
 
-async function updateOrderStatus(
-id,
-status
-){
+async function updateOrderStatus(id,status){
 
 const {error} =
 await client
 .from("orders")
-.update({status})
+.update({
+status:status
+})
 .eq("id",id);
-
 
 if(error){
 
@@ -944,15 +879,14 @@ return;
 
 }
 
-
 alert("✅ تم تحديث حالة الطلب");
 
 }
 
 
-/* =========================
-   COMPLAINTS
-========================= */
+/* ===============================
+   الشكاوى
+=============================== */
 
 async function loadComplaints(){
 
@@ -961,7 +895,6 @@ document.getElementById("complaints");
 
 box.innerHTML =
 "⏳ جاري تحميل الشكاوى...";
-
 
 const {data,error} =
 await client
@@ -972,20 +905,18 @@ await client
 {ascending:false}
 );
 
-
 if(error){
 
 box.innerHTML =
-'<div class="msg error">'+
-error.message+
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
 '</div>';
 
 return;
 
 }
 
-
-if(!data.length){
+if(!data || !data.length){
 
 box.innerHTML =
 "<p>لا توجد شكاوى أو اقتراحات.</p>";
@@ -994,29 +925,28 @@ return;
 
 }
 
-
 box.innerHTML =
 data.map(c=>`
 
 <div class="product">
 
 <h3>
-${escapeHtml(c.name||"عميل")}
+${escapeHtml(c.name || "عميل")}
 </h3>
 
 <p>
 الهاتف:
-${escapeHtml(c.phone||"")}
+${escapeHtml(c.phone || "")}
 </p>
 
 <p>
-${escapeHtml(c.message)}
+${escapeHtml(c.message || "")}
 </p>
 
 <p>
 الحالة:
 <b>
-${escapeHtml(c.status||"new")}
+${escapeHtml(c.status || "new")}
 </b>
 </p>
 
@@ -1027,13 +957,13 @@ ${escapeHtml(c.status||"new")}
 }
 
 
-/* =========================
-   SECURITY HELPERS
-========================= */
+/* ===============================
+   حماية النصوص
+=============================== */
 
 function escapeHtml(value){
 
-return String(value??"")
+return String(value ?? "")
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
@@ -1049,22 +979,25 @@ return escapeHtml(value);
 }
 
 
-/* =========================
-   SESSION
-========================= */
+/* ===============================
+   فحص تسجيل الدخول
+=============================== */
 
 async function checkSession(){
 
 const {data} =
 await client.auth.getSession();
 
-if(data.session){
+if(data && data.session){
 
-showAdmin();
+await showAdmin();
+
+}
 
 }
 
-}
+
+/* تشغيل الصفحة */
 
 checkSession();
 
