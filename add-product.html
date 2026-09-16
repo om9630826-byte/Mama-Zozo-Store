@@ -1,1 +1,1329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1"
+>
+
+<title>إضافة منتج - مكتبة ماما زوزو</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#fff4fb;
+  color:#39263d;
+}
+
+header{
+  background:linear-gradient(135deg,#ff69b4,#9b6cff);
+  color:white;
+  padding:24px 18px;
+  text-align:center;
+  box-shadow:0 4px 15px #0002;
+}
+
+header h1{
+  margin:0 0 8px;
+  font-size:28px;
+}
+
+header p{
+  margin:0;
+  opacity:.95;
+}
+
+.container{
+  max-width:950px;
+  margin:auto;
+  padding:18px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin:15px 0;
+  box-shadow:0 5px 20px #0001;
+}
+
+.card h2{
+  margin-top:0;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+input,
+textarea,
+select{
+
+  width:100%;
+  padding:13px;
+  margin:7px 0;
+
+  border:1px solid #ddd;
+  border-radius:10px;
+
+  font-size:15px;
+  background:white;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  outline:none;
+  border-color:#ff69b4;
+  box-shadow:0 0 0 3px #ff69b422;
+}
+
+textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+.row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.row>*{
+  flex:1;
+  min-width:200px;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 17px;
+  cursor:pointer;
+  font-weight:bold;
+  margin:4px;
+  font-size:14px;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.primary{
+  background:#ff69b4;
+  color:white;
+}
+
+.blue{
+  background:#6c63ff;
+  color:white;
+}
+
+.green{
+  background:#20a464;
+  color:white;
+}
+
+.red{
+  background:#e74c3c;
+  color:white;
+}
+
+.gray{
+  background:#777;
+  color:white;
+}
+
+.msg{
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  line-height:1.7;
+}
+
+.error{
+  background:#ffe0e0;
+  color:#a00000;
+}
+
+.success{
+  background:#dcffe9;
+  color:#087a35;
+}
+
+.info{
+  background:#eeeaff;
+  color:#4b3ba8;
+}
+
+.images-preview{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:15px;
+}
+
+.preview-card{
+  border:1px solid #eee;
+  border-radius:14px;
+  padding:8px;
+  background:#fff;
+  text-align:center;
+}
+
+.preview-card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.main-label{
+  display:inline-block;
+  background:#ff69b4;
+  color:white;
+  padding:5px 8px;
+  border-radius:8px;
+  font-size:12px;
+  margin-top:7px;
+}
+
+.video-preview{
+  margin-top:15px;
+  background:#faf5ff;
+  padding:15px;
+  border-radius:15px;
+}
+
+.video-preview video{
+  width:100%;
+  max-height:400px;
+  border-radius:12px;
+}
+
+.hidden{
+  display:none;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+@media(max-width:600px){
+
+  .container{
+    padding:10px;
+  }
+
+  .row>*{
+    min-width:100%;
+  }
+
+  .images-preview{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+  }
+
+  .preview-card img{
+    height:120px;
+  }
+
+  header h1{
+    font-size:23px;
+  }
+
+}
+
+@media(min-width:601px) and (max-width:900px){
+
+  .images-preview{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🎀 مكتبة ماما زوزو</h1>
+
+<p>➕ إضافة منتج جديد</p>
+
+</header>
+
+
+<div class="container">
+
+
+<div class="card">
+
+<button
+  class="gray"
+  onclick="goBack()"
+>
+⬅️ الرجوع للوحة التحكم
+</button>
+
+</div>
+
+
+<!-- بيانات المنتج -->
+
+<div class="card">
+
+<h2>📦 بيانات المنتج</h2>
+
+
+<label>
+اسم المنتج *
+</label>
+
+<input
+  id="name"
+  type="text"
+  placeholder="مثال: طقم ألوان خشب 12 لون"
+>
+
+
+<label>
+الوصف
+</label>
+
+<textarea
+  id="description"
+  placeholder="اكتب وصف المنتج بالتفصيل..."
+></textarea>
+
+
+<div class="row">
+
+<div>
+
+<label>
+السعر *
+</label>
+
+<input
+  id="price"
+  type="number"
+  step="0.01"
+  min="0"
+  placeholder="مثال: 150"
+>
+
+</div>
+
+
+<div>
+
+<label>
+السعر القديم
+</label>
+
+<input
+  id="old_price"
+  type="number"
+  step="0.01"
+  min="0"
+  placeholder="مثال: 180"
+>
+
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div>
+
+<label>
+المخزون *
+</label>
+
+<input
+  id="stock"
+  type="number"
+  min="0"
+  value="0"
+  placeholder="عدد القطع"
+>
+
+</div>
+
+
+<div>
+
+<label>
+القسم *
+</label>
+
+<select id="category">
+
+<option value="">
+اختر القسم
+</option>
+
+<option value="ألعاب">
+🧸 ألعاب
+</option>
+
+<option value="أدوات مدرسية">
+✏️ أدوات مدرسية
+</option>
+
+<option value="مستلزمات مدرسية">
+🎒 مستلزمات مدرسية
+</option>
+
+<option value="أخرى">
+📦 أخرى
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div>
+
+<label>
+حالة المنتج
+</label>
+
+<select id="is_active">
+
+<option value="true">
+🟢 نشط ويظهر في المتجر
+</option>
+
+<option value="false">
+🔴 غير نشط
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+منتج مميز؟
+</label>
+
+<select id="is_featured">
+
+<option value="false">
+لا
+</option>
+
+<option value="true">
+⭐ نعم، منتج مميز
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- الصور -->
+
+<div class="card">
+
+<h2>🖼️ صور المنتج</h2>
+
+<p>
+تقدر تختار أكتر من صورة مرة واحدة.
+</p>
+
+<input
+  id="imageFiles"
+  type="file"
+  accept="image/*"
+  multiple
+>
+
+<div
+  id="imagesPreview"
+  class="images-preview"
+></div>
+
+</div>
+
+
+<!-- الفيديو -->
+
+<div class="card">
+
+<h2>🎬 فيديو المنتج</h2>
+
+<p>
+اختياري — تقدر تضيف فيديو للمنتج.
+</p>
+
+<input
+  id="videoFile"
+  type="file"
+  accept="video/*"
+>
+
+<div
+  id="videoPreview"
+  class="video-preview hidden"
+></div>
+
+</div>
+
+
+<!-- الحفظ -->
+
+<div class="card">
+
+<h2>🚀 إنشاء المنتج</h2>
+
+<p>
+بعد الضغط على إنشاء المنتج، سيتم حفظ بيانات المنتج والصور والفيديو في Supabase.
+</p>
+
+<button
+  id="saveButton"
+  class="green"
+  onclick="createProduct()"
+>
+➕ إنشاء المنتج
+</button>
+
+<button
+  class="gray"
+  onclick="goBack()"
+>
+إلغاء
+</button>
+
+<div id="saveMsg"></div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* ==============================
+   SUPABASE
+============================== */
+
+const SUPABASE_URL =
+"https://tzjtivfzawffqgisrowv.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
+
+const client =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* ==============================
+   STORAGE
+============================== */
+
+const IMAGE_BUCKET =
+"product-images";
+
+const VIDEO_BUCKET =
+"product-videos";
+
+
+/* ==============================
+   BACK
+============================== */
+
+function goBack(){
+
+  window.location.href =
+  "admin.html";
+
+}
+
+
+/* ==============================
+   ESCAPE HTML
+============================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
+
+
+/* ==============================
+   IMAGE PREVIEW
+============================== */
+
+const imageInput =
+document.getElementById("imageFiles");
+
+const imagesPreview =
+document.getElementById("imagesPreview");
+
+
+imageInput.addEventListener(
+  "change",
+  function(){
+
+    imagesPreview.innerHTML = "";
+
+    const files =
+    Array.from(
+      imageInput.files || []
+    );
+
+    files.forEach(
+      (file,index)=>{
+
+        const reader =
+        new FileReader();
+
+        reader.onload =
+        function(e){
+
+          const card =
+          document.createElement("div");
+
+          card.className =
+          "preview-card";
+
+          card.innerHTML =
+
+          `
+          <img
+            src="${e.target.result}"
+            alt="صورة المنتج"
+          >
+
+          <div class="main-label">
+            ${
+              index === 0
+              ?
+              "⭐ الصورة الرئيسية"
+              :
+              "🖼️ صورة إضافية"
+            }
+          </div>
+          `;
+
+          imagesPreview.appendChild(card);
+
+        };
+
+        reader.readAsDataURL(file);
+
+      }
+    );
+
+  }
+);
+
+
+/* ==============================
+   VIDEO PREVIEW
+============================== */
+
+const videoInput =
+document.getElementById("videoFile");
+
+const videoPreview =
+document.getElementById("videoPreview");
+
+
+videoInput.addEventListener(
+  "change",
+  function(){
+
+    const file =
+    videoInput.files[0];
+
+    if(!file){
+
+      videoPreview.innerHTML = "";
+
+      videoPreview.classList.add(
+        "hidden"
+      );
+
+      return;
+
+    }
+
+
+    const url =
+    URL.createObjectURL(file);
+
+
+    videoPreview.classList.remove(
+      "hidden"
+    );
+
+
+    videoPreview.innerHTML =
+
+    `
+    <p>🎬 معاينة الفيديو</p>
+
+    <video
+      controls
+      src="${url}"
+    ></video>
+    `;
+
+  }
+);
+
+
+/* ==============================
+   CREATE PRODUCT
+============================== */
+
+async function createProduct(){
+
+  const button =
+  document.getElementById("saveButton");
+
+  const msg =
+  document.getElementById("saveMsg");
+
+
+  /* البيانات */
+
+  const name =
+  document
+  .getElementById("name")
+  .value
+  .trim();
+
+
+  const description =
+  document
+  .getElementById("description")
+  .value
+  .trim();
+
+
+  const priceValue =
+  document
+  .getElementById("price")
+  .value;
+
+
+  const oldPriceValue =
+  document
+  .getElementById("old_price")
+  .value;
+
+
+  const stockValue =
+  document
+  .getElementById("stock")
+  .value;
+
+
+  const category =
+  document
+  .getElementById("category")
+  .value;
+
+
+  const is_active =
+  document
+  .getElementById("is_active")
+  .value === "true";
+
+
+  const is_featured =
+  document
+  .getElementById("is_featured")
+  .value === "true";
+
+
+  const price =
+  Number(priceValue);
+
+
+  const old_price =
+  oldPriceValue === ""
+  ?
+  null
+  :
+  Number(oldPriceValue);
+
+
+  const stock =
+  Number(stockValue);
+
+
+  /* التحقق */
+
+  if(!name){
+
+    msg.innerHTML =
+    '<div class="msg error">❌ اكتب اسم المنتج.</div>';
+
+    return;
+
+  }
+
+
+  if(
+    priceValue === "" ||
+    !Number.isFinite(price) ||
+    price < 0
+  ){
+
+    msg.innerHTML =
+    '<div class="msg error">❌ اكتب سعر صحيح.</div>';
+
+    return;
+
+  }
+
+
+  if(
+    old_price !== null &&
+    (
+      !Number.isFinite(old_price) ||
+      old_price < 0
+    )
+  ){
+
+    msg.innerHTML =
+    '<div class="msg error">❌ السعر القديم غير صحيح.</div>';
+
+    return;
+
+  }
+
+
+  if(
+    stockValue === "" ||
+    !Number.isInteger(stock) ||
+    stock < 0
+  ){
+
+    msg.innerHTML =
+    '<div class="msg error">❌ اكتب كمية مخزون صحيحة.</div>';
+
+    return;
+
+  }
+
+
+  if(!category){
+
+    msg.innerHTML =
+    '<div class="msg error">❌ اختر قسم المنتج.</div>';
+
+    return;
+
+  }
+
+
+  /* منع الضغط المتكرر */
+
+  button.disabled = true;
+
+  button.innerText =
+  "⏳ جاري إنشاء المنتج...";
+
+
+  msg.innerHTML =
+  '<div class="msg info">⏳ جاري حفظ بيانات المنتج...</div>';
+
+
+  try{
+
+
+    /* ==========================
+       1. إنشاء المنتج
+    ========================== */
+
+    const {
+      data:product,
+      error:productError
+    } =
+    await client
+    .from("products")
+    .insert({
+
+      name:name,
+
+      description:description,
+
+      price:price,
+
+      old_price:old_price,
+
+      stock:stock,
+
+      category:category,
+
+      is_active:is_active,
+
+      is_featured:is_featured
+
+    })
+    .select()
+    .single();
+
+
+    if(productError){
+
+      throw productError;
+
+    }
+
+
+    const productId =
+    product.id;
+
+
+    /* ==========================
+       2. رفع الصور
+    ========================== */
+
+    const imageFiles =
+    Array.from(
+      imageInput.files || []
+    );
+
+
+    let uploadedImages = 0;
+
+    let mainImageUrl = null;
+
+
+    for(
+      let index = 0;
+      index < imageFiles.length;
+      index++
+    ){
+
+      const file =
+      imageFiles[index];
+
+
+      const safeName =
+      file.name
+      .replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+      const path =
+      productId+
+      "/"+
+      Date.now()+
+      "_"+
+      Math.random()
+      .toString(36)
+      .slice(2)+
+      "_"+
+      safeName;
+
+
+      const {
+        error:uploadError
+      } =
+      await client.storage
+      .from(IMAGE_BUCKET)
+      .upload(
+        path,
+        file,
+        {
+          upsert:false
+        }
+      );
+
+
+      if(uploadError){
+
+        console.error(
+          "Image upload error:",
+          uploadError
+        );
+
+        continue;
+
+      }
+
+
+      const {
+        data:urlData
+      } =
+      client.storage
+      .from(IMAGE_BUCKET)
+      .getPublicUrl(
+        path
+      );
+
+
+      const imageUrl =
+      urlData.publicUrl;
+
+
+      const isMain =
+      index === 0;
+
+
+      const {
+        error:insertImageError
+      } =
+      await client
+      .from("product_images")
+      .insert({
+
+        product_id:
+        Number(productId),
+
+        image_url:
+        imageUrl,
+
+        is_main:
+        isMain
+
+      });
+
+
+      if(insertImageError){
+
+        console.error(
+          "Image database error:",
+          insertImageError
+        );
+
+        continue;
+
+      }
+
+
+      uploadedImages++;
+
+
+      if(isMain){
+
+        mainImageUrl =
+        imageUrl;
+
+      }
+
+    }
+
+
+    /* ==========================
+       3. الصورة الرئيسية
+    ========================== */
+
+    if(mainImageUrl){
+
+      const {
+        error:mainUpdateError
+      } =
+      await client
+      .from("products")
+      .update({
+
+        image_url:
+        mainImageUrl
+
+      })
+      .eq(
+        "id",
+        productId
+      );
+
+
+      if(mainUpdateError){
+
+        console.error(
+          "Main image error:",
+          mainUpdateError
+        );
+
+      }
+
+    }
+
+
+    /* ==========================
+       4. رفع الفيديو
+    ========================== */
+
+    const videoFile =
+    videoInput.files[0];
+
+
+    let videoUploaded = false;
+
+
+    if(videoFile){
+
+      const safeVideoName =
+      videoFile.name
+      .replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+      const videoPath =
+      productId+
+      "/"+
+      Date.now()+
+      "_"+
+      Math.random()
+      .toString(36)
+      .slice(2)+
+      "_"+
+      safeVideoName;
+
+
+      const {
+        error:videoUploadError
+      } =
+      await client.storage
+      .from(VIDEO_BUCKET)
+      .upload(
+        videoPath,
+        videoFile,
+        {
+          upsert:false
+        }
+      );
+
+
+      if(videoUploadError){
+
+        console.error(
+          "Video upload error:",
+          videoUploadError
+        );
+
+      }else{
+
+
+        const {
+          data:videoUrlData
+        } =
+        client.storage
+        .from(VIDEO_BUCKET)
+        .getPublicUrl(
+          videoPath
+        );
+
+
+        const videoUrl =
+        videoUrlData.publicUrl;
+
+
+        const {
+          error:videoUpdateError
+        } =
+        await client
+        .from("products")
+        .update({
+
+          video_url:
+          videoUrl
+
+        })
+        .eq(
+          "id",
+          productId
+        );
+
+
+        if(videoUpdateError){
+
+          console.error(
+            "Video database error:",
+            videoUpdateError
+          );
+
+        }else{
+
+          videoUploaded = true;
+
+        }
+
+      }
+
+    }
+
+
+    /* ==========================
+       5. النتيجة
+    ========================== */
+
+    let resultText =
+    "✅ تم إنشاء المنتج بنجاح.";
+
+
+    resultText +=
+    "<br>🆔 رقم المنتج: "+
+    escapeHtml(productId);
+
+
+    resultText +=
+    "<br>🖼️ الصور المضافة: "+
+    uploadedImages;
+
+
+    if(videoFile){
+
+      resultText +=
+      videoUploaded
+      ?
+      "<br>🎬 تم رفع الفيديو."
+      :
+      "<br>⚠️ تعذر رفع الفيديو.";
+
+    }
+
+
+    msg.innerHTML =
+    '<div class="msg success">'+
+    resultText+
+    '</div>';
+
+
+    /* تنظيف */
+
+    document
+    .getElementById("name")
+    .value = "";
+
+
+    document
+    .getElementById("description")
+    .value = "";
+
+
+    document
+    .getElementById("price")
+    .value = "";
+
+
+    document
+    .getElementById("old_price")
+    .value = "";
+
+
+    document
+    .getElementById("stock")
+    .value = "0";
+
+
+    document
+    .getElementById("category")
+    .value = "";
+
+
+    imageInput.value = "";
+
+    videoInput.value = "";
+
+    imagesPreview.innerHTML = "";
+
+    videoPreview.innerHTML = "";
+
+    videoPreview.classList.add(
+      "hidden"
+    );
+
+
+    button.disabled = false;
+
+    button.innerText =
+    "➕ إنشاء منتج آخر";
+
+
+    /* بعد 2.5 ثانية نرجع للأدمن */
+
+    setTimeout(
+      ()=>{
+        window.location.href =
+        "admin.html";
+      },
+      2500
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    msg.innerHTML =
+    '<div class="msg error">'+
+    '❌ حصل خطأ أثناء إنشاء المنتج.'+
+    '<br><br>'+
+    escapeHtml(
+      error.message
+    )+
+    '</div>';
+
+
+    button.disabled = false;
+
+    button.innerText =
+    "🔄 حاول مرة أخرى";
+
+  }
+
+}
+
+</script>
+
+</body>
+
+  </html>
