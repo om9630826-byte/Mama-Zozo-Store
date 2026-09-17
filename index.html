@@ -3628,31 +3628,6 @@ async function submitOrder(e){
 
     if(itemsError){
 
-      console.error(
-        "ORDER ITEMS ERROR:",
-        itemsError
-      );
-
-
-      /*
-        لو إضافة المنتجات فشلت،
-        نحذف الطلب الذي أنشأناه.
-      */
-
-      await supabaseClient
-        .from("orders")
-        .delete()
-        .eq(
-          "id",
-          order.id
-        );
-
-
-      throw new Error(
-        itemsError.message
-      );
-
-    }
 
 
     /*
@@ -3724,38 +3699,301 @@ async function submitOrder(e){
     );
 
 
-    alert(
-      "تم تسجيل طلبك بنجاح ✅\n\n"+
-      "رقم الطلب: "+
-      order.id+
-      "\n"+
-      "الإجمالي: "+
-      money(total)
+    async function submitOrder(e){
+
+  e.preventDefault();
+
+  if(!currentUser){
+    showToast("سجل دخول الأول");
+    return;
+  }
+
+  const latitude =
+    document.getElementById("latitude")?.value;
+
+  const longitude =
+    document.getElementById("longitude")?.value;
+
+  if(!latitude || !longitude){
+    showToast("حدد مكانك على الخريطة 📍");
+    return;
+  }
+
+  if(!cart.length){
+    showToast("السلة فاضية");
+    return;
+  }
+
+  const btn =
+    document.getElementById("submitOrderBtn");
+
+  if(btn){
+    btn.disabled = true;
+    btn.textContent = "جاري تسجيل الطلب...";
+  }
+
+  try{
+
+    /* التحقق من المنتجات والمخزون */
+
+    for(const item of cart){
+
+      const p =
+        products.find(
+          x => String(x.id) === String(item.id)
+        );
+
+      if(!p){
+        throw new Error(
+          "أحد المنتجات لم يعد موجودًا."
+        );
+      }
+
+      if(Number(item.qty) > Number(p.stock)){
+        throw new Error(
+          "الكمية المطلوبة من " +
+          p.name +
+          " أكبر من المخزون المتاح."
+        );
+      }
+
+    }
+
+
+    /* حساب الإجمالي */
+
+    const subtotal =
+      cart.reduce(
+        (sum,item) =>
+          sum +
+          (
+            Number(item.price || 0) *
+            Number(item.qty || 0)
+          ),
+        0
+      );
+
+
+    const shipping =
+      Number(
+        document.getElementById("shipping")?.value ||
+        0
+      );
+
+
+    const total =
+      subtotal + shipping;
+
+
+    /* بيانات العميل */
+
+    const customerName =
+      document.getElementById("customerName")?.value?.trim() ||
+      currentUser.name ||
+      "";
+
+
+    const phone =
+      document.getElementById("phone")?.value?.trim() ||
+      currentUser.phone ||
+      "";
+
+
+    const governorate =
+      document.getElementById("governorate")?.value ||
+      "";
+
+
+    const address =
+      document.getElementById("address")?.value?.trim() ||
+      "";
+
+
+    const paymentMethod =
+      document.getElementById("paymentMethod")?.value ||
+      "الدفع عند الاستلام";
+
+
+    const notes =
+      document.getElementById("notes")?.value?.trim() ||
+      "";
+
+
+    /* إضافة الموقع للملاحظات */
+
+    const finalNotes =
+      notes +
+      "\n📍 الموقع: " +
+      latitude +
+      "," +
+      longitude;
+
+
+    /* تجهيز المنتجات */
+
+    const items =
+      cart.map(item => {
+
+        const p =
+          products.find(
+            x => String(x.id) === String(item.id)
+          );
+
+        return {
+          product_id: Number(p.id),
+          product_name: p.name,
+          price: Number(p.price),
+          quantity: Number(item.qty)
+        };
+
+      });
+
+
+    /* استدعاء Function في Supabase */
+
+    const { data: orderId, error } =
+      await supabaseClient.rpc(
+        "create_order",
+        {
+          p_customer_name: customerName,
+          p_phone: phone,
+          p_governorate: governorate,
+          p_address: address,
+          p_payment_method: paymentMethod,
+          p_notes: finalNotes,
+          p_subtotal: subtotal,
+          p_shipping: shipping,
+          p_total: total,
+          p_items: items
+        }
+      );
+
+
+    if(error){
+
+      console.error(
+        "Supabase create_order error:",
+        error
+      );
+
+      throw new Error(
+        error.message ||
+        "فشل تسجيل الطلب."
+      );
+
+    }
+
+
+    if(!orderId){
+
+      throw new Error(
+        "لم يتم الحصول على رقم الطلب."
+      );
+
+    }
+
+
+    /* حفظ نسخة محلية */
+
+    const localOrders =
+      JSON.parse(
+        localStorage.getItem("mz_orders") ||
+        "[]"
+      );
+
+
+    localOrders.push({
+      id: orderId,
+      customer_name: customerName,
+      phone: phone,
+      governorate: governorate,
+      address: address,
+      payment_method: paymentMethod,
+      notes: finalNotes,
+      subtotal: subtotal,
+      shipping: shipping,
+      total: total,
+      status: "new",
+      created_at: new Date().toISOString(),
+      items: items
+    });
+
+
+    localStorage.setItem(
+      "mz_orders",
+      JSON.stringify(localOrders)
     );
+
+
+    /* تفريغ السلة */
+
+    cart = [];
+
+    localStorage.setItem(
+      "mz_cart",
+      JSON.stringify(cart)
+    );
+
+
+    /* تحديث واجهة السلة */
+
+    if(typeof renderCart === "function"){
+      renderCart();
+    }
+
+
+    if(typeof updateCartCount === "function"){
+      updateCartCount();
+    }
+
+
+    /* رسالة نجاح */
+
+    showToast(
+      "تم تسجيل الطلب بنجاح ✅ رقم الطلب: #" +
+      orderId
+    );
+
+
+    /* إغلاق صفحة الدفع لو موجودة */
+
+    setTimeout(() => {
+
+      const checkout =
+        document.getElementById("checkout");
+
+      if(checkout){
+        checkout.style.display = "none";
+      }
+
+    }, 1200);
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Order error:",
+      error
+    );
 
-
-    alert(
-      "حصل خطأ أثناء تسجيل الطلب ❌\n\n"+
+    showToast(
+      "حصل خطأ أثناء تسجيل الطلب: " +
       error.message
     );
 
-
   }finally{
 
-    btn.disabled=false;
+    if(btn){
 
-    btn.textContent=
-      "تأكيد الطلب ✅";
+      btn.disabled = false;
+      btn.textContent = "تأكيد الطلب";
+
+    }
 
   }
 
-}
-
+          }
+    
 
 /* =========================
    COMPLAINT
