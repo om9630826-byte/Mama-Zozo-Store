@@ -191,15 +191,6 @@ select{
   padding-top:12px;
 }
 
-.product-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:7px 0;
-  font-size:13px;
-  border-bottom:1px dashed #eee;
-}
-
 .total{
   margin-top:14px;
   padding-top:12px;
@@ -220,10 +211,26 @@ select{
   margin-top:15px;
   display:flex;
   gap:8px;
+  flex-direction:column;
 }
 
 .actions select{
   width:100%;
+}
+
+.details-btn{
+  width:100%;
+  background:#6c63ff;
+  color:white;
+  border:0;
+  padding:11px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.details-btn:hover{
+  background:#584fe0;
 }
 
 .empty{
@@ -290,10 +297,16 @@ select{
 
 <header>
   <div class="header-inner">
+
     <h1>📦 إدارة الطلبات</h1>
-    <button class="back-btn" onclick="location.href='admin.html'">
+
+    <button
+      class="back-btn"
+      onclick="location.href='admin.html'"
+    >
       ← لوحة التحكم
     </button>
+
   </div>
 </header>
 
@@ -302,6 +315,7 @@ select{
   <div id="errorBox" class="error"></div>
 
   <div class="stats">
+
     <div class="stat">
       <h3>كل الطلبات</h3>
       <strong id="allCount">0</strong>
@@ -321,18 +335,23 @@ select{
       <h3>تم التسليم</h3>
       <strong id="deliveredCount">0</strong>
     </div>
+
   </div>
+
 
   <div class="controls">
 
     <input
       type="text"
       id="search"
-      placeholder="🔎 ابحث بالاسم أو رقم الهاتف أو رقم الطلب..."
+      placeholder="🔎 ابحث بالاسم أو الهاتف أو رقم الطلب..."
       oninput="renderOrders()"
     >
 
-    <select id="statusFilter" onchange="renderOrders()">
+    <select
+      id="statusFilter"
+      onchange="renderOrders()"
+    >
       <option value="">كل الحالات</option>
       <option value="new">جديد</option>
       <option value="preparing">قيد التجهيز</option>
@@ -341,17 +360,26 @@ select{
       <option value="cancelled">ملغي</option>
     </select>
 
-    <button class="back-btn" onclick="loadOrders()">
+    <button
+      class="back-btn"
+      onclick="loadOrders()"
+    >
       🔄 تحديث
     </button>
 
   </div>
 
+
   <div id="orders" class="orders">
-    <div class="loading">جاري تحميل الطلبات...</div>
+
+    <div class="loading">
+      جاري تحميل الطلبات...
+    </div>
+
   </div>
 
 </div>
+
 
 <script>
 
@@ -369,6 +397,7 @@ supabase.createClient(
 
 let ordersData = [];
 
+
 const statusNames = {
   new:"جديد",
   preparing:"قيد التجهيز",
@@ -376,6 +405,7 @@ const statusNames = {
   delivered:"تم التسليم",
   cancelled:"ملغي"
 };
+
 
 const statusClasses = {
   new:"status-new",
@@ -392,12 +422,12 @@ const statusClasses = {
 
 async function checkUser(){
 
-  const { data } =
+  const {data} =
     await supabaseClient.auth.getSession();
 
   if(!data.session){
 
-    location.href = "admin.html";
+    location.href="admin.html";
 
     return false;
   }
@@ -420,11 +450,16 @@ async function loadOrders(){
 
   hideError();
 
-  const { data, error } =
+
+  const {data,error} =
     await supabaseClient
       .from("orders")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
 
   if(error){
 
@@ -439,7 +474,10 @@ async function loadOrders(){
     return;
   }
 
-  ordersData = data || [];
+
+  ordersData =
+    data || [];
+
 
   updateStats();
 
@@ -455,7 +493,9 @@ async function loadOrders(){
 function updateStats(){
 
   document.getElementById("allCount")
-    .textContent = ordersData.length;
+    .textContent =
+      ordersData.length;
+
 
   document.getElementById("newCount")
     .textContent =
@@ -463,11 +503,13 @@ function updateStats(){
         x => x.status === "new"
       ).length;
 
+
   document.getElementById("preparingCount")
     .textContent =
       ordersData.filter(
         x => x.status === "preparing"
       ).length;
+
 
   document.getElementById("deliveredCount")
     .textContent =
@@ -487,17 +529,20 @@ function renderOrders(){
   const container =
     document.getElementById("orders");
 
+
   const search =
     document.getElementById("search")
       .value
       .trim()
       .toLowerCase();
 
+
   const filter =
     document.getElementById("statusFilter")
       .value;
 
-  let filtered =
+
+  const filtered =
     ordersData.filter(order => {
 
       const text =
@@ -509,14 +554,22 @@ function renderOrders(){
           String(order.phone || "")
         ).toLowerCase();
 
+
       const matchesSearch =
-        !search || text.includes(search);
+        !search ||
+        text.includes(search);
+
 
       const matchesStatus =
-        !filter || order.status === filter;
+        !filter ||
+        order.status === filter;
 
-      return matchesSearch &&
-             matchesStatus;
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+
     });
 
 
@@ -530,21 +583,24 @@ function renderOrders(){
 
 
   container.innerHTML =
-    filtered.map(order =>
-      createOrderCard(order)
-    ).join("");
+    filtered
+      .map(order =>
+        createOrderCard(order)
+      )
+      .join("");
 
 }
 
 
 /* =========================
-   إنشاء كارت الطلب
+   كارت الطلب
 ========================= */
 
 function createOrderCard(order){
 
   const status =
     order.status || "new";
+
 
   const date =
     order.created_at
@@ -563,8 +619,14 @@ function createOrderCard(order){
           طلب #${escapeHtml(order.id)}
         </div>
 
-        <span class="status ${statusClasses[status] || "status-new"}">
-          ${statusNames[status] || status}
+        <span class="status ${
+          statusClasses[status] ||
+          "status-new"
+        }">
+          ${
+            statusNames[status] ||
+            status
+          }
         </span>
 
       </div>
@@ -574,41 +636,74 @@ function createOrderCard(order){
 
         <div>
           👤 <b>العميل:</b>
-          ${escapeHtml(order.customer_name || "غير محدد")}
+          ${
+            escapeHtml(
+              order.customer_name ||
+              "غير محدد"
+            )
+          }
         </div>
+
 
         <div>
           📞 <b>الهاتف:</b>
-          ${escapeHtml(order.phone || "غير محدد")}
+          ${
+            escapeHtml(
+              order.phone ||
+              "غير محدد"
+            )
+          }
         </div>
+
 
         <div>
           📍 <b>المحافظة:</b>
-          ${escapeHtml(order.governorate || "غير محدد")}
+          ${
+            escapeHtml(
+              order.governorate ||
+              "غير محدد"
+            )
+          }
         </div>
+
 
         <div>
           🏠 <b>العنوان:</b>
-          ${escapeHtml(order.address || "غير محدد")}
+          ${
+            escapeHtml(
+              order.address ||
+              "غير محدد"
+            )
+          }
         </div>
+
 
         <div>
           💳 <b>الدفع:</b>
-          ${escapeHtml(order.payment_method || "غير محدد")}
+          ${
+            escapeHtml(
+              order.payment_method ||
+              "غير محدد"
+            )
+          }
         </div>
+
 
         <div>
           🕒 <b>التاريخ:</b>
           ${date}
         </div>
 
+
         ${
           order.notes
           ?
-          `<div>
-             📝 <b>ملاحظات:</b>
-             ${escapeHtml(order.notes)}
-           </div>`
+          `
+          <div>
+            📝 <b>ملاحظات:</b>
+            ${escapeHtml(order.notes)}
+          </div>
+          `
           :
           ""
         }
@@ -618,12 +713,18 @@ function createOrderCard(order){
 
       <div class="products">
 
-        <div style="font-weight:bold;margin-bottom:8px">
-          🛍️ المنتجات
+        <div style="font-weight:bold">
+          🛍️ منتجات الطلب
         </div>
 
-        <div style="color:#777;font-size:13px">
-          تفاصيل المنتجات موجودة داخل الطلب.
+        <div
+          style="
+            color:#777;
+            font-size:13px;
+            margin-top:6px;
+          "
+        >
+          اضغط على تفاصيل الطلب لرؤية المنتجات والكميات.
         </div>
 
       </div>
@@ -634,47 +735,110 @@ function createOrderCard(order){
         <span>الإجمالي</span>
 
         <span>
-          ${Number(order.total || 0).toFixed(2)} ج.م
+          ${
+            Number(
+              order.total || 0
+            ).toFixed(2)
+          }
+          ج.م
         </span>
 
       </div>
 
 
       <div class="shipping">
+
         الشحن:
-        ${Number(order.shipping || 0).toFixed(2)}
+        ${
+          Number(
+            order.shipping || 0
+          ).toFixed(2)
+        }
         ج.م
+
       </div>
 
 
       <div class="actions">
 
+
+        <!-- تفاصيل الطلب -->
+
+        <button
+          class="details-btn"
+          onclick="openOrderDetails(${order.id})"
+        >
+          👁️ عرض تفاصيل الطلب
+        </button>
+
+
+        <!-- تغيير الحالة -->
+
         <select
-          onchange="changeStatus(${order.id}, this.value)"
+          onchange="
+            changeStatus(
+              ${order.id},
+              this.value
+            )
+          "
         >
 
-          <option value="new"
-            ${status==="new" ? "selected":""}>
+          <option
+            value="new"
+            ${
+              status === "new"
+              ? "selected"
+              : ""
+            }
+          >
             🟡 جديد
           </option>
 
-          <option value="preparing"
-            ${status==="preparing" ? "selected":""}>
+
+          <option
+            value="preparing"
+            ${
+              status === "preparing"
+              ? "selected"
+              : ""
+            }
+          >
             🔵 قيد التجهيز
           </option>
 
-          <option value="shipped"
-            ${status==="shipped" ? "selected":""}>
+
+          <option
+            value="shipped"
+            ${
+              status === "shipped"
+              ? "selected"
+              : ""
+            }
+          >
             🚚 تم الشحن
           </option>
 
-          <option value="delivered"
-            ${status==="delivered" ? "selected":""}>
+
+          <option
+            value="delivered"
+            ${
+              status === "delivered"
+              ? "selected"
+              : ""
+            }
+          >
             🟢 تم التسليم
           </option>
 
-          <option value="cancelled"
-            ${status==="cancelled" ? "selected":""}>
+
+          <option
+            value="cancelled"
+            ${
+              status === "cancelled"
+              ? "selected"
+              : ""
+            }
+          >
             🔴 ملغي
           </option>
 
@@ -690,12 +854,28 @@ function createOrderCard(order){
 
 
 /* =========================
-   تغيير حالة الطلب
+   فتح تفاصيل الطلب
 ========================= */
 
-async function changeStatus(id,newStatus){
+function openOrderDetails(id){
 
-  const { error } =
+  location.href =
+    "order-details.html?id=" +
+    encodeURIComponent(id);
+
+}
+
+
+/* =========================
+   تغيير الحالة
+========================= */
+
+async function changeStatus(
+  id,
+  newStatus
+){
+
+  const {error} =
     await supabaseClient
       .from("orders")
       .update({
@@ -717,14 +897,19 @@ async function changeStatus(id,newStatus){
 
   const order =
     ordersData.find(
-      x => Number(x.id) === Number(id)
+      x =>
+        Number(x.id) ===
+        Number(id)
     );
+
 
   if(order){
 
     order.status =
       newStatus;
+
   }
+
 
   updateStats();
 
@@ -745,6 +930,7 @@ function escapeHtml(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
 
@@ -757,16 +943,20 @@ function showError(message){
   const box =
     document.getElementById("errorBox");
 
-  box.textContent = message;
+  box.textContent =
+    message;
 
-  box.style.display = "block";
+  box.style.display =
+    "block";
+
 }
 
 
 function hideError(){
 
   document.getElementById("errorBox")
-    .style.display = "none";
+    .style.display =
+      "none";
 
 }
 
@@ -780,6 +970,7 @@ function hideError(){
   const logged =
     await checkUser();
 
+
   if(logged){
 
     await loadOrders();
@@ -791,4 +982,4 @@ function hideError(){
 </script>
 
 </body>
-  </html>
+</html>
