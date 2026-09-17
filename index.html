@@ -1219,7 +1219,8 @@ function filterCategory(cat){
   document.getElementById("categoryFilter").value=cat;
   scrollToSection("products");
   applyFilters();
-}function addToCart(id){
+}
+  function addToCart(id){
 
   const product=products.find(
     x=>String(x.id)===String(id)
