@@ -149,7 +149,7 @@ button{
   display:flex;
   align-items:center;
   gap:14px;
-  padding:13px 0;
+  padding:14px 0;
   border-bottom:1px solid #eee;
 }
 
@@ -158,11 +158,12 @@ button{
 }
 
 .product-image{
-  width:65px;
-  height:65px;
+  width:70px;
+  height:70px;
   border-radius:12px;
   object-fit:cover;
   background:#f1f1f1;
+  flex-shrink:0;
 }
 
 .product-info{
@@ -171,12 +172,14 @@ button{
 
 .product-name{
   font-weight:bold;
-  margin-bottom:6px;
+  margin-bottom:7px;
+  font-size:15px;
 }
 
 .product-meta{
   color:#777;
   font-size:13px;
+  line-height:1.7;
 }
 
 .product-total{
@@ -228,7 +231,16 @@ button{
   padding:20px;
 }
 
+.products-error{
+  background:#fff1f2;
+  color:#be123c;
+  padding:15px;
+  border-radius:12px;
+  line-height:1.8;
+}
+
 @media(max-width:700px){
+
   .order-grid{
     grid-template-columns:1fr;
   }
@@ -262,6 +274,11 @@ button{
   .product-total{
     font-size:13px;
   }
+
+  .product-image{
+    width:58px;
+    height:58px;
+  }
 }
 </style>
 </head>
@@ -270,34 +287,40 @@ button{
 
 <header>
   <div class="header-inner">
+
     <h1>📦 تفاصيل الطلب</h1>
 
-    <button class="back" onclick="location.href='orders.html'">
+    <button
+      class="back"
+      onclick="location.href='orders.html'"
+    >
       ← رجوع للطلبات
     </button>
+
   </div>
 </header>
 
 <div class="container">
 
   <div id="content">
+
     <div class="loading">
       ⏳ جاري تحميل الطلب...
     </div>
+
   </div>
 
 </div>
 
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
 
-/*
-  مهم:
-  حط هنا نفس Anon/Public Key
-  الموجود عندك في admin.html
-*/
 const SUPABASE_KEY =
 "sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
 
@@ -325,7 +348,7 @@ const statusNames = {
 
 
 /* =========================
-   معرفة رقم الطلب
+   رقم الطلب من الرابط
 ========================= */
 
 function getOrderId(){
@@ -334,21 +357,33 @@ function getOrderId(){
     new URLSearchParams(location.search);
 
   return params.get("id");
+
 }
 
 
 /* =========================
-   حماية الصفحة
+   حماية صفحة المدير
 ========================= */
 
 async function checkUser(){
 
-  const {data} =
+  const { data, error } =
     await supabaseClient.auth.getSession();
+
+  if(error){
+
+    console.error(error);
+
+    showError(
+      "حصل خطأ أثناء التحقق من تسجيل الدخول."
+    );
+
+    return false;
+  }
 
   if(!data.session){
 
-    location.href="admin.html";
+    location.href = "admin.html";
 
     return false;
   }
@@ -367,24 +402,49 @@ async function loadOrder(){
 
   if(!orderId){
 
-    showError("رقم الطلب غير موجود.");
+    showError(
+      "رقم الطلب غير موجود في الرابط."
+    );
 
     return;
   }
 
 
-  const {data:order,error} =
+  /* =========================
+     جلب بيانات الطلب
+  ========================= */
+
+  const {
+    data: order,
+    error: orderError
+  } =
     await supabaseClient
       .from("orders")
       .select("*")
-      .eq("id",orderId)
+      .eq("id", Number(orderId))
       .single();
 
 
-  if(error || !order){
+  if(orderError){
+
+    console.error(
+      "ORDER ERROR:",
+      orderError
+    );
 
     showError(
-      "الطلب غير موجود أو حدث خطأ أثناء تحميله."
+      "حصل خطأ أثناء تحميل بيانات الطلب:<br><br>" +
+      escapeHtml(orderError.message)
+    );
+
+    return;
+  }
+
+
+  if(!order){
+
+    showError(
+      "الطلب غير موجود."
     );
 
     return;
@@ -394,31 +454,52 @@ async function loadOrder(){
   currentOrder = order;
 
 
-const { data: items, error: itemsError } =
-  await supabaseClient
-    .from("order_items")
-    .select(`
-      id,
-      order_id,
-      product_id,
-      product_name,
-      price,
-      quantity
-    `)
-    .eq("order_id", Number(orderId))
-    .order("id", { ascending: true });
+  /* =========================
+     جلب المنتجات
+  ========================= */
+
+  const {
+    data: items,
+    error: itemsError
+  } =
+    await supabaseClient
+      .from("order_items")
+      .select(
+        "id, order_id, product_id, product_name, price, quantity"
+      )
+      .eq(
+        "order_id",
+        Number(orderId)
+      )
+      .order(
+        "id",
+        {
+          ascending:true
+        }
+      );
 
 
   if(itemsError){
 
-    console.log(itemsError);
+    console.error(
+      "ITEMS ERROR:",
+      itemsError
+    );
 
     currentOrder.items = [];
 
+    currentOrder.itemsError =
+      itemsError.message;
+
   }else{
 
-    currentOrder.items = items || [];
+    currentOrder.items =
+      Array.isArray(items)
+        ? items
+        : [];
 
+    currentOrder.itemsError =
+      null;
   }
 
 
@@ -433,15 +514,14 @@ const { data: items, error: itemsError } =
 
 function renderOrder(){
 
-  const order = currentOrder;
+  const order =
+    currentOrder;
 
   const items =
     order.items || [];
 
-
   const status =
     order.status || "new";
-
 
   const date =
     order.created_at
@@ -462,37 +542,67 @@ function renderOrder(){
         <h2>📋 بيانات الطلب</h2>
 
         <div class="info-row">
-          <span class="label">رقم الطلب</span>
+
+          <span class="label">
+            رقم الطلب
+          </span>
+
           <span class="value">
             #${escapeHtml(order.id)}
           </span>
+
         </div>
 
+
         <div class="info-row">
-          <span class="label">تاريخ الطلب</span>
+
+          <span class="label">
+            تاريخ الطلب
+          </span>
+
           <span class="value">
             ${escapeHtml(date)}
           </span>
+
         </div>
 
+
         <div class="info-row">
-          <span class="label">الحالة</span>
+
+          <span class="label">
+            الحالة
+          </span>
+
           <span class="value">
-            <span class="status ${status}">
+
+            <span class="status ${escapeHtml(status)}">
+
               ${escapeHtml(
                 statusNames[status] || status
               )}
+
             </span>
+
           </span>
+
         </div>
 
+
         <div class="info-row">
-          <span class="label">طريقة الدفع</span>
-          <span class="value">
-            ${escapeHtml(
-              order.payment_method || "غير محدد"
-            )}
+
+          <span class="label">
+            طريقة الدفع
           </span>
+
+          <span class="value">
+
+            ${escapeHtml(
+              order.payment_method ||
+              "غير محدد"
+            )}
+
+          </span>
+
         </div>
 
       </div>
@@ -504,40 +614,76 @@ function renderOrder(){
 
         <h2>👤 بيانات العميل</h2>
 
-        <div class="info-row">
-          <span class="label">الاسم</span>
-          <span class="value">
-            ${escapeHtml(
-              order.customer_name || "غير محدد"
-            )}
-          </span>
-        </div>
 
         <div class="info-row">
-          <span class="label">الهاتف</span>
-          <span class="value">
-            ${escapeHtml(
-              order.phone || "غير محدد"
-            )}
+
+          <span class="label">
+            الاسم
           </span>
+
+          <span class="value">
+
+            ${escapeHtml(
+              order.customer_name ||
+              "غير محدد"
+            )}
+
+          </span>
+
         </div>
 
-        <div class="info-row">
-          <span class="label">المحافظة</span>
-          <span class="value">
-            ${escapeHtml(
-              order.governorate || "غير محدد"
-            )}
-          </span>
-        </div>
 
         <div class="info-row">
-          <span class="label">العنوان</span>
-          <span class="value">
-            ${escapeHtml(
-              order.address || "غير محدد"
-            )}
+
+          <span class="label">
+            الهاتف
           </span>
+
+          <span class="value">
+
+            ${escapeHtml(
+              order.phone ||
+              "غير محدد"
+            )}
+
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="label">
+            المحافظة
+          </span>
+
+          <span class="value">
+
+            ${escapeHtml(
+              order.governorate ||
+              "غير محدد"
+            )}
+
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="label">
+            العنوان
+          </span>
+
+          <span class="value">
+
+            ${escapeHtml(
+              order.address ||
+              "غير محدد"
+            )}
+
+          </span>
+
         </div>
 
       </div>
@@ -547,106 +693,210 @@ function renderOrder(){
 
       <div class="card full">
 
-        <h2>🛍️ منتجات الطلب</h2>
+        <h2>
+          🛍️ منتجات الطلب
+        </h2>
+
 
         ${
+          order.itemsError
+          ?
+          `
+          <div class="products-error">
+
+            ❌ حصل خطأ أثناء تحميل المنتجات:
+
+            <br>
+
+            ${escapeHtml(
+              order.itemsError
+            )}
+
+          </div>
+          `
+          :
           items.length
           ?
-          items.map(item => `
+          items.map(item => {
 
-            <div class="product">
+            const quantity =
+              Number(item.quantity || 0);
 
-              <div class="product-info">
+            const price =
+              Number(item.price || 0);
 
-                <div class="product-name">
-                  ${escapeHtml(
-                    item.product_name || "منتج"
-                  )}
+            const total =
+              price * quantity;
+
+
+            return `
+
+              <div class="product">
+
+                <img
+                  class="product-image"
+                  src="${getProductImage(item)}"
+                  alt=""
+                  onerror="this.style.display='none'"
+                >
+
+
+                <div class="product-info">
+
+                  <div class="product-name">
+
+                    ${escapeHtml(
+                      item.product_name ||
+                      "منتج"
+                    )}
+
+                  </div>
+
+
+                  <div class="product-meta">
+
+                    الكمية:
+                    <strong>
+                      ${quantity}
+                    </strong>
+
+                    ×
+
+                    ${price.toFixed(2)}
+                    ج.م
+
+                  </div>
+
                 </div>
 
-                <div class="product-meta">
-                  الكمية:
-                  ${Number(item.quantity || 0)}
-                  ×
-                  ${Number(item.price || 0).toFixed(2)}
+
+                <div class="product-total">
+
+                  ${total.toFixed(2)}
                   ج.م
+
                 </div>
 
               </div>
 
-              <div class="product-total">
-                ${(
-                  Number(item.price || 0) *
-                  Number(item.quantity || 0)
-                ).toFixed(2)}
-                ج.م
-              </div>
+            `;
 
-            </div>
-
-          `).join("")
+          }).join("")
           :
           `
-            <div class="empty-products">
-              لا توجد منتجات مسجلة لهذا الطلب.
-            </div>
+          <div class="empty-products">
+
+            لا توجد منتجات مسجلة لهذا الطلب.
+
+          </div>
           `
         }
 
 
-        <!-- ملخص الحساب -->
+        <!-- الحساب -->
 
         <div class="summary">
 
-          <div class="summary-row">
-            <span>المجموع الفرعي</span>
-            <strong>
-              ${Number(order.subtotal || 0).toFixed(2)}
-              ج.م
-            </strong>
-          </div>
 
           <div class="summary-row">
-            <span>الشحن</span>
+
+            <span>
+              المجموع الفرعي
+            </span>
+
             <strong>
-              ${Number(order.shipping || 0).toFixed(2)}
+
+              ${Number(
+                order.subtotal || 0
+              ).toFixed(2)}
+
               ج.م
+
             </strong>
+
           </div>
+
+
+          <div class="summary-row">
+
+            <span>
+              الشحن
+            </span>
+
+            <strong>
+
+              ${Number(
+                order.shipping || 0
+              ).toFixed(2)}
+
+              ج.م
+
+            </strong>
+
+          </div>
+
 
           <div class="summary-row grand-total">
-            <span>الإجمالي</span>
+
+            <span>
+              الإجمالي
+            </span>
+
             <strong>
-              ${Number(order.total || 0).toFixed(2)}
+
+              ${Number(
+                order.total || 0
+              ).toFixed(2)}
+
               ج.م
+
             </strong>
+
           </div>
+
 
         </div>
 
       </div>
 
 
-      <!-- الملاحظات والحالة -->
+      <!-- إدارة الطلب -->
 
       <div class="card full">
 
-        <h2>⚙️ إدارة الطلب</h2>
+        <h2>
+          ⚙️ إدارة الطلب
+        </h2>
+
 
         ${
           order.notes
           ?
           `
           <div class="info-row">
-            <span class="label">📝 ملاحظات العميل</span>
-            <span class="value">
-              ${escapeHtml(order.notes)}
+
+            <span class="label">
+              📝 ملاحظات العميل
             </span>
+
+            <span class="value">
+
+              ${escapeHtml(
+                order.notes
+              )}
+
+            </span>
+
           </div>
           `
           :
           `
-          <div style="color:#777;margin-bottom:10px">
+          <div
+            style="
+              color:#777;
+              margin-bottom:10px
+            "
+          >
             لا توجد ملاحظات من العميل.
           </div>
           `
@@ -655,34 +905,50 @@ function renderOrder(){
 
         <div class="actions">
 
+
           <select id="statusSelect">
 
-            <option value="new"
-              ${status==="new"?"selected":""}>
+            <option
+              value="new"
+              ${status==="new"?"selected":""}
+            >
               🟡 جديد
             </option>
 
-            <option value="preparing"
-              ${status==="preparing"?"selected":""}>
+
+            <option
+              value="preparing"
+              ${status==="preparing"?"selected":""}
+            >
               🔵 قيد التجهيز
             </option>
 
-            <option value="shipped"
-              ${status==="shipped"?"selected":""}>
+
+            <option
+              value="shipped"
+              ${status==="shipped"?"selected":""}
+            >
               🚚 تم الشحن
             </option>
 
-            <option value="delivered"
-              ${status==="delivered"?"selected":""}>
+
+            <option
+              value="delivered"
+              ${status==="delivered"?"selected":""}
+            >
               🟢 تم التسليم
             </option>
 
-            <option value="cancelled"
-              ${status==="cancelled"?"selected":""}>
+
+            <option
+              value="cancelled"
+              ${status==="cancelled"?"selected":""}
+            >
               🔴 ملغي
             </option>
 
           </select>
+
 
           <button
             class="save-btn"
@@ -690,6 +956,7 @@ function renderOrder(){
           >
             💾 حفظ الحالة
           </button>
+
 
         </div>
 
@@ -704,33 +971,89 @@ function renderOrder(){
 
 
 /* =========================
-   حفظ الحالة
+   صورة المنتج
+========================= */
+
+function getProductImage(item){
+
+  /*
+    order_items عندنا لا يحتوي image_url
+    لذلك نضع صورة افتراضية.
+    البيانات المهمة للمنتج:
+    الاسم + السعر + الكمية + product_id
+  */
+
+  return "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(`
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="100"
+        height="100"
+      >
+        <rect
+          width="100"
+          height="100"
+          rx="15"
+          fill="#f1f1f1"
+        />
+        <text
+          x="50"
+          y="57"
+          text-anchor="middle"
+          font-size="35"
+        >
+          🛍️
+        </text>
+      </svg>
+    `);
+
+}
+
+
+/* =========================
+   تحديث الحالة
 ========================= */
 
 async function saveStatus(){
 
   const select =
-    document.getElementById("statusSelect");
+    document.getElementById(
+      "statusSelect"
+    );
 
-  if(!select) return;
+  if(!select){
+
+    return;
+  }
+
 
   const newStatus =
     select.value;
 
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("orders")
       .update({
         status:newStatus
       })
-      .eq("id",orderId);
+      .eq(
+        "id",
+        Number(orderId)
+      );
 
 
   if(error){
 
+    console.error(
+      "STATUS ERROR:",
+      error
+    );
+
     alert(
-      "❌ حصل خطأ أثناء تحديث الحالة:\n" +
+      "❌ حصل خطأ أثناء تحديث الحالة:\n\n" +
       error.message
     );
 
@@ -745,7 +1068,9 @@ async function saveStatus(){
   renderOrder();
 
 
-  alert("✅ تم تحديث حالة الطلب بنجاح.");
+  alert(
+    "✅ تم تحديث حالة الطلب بنجاح."
+  );
 
 }
 
@@ -756,10 +1081,13 @@ async function saveStatus(){
 
 function showError(message){
 
-  document.getElementById("content").innerHTML = `
+  document.getElementById(
+    "content"
+  ).innerHTML = `
 
     <div class="error">
-      ❌ ${escapeHtml(message)}
+
+      ❌ ${message}
 
       <br><br>
 
@@ -769,6 +1097,7 @@ function showError(message){
       >
         ← الرجوع للطلبات
       </button>
+
     </div>
 
   `;
@@ -777,17 +1106,37 @@ function showError(message){
 
 
 /* =========================
-   حماية النصوص
+   حماية HTML
 ========================= */
 
 function escapeHtml(value){
 
   return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
@@ -800,6 +1149,7 @@ function escapeHtml(value){
 
   const logged =
     await checkUser();
+
 
   if(logged){
 
