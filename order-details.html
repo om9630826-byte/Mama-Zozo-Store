@@ -8,7 +8,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:Tahoma,Arial,sans-serif;
@@ -32,7 +36,9 @@ header{
   gap:10px;
 }
 
-header h1{font-size:21px}
+header h1{
+  font-size:21px;
+}
 
 button{
   border:0;
@@ -314,10 +320,6 @@ button{
 
 <script>
 
-/* =========================
-   SUPABASE
-========================= */
-
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
 
@@ -333,11 +335,6 @@ supabase.createClient(
 let orderId = null;
 let currentOrder = null;
 
-
-/* =========================
-   أسماء الحالات
-========================= */
-
 const statusNames = {
   new:"جديد",
   preparing:"قيد التجهيز",
@@ -346,24 +343,13 @@ const statusNames = {
   cancelled:"ملغي"
 };
 
-
-/* =========================
-   رقم الطلب من الرابط
-========================= */
-
 function getOrderId(){
 
   const params =
     new URLSearchParams(location.search);
 
   return params.get("id");
-
 }
-
-
-/* =========================
-   حماية صفحة المدير
-========================= */
 
 async function checkUser(){
 
@@ -391,11 +377,6 @@ async function checkUser(){
   return true;
 }
 
-
-/* =========================
-   تحميل الطلب
-========================= */
-
 async function loadOrder(){
 
   orderId = getOrderId();
@@ -409,11 +390,6 @@ async function loadOrder(){
     return;
   }
 
-
-  /* =========================
-     جلب بيانات الطلب
-  ========================= */
-
   const {
     data: order,
     error: orderError
@@ -423,7 +399,6 @@ async function loadOrder(){
       .select("*")
       .eq("id", Number(orderId))
       .single();
-
 
   if(orderError){
 
@@ -440,7 +415,6 @@ async function loadOrder(){
     return;
   }
 
-
   if(!order){
 
     showError(
@@ -450,13 +424,12 @@ async function loadOrder(){
     return;
   }
 
-
   currentOrder = order;
 
-
-  /* =========================
-     جلب المنتجات
-  ========================= */
+  /*
+    جلب بيانات الطلب مع صورة المنتج
+    من جدول products
+  */
 
   const {
     data: items,
@@ -464,9 +437,17 @@ async function loadOrder(){
   } =
     await supabaseClient
       .from("order_items")
-      .select(
-        "id, order_id, product_id, product_name, price, quantity"
-      )
+      .select(`
+        id,
+        order_id,
+        product_id,
+        product_name,
+        price,
+        quantity,
+        products (
+          image_url
+        )
+      `)
       .eq(
         "order_id",
         Number(orderId)
@@ -477,7 +458,6 @@ async function loadOrder(){
           ascending:true
         }
       );
-
 
   if(itemsError){
 
@@ -495,22 +475,25 @@ async function loadOrder(){
 
     currentOrder.items =
       Array.isArray(items)
-        ? items
+        ? items.map(item => ({
+
+            ...item,
+
+            image_url:
+              item.products &&
+              item.products.image_url
+                ? item.products.image_url
+                : ""
+
+          }))
         : [];
 
     currentOrder.itemsError =
       null;
   }
 
-
   renderOrder();
-
 }
-
-
-/* =========================
-   عرض الطلب
-========================= */
 
 function renderOrder(){
 
@@ -529,13 +512,9 @@ function renderOrder(){
           .toLocaleString("ar-EG")
       : "غير معروف";
 
-
   document.getElementById("content").innerHTML = `
 
     <div class="order-grid">
-
-
-      <!-- بيانات الطلب -->
 
       <div class="card">
 
@@ -553,7 +532,6 @@ function renderOrder(){
 
         </div>
 
-
         <div class="info-row">
 
           <span class="label">
@@ -565,7 +543,6 @@ function renderOrder(){
           </span>
 
         </div>
-
 
         <div class="info-row">
 
@@ -587,7 +564,6 @@ function renderOrder(){
 
         </div>
 
-
         <div class="info-row">
 
           <span class="label">
@@ -607,13 +583,9 @@ function renderOrder(){
 
       </div>
 
-
-      <!-- بيانات العميل -->
-
       <div class="card">
 
         <h2>👤 بيانات العميل</h2>
-
 
         <div class="info-row">
 
@@ -632,7 +604,6 @@ function renderOrder(){
 
         </div>
 
-
         <div class="info-row">
 
           <span class="label">
@@ -650,7 +621,6 @@ function renderOrder(){
 
         </div>
 
-
         <div class="info-row">
 
           <span class="label">
@@ -667,7 +637,6 @@ function renderOrder(){
           </span>
 
         </div>
-
 
         <div class="info-row">
 
@@ -688,15 +657,11 @@ function renderOrder(){
 
       </div>
 
-
-      <!-- المنتجات -->
-
       <div class="card full">
 
         <h2>
           🛍️ منتجات الطلب
         </h2>
-
 
         ${
           order.itemsError
@@ -728,6 +693,8 @@ function renderOrder(){
             const total =
               price * quantity;
 
+            const image =
+              getProductImage(item);
 
             return `
 
@@ -735,11 +702,12 @@ function renderOrder(){
 
                 <img
                   class="product-image"
-                  src="${getProductImage(item)}"
-                  alt=""
-                  onerror="this.style.display='none'"
+                  src="${escapeHtml(image)}"
+                  alt="${escapeHtml(
+                    item.product_name || "منتج"
+                  )}"
+                  onerror="this.onerror=null;this.src='${getFallbackImage()}'"
                 >
-
 
                 <div class="product-info">
 
@@ -751,7 +719,6 @@ function renderOrder(){
                     )}
 
                   </div>
-
 
                   <div class="product-meta">
 
@@ -768,7 +735,6 @@ function renderOrder(){
                   </div>
 
                 </div>
-
 
                 <div class="product-total">
 
@@ -792,11 +758,7 @@ function renderOrder(){
           `
         }
 
-
-        <!-- الحساب -->
-
         <div class="summary">
-
 
           <div class="summary-row">
 
@@ -816,7 +778,6 @@ function renderOrder(){
 
           </div>
 
-
           <div class="summary-row">
 
             <span>
@@ -834,7 +795,6 @@ function renderOrder(){
             </strong>
 
           </div>
-
 
           <div class="summary-row grand-total">
 
@@ -854,20 +814,15 @@ function renderOrder(){
 
           </div>
 
-
         </div>
 
       </div>
-
-
-      <!-- إدارة الطلب -->
 
       <div class="card full">
 
         <h2>
           ⚙️ إدارة الطلب
         </h2>
-
 
         ${
           order.notes
@@ -902,9 +857,7 @@ function renderOrder(){
           `
         }
 
-
         <div class="actions">
-
 
           <select id="statusSelect">
 
@@ -915,14 +868,12 @@ function renderOrder(){
               🟡 جديد
             </option>
 
-
             <option
               value="preparing"
               ${status==="preparing"?"selected":""}
             >
               🔵 قيد التجهيز
             </option>
-
 
             <option
               value="shipped"
@@ -931,14 +882,12 @@ function renderOrder(){
               🚚 تم الشحن
             </option>
 
-
             <option
               value="delivered"
               ${status==="delivered"?"selected":""}
             >
               🟢 تم التسليم
             </option>
-
 
             <option
               value="cancelled"
@@ -949,7 +898,6 @@ function renderOrder(){
 
           </select>
 
-
           <button
             class="save-btn"
             onclick="saveStatus()"
@@ -957,31 +905,37 @@ function renderOrder(){
             💾 حفظ الحالة
           </button>
 
-
         </div>
 
       </div>
 
-
     </div>
 
   `;
-
 }
 
-
 /* =========================
-   صورة المنتج
+   جلب صورة المنتج
 ========================= */
 
 function getProductImage(item){
 
-  /*
-    order_items عندنا لا يحتوي image_url
-    لذلك نضع صورة افتراضية.
-    البيانات المهمة للمنتج:
-    الاسم + السعر + الكمية + product_id
-  */
+  if(
+    item.image_url &&
+    item.image_url.trim() !== ""
+  ){
+
+    return item.image_url;
+  }
+
+  return getFallbackImage();
+}
+
+/* =========================
+   صورة افتراضية
+========================= */
+
+function getFallbackImage(){
 
   return "data:image/svg+xml;charset=UTF-8," +
     encodeURIComponent(`
@@ -990,12 +944,14 @@ function getProductImage(item){
         width="100"
         height="100"
       >
+
         <rect
           width="100"
           height="100"
           rx="15"
           fill="#f1f1f1"
         />
+
         <text
           x="50"
           y="57"
@@ -1004,15 +960,10 @@ function getProductImage(item){
         >
           🛍️
         </text>
+
       </svg>
     `);
-
 }
-
-
-/* =========================
-   تحديث الحالة
-========================= */
 
 async function saveStatus(){
 
@@ -1026,10 +977,8 @@ async function saveStatus(){
     return;
   }
 
-
   const newStatus =
     select.value;
-
 
   const {
     error
@@ -1043,7 +992,6 @@ async function saveStatus(){
         "id",
         Number(orderId)
       );
-
 
   if(error){
 
@@ -1060,24 +1008,15 @@ async function saveStatus(){
     return;
   }
 
-
   currentOrder.status =
     newStatus;
 
-
   renderOrder();
-
 
   alert(
     "✅ تم تحديث حالة الطلب بنجاح."
   );
-
 }
-
-
-/* =========================
-   رسالة الخطأ
-========================= */
 
 function showError(message){
 
@@ -1101,13 +1040,7 @@ function showError(message){
     </div>
 
   `;
-
 }
-
-
-/* =========================
-   حماية HTML
-========================= */
 
 function escapeHtml(value){
 
@@ -1137,19 +1070,12 @@ function escapeHtml(value){
       /'/g,
       "&#039;"
     );
-
 }
-
-
-/* =========================
-   تشغيل الصفحة
-========================= */
 
 (async function(){
 
   const logged =
     await checkUser();
-
 
   if(logged){
 
@@ -1162,4 +1088,4 @@ function escapeHtml(value){
 </script>
 
 </body>
-</html>
+  </html>
