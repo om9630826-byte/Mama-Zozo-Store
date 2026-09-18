@@ -170,6 +170,52 @@ textarea{
   flex-wrap:wrap;
 }
 
+/* =========================
+   SEARCH + FILTER
+========================= */
+
+.search-filter{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:12px;
+  margin-top:15px;
+}
+
+.search-box{
+  position:relative;
+}
+
+.search-box input{
+  margin:0;
+  padding-right:45px;
+}
+
+.search-icon{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+  pointer-events:none;
+}
+
+.filter-box select{
+  margin:0;
+}
+
+.results-info{
+  margin-top:12px;
+  color:#777;
+  font-size:14px;
+}
+
+.no-results{
+  text-align:center;
+  padding:35px 10px;
+  color:#777;
+  font-size:16px;
+}
+
 @media(max-width:600px){
 
   .container{
@@ -177,6 +223,10 @@ textarea{
   }
 
   .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .search-filter{
     grid-template-columns:1fr;
   }
 
@@ -246,6 +296,7 @@ textarea{
 <h2>📦 المنتجات</h2>
 
 <div>
+
 <button class="green" onclick="showAddForm()">
 ➕ إضافة منتج
 </button>
@@ -253,6 +304,7 @@ textarea{
 <button class="gray" onclick="goAdmin()">
 ⬅️ لوحة المدير
 </button>
+
 </div>
 
 </div>
@@ -316,7 +368,7 @@ type="checkbox"
 checked
 style="width:auto"
 >
- المنتج نشط
+المنتج نشط
 </label>
 
 <br>
@@ -327,7 +379,7 @@ id="is_featured"
 type="checkbox"
 style="width:auto"
 >
- منتج مميز
+منتج مميز
 </label>
 
 </div>
@@ -368,6 +420,48 @@ onclick="loadProducts()"
 
 </div>
 
+
+<!-- SEARCH + FILTER -->
+
+<div class="search-filter">
+
+<div class="search-box">
+
+<span class="search-icon">🔎</span>
+
+<input
+id="searchInput"
+type="text"
+placeholder="ابحث باسم المنتج..."
+oninput="filterProducts()"
+>
+
+</div>
+
+<div class="filter-box">
+
+<select
+id="categoryFilter"
+onchange="filterProducts()"
+>
+
+<option value="">
+📂 كل الأقسام
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div
+id="resultsInfo"
+class="results-info"
+>
+</div>
+
+
 <div id="products">
 ⏳ جاري تحميل المنتجات...
 </div>
@@ -390,6 +484,8 @@ supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
+
+let allProducts = [];
 
 
 /* =========================
@@ -547,8 +643,6 @@ msg.innerHTML =
 
 try{
 
-/* CREATE PRODUCT */
-
 const {data,error} =
 await client
 .from("products")
@@ -574,8 +668,6 @@ throw error;
 
 let imageUrl = null;
 
-
-/* UPLOAD IMAGE */
 
 if(imageFile){
 
@@ -627,8 +719,6 @@ publicUrl
 .publicUrl;
 
 
-/* UPDATE PRODUCT IMAGE */
-
 const update =
 await client
 .from("products")
@@ -646,47 +736,19 @@ throw update.error;
 }
 
 
-/* SUCCESS */
-
 msg.innerHTML =
 '<div class="msg success">✅ تم إضافة المنتج بنجاح.</div>';
 
 
-document
-.getElementById("name")
-.value="";
-
-document
-.getElementById("price")
-.value="";
-
-document
-.getElementById("old_price")
-.value="";
-
-document
-.getElementById("stock")
-.value="0";
-
-document
-.getElementById("category")
-.value="";
-
-document
-.getElementById("description")
-.value="";
-
-document
-.getElementById("image")
-.value="";
-
-document
-.getElementById("is_active")
-.checked=true;
-
-document
-.getElementById("is_featured")
-.checked=false;
+document.getElementById("name").value="";
+document.getElementById("price").value="";
+document.getElementById("old_price").value="";
+document.getElementById("stock").value="0";
+document.getElementById("category").value="";
+document.getElementById("description").value="";
+document.getElementById("image").value="";
+document.getElementById("is_active").checked=true;
+document.getElementById("is_featured").checked=false;
 
 
 await loadProducts();
@@ -740,10 +802,168 @@ return;
 }
 
 
-if(!data || !data.length){
+allProducts =
+Array.isArray(data)
+? data
+: [];
 
-box.innerHTML =
-"<p>لا توجد منتجات حتى الآن.</p>";
+
+buildCategoryFilter();
+
+filterProducts();
+
+}
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+function buildCategoryFilter(){
+
+const select =
+document.getElementById(
+"categoryFilter"
+);
+
+const currentValue =
+select.value;
+
+
+const categories =
+[
+...new Set(
+allProducts
+.map(p =>
+(p.category || "").trim()
+)
+)
+.filter(Boolean)
+.sort(
+(a,b) =>
+a.localeCompare(
+b,
+"ar"
+)
+);
+
+
+select.innerHTML =
+
+`
+<option value="">
+📂 كل الأقسام
+</option>
+
+${
+categories.map(category => `
+
+<option
+value="${escapeAttr(category)}"
+>
+${escapeHtml(category)}
+</option>
+
+`).join("")
+}
+`;
+
+
+if(
+categories.includes(currentValue)
+){
+
+select.value =
+currentValue;
+
+}
+
+}
+
+
+/* =========================
+   FILTER PRODUCTS
+========================= */
+
+function filterProducts(){
+
+const search =
+document
+.getElementById("searchInput")
+.value
+.trim()
+.toLowerCase();
+
+const category =
+document
+.getElementById("categoryFilter")
+.value;
+
+
+const filtered =
+allProducts.filter(product => {
+
+const name =
+String(
+product.name || ""
+)
+.toLowerCase();
+
+
+const matchesSearch =
+!search ||
+name.includes(search);
+
+
+const matchesCategory =
+!category ||
+String(
+product.category || ""
+)
+.trim() === category;
+
+
+return (
+matchesSearch &&
+matchesCategory
+);
+
+});
+
+
+renderProducts(filtered);
+
+}
+
+
+/* =========================
+   RENDER PRODUCTS
+========================= */
+
+function renderProducts(data){
+
+const box =
+document.getElementById("products");
+
+const info =
+document.getElementById("resultsInfo");
+
+
+info.textContent =
+`عرض ${data.length} من أصل ${allProducts.length} منتج`;
+
+
+if(!data.length){
+
+box.innerHTML = `
+
+<div class="no-results">
+
+🔎 لا توجد منتجات مطابقة للبحث أو الفلترة.
+
+</div>
+
+`;
 
 return;
 
@@ -770,6 +990,7 @@ p.image_url
 class="product-image"
 src="${escapeAttr(p.image_url)}"
 alt="${escapeAttr(p.name)}"
+onerror="this.style.display='none'"
 >
 `
 
@@ -817,6 +1038,7 @@ ${escapeHtml(p.category || "غير محدد")}
 </div>
 
 <div class="detail">
+
 ${
 p.is_active
 ?
@@ -824,6 +1046,7 @@ p.is_active
 :
 "🔴 المنتج غير نشط"
 }
+
 </div>
 
 ${
