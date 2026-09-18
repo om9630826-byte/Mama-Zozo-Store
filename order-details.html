@@ -394,12 +394,19 @@ async function loadOrder(){
   currentOrder = order;
 
 
-  const {data:items,error:itemsError} =
-    await supabaseClient
-      .from("order_items")
-      .select("*")
-      .eq("order_id",orderId)
-      .order("id",{ascending:true});
+const { data: items, error: itemsError } =
+  await supabaseClient
+    .from("order_items")
+    .select(`
+      id,
+      order_id,
+      product_id,
+      product_name,
+      price,
+      quantity
+    `)
+    .eq("order_id", Number(orderId))
+    .order("id", { ascending: true });
 
 
   if(itemsError){
