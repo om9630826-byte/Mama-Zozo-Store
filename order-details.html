@@ -151,6 +151,53 @@ button{
   color:#991b1b;
 }
 
+/* =========================
+   الموقع
+========================= */
+
+.location-box{
+  margin-top:15px;
+  padding:16px;
+  background:#f8f7ff;
+  border:1px solid #e4e1ff;
+  border-radius:14px;
+}
+
+.location-title{
+  font-weight:bold;
+  color:#4f46c5;
+  margin-bottom:10px;
+}
+
+.location-coordinates{
+  color:#666;
+  font-size:13px;
+  line-height:1.8;
+  direction:ltr;
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.map-btn{
+  display:block;
+  width:100%;
+  background:#22c55e;
+  color:white;
+  text-decoration:none;
+  text-align:center;
+  padding:12px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.map-btn:hover{
+  opacity:.9;
+}
+
+/* =========================
+   المنتجات
+========================= */
+
 .product{
   display:flex;
   align-items:center;
@@ -343,6 +390,10 @@ const statusNames = {
   cancelled:"ملغي"
 };
 
+/* =========================
+   الحصول على رقم الطلب
+========================= */
+
 function getOrderId(){
 
   const params =
@@ -350,6 +401,10 @@ function getOrderId(){
 
   return params.get("id");
 }
+
+/* =========================
+   التحقق من المدير
+========================= */
 
 async function checkUser(){
 
@@ -377,6 +432,10 @@ async function checkUser(){
   return true;
 }
 
+/* =========================
+   تحميل الطلب
+========================= */
+
 async function loadOrder(){
 
   orderId = getOrderId();
@@ -394,11 +453,11 @@ async function loadOrder(){
     data: order,
     error: orderError
   } =
-    await supabaseClient
-      .from("orders")
-      .select("*")
-      .eq("id", Number(orderId))
-      .single();
+  await supabaseClient
+    .from("orders")
+    .select("*")
+    .eq("id", Number(orderId))
+    .single();
 
   if(orderError){
 
@@ -426,38 +485,37 @@ async function loadOrder(){
 
   currentOrder = order;
 
-  /*
-    جلب بيانات الطلب مع صورة المنتج
-    من جدول products
-  */
+  /* =========================
+     تحميل منتجات الطلب
+  ========================= */
 
   const {
     data: items,
     error: itemsError
   } =
-    await supabaseClient
-      .from("order_items")
-      .select(`
-        id,
-        order_id,
-        product_id,
-        product_name,
-        price,
-        quantity,
-        products (
-          image_url
-        )
-      `)
-      .eq(
-        "order_id",
-        Number(orderId)
+  await supabaseClient
+    .from("order_items")
+    .select(`
+      id,
+      order_id,
+      product_id,
+      product_name,
+      price,
+      quantity,
+      products (
+        image_url
       )
-      .order(
-        "id",
-        {
-          ascending:true
-        }
-      );
+    `)
+    .eq(
+      "order_id",
+      Number(orderId)
+    )
+    .order(
+      "id",
+      {
+        ascending:true
+      }
+    );
 
   if(itemsError){
 
@@ -495,6 +553,141 @@ async function loadOrder(){
   renderOrder();
 }
 
+/* =========================
+   استخراج إحداثيات الموقع
+========================= */
+
+function getLocationFromNotes(notes){
+
+  if(!notes){
+    return null;
+  }
+
+  /*
+    يبحث عن:
+    موقع التوصيل: 30.12345, 31.12345
+  */
+
+  const match =
+    notes.match(
+      /موقع التوصيل\s*:\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/i
+    );
+
+  if(!match){
+    return null;
+  }
+
+  const lat =
+    Number(match[1]);
+
+  const lng =
+    Number(match[2]);
+
+  if(
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lng)
+  ){
+    return null;
+  }
+
+  if(
+    lat < -90 ||
+    lat > 90 ||
+    lng < -180 ||
+    lng > 180
+  ){
+    return null;
+  }
+
+  return {
+    lat,
+    lng
+  };
+}
+
+/* =========================
+   إنشاء صندوق الموقع
+========================= */
+
+function renderLocation(order){
+
+  const location =
+    getLocationFromNotes(
+      order.notes
+    );
+
+  if(!location){
+
+    return `
+      <div class="location-box">
+
+        <div class="location-title">
+          📍 موقع العميل
+        </div>
+
+        <div
+          style="
+            color:#777;
+            line-height:1.8;
+          "
+        >
+          لم يتم تسجيل موقع على الخريطة لهذا الطلب.
+        </div>
+
+      </div>
+    `;
+  }
+
+  const lat =
+    location.lat;
+
+  const lng =
+    location.lng;
+
+  const googleMapsUrl =
+    "https://www.google.com/maps?q=" +
+    encodeURIComponent(
+      lat + "," + lng
+    );
+
+  return `
+
+    <div class="location-box">
+
+      <div class="location-title">
+        📍 موقع العميل
+      </div>
+
+      <div class="location-coordinates">
+
+        خط العرض:
+        ${escapeHtml(lat.toFixed(6))}
+
+        <br>
+
+        خط الطول:
+        ${escapeHtml(lng.toFixed(6))}
+
+      </div>
+
+      <a
+        class="map-btn"
+        href="${googleMapsUrl}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        📍 فتح موقع العميل على الخريطة
+      </a>
+
+    </div>
+
+  `;
+}
+
+/* =========================
+   عرض الطلب
+========================= */
+
 function renderOrder(){
 
   const order =
@@ -515,6 +708,8 @@ function renderOrder(){
   document.getElementById("content").innerHTML = `
 
     <div class="order-grid">
+
+      <!-- بيانات الطلب -->
 
       <div class="card">
 
@@ -582,6 +777,8 @@ function renderOrder(){
         </div>
 
       </div>
+
+      <!-- بيانات العميل -->
 
       <div class="card">
 
@@ -655,7 +852,11 @@ function renderOrder(){
 
         </div>
 
+        ${renderLocation(order)}
+
       </div>
+
+      <!-- المنتجات -->
 
       <div class="card full">
 
@@ -818,6 +1019,8 @@ function renderOrder(){
 
       </div>
 
+      <!-- إدارة الطلب -->
+
       <div class="card full">
 
         <h2>
@@ -915,7 +1118,7 @@ function renderOrder(){
 }
 
 /* =========================
-   جلب صورة المنتج
+   صورة المنتج
 ========================= */
 
 function getProductImage(item){
@@ -965,6 +1168,10 @@ function getFallbackImage(){
     `);
 }
 
+/* =========================
+   حفظ الحالة
+========================= */
+
 async function saveStatus(){
 
   const select =
@@ -983,15 +1190,15 @@ async function saveStatus(){
   const {
     error
   } =
-    await supabaseClient
-      .from("orders")
-      .update({
-        status:newStatus
-      })
-      .eq(
-        "id",
-        Number(orderId)
-      );
+  await supabaseClient
+    .from("orders")
+    .update({
+      status:newStatus
+    })
+    .eq(
+      "id",
+      Number(orderId)
+    );
 
   if(error){
 
@@ -1018,6 +1225,10 @@ async function saveStatus(){
   );
 }
 
+/* =========================
+   عرض الخطأ
+========================= */
+
 function showError(message){
 
   document.getElementById(
@@ -1041,6 +1252,10 @@ function showError(message){
 
   `;
 }
+
+/* =========================
+   حماية HTML
+========================= */
 
 function escapeHtml(value){
 
@@ -1072,6 +1287,10 @@ function escapeHtml(value){
     );
 }
 
+/* =========================
+   تشغيل الصفحة
+========================= */
+
 (async function(){
 
   const logged =
@@ -1088,4 +1307,4 @@ function escapeHtml(value){
 </script>
 
 </body>
-  </html>
+</html>
