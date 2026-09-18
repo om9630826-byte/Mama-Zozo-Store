@@ -1,8 +1,14 @@
-<!DOCTYPE html>  <html lang="ar" dir="rtl">  <head>  <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title> Mama Zozo store 🧸</title>  <link
-rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mama Zozo store 🧸</title>
 
->  <style>    
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
 
 *{
 box-sizing:border-box;
@@ -17,10 +23,7 @@ color:#263746;
 line-height:1.7;
 }
 
-button,
-input,
-select,
-textarea{
+button,input,select,textarea{
 font:inherit;
 }
 
@@ -123,24 +126,10 @@ max-width:1200px;
 margin:25px auto;
 padding:45px 35px;
 border-radius:28px;
-
 background:
-radial-gradient(
-circle at 85% 20%,
-#f4d987 0 8%,
-transparent 9%
-),
-radial-gradient(
-circle at 15% 80%,
-#cfe3e7 0 10%,
-transparent 11%
-),
-linear-gradient(
-135deg,
-#dcecef,
-#fff1cf
-);
-
+radial-gradient(circle at 85% 20%,#f4d987 0 8%,transparent 9%),
+radial-gradient(circle at 15% 80%,#cfe3e7 0 10%,transparent 11%),
+linear-gradient(135deg,#dcecef,#fff1cf);
 display:flex;
 align-items:center;
 justify-content:space-between;
@@ -253,16 +242,10 @@ transform:translateY(-3px);
 
 .productImg{
 height:190px;
-background:linear-gradient(
-135deg,
-#edf5f5,
-#fff0ce
-);
-
+background:linear-gradient(135deg,#edf5f5,#fff0ce);
 display:flex;
 align-items:center;
 justify-content:center;
-
 font-size:75px;
 }
 
@@ -346,11 +329,7 @@ background:#f1ece2;
 margin-top:30px;
 padding:25px;
 border-radius:22px;
-background:linear-gradient(
-135deg,
-#345b70,
-#507d91
-);
+background:linear-gradient(135deg,#345b70,#507d91);
 color:white;
 }
 
@@ -621,10 +600,6 @@ z-index:5000;
 display:none;
 }
 
-/* =========================
-الخريطة
-========================= */
-
 .mapSearch{
 display:flex;
 gap:8px;
@@ -690,10 +665,6 @@ color:#777;
 margin-bottom:5px;
 }
 
-/* =========================
-responsive
-========================= */
-
 @media(max-width:900px){
 
 .cards,
@@ -754,567 +725,888 @@ flex-direction:column;
 
 }
 
-</style>  </head>  <body>  <header>    <div class="top">  <div class="logo">
+</style>
+</head>
 
+<body>
+
+<header>
+
+<div class="top">
+
+<div class="logo">
 🧸 Mama Zozo<span>Store</span>
+</div>
 
-</div>  <div class="search">    <input
+<div class="search">
+
+<input
 id="searchInput"
-placeholder="ابحث عن لعبة، شنطة، أدوات مدرسية..."
+placeholder="ابحث عن لعبة، شنطة، أدوات مدرسية...">
 
-> 
+</div>
 
-</div>    <div class="actions">    <button    
-type="button"    
-class="iconBtn"    
+<div class="actions">
+
+<button
+type="button"
+class="iconBtn"
 onclick="openAccount()">
 👤
 </button>
 
-<button    
-type="button"    
-class="iconBtn"    
+<button
+type="button"
+class="iconBtn"
 onclick="openWishlist()">
 ❤️ <span id="favCount">0</span>
 </button>
 
-<button    
-type="button"    
-class="iconBtn"    
+<button
+type="button"
+class="iconBtn"
 onclick="openCart()">
 🛒 <span id="cartCount">0</span>
 </button>
 
-</div>    </div>    <div class="nav">  <button    
-  type="button"    
-  onclick="filterCategory('all')">    
-  الكل    
-</button>    <button    
-type="button"    
-onclick="filterCategory('school')">
+</div>
+
+</div>
+
+<div class="nav">
+
+<button type="button" onclick="filterCategory('all')">
+الكل
+</button>
+
+<button type="button" onclick="filterCategory('school')">
 🎒 أدوات مدرسية
 </button>
 
-<button    
-type="button"    
-onclick="filterCategory('toys')">
+<button type="button" onclick="filterCategory('toys')">
 🧸 ألعاب
 </button>
 
-<button    
-type="button"    
-onclick="filterCategory('educational')">
+<button type="button" onclick="filterCategory('educational')">
 🧠 ألعاب تعليمية
 </button>
 
-<button    
-type="button"    
-onclick="filterCategory('bags')">
+<button type="button" onclick="filterCategory('bags')">
 🎒 شنط
 </button>
 
-<button    
-type="button"    
-onclick="scrollToSection('complaints')">
+<button type="button" onclick="scrollToSection('complaints')">
 📝 الشكاوى
 </button>
 
-  </div>  </header>  <section class="hero">    <div>  <h1>    
-  كل اللي بتحبه في مكان واحد 💛    
-</h1>    <p>    
-  ألعاب وأدوات مدرسية مختارة بعناية من مكتبة ماما زوزو.    
-</p>    <button    
-type="button"    
-class="primary"    
+</div>
+
+</header>
+
+<section class="hero">
+
+<div>
+
+<h1>
+كل اللي بتحبه في مكان واحد 💛
+</h1>
+
+<p>
+ألعاب وأدوات مدرسية مختارة بعناية من مكتبة ماما زوزو.
+</p>
+
+<button
+type="button"
+class="primary"
 onclick="scrollToSection('products')">
 تسوق دلوقتي 🛍️
 </button>
 
-  </div>    <div class="heroEmoji">    
-    🧸🎒📚    
-  </div>  </section>  <div class="container">    <div class="cards">  <div class="infoCard">    
-  🚚    
-  <b>توصيل</b>    
-  اطلب بسهولة من الموقع    
-</div>    <div class="infoCard">    
-  💳    
-  <b>دفع عند الاستلام</b>    
-  اختيار متاح عند الطلب    
-</div>    <div class="infoCard">    
-  ⭐    
-  <b>اختيارات مميزة</b>    
-  منتجات للأطفال والطلاب    
-</div>    <div class="infoCard">    
-  📞    
-  <b>تواصل معنا</b>    
-  اتصل أو واتساب    
-</div>    </div>    <div    
-    class="sectionTitle"    
-    id="products">  <h2>    
-  🛍️ المنتجات    
-</h2>    </div>    <div class="filters">  <select    
-  id="categoryFilter"    
-  onchange="applyFilters()">      <option value="all">    
-    كل الأقسام    
-  </option>      <option value="school">    
-    أدوات مدرسية    
-  </option>      <option value="toys">    
-    ألعاب    
-  </option>      <option value="educational">    
-    ألعاب تعليمية    
-  </option>      <option value="bags">    
-    شنط    
-  </option>    </select>    <select    
-id="sortFilter"    
+</div>
+
+<div class="heroEmoji">
+🧸🎒📚
+</div>
+
+</section>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="infoCard">
+🚚
+<b>توصيل</b>
+اطلب بسهولة من الموقع
+</div>
+
+<div class="infoCard">
+💳
+<b>دفع عند الاستلام</b>
+اختيار متاح عند الطلب
+</div>
+
+<div class="infoCard">
+⭐
+<b>اختيارات مميزة</b>
+منتجات للأطفال والطلاب
+</div>
+
+<div class="infoCard">
+📞
+<b>تواصل معنا</b>
+اتصل أو واتساب
+</div>
+
+</div>
+
+<div class="sectionTitle" id="products">
+
+<h2>
+🛍️ المنتجات
+</h2>
+
+</div>
+
+<div class="filters">
+
+<select
+id="categoryFilter"
 onchange="applyFilters()">
 
-  <option value="default">    
-    الترتيب    
-  </option>      <option value="low">    
-    السعر من الأقل    
-  </option>      <option value="high">    
-    السعر من الأعلى    
-  </option>      <option value="rating">    
-    الأعلى تقييمًا    
-  </option>    </select>    </div>    <div    
-    class="products"    
-    id="productsGrid">  <div class="empty">    
-  جاري تحميل المنتجات...    
-</div>    </div>    <div class="offer">  <h2>    
-  🎁 عرض ماما زوزو    
-</h2>    <p>    
-  استخدم الكود    
-  <b>MAMA10</b>    
-  واحصل على خصم 10 جنيه على الطلب.    
-</p>    </div>    <!-- =========================    
-       آراء العملاء الحقيقية    
-  ========================= -->    <div class="sectionTitle">  <h2>    
-  ⭐ آراء العملاء    
-</h2>    </div>    <div    
-    class="reviews"    
-    id="reviewsSection">  <div class="empty">    
-  جاري تحميل التقييمات...    
-</div>    </div>    <div    
-    class="sectionTitle"    
-    id="complaints">  <h2>    
-  📝 الشكاوى والاقتراحات    
-</h2>    </div>    <form onsubmit="sendComplaint(event)">  <div class="formGrid">      <div class="field">    <label>    
-  الاسم    
-</label>    
-
-<input    
-  id="complaintName"    
-  required>
-
-  </div>      <div class="field">    <label>    
-  رقم الموبايل    
-</label>    
-
-<input    
-  id="complaintPhone"    
-  required>
-
-  </div>    </div>    <div class="field">      <label>    
-    نوع الرسالة    
-  </label>      <select id="complaintType">    <option>    
-  شكوى    
-</option>    
-
-<option>    
-  اقتراح    
-</option>    
-
-<option>    
-  استفسار    
+<option value="all">
+كل الأقسام
 </option>
 
-  </select>    </div>    <div class="field">      <label>    
-    الرسالة    
-  </label>      <textarea    
-    id="complaintText"    
-    required>    
-  </textarea>    </div>    <button    
-type="submit"    
+<option value="school">
+أدوات مدرسية
+</option>
+
+<option value="toys">
+ألعاب
+</option>
+
+<option value="educational">
+ألعاب تعليمية
+</option>
+
+<option value="bags">
+شنط
+</option>
+
+</select>
+
+<select
+id="sortFilter"
+onchange="applyFilters()">
+
+<option value="default">
+الترتيب
+</option>
+
+<option value="low">
+السعر من الأقل
+</option>
+
+<option value="high">
+السعر من الأعلى
+</option>
+
+<option value="rating">
+الأعلى تقييمًا
+</option>
+
+</select>
+
+</div>
+
+<div
+class="products"
+id="productsGrid">
+
+<div class="empty">
+جاري تحميل المنتجات...
+</div>
+
+</div>
+
+<div class="offer">
+
+<h2>
+🎁 عرض ماما زوزو
+</h2>
+
+<p>
+استخدم الكود
+<b>MAMA10</b>
+واحصل على خصم 10 جنيه على الطلب.
+</p>
+
+</div>
+
+<div class="sectionTitle">
+
+<h2>
+⭐ آراء العملاء
+</h2>
+
+</div>
+
+<div
+class="reviews"
+id="reviewsSection">
+
+<div class="empty">
+جاري تحميل التقييمات...
+</div>
+
+</div>
+
+<div
+class="sectionTitle"
+id="complaints">
+
+<h2>
+📝 الشكاوى والاقتراحات
+</h2>
+
+</div>
+
+<form onsubmit="sendComplaint(event)">
+
+<div class="formGrid">
+
+<div class="field">
+
+<label>
+الاسم
+</label>
+
+<input
+id="complaintName"
+required>
+
+</div>
+
+<div class="field">
+
+<label>
+رقم الموبايل
+</label>
+
+<input
+id="complaintPhone"
+required>
+
+</div>
+
+</div>
+
+<div class="field">
+
+<label>
+نوع الرسالة
+</label>
+
+<select id="complaintType">
+
+<option>
+شكوى
+</option>
+
+<option>
+اقتراح
+</option>
+
+<option>
+استفسار
+</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>
+الرسالة
+</label>
+
+<textarea
+id="complaintText"
+required>
+</textarea>
+
+</div>
+
+<button
+type="submit"
 class="primary">
 إرسال
 </button>
 
-  </form>  </div>  <footer>    <div class="footerGrid">  <div>      <h3>    
-    🧸 مكتبة ماما زوزو    
-  </h3>      <p>    
-    ألعاب وأدوات مدرسية.    
-  </p>    </div>    <div>      <h3>    
-    📍 العنوان    
-  </h3>      <p>    
-    6 ش داليا - امام البنك الأهلي - قليوب - القليوبية    
-  </p>    </div>    <div>      <h3>    
-    📞 تواصل معنا    
-  </h3>      <p>    
-    0242131877    
-  </p>      <p>    
-    01006192349    
-  </p>      <p>    
-    01000607703    
-  </p>    <a    
-class="contactBtn"    
+</form>
+
+</div>
+
+<footer>
+
+<div class="footerGrid">
+
+<div>
+
+<h3>
+🧸 مكتبة ماما زوزو
+</h3>
+
+<p>
+ألعاب وأدوات مدرسية.
+</p>
+
+</div>
+
+<div>
+
+<h3>
+📍 العنوان
+</h3>
+
+<p>
+6 ش داليا - امام البنك الأهلي - قليوب - القليوبية
+</p>
+
+</div>
+
+<div>
+
+<h3>
+📞 تواصل معنا
+</h3>
+
+<p>
+0242131877
+</p>
+
+<p>
+01006192349
+</p>
+
+<p>
+01000607703
+</p>
+
+<a
+class="contactBtn"
 href="tel:0242131877">
 اتصل بنا
 </a>
 
-<a    
-class="contactBtn"    
-href="https://wa.me/201006192349"    
-target="_blank"    
+<a
+class="contactBtn"
+href="https://wa.me/201006192349"
+target="_blank"
 rel="noopener">
 واتساب
 </a>
 
-</div>    </div>  </footer>  <!-- =========================    
-     الحساب    
-========================= -->  <div    
-  class="modal"    
-  id="accountModal">    <div class="modalBox">  <button    
-  type="button"    
-  class="close"    
-  onclick="closeModal('accountModal')">    
-  ×    
-</button>    <div id="loggedOut">      <h2>    
-    👤 حساب ماما زوزو    
-  </h2>      <form onsubmit="login(event)">    <div class="field">    
+</div>
 
-  <label>    
-    الإيميل    
-  </label>    
+</div>
 
-  <input    
-    id="loginEmail"    
-    type="email"    
-    required>    
+</footer>
 
-</div>    
+<div
+class="modal"
+id="accountModal">
 
-<div class="field">    
+<div class="modalBox">
 
-  <label>    
-    كلمة المرور    
-  </label>    
-
-  <input    
-    id="loginPassword"    
-    type="password"    
-    required>    
-
-</div>    
-
-<button    
-  id="loginBtn"    
-  type="submit"    
-  class="primary">    
-  تسجيل الدخول    
+<button
+type="button"
+class="close"
+onclick="closeModal('accountModal')">
+×
 </button>
 
-  </form>      <hr style="margin:20px 0">      <h3>    
-    مستخدم جديد؟    
-  </h3>      <form onsubmit="register(event)">    <div class="field">    
+<div id="loggedOut">
 
-  <label>    
-    الاسم    
-  </label>    
+<h2>
+👤 حساب ماما زوزو
+</h2>
 
-  <input    
-    id="registerName"    
-    required>    
+<form onsubmit="login(event)">
 
-</div>    
+<div class="field">
 
-<div class="field">    
+<label>
+الإيميل
+</label>
 
-  <label>    
-    رقم الموبايل    
-  </label>    
+<input
+id="loginEmail"
+type="email"
+required>
 
-  <input    
-    id="registerPhone"    
-    required>    
+</div>
 
-</div>    
+<div class="field">
 
-<div class="field">    
+<label>
+كلمة المرور
+</label>
 
-  <label>    
-    الإيميل    
-  </label>    
+<input
+id="loginPassword"
+type="password"
+required>
 
-  <input    
-    id="registerEmail"    
-    type="email"    
-    required>    
+</div>
 
-</div>    
-
-<div class="field">    
-
-  <label>    
-    كلمة المرور    
-  </label>    
-
-  <input    
-    id="registerPassword"    
-    type="password"    
-    minlength="6"    
-    required>    
-
-</div>    
-
-<button    
-  id="registerBtn"    
-  type="submit"    
-  class="primary">    
-  إنشاء حساب    
+<button
+id="loginBtn"
+type="submit"
+class="primary">
+تسجيل الدخول
 </button>
 
-  </form>    </div>    <div    
-  id="loggedIn"    
-  class="hidden">      <h2>    
-    أهلًا يا    
-    <span id="userName"></span>    
-    👋    
-  </h2>      <div class="userBox">    <p>    
-  📧    
-  <span id="userEmail"></span>    
-</p>    
+</form>
 
-<p>    
-  📱    
-  <span id="userPhone"></span>    
+<hr style="margin:20px 0">
+
+<h3>
+مستخدم جديد؟
+</h3>
+
+<form onsubmit="register(event)">
+
+<div class="field">
+
+<label>
+الاسم
+</label>
+
+<input
+id="registerName"
+required>
+
+</div>
+
+<div class="field">
+
+<label>
+رقم الموبايل
+</label>
+
+<input
+id="registerPhone"
+required>
+
+</div>
+
+<div class="field">
+
+<label>
+الإيميل
+</label>
+
+<input
+id="registerEmail"
+type="email"
+required>
+
+</div>
+
+<div class="field">
+
+<label>
+كلمة المرور
+</label>
+
+<input
+id="registerPassword"
+type="password"
+minlength="6"
+required>
+
+</div>
+
+<button
+id="registerBtn"
+type="submit"
+class="primary">
+إنشاء حساب
+</button>
+
+</form>
+
+</div>
+
+<div
+id="loggedIn"
+class="hidden">
+
+<h2>
+أهلًا يا
+<span id="userName"></span>
+👋
+</h2>
+
+<div class="userBox">
+
+<p>
+📧
+<span id="userEmail"></span>
 </p>
 
-  </div>      <h3>    
-    📦 طلباتي    
-  </h3>      <div id="ordersBox">    
-    لا توجد طلبات حتى الآن.    
-  </div>    <button    
-type="button"    
-class="primary"    
-style="margin-top:15px"    
+<p>
+📱
+<span id="userPhone"></span>
+</p>
+
+</div>
+
+<h3>
+📦 طلباتي
+</h3>
+
+<div id="ordersBox">
+لا توجد طلبات حتى الآن.
+</div>
+
+<button
+type="button"
+class="primary"
+style="margin-top:15px"
 onclick="logout()">
 تسجيل الخروج
 </button>
 
-</div>    </div>  </div>  <!-- =========================    
-     السلة    
-========================= -->  <div    
-  class="modal"    
-  id="cartModal">    <div class="modalBox">  <button    
-  type="button"    
-  class="close"    
-  onclick="closeModal('cartModal')">    
-  ×    
-</button>    <h2>    
-  🛒 سلة المشتريات    
-</h2>    <div id="cartItems"></div>    <div class="field">      <label>    
-    كود الخصم    
-  </label>    <input    
-id="coupon"    
+</div>
+
+</div>
+
+</div>
+
+<div
+class="modal"
+id="cartModal">
+
+<div class="modalBox">
+
+<button
+type="button"
+class="close"
+onclick="closeModal('cartModal')">
+×
+</button>
+
+<h2>
+🛒 سلة المشتريات
+</h2>
+
+<div id="cartItems"></div>
+
+<div class="field">
+
+<label>
+كود الخصم
+</label>
+
+<input
+id="coupon"
 placeholder="مثال: MAMA10">
 
-<button    
-type="button"    
-class="primary"    
-style="margin-top:8px"    
+<button
+type="button"
+class="primary"
+style="margin-top:8px"
 onclick="applyCoupon()">
 تطبيق
 </button>
 
-</div>    <div id="cartTotals"></div>    <button    
-type="button"    
-class="primary"    
+</div>
+
+<div id="cartTotals"></div>
+
+<button
+type="button"
+class="primary"
 onclick="openCheckout()">
 إتمام الطلب 📦
 </button>
 
-  </div>  </div>  <!-- =========================    
-     المفضلة    
-========================= -->  <div    
-  class="modal"    
-  id="wishlistModal">    <div class="modalBox">  <button    
-  type="button"    
-  class="close"    
-  onclick="closeModal('wishlistModal')">    
-  ×    
-</button>    <h2>    
-  ❤️ المفضلة    
-</h2>    <div id="wishlistItems"></div>    </div>  </div>  <!-- =========================    
-     تفاصيل المنتج    
-========================= -->  <div    
-  class="modal"    
-  id="productModal">    <div class="modalBox">  <button    
-  type="button"    
-  class="close"    
-  onclick="closeModal('productModal')">    
-  ×    
-</button>    <div id="productDetails"></div>    </div>  </div>  <!-- =========================    
-     الدفع    
-========================= -->  <div    
-  class="modal"    
-  id="checkoutModal">    <div class="modalBox">  <button    
-  type="button"    
-  class="close"    
-  onclick="closeModal('checkoutModal')">    
-  ×    
-</button>    <h2>    
-  📦 تأكيد الطلب    
-</h2>    <div    
-  id="checkoutLoginWarning"    
-  class="userBox hidden">    لازم تسجل دخول أو تنشئ حساب الأول.
-
-</div>    <form onsubmit="submitOrder(event)">      <div class="formGrid">    <div class="field">    
-
-  <label>    
-    الاسم    
-  </label>    
-
-  <input    
-    id="orderName"    
-    required>    
-
-</div>    
-
-<div class="field">    
-
-  <label>    
-    رقم الموبايل    
-  </label>    
-
-  <input    
-    id="orderPhone"    
-    required>    
+</div>
 
 </div>
 
-  </div>      <div class="field">    <label>    
-  المحافظة    
-</label>    
+<div
+class="modal"
+id="wishlistModal">
 
-<select id="governorate">    
+<div class="modalBox">
 
-  <option>    
-    القليوبية    
-  </option>    
+<button
+type="button"
+class="close"
+onclick="closeModal('wishlistModal')">
+×
+</button>
 
-  <option>    
-    القاهرة    
-  </option>    
+<h2>
+❤️ المفضلة
+</h2>
 
-  <option>    
-    الجيزة    
-  </option>    
+<div id="wishlistItems"></div>
 
-  <option>    
-    المنوفية    
-  </option>    
+</div>
 
-  <option>    
-    الشرقية    
-  </option>    
+</div>
 
-  <option>    
-    الدقهلية    
-  </option>    
+<div
+class="modal"
+id="productModal">
 
-  <option>    
-    أخرى    
-  </option>    
+<div class="modalBox">
+
+<button
+type="button"
+class="close"
+onclick="closeModal('productModal')">
+×
+</button>
+
+<div id="productDetails"></div>
+
+</div>
+
+</div>
+
+<div
+class="modal"
+id="checkoutModal">
+
+<div class="modalBox">
+
+<button
+type="button"
+class="close"
+onclick="closeModal('checkoutModal')">
+×
+</button>
+
+<h2>
+📦 تأكيد الطلب
+</h2>
+
+<div
+id="checkoutLoginWarning"
+class="userBox hidden">
+
+لازم تسجل دخول أو تنشئ حساب الأول.
+
+</div>
+
+<form onsubmit="submitOrder(event)">
+
+<div class="formGrid">
+
+<div class="field">
+
+<label>
+الاسم
+</label>
+
+<input
+id="orderName"
+required>
+
+</div>
+
+<div class="field">
+
+<label>
+رقم الموبايل
+</label>
+
+<input
+id="orderPhone"
+required>
+
+</div>
+
+</div>
+
+<div class="field">
+
+<label>
+المحافظة
+</label>
+
+<select id="governorate">
+
+<option>
+القليوبية
+</option>
+
+<option>
+القاهرة
+</option>
+
+<option>
+الجيزة
+</option>
+
+<option>
+المنوفية
+</option>
+
+<option>
+الشرقية
+</option>
+
+<option>
+الدقهلية
+</option>
+
+<option>
+أخرى
+</option>
 
 </select>
 
-  </div>      <div class="field">    <label>    
-  العنوان بالتفصيل    
-</label>    
+</div>
 
-<textarea    
-  id="orderAddress"    
-  required    
-  placeholder="اسم الشارع، رقم البيت، الدور..."></textarea>
+<div class="field">
 
-  </div>      <h3>    
-    📍 حدد مكان التوصيل    
-  </h3>      <p class="mapHint">    
-    ابحث عن المكان، أو اضغط على الخريطة مباشرة.    
-  </p>      <div class="mapSearch">    <input    
-  id="mapSearchInput"    
-  placeholder="🔍 ابحث عن شارع أو منطقة أو مكان">    
+<label>
+العنوان بالتفصيل
+</label>
 
-<button    
-  type="button"    
-  onclick="searchLocation()">    
-  بحث 🔍    
+<textarea
+id="orderAddress"
+required
+placeholder="اسم الشارع، رقم البيت، الدور..."></textarea>
+
+</div>
+
+<h3>
+📍 حدد مكان التوصيل
+</h3>
+
+<p class="mapHint">
+ابحث عن المكان، أو اضغط على الخريطة مباشرة.
+</p>
+
+<div class="mapSearch">
+
+<input
+id="mapSearchInput"
+placeholder="🔍 ابحث عن شارع أو منطقة أو مكان">
+
+<button
+type="button"
+onclick="searchLocation()">
+بحث 🔍
 </button>
 
-  </div>      <div class="locationBtns">    <button    
-  type="button"    
-  class="locationBtn"    
-  onclick="useMyLocation()">    
-  📍 استخدم موقعي الحالي    
-</button>    
+</div>
 
-<button    
-  type="button"    
-  class="locationBtn"    
-  onclick="resetMap()">    
-  🔄 إعادة الخريطة    
+<div class="locationBtns">
+
+<button
+type="button"
+class="locationBtn"
+onclick="useMyLocation()">
+📍 استخدم موقعي الحالي
 </button>
 
-  </div>      <div id="map"></div>      <div    
-    id="locationStatus"    
-    class="locationStatus">    
-    لم يتم تحديد مكان التوصيل بعد.    
-  </div>    <input    
-type="hidden"    
+<button
+type="button"
+class="locationBtn"
+onclick="resetMap()">
+🔄 إعادة الخريطة
+</button>
+
+</div>
+
+<div id="map"></div>
+
+<div
+id="locationStatus"
+class="locationStatus">
+لم يتم تحديد مكان التوصيل بعد.
+</div>
+
+<input
+type="hidden"
 id="latitude">
 
-<input    
-type="hidden"    
+<input
+type="hidden"
 id="longitude">
 
-  <div class="field">    <label>    
-  طريقة الدفع    
-</label>    
+<div class="field">
 
-<select id="payment">    
+<label>
+طريقة الدفع
+</label>
 
-  <option>    
-    الدفع عند الاستلام    
-  </option>    
+<select id="payment">
+
+<option>
+الدفع عند الاستلام
+</option>
 
 </select>
 
-  </div>      <div class="field">    <label>    
-  ملاحظات    
-</label>    
+</div>
 
-<textarea    
-  id="orderNotes"    
-  placeholder="أي ملاحظات خاصة بالطلب..."></textarea>
+<div class="field">
 
-  </div>      <div    
-    id="checkoutTotal"    
-    class="total">    
-  </div>    <button    
-id="submitOrderBtn"    
-class="primary"    
+<label>
+ملاحظات
+</label>
+
+<textarea
+id="orderNotes"
+placeholder="أي ملاحظات خاصة بالطلب..."></textarea>
+
+</div>
+
+<div
+id="checkoutTotal"
+class="total">
+</div>
+
+<button
+id="submitOrderBtn"
+class="primary"
 type="submit">
 تأكيد الطلب ✅
 </button>
 
-</form>    </div>  </div>  <div    
-  class="toast"    
-  id="toast">    
-</div>  <script    
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">    
-</script>  <script    
-src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">    
-</script>  <script>    /* =====================================================
+</form>
+
+</div>
+
+</div>
+
+<div
+class="toast"
+id="toast">
+</div>
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+<script>
+
+/* =====================================================
 إعداد Supabase
 ===================================================== */
 
@@ -1322,7 +1614,7 @@ const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
+"sb_publishable_2YSBOnUllXOqAztJ70mxeA_gZzD_l0i";
 
 let supabaseClient = null;
 
@@ -1333,11 +1625,11 @@ window.supabase &&
 typeof window.supabase.createClient === "function"
 ){
 
-supabaseClient =    
-  window.supabase.createClient(    
-    SUPABASE_URL,    
-    SUPABASE_KEY    
-  );
+supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 }
 
@@ -1402,20 +1694,20 @@ function readStorage(key,fallback){
 
 try{
 
-const value =    
-  localStorage.getItem(key);    
+const value =
+localStorage.getItem(key);
 
-if(value === null)    
-  return fallback;    
+if(value === null)
+return fallback;
 
 return JSON.parse(value);
 
 }catch(error){
 
-console.error(    
-  "Storage error:",    
-  error    
-);    
+console.error(
+"Storage error:",
+error
+);
 
 return fallback;
 
@@ -1427,36 +1719,36 @@ function save(){
 
 try{
 
-localStorage.setItem(    
-  "mz_cart",    
-  JSON.stringify(cart)    
-);    
+localStorage.setItem(
+"mz_cart",
+JSON.stringify(cart)
+);
 
-localStorage.setItem(    
-  "mz_wishlist",    
-  JSON.stringify(wishlist)    
-);    
+localStorage.setItem(
+"mz_wishlist",
+JSON.stringify(wishlist)
+);
 
-localStorage.setItem(    
-  "mz_users",    
-  JSON.stringify(users)    
-);    
+localStorage.setItem(
+"mz_users",
+JSON.stringify(users)
+);
 
-localStorage.setItem(    
-  "mz_current",    
-  JSON.stringify(currentUser)    
-);    
+localStorage.setItem(
+"mz_current",
+JSON.stringify(currentUser)
+);
 
-localStorage.setItem(    
-  "mz_orders",    
-  JSON.stringify(orders)    
+localStorage.setItem(
+"mz_orders",
+JSON.stringify(orders)
 );
 
 }catch(error){
 
-console.error(    
-  "Save error:",    
-  error    
+console.error(
+"Save error:",
+error
 );
 
 }
@@ -1523,12 +1815,12 @@ i<=5;
 i++
 ){
 
-html +=    
-  i <= Math.round(value)    
-  ?    
-  "★"    
-  :    
-  "☆";
+html +=
+i <= Math.round(value)
+?
+"★"
+:
+"☆";
 
 }
 
@@ -1554,8 +1846,8 @@ grid.innerHTML =
 
 if(!supabaseClient){
 
-grid.innerHTML =    
-  '<div class="empty">تعذر الاتصال بقاعدة البيانات حاليًا.</div>';    
+grid.innerHTML =
+'<div class="empty">تعذر الاتصال بقاعدة البيانات حاليًا.</div>';
 
 return;
 
@@ -1563,166 +1855,168 @@ return;
 
 try{
 
-const query =    
-  supabaseClient    
-    .from("products")    
-    .select(`    
-      id,    
-      name,    
-      price,    
-      description,    
-      old_price,    
-      stock,    
-      category,    
-      image_url,    
-      video_url,    
-      is_featured,    
-      is_active,    
-      created_at    
-    `)    
-    .eq(    
-      "is_active",    
-      true    
-    )    
-    .order(    
-      "created_at",    
-      {    
-        ascending:false    
-      }    
-    );    
+const query =
+supabaseClient
+.from("products")
+.select(`
+id,
+name,
+price,
+description,
+old_price,
+stock,
+category,
+image_url,
+video_url,
+is_featured,
+is_active,
+created_at
+`)
+.eq(
+"is_active",
+true
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
-const timeout =    
-  new Promise(    
-    (_,reject)=>    
-      setTimeout(    
-        ()=>{    
-          reject(    
-            new Error(    
-              "انتهت مهلة تحميل المنتجات"    
-            )    
-          );    
-        },    
-        10000    
-      )    
-  );    
+const timeout =
+new Promise(
+(_,reject)=>
+setTimeout(
+()=>{
+reject(
+new Error(
+"انتهت مهلة تحميل المنتجات"
+)
+);
+},
+10000
+)
+);
 
-const result =    
-  await Promise.race([    
-    query,    
-    timeout    
-  ]);    
+const result =
+await Promise.race([
+query,
+timeout
+]);
 
-const {    
-  data,    
-  error    
-} = result;    
+const {
+data,
+error
+} = result;
 
-if(error)    
-  throw error;    
+if(error)
+throw error;
 
-products =    
-  (data || []).map(    
-    p=>({    
+products =
+(data || []).map(
+p=>({
 
-      id:p.id,    
+id:p.id,
 
-      name:p.name || "منتج",    
+name:p.name || "منتج",
 
-      cat:    
-        p.category ||    
-        "other",    
+cat:
+p.category ||
+"other",
 
-      price:    
-        Number(    
-          p.price || 0    
-        ),    
+price:
+Number(
+p.price || 0
+),
 
-      old:    
-        Number(    
-          p.old_price || 0    
-        ),    
+old:
+Number(
+p.old_price || 0
+),
 
-      rating:0,    
+rating:0,
 
-      reviewCount:0,    
+reviewCount:0,
 
-      emoji:"🧸",    
+emoji:"🧸",
 
-      desc:    
-        p.description ||    
-        "منتج من مكتبة ماما زوزو",    
+desc:
+p.description ||
+"منتج من مكتبة ماما زوزو",
 
-      stock:    
-        Number(    
-          p.stock || 0    
-        ),    
+stock:
+Number(
+p.stock || 0
+),
 
-      image_url:    
-        p.image_url ||    
-        "",    
+image_url:
+p.image_url ||
+"",
 
-      video_url:    
-        p.video_url ||    
-        "",    
+video_url:
+p.video_url ||
+"",
 
-      is_featured:    
-        !!p.is_featured    
+is_featured:
+!!p.is_featured
 
-    })    
-  );    
+})
+);
 
-cart =    
-  cart.filter(    
-    item=>    
-      products.some(    
-        p=>    
-          String(p.id) ===    
-          String(item.id)    
-      )    
-  );    
+cart =
+cart.filter(
+item=>
+products.some(
+p=>
+String(p.id) ===
+String(item.id)
+)
+);
 
-wishlist =    
-  wishlist.filter(    
-    id=>    
-      products.some(    
-        p=>    
-          String(p.id) ===    
-          String(id)    
-      )    
-  );    
+wishlist =
+wishlist.filter(
+id=>
+products.some(
+p=>
+String(p.id) ===
+String(id)
+)
+);
 
-save();    
+save();
 
-updateCounts();    
+updateCounts();
 
-await loadReviews();    
+await loadReviews();
 
 applyFilters();
 
 }catch(error){
 
-console.error(    
-  "loadProducts error:",    
-  error    
-);    
+console.error(
+"loadProducts error:",
+error
+);
 
-grid.innerHTML = `    
+grid.innerHTML = `
 
-  <div class="empty">    
+<div class="empty">
 
-    حصل خطأ في تحميل المنتجات ❌    
+حصل خطأ في تحميل المنتجات ❌
 
-    <br>    
+<br>
 
-    <button    
-      type="button"    
-      class="primary"    
-      style="margin-top:10px"    
-      onclick="loadProducts()">    
-      إعادة المحاولة 🔄    
-    </button>    
+<button
+type="button"
+class="primary"
+style="margin-top:10px"
+onclick="loadProducts()">
 
-  </div>    
+إعادة المحاولة 🔄
+
+</button>
+
+</div>
 
 `;
 
@@ -1741,76 +2035,76 @@ return;
 
 try{
 
-const {    
-  data,    
-  error    
-} =    
-  await supabaseClient    
-    .from("reviews")    
-    .select(`    
-      id,    
-      product_id,    
-      customer_name,    
-      rating,    
-      comment,    
-      created_at    
-    `)    
-    .eq(    
-      "is_approved",    
-      true    
-    )    
-    .order(    
-      "created_at",    
-      {    
-        ascending:false    
-      }    
-    );    
+const {
+data,
+error
+} =
+await supabaseClient
+.from("reviews")
+.select(`
+id,
+product_id,
+customer_name,
+rating,
+comment,
+created_at
+`)
+.eq(
+"is_approved",
+true
+)
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
-if(error)    
-  throw error;    
+if(error)
+throw error;
 
-reviewsData =    
-  data || [];    
+reviewsData =
+data || [];
 
-products.forEach(    
-  product=>{    
+products.forEach(
+product=>{
 
-    const productReviews =    
-      reviewsData.filter(    
-        review=>    
-          String(review.product_id) ===    
-          String(product.id)    
-      );    
+const productReviews =
+reviewsData.filter(
+review=>
+String(review.product_id) ===
+String(product.id)
+);
 
-    product.reviewCount =    
-      productReviews.length;    
+product.reviewCount =
+productReviews.length;
 
-    product.rating =    
-      productReviews.length    
-      ?    
-      productReviews.reduce(    
-        (sum,review)=>    
-          sum +    
-          Number(review.rating || 0),    
-        0    
-      ) /    
-      productReviews.length    
-      :    
-      0;    
+product.rating =
+productReviews.length
+?
+productReviews.reduce(
+(sum,review)=>
+sum +
+Number(review.rating || 0),
+0
+) /
+productReviews.length
+:
+0;
 
-  }    
-);    
+}
+);
 
 renderCustomerReviews();
 
 }catch(error){
 
-console.error(    
-  "loadReviews error:",    
-  error    
-);    
+console.error(
+"loadReviews error:",
+error
+);
 
-reviewsData = [];    
+reviewsData = [];
 
 renderCustomerReviews();
 
@@ -1833,8 +2127,8 @@ if(!grid)return;
 
 if(!list.length){
 
-grid.innerHTML =    
-  '<div class="empty">مفيش منتجات مطابقة للبحث.</div>';    
+grid.innerHTML =
+'<div class="empty">مفيش منتجات مطابقة للبحث.</div>';
 
 return;
 
@@ -1844,146 +2138,157 @@ grid.innerHTML =
 list.map(
 p=>`
 
-<div class="product">    
+<div class="product">
 
-    ${    
-      p.old > p.price    
-      ?    
-      '<div class="badge">خصم</div>'    
-      :    
-      ''    
-    }    
+${
 
-    <div class="productImg">    
+p.old > p.price
+?
+'<div class="badge">خصم</div>'
+:
+''
 
-      ${    
-        p.image_url    
-        ?    
-        `    
-          <img    
-            src="${escapeHtml(p.image_url)}"    
-            alt="${escapeHtml(p.name)}"    
-            onerror="this.style.display='none';this.parentElement.textContent='🧸'"    
-          >    
-        `    
-        :    
-        p.emoji    
-      }    
+}
 
-    </div>    
+<div class="productImg">
 
-    <div class="productInfo">    
+${
 
-      <h3>    
-        ${escapeHtml(p.name)}    
-      </h3>    
+p.image_url
+?
 
-      <div class="rating">    
+`
 
-        ${starsHTML(p.rating)}    
+<img
+src="${escapeHtml(p.image_url)}"
+alt="${escapeHtml(p.name)}"
+onerror="this.style.display='none';this.parentElement.textContent='🧸'">
 
-        ${    
-          p.reviewCount    
-          ?    
-          `    
-            <span class="ratingNumber">    
-              ${Number(p.rating).toFixed(1)}    
-              (${p.reviewCount})    
-            </span>    
-          `    
-          :    
-          `    
-            <span class="ratingNumber">    
-              لسه مفيش تقييمات    
-            </span>    
-          `    
-        }    
+`
 
-      </div>    
+:
 
-      <div>    
+p.emoji
 
-        <span class="price">    
-          ${money(p.price)}    
-        </span>    
+}
 
-        ${    
-          p.old > p.price    
-          ?    
-          `    
-            <span class="old">    
-              ${money(p.old)}    
-            </span>    
-          `    
-          :    
-          ''    
-        }    
+</div>
 
-      </div>    
+<div class="productInfo">
 
-      <p>    
-        ${escapeHtml(p.desc)}    
-      </p>    
+<h3>
+${escapeHtml(p.name)}
+</h3>
 
-      <div class="productBtns">    
+<div class="rating">
 
-        <button    
-          type="button"    
-          class="add"    
-          onclick="addToCart(${Number(p.id)})">    
-          🛒 أضف    
-        </button>    
+${starsHTML(p.rating)}
 
-        <button    
-          type="button"    
-          class="fav"    
-          onclick="toggleFav(${Number(p.id)})">    
-          ❤️    
-        </button>    
+${
 
-        <button    
-          type="button"    
-          class="fav"    
-          onclick="openProduct(${Number(p.id)})">    
-          👁️    
-        </button>    
+p.reviewCount
+?
 
-      </div>    
+`
 
-    </div>    
+<span class="ratingNumber">
+${Number(p.rating).toFixed(1)}
+(${p.reviewCount})
+</span>
 
-  </div>    
+`
 
-`    
+:
+
+`
+
+<span class="ratingNumber">
+لسه مفيش تقييمات
+</span>
+
+`
+
+}
+
+</div>
+
+<div>
+
+<span class="price">
+${money(p.price)}
+</span>
+
+${
+
+p.old > p.price
+?
+
+`
+
+<span class="old">
+${money(p.old)}
+</span>
+
+`
+
+:
+
+''
+
+}
+
+</div>
+
+<p>
+${escapeHtml(p.desc)}
+</p>
+
+<div class="productBtns">
+
+<button
+type="button"
+class="add"
+onclick="addToCart(${Number(p.id)})">
+🛒 أضف
+</button>
+
+<button
+type="button"
+class="fav"
+onclick="toggleFav(${Number(p.id)})">
+❤️
+</button>
+
+<button
+type="button"
+class="fav"
+onclick="openProduct(${Number(p.id)})">
+👁️
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`
 ).join("");
 
 }
 
+/* =====================================================
+إصلاح حماية النصوص
+===================================================== */
+
 function escapeHtml(value){
 
-return String(
-value ?? ""
-)
-.replace(
-/&/g,
-"&"
-)
-.replace(
-/</g,
-"<"
-)
-.replace(
-/>/g,
-">"
-)
-.replace(
-/"/g,
-"""
-)
-.replace(
-/'/g,
-"'"
-);
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
@@ -2050,27 +2355,27 @@ p.desc
 
 if(sort === "low"){
 
-list.sort(    
-  (a,b)=>    
-    a.price-b.price    
+list.sort(
+(a,b)=>
+a.price-b.price
 );
 
 }
 
 if(sort === "high"){
 
-list.sort(    
-  (a,b)=>    
-    b.price-a.price    
+list.sort(
+(a,b)=>
+b.price-a.price
 );
 
 }
 
 if(sort === "rating"){
 
-list.sort(    
-  (a,b)=>    
-    b.rating-a.rating    
+list.sort(
+(a,b)=>
+b.rating-a.rating
 );
 
 }
@@ -2115,9 +2420,9 @@ String(id)
 
 if(!product){
 
-showToast(    
-  "المنتج غير متاح حاليًا"    
-);    
+showToast(
+"المنتج غير متاح حاليًا"
+);
 
 return;
 
@@ -2127,9 +2432,9 @@ if(
 Number(product.stock) <= 0
 ){
 
-showToast(    
-  "المنتج غير متوفر حاليًا"    
-);    
+showToast(
+"المنتج غير متوفر حاليًا"
+);
 
 return;
 
@@ -2144,28 +2449,28 @@ String(id)
 
 if(item){
 
-if(    
-  Number(item.qty) >=    
-  Number(product.stock)    
-){    
+if(
+Number(item.qty) >=
+Number(product.stock)
+){
 
-  showToast(    
-    "وصلت لأقصى كمية متاحة"    
-  );    
+showToast(
+"وصلت لأقصى كمية متاحة"
+);
 
-  return;    
+return;
 
-}    
+}
 
 item.qty++;
 
 }else{
 
-cart.push({    
+cart.push({
 
-  id:product.id,    
+id:product.id,
 
-  qty:1    
+qty:1
 
 });
 
@@ -2226,18 +2531,18 @@ item.qty >
 Number(product.stock)
 ){
 
-item.qty =    
-  Number(product.stock);    
+item.qty =
+Number(product.stock);
 
-showToast(    
-  "وصلت لأقصى كمية متاحة"    
+showToast(
+"وصلت لأقصى كمية متاحة"
 );
 
 }
 
 if(item.qty <= 0){
 
-removeCart(id);    
+removeCart(id);
 
 return;
 
@@ -2265,20 +2570,20 @@ document.getElementById(
 
 if(cartCount){
 
-cartCount.textContent =    
-  cart.reduce(    
-    (a,b)=>    
-      a +    
-      Number(b.qty || 0),    
-    0    
-  );
+cartCount.textContent =
+cart.reduce(
+(a,b)=>
+a +
+Number(b.qty || 0),
+0
+);
 
 }
 
 if(favCount){
 
-favCount.textContent =    
-  wishlist.length;
+favCount.textContent =
+wishlist.length;
 
 }
 
@@ -2314,10 +2619,10 @@ if(!box || !totals)return;
 
 if(!cart.length){
 
-box.innerHTML =    
-  '<div class="empty">السلة فاضية 🛒</div>';    
+box.innerHTML =
+'<div class="empty">السلة فاضية 🛒</div>';
 
-totals.innerHTML = "";    
+totals.innerHTML = "";
 
 return;
 
@@ -2329,89 +2634,95 @@ box.innerHTML =
 cart.map(
 item=>{
 
-const p =    
-      products.find(    
-        x=>    
-          String(x.id) ===    
-          String(item.id)    
-      );    
+const p =
+products.find(
+x=>
+String(x.id) ===
+String(item.id)
+);
 
-    if(!p)return "";    
+if(!p)return "";
 
-    const total =    
-      p.price *    
-      Number(item.qty);    
+const total =
+p.price *
+Number(item.qty);
 
-    subtotal += total;    
+subtotal += total;
 
-    return `    
+return `
 
-      <div class="cartItem">    
+<div class="cartItem">
 
-        <div style="font-size:35px">    
+<div style="font-size:35px">
 
-          ${    
-            p.image_url    
-            ?    
-            `    
-              <img    
-                src="${escapeHtml(p.image_url)}"    
-                style="    
-                  width:55px;    
-                  height:55px;    
-                  object-fit:contain;    
-                "    
-              >    
-            `    
-            :    
-            p.emoji    
-          }    
+${
 
-        </div>    
+p.image_url
+?
 
-        <div class="grow">    
+`
 
-          <b>    
-            ${escapeHtml(p.name)}    
-          </b>    
+<img
+src="${escapeHtml(p.image_url)}"
+style="
+width:55px;
+height:55px;
+object-fit:contain;
+">
 
-          <div>    
-            ${money(p.price)}    
-          </div>    
+`
 
-        </div>    
+:
 
-        <div class="qty">    
+p.emoji
 
-          <button    
-            type="button"    
-            onclick="changeQty(${Number(p.id)},-1)">    
-            −    
-          </button>    
+}
 
-          <span>    
-            ${Number(item.qty)}    
-          </span>    
+</div>
 
-          <button    
-            type="button"    
-            onclick="changeQty(${Number(p.id)},1)">    
-            +    
-          </button>    
+<div class="grow">
 
-        </div>    
+<b>
+${escapeHtml(p.name)}
+</b>
 
-        <button    
-          type="button"    
-          onclick="removeCart(${Number(p.id)})">    
-          🗑️    
-        </button>    
+<div>
+${money(p.price)}
+</div>
 
-      </div>    
+</div>
 
-    `;    
+<div class="qty">
 
-  }    
+<button
+type="button"
+onclick="changeQty(${Number(p.id)},-1)">
+−
+</button>
+
+<span>
+${Number(item.qty)}
+</span>
+
+<button
+type="button"
+onclick="changeQty(${Number(p.id)},1)">
++
+</button>
+
+</div>
+
+<button
+type="button"
+onclick="removeCart(${Number(p.id)})">
+🗑️
+</button>
+
+</div>
+
+`;
+
+}
 ).join("");
 
 const shipping =
@@ -2431,24 +2742,24 @@ discount
 
 totals.innerHTML = `
 
-<p>    
-  الإجمالي الفرعي:    
-  ${money(subtotal)}    
-</p>    
+<p>
+الإجمالي الفرعي:
+${money(subtotal)}
+</p>
 
-<p>    
-  التوصيل:    
-  ${money(shipping)}    
-</p>    
+<p>
+التوصيل:
+${money(shipping)}
+</p>
 
-<p>    
-  الخصم:    
-  ${money(discount)}    
-</p>    
+<p>
+الخصم:
+${money(discount)}
+</p>
 
-<div class="total">    
-  الإجمالي:    
-  ${money(final)}    
+<div class="total">
+الإجمالي:
+${money(final)}
 </div>
 
 `;
@@ -2471,18 +2782,18 @@ input.value
 
 if(code === "MAMA10"){
 
-discount = 10;    
+discount = 10;
 
-showToast(    
-  "تم تطبيق الخصم 🎁"    
+showToast(
+"تم تطبيق الخصم 🎁"
 );
 
 }else{
 
-discount = 0;    
+discount = 0;
 
-showToast(    
-  "الكود غير صحيح"    
+showToast(
+"الكود غير صحيح"
 );
 
 }
@@ -2506,23 +2817,23 @@ String(id)
 
 if(exists){
 
-wishlist =    
-  wishlist.filter(    
-    x=>    
-      String(x) !==    
-      String(id)    
-  );    
+wishlist =
+wishlist.filter(
+x=>
+String(x) !==
+String(id)
+);
 
-showToast(    
-  "تمت الإزالة من المفضلة"    
+showToast(
+"تمت الإزالة من المفضلة"
 );
 
 }else{
 
-wishlist.push(id);    
+wishlist.push(id);
 
-showToast(    
-  "تمت الإضافة للمفضلة ❤️"    
+showToast(
+"تمت الإضافة للمفضلة ❤️"
 );
 
 }
@@ -2560,61 +2871,70 @@ String(p.id)
 box.innerHTML =
 list.length
 ?
+
 list.map(
 p=>`
 
-<div class="cartItem">    
+<div class="cartItem">
 
-      <div style="font-size:35px">    
+<div style="font-size:35px">
 
-        ${    
-          p.image_url    
-          ?    
-          `    
-            <img    
-              src="${escapeHtml(p.image_url)}"    
-              style="    
-                width:55px;    
-                height:55px;    
-                object-fit:contain;    
-              "    
-            >    
-          `    
-          :    
-          p.emoji    
-        }    
+${
 
-      </div>    
+p.image_url
+?
 
-      <div class="grow">    
+`
 
-        <b>    
-          ${escapeHtml(p.name)}    
-        </b>    
+<img
+src="${escapeHtml(p.image_url)}"
+style="
+width:55px;
+height:55px;
+object-fit:contain;
+">
 
-        <br>    
+`
 
-        ${money(p.price)}    
+:
 
-      </div>    
+p.emoji
 
-      <button    
-        type="button"    
-        onclick="addToCart(${Number(p.id)})">    
-        🛒    
-      </button>    
+}
 
-      <button    
-        type="button"    
-        onclick="toggleFav(${Number(p.id)});openWishlist()">    
-        ❌    
-      </button>    
+</div>
 
-    </div>    
+<div class="grow">
 
-  `    
-).join("")    
-:    
+<b>
+${escapeHtml(p.name)}
+</b>
+
+<br>
+
+${money(p.price)}
+
+</div>
+
+<button
+type="button"
+onclick="addToCart(${Number(p.id)})">
+🛒
+</button>
+
+<button
+type="button"
+onclick="toggleFav(${Number(p.id)});openWishlist()">
+❌
+</button>
+
+</div>
+
+`
+).join("")
+
+:
+
 '<div class="empty">المفضلة فاضية ❤️</div>';
 
 modal.classList.add("show");
@@ -2636,9 +2956,9 @@ String(id)
 
 if(!p){
 
-showToast(    
-  "المنتج غير موجود"    
-);    
+showToast(
+"المنتج غير موجود"
+);
 
 return;
 
@@ -2665,310 +2985,383 @@ String(p.id)
 
 details.innerHTML = `
 
-<div style="text-align:center">    
+<div style="text-align:center">
 
-  ${    
-    p.image_url    
-    ?    
-    `    
-      <img    
-        src="${escapeHtml(p.image_url)}"    
-        alt="${escapeHtml(p.name)}"    
-        style="    
-          width:100%;    
-          max-height:300px;    
-          object-fit:contain;    
-          border-radius:15px;    
-        "    
-      >    
-    `    
-    :    
-    `    
-      <div    
-        style="font-size:100px">    
-        ${p.emoji}    
-      </div>    
-    `    
-  }    
+${
 
-</div>    
+p.image_url
+?
 
-<h2>    
-  ${escapeHtml(p.name)}    
-</h2>    
+`
 
-<div class="rating">    
+<img
+src="${escapeHtml(p.image_url)}"
+alt="${escapeHtml(p.name)}"
+style="
+width:100%;
+max-height:300px;
+object-fit:contain;
+border-radius:15px;
+">
 
-  ${starsHTML(p.rating)}    
+`
 
-  ${    
-    p.reviewCount    
-    ?    
-    `    
-      <span class="ratingNumber">    
-        ${Number(p.rating).toFixed(1)}    
-        من 5    
-        (${p.reviewCount} تقييم)    
-      </span>    
-    `    
-    :    
-    `    
-      <span class="ratingNumber">    
-        لسه مفيش تقييمات    
-      </span>    
-    `    
-  }    
+:
 
-</div>    
+`
 
-<h2 class="price">    
-  ${money(p.price)}    
-</h2>    
+<div style="font-size:100px">
+${p.emoji}
+</div>
 
-${    
-  p.old > p.price    
-  ?    
-  `    
-    <p class="old">    
-      ${money(p.old)}    
-    </p>    
-  `    
-  :    
-  ""    
-}    
+`
 
-<p>    
-  ${escapeHtml(p.desc)}    
-</p>    
+}
 
-<p>    
-  المتاح:    
-  ${Number(p.stock)}    
-</p>    
+</div>
 
-${    
-  p.video_url    
-  ?    
-  `    
-    <video    
-      controls    
-      style="    
-        width:100%;    
-        max-height:300px;    
-        margin-top:15px;    
-        border-radius:15px;    
-      ">    
+<h2>
+${escapeHtml(p.name)}
+</h2>
 
-      <source    
-        src="${escapeHtml(p.video_url)}">    
+<div class="rating">
 
-    </video>    
-  `    
-  :    
-  ""    
-}    
+${starsHTML(p.rating)}
 
-<div class="productRatingSummary">    
+${
 
-  <div class="productRatingBig">    
-    ${    
-      p.reviewCount    
-      ?    
-      Number(p.rating).toFixed(1)    
-      :    
-      "—"    
-    }    
-    <span style="font-size:16px">    
-      / 5    
-    </span>    
-  </div>    
+p.reviewCount
+?
 
-  <div class="productRatingStars">    
-    ${starsHTML(p.rating)}    
-  </div>    
+`
 
-  <div>    
-    ${    
-      p.reviewCount    
-      ?    
-      `بناءً على ${p.reviewCount} تقييم`    
-      :    
-      "مفيش تقييمات للمنتج لسه"    
-    }    
-  </div>    
+<span class="ratingNumber">
+${Number(p.rating).toFixed(1)}
+من 5
+(${p.reviewCount} تقييم)
+</span>
 
-</div>    
+`
 
-<h3>    
-  ⭐ تقييمات العملاء    
-</h3>    
+:
 
-<div class="productReviewsList">    
+`
 
-  ${    
-    productReviews.length    
-    ?    
-    productReviews.map(    
-      review=>`    
+<span class="ratingNumber">
+لسه مفيش تقييمات
+</span>
 
-        <div class="productReview">    
+`
 
-          <div class="reviewName">    
-            ${escapeHtml(    
-              review.customer_name ||    
-              "عميل"    
-            )}    
-          </div>    
+}
 
-          <div class="reviewStars">    
-            ${starsHTML(    
-              review.rating    
-            )}    
-          </div>    
+</div>
 
-          ${    
-            review.comment    
-            ?    
-            `    
-              <div class="reviewComment">    
-                ${escapeHtml(    
-                  review.comment    
-                )}    
-              </div>    
-            `    
-            :    
-            ""    
-          }    
+<h2 class="price">
+${money(p.price)}
+</h2>
 
-          <div class="reviewDate">    
-            ${formatReviewDate(    
-              review.created_at    
-            )}    
-          </div>    
+${
 
-        </div>    
+p.old > p.price
+?
 
-      `    
-    ).join("")    
-    :    
-    `    
-      <div class="empty">    
-        مفيش تقييمات للمنتج لسه ⭐    
-      </div>    
-    `    
-  }    
+`
 
-</div>    
+<p class="old">
+${money(p.old)}
+</p>
 
-<div class="reviewForm">    
+`
 
-  <h3>    
-    ✍️ قيّم المنتج    
-  </h3>    
+:
 
-  <div class="field">    
+""
 
-    <label>    
-      الاسم    
-    </label>    
+}
 
-    <input    
-      id="reviewName"    
-      value="${escapeHtml(    
-        currentUser    
-        ?    
-        currentUser.name || ""    
-        :    
-        ""    
-      )}"    
-      placeholder="اكتب اسمك">    
+<p>
+${escapeHtml(p.desc)}
+</p>
 
-  </div>    
+<p>
+المتاح:
+${Number(p.stock)}
+</p>
 
-  <div class="field">    
+${
 
-    <label>    
-      التقييم    
-    </label>    
+p.video_url
+?
 
-    <div    
-      class="starPicker"    
-      id="starPicker">    
+`
 
-      <button    
-        type="button"    
-        data-rating="5"    
-        onclick="selectReviewRating(5)">    
-        ★    
-      </button>    
+<video
+controls
+style="
+width:100%;
+max-height:300px;
+margin-top:15px;
+border-radius:15px;
+">
 
-      <button    
-        type="button"    
-        data-rating="4"    
-        onclick="selectReviewRating(4)">    
-        ★    
-      </button>    
+<source
+src="${escapeHtml(p.video_url)}">
 
-      <button    
-        type="button"    
-        data-rating="3"    
-        onclick="selectReviewRating(3)">    
-        ★    
-      </button>    
+</video>
 
-      <button    
-        type="button"    
-        data-rating="2"    
-        onclick="selectReviewRating(2)">    
-        ★    
-      </button>    
+`
 
-      <button    
-        type="button"    
-        data-rating="1"    
-        onclick="selectReviewRating(1)">    
-        ★    
-      </button>    
+:
 
-    </div>    
+""
 
-    <div    
-      id="selectedRatingText"    
-      style="    
-        color:#777;    
-        font-size:13px;    
-      ">    
-      اختار عدد النجوم    
-    </div>    
+}
 
-  </div>    
+<div class="productRatingSummary">
 
-  <div class="field">    
+<div class="productRatingBig">
 
-    <label>    
-      تعليقك    
-    </label>    
+${
+p.reviewCount
+?
+Number(p.rating).toFixed(1)
+:
+"—"
+}
 
-    <textarea    
-      id="reviewComment"    
-      placeholder="اكتب رأيك في المنتج..."></textarea>  </div>
+<span style="font-size:16px">
+/ 5
+</span>
 
-<button    
-type="button"    
-id="submitReviewBtn"    
-class="primary"    
-onclick="submitReview(${Number(p.id)})">
-إرسال التقييم ⭐
+</div>
+
+<div class="productRatingStars">
+${starsHTML(p.rating)}
+</div>
+
+<div>
+
+${
+
+p.reviewCount
+?
+
+`بناءً على ${p.reviewCount} تقييم`
+
+:
+
+"مفيش تقييمات للمنتج لسه"
+
+}
+
+</div>
+
+</div>
+
+<h3>
+⭐ تقييمات العملاء
+</h3>
+
+<div class="productReviewsList">
+
+${
+
+productReviews.length
+?
+
+productReviews.map(
+review=>`
+
+<div class="productReview">
+
+<div class="reviewName">
+
+${escapeHtml(
+review.customer_name ||
+"عميل"
+)}
+
+</div>
+
+<div class="reviewStars">
+
+${starsHTML(
+review.rating
+)}
+
+</div>
+
+${
+review.comment
+?
+
+`
+
+<div class="reviewComment">
+
+${escapeHtml(
+review.comment
+)}
+
+</div>
+
+`
+
+:
+
+""
+
+}
+
+<div class="reviewDate">
+
+${formatReviewDate(
+review.created_at
+)}
+
+</div>
+
+</div>
+
+`
+).join("")
+
+:
+
+`
+
+<div class="empty">
+مفيش تقييمات للمنتج لسه ⭐
+</div>
+
+`
+
+}
+
+</div>
+
+<div class="reviewForm">
+
+<h3>
+✍️ قيّم المنتج
+</h3>
+
+<div class="field">
+
+<label>
+الاسم
+</label>
+
+<input
+id="reviewName"
+value="${escapeHtml(
+currentUser
+?
+currentUser.name || ""
+:
+""
+)}"
+placeholder="اكتب اسمك">
+
+</div>
+
+<div class="field">
+
+<label>
+التقييم
+</label>
+
+<div
+class="starPicker"
+id="starPicker">
+
+<button
+type="button"
+data-rating="5"
+onclick="selectReviewRating(5)">
+★
 </button>
 
-</div>    <br>    <button    
-type="button"    
-class="primary"    
-onclick="    
-addToCart(${Number(p.id)});    
-closeModal('productModal');    
+<button
+type="button"
+data-rating="4"
+onclick="selectReviewRating(4)">
+★
+</button>
+
+<button
+type="button"
+data-rating="3"
+onclick="selectReviewRating(3)">
+★
+</button>
+
+<button
+type="button"
+data-rating="2"
+onclick="selectReviewRating(2)">
+★
+</button>
+
+<button
+type="button"
+data-rating="1"
+onclick="selectReviewRating(1)">
+★
+</button>
+
+</div>
+
+<div
+id="selectedRatingText"
+style="
+color:#777;
+font-size:13px;
 ">
+
+اختار عدد النجوم
+
+</div>
+
+</div>
+
+<div class="field">
+
+<label>
+تعليقك
+</label>
+
+<textarea
+id="reviewComment"
+placeholder="اكتب رأيك في المنتج..."></textarea>
+
+</div>
+
+<button
+type="button"
+id="submitReviewBtn"
+class="primary"
+onclick="submitReview(${Number(p.id)})">
+
+إرسال التقييم ⭐
+
+</button>
+
+</div>
+
+<br>
+
+<button
+type="button"
+class="primary"
+onclick="
+addToCart(${Number(p.id)});
+closeModal('productModal');
+">
+
 أضف للسلة 🛒
+
 </button>
 
 `;
@@ -3007,7 +3400,6 @@ value <= rating
 );
 
 }
-
 );
 
 const text =
@@ -3212,13 +3604,17 @@ if(!reviewsData.length){
 
 box.innerHTML = `
 
-  <div class="empty">    لسه مفيش تقييمات من العملاء ⭐    
+<div class="empty">
 
-<br>    
+لسه مفيش تقييمات من العملاء ⭐
+
+<br>
 
 كن أول واحد يقيّم منتجاتنا ❤️
 
-  </div>    `;
+</div>
+
+`;
 
 return;
 
@@ -3234,47 +3630,56 @@ box.innerHTML =
 list.map(
 review=>`
 
-<div class="review">    <div class="reviewName">    
+<div class="review">
 
-    👤    
-    ${escapeHtml(    
-      review.customer_name ||    
-      "عميل"    
-    )}    
+<div class="reviewName">
 
-  </div>    
+👤
+${escapeHtml(
+review.customer_name ||
+"عميل"
+)}
 
-  <div class="reviewStars">    
+</div>
 
-    ${starsHTML(    
-      review.rating    
-    )}    
+<div class="reviewStars">
 
-  </div>    
+${starsHTML(
+review.rating
+)}
 
-  ${    
-    review.comment    
-    ?    
-    `    
-      <div class="reviewComment">    
+</div>
 
-        ${escapeHtml(    
-          review.comment    
-        )}    
+${
 
-      </div>    
-    `    
-    :    
-    ""    
-  }    
+review.comment
+?
 
-  <div class="reviewDate">    
+`
 
-    ${formatReviewDate(    
-      review.created_at    
-    )}    
+<div class="reviewComment">
 
-  </div>    
+${escapeHtml(
+review.comment
+)}
+
+</div>
+
+`
+
+:
+
+""
+
+}
+
+<div class="reviewDate">
+
+${formatReviewDate(
+review.created_at
+)}
+
+</div>
 
 </div>
 
@@ -3394,28 +3799,33 @@ if(!ordersBox)return;
 ordersBox.innerHTML =
 mine.length
 ?
+
 mine.map(
 o=>`
 
-<div class="userBox">    <b>    
-    طلب #${escapeHtml(o.id)}    
-  </b>    
+<div class="userBox">
 
-  <br>    
+<b>
+طلب #${escapeHtml(o.id)}
+</b>
 
-  الإجمالي:    
-  ${money(o.total)}    
+<br>
 
-  <br>    
+الإجمالي:
+${money(o.total)}
 
-  الحالة:    
-  ${escapeHtml(o.status || "new")}    
+<br>
+
+الحالة:
+${escapeHtml(o.status || "new")}
 
 </div>
 
 `
 ).join("")
+
 :
+
 "لا توجد طلبات حتى الآن.";
 
 }
@@ -3618,15 +4028,15 @@ String(x.id) ===
 String(item.id)
 );
 
-return sum +    
-  (    
-    p    
-    ?    
-    p.price *    
-    Number(item.qty)    
-    :    
-    0    
-  );
+return sum +
+(
+p
+?
+p.price *
+Number(item.qty)
+:
+0
+);
 
 },
 0
@@ -3656,6 +4066,7 @@ modal.classList.add(
 
 setTimeout(
 ()=>{
+
 initMap();
 
 if(map){
@@ -3666,7 +4077,6 @@ map.invalidateSize();
 
 },
 250
-
 );
 
 }
@@ -3730,7 +4140,6 @@ e.latlng.lng
 );
 
 }
-
 );
 
 }
@@ -3800,7 +4209,20 @@ lng
 if(status){
 
 status.innerHTML =
-    📍 تم تحديد مكان التوصيل     ${     label     ?    <br>📌 ${escapeHtml(label)}    :     ""     }     <br>     الإحداثيات:     ${Number(lat).toFixed(6)},     ${Number(lng).toFixed(6)}    ;
+"📍 تم تحديد مكان التوصيل" +
+(
+label
+?
+"<br>📌 " +
+escapeHtml(label)
+:
+""
+) +
+"<br>" +
+"الإحداثيات: " +
+Number(lat).toFixed(6) +
+", " +
+Number(lng).toFixed(6);
 
 }
 
@@ -4109,26 +4531,25 @@ const subtotal =
 cart.reduce(
 (sum,item)=>{
 
-const p =    
-    products.find(    
-      x=>    
-        String(x.id) ===    
-        String(item.id)    
-    );    
+const p =
+products.find(
+x=>
+String(x.id) ===
+String(item.id)
+);
 
-  return sum +    
-    (    
-      p    
-      ?    
-      p.price *    
-      Number(item.qty)    
-      :    
-      0    
-    );    
-
-},    
+return sum +
+(
+p
+?
+p.price *
+Number(item.qty)
+:
 0
+);
 
+},
+0
 );
 
 const shipping =
@@ -4165,43 +4586,42 @@ const items =
 cart.map(
 item=>{
 
-const p =    
-    products.find(    
-      x=>    
-        String(x.id) ===    
-        String(item.id)    
-    );    
+const p =
+products.find(
+x=>
+String(x.id) ===
+String(item.id)
+);
 
-  return {    
+return {
 
-    product_id:    
-      p    
-      ?    
-      p.id    
-      :    
-      null,    
+product_id:
+p
+?
+p.id
+:
+null,
 
-    product_name:    
-      p    
-      ?    
-      p.name    
-      :    
-      "منتج",    
+product_name:
+p
+?
+p.name
+:
+"منتج",
 
-    price:    
-      p    
-      ?    
-      p.price    
-      :    
-      0,    
+price:
+p
+?
+p.price
+:
+0,
 
-    quantity:    
-      Number(item.qty)    
+quantity:
+Number(item.qty)
 
-  };    
+};
 
 }
-
 );
 
 if(!supabaseClient){
@@ -4220,48 +4640,47 @@ await supabaseClient.rpc(
 "create_order",
 {
 
-p_customer_name:    
-    document.getElementById(    
-      "orderName"    
-    ).value.trim(),    
+p_customer_name:
+document.getElementById(
+"orderName"
+).value.trim(),
 
-  p_phone:    
-    document.getElementById(    
-      "orderPhone"    
-    ).value.trim(),    
+p_phone:
+document.getElementById(
+"orderPhone"
+).value.trim(),
 
-  p_governorate:    
-    document.getElementById(    
-      "governorate"    
-    ).value,    
+p_governorate:
+document.getElementById(
+"governorate"
+).value,
 
-  p_address:    
-    document.getElementById(    
-      "orderAddress"    
-    ).value.trim(),    
+p_address:
+document.getElementById(
+"orderAddress"
+).value.trim(),
 
-  p_payment_method:    
-    document.getElementById(    
-      "payment"    
-    ).value,    
+p_payment_method:
+document.getElementById(
+"payment"
+).value,
 
-  p_notes:    
-    finalNotes,    
+p_notes:
+finalNotes,
 
-  p_subtotal:    
-    subtotal,    
+p_subtotal:
+subtotal,
 
-  p_shipping:    
-    shipping,    
+p_shipping:
+shipping,
 
-  p_total:    
-    total,    
+p_total:
+total,
 
-  p_items:    
-    items    
+p_items:
+items
 
 }
-
 );
 
 if(error){
@@ -4452,13 +4871,13 @@ await supabaseClient
 .from("complaints")
 .insert({
 
-name:name,    
+name:name,
 
-  phone:phone,    
+phone:phone,
 
-  message:message,    
+message:message,
 
-  status:"new"    
+status:"new"
 
 });
 
@@ -4479,7 +4898,6 @@ error
 );
 
 showToast(
-
 "خطأ: " + error.message
 );
 
@@ -4614,5 +5032,6 @@ searchLocation();
 );
 
 </script>
-</body> 
-</html>
+
+</body>
+  </html>
