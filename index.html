@@ -1,26 +1,49 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>مكتبة ماما زوزو 🧸</title>
 
-<link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:Arial,Tahoma,sans-serif;
   background:#f8f4ec;
   color:#263746;
-  line-height:1.7
+  line-height:1.7;
 }
 
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0}
-a{text-decoration:none;color:inherit}
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:0;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
 
 header{
   position:sticky;
@@ -28,7 +51,7 @@ header{
   z-index:1000;
   background:rgba(255,255,255,.96);
   backdrop-filter:blur(12px);
-  box-shadow:0 3px 18px #0001
+  box-shadow:0 3px 18px #0001;
 }
 
 .top{
@@ -37,21 +60,23 @@ header{
   padding:14px 20px;
   display:flex;
   align-items:center;
-  gap:15px
+  gap:15px;
 }
 
 .logo{
   font-size:24px;
   font-weight:900;
   color:#345b70;
-  white-space:nowrap
+  white-space:nowrap;
 }
 
-.logo span{color:#e6a83c}
+.logo span{
+  color:#e6a83c;
+}
 
 .search{
   flex:1;
-  position:relative
+  position:relative;
 }
 
 .search input{
@@ -60,19 +85,25 @@ header{
   border:1px solid #ddd;
   border-radius:30px;
   outline:none;
-  background:#fafafa
+  background:#fafafa;
 }
 
 .actions{
   display:flex;
-  gap:8px
+  gap:8px;
 }
 
 .iconBtn{
   background:#edf4f5;
   padding:10px 13px;
   border-radius:14px;
-  font-size:18px
+  font-size:18px;
+  transition:.2s;
+}
+
+.iconBtn:hover{
+  transform:translateY(-2px);
+  background:#dfeef0;
 }
 
 .nav{
@@ -81,7 +112,7 @@ header{
   display:flex;
   gap:8px;
   padding:0 20px 12px;
-  overflow:auto
+  overflow:auto;
 }
 
 .nav button{
@@ -89,7 +120,13 @@ header{
   padding:8px 15px;
   border-radius:20px;
   white-space:nowrap;
-  color:#345b70
+  color:#345b70;
+  transition:.2s;
+}
+
+.nav button:hover{
+  background:#e6a83c;
+  color:white;
 }
 
 .hero{
@@ -97,25 +134,39 @@ header{
   margin:25px auto;
   padding:45px 35px;
   border-radius:28px;
+
   background:
-    radial-gradient(circle at 85% 20%,#f4d987 0 8%,transparent 9%),
-    radial-gradient(circle at 15% 80%,#cfe3e7 0 10%,transparent 11%),
-    linear-gradient(135deg,#dcecef,#fff1cf);
+    radial-gradient(
+      circle at 85% 20%,
+      #f4d987 0 8%,
+      transparent 9%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      #cfe3e7 0 10%,
+      transparent 11%
+    ),
+    linear-gradient(
+      135deg,
+      #dcecef,
+      #fff1cf
+    );
+
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:30px
+  gap:30px;
 }
 
 .hero h1{
   font-size:42px;
   color:#345b70;
-  margin-bottom:10px
+  margin-bottom:10px;
 }
 
 .hero p{
   font-size:18px;
-  margin-bottom:20px
+  margin-bottom:20px;
 }
 
 .primary{
@@ -123,62 +174,79 @@ header{
   color:white;
   padding:12px 24px;
   border-radius:14px;
-  font-weight:bold
+  font-weight:bold;
+  transition:.2s;
 }
 
-.heroEmoji{font-size:100px}
+.primary:hover{
+  transform:translateY(-2px);
+  filter:brightness(.96);
+}
+
+.primary:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.heroEmoji{
+  font-size:100px;
+}
 
 .container{
   max-width:1200px;
   margin:auto;
-  padding:15px 20px
+  padding:15px 20px;
 }
 
 .sectionTitle{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin:25px 0 15px
+  margin:25px 0 15px;
 }
 
-.sectionTitle h2{color:#345b70}
+.sectionTitle h2{
+  color:#345b70;
+}
 
 .cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:15px
+  gap:15px;
 }
 
 .infoCard{
   background:white;
   padding:20px;
   border-radius:20px;
-  box-shadow:0 4px 16px #0000000b
+  box-shadow:0 4px 16px #0000000b;
 }
 
 .infoCard b{
   display:block;
-  margin-bottom:5px
+  margin-bottom:5px;
 }
 
 .filters{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
-  margin-bottom:18px
+  margin-bottom:18px;
 }
 
 .filters select{
   padding:10px;
   border:1px solid #ddd;
   border-radius:12px;
-  background:white
+  background:white;
+  cursor:pointer;
 }
 
 .products{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:18px
+  gap:18px;
 }
 
 .product{
@@ -186,43 +254,59 @@ header{
   border-radius:20px;
   overflow:hidden;
   box-shadow:0 5px 20px #0000000d;
-  position:relative
+  position:relative;
+  transition:.2s;
+}
+
+.product:hover{
+  transform:translateY(-3px);
 }
 
 .productImg{
   height:190px;
-  background:linear-gradient(135deg,#edf5f5,#fff0ce);
+  background:linear-gradient(
+    135deg,
+    #edf5f5,
+    #fff0ce
+  );
+
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:75px
+
+  font-size:75px;
 }
 
 .productImg img{
   width:100%;
   height:100%;
-  object-fit:contain
+  object-fit:contain;
 }
 
-.productInfo{padding:15px}
+.productInfo{
+  padding:15px;
+}
 
 .productInfo h3{
   font-size:17px;
-  margin-bottom:4px
+  margin-bottom:4px;
 }
 
-.rating{color:#e5a52f}
+.rating{
+  color:#e5a52f;
+}
 
 .price{
   font-size:20px;
   font-weight:bold;
-  color:#345b70
+  color:#345b70;
 }
 
 .old{
   text-decoration:line-through;
   color:#999;
-  font-size:13px
+  font-size:13px;
+  margin-right:6px;
 }
 
 .badge{
@@ -233,67 +317,81 @@ header{
   color:white;
   padding:4px 9px;
   border-radius:15px;
-  font-size:12px
+  font-size:12px;
+  z-index:2;
 }
 
 .productBtns{
   display:flex;
   gap:7px;
-  margin-top:10px
+  margin-top:10px;
 }
 
 .productBtns button{
   flex:1;
   padding:9px;
-  border-radius:11px
+  border-radius:11px;
+  transition:.2s;
+}
+
+.productBtns button:hover{
+  transform:translateY(-1px);
 }
 
 .add{
   background:#345b70;
-  color:white
+  color:white;
 }
 
-.fav{background:#f1ece2}
+.fav{
+  background:#f1ece2;
+}
 
 .offer{
   margin-top:30px;
   padding:25px;
   border-radius:22px;
-  background:linear-gradient(135deg,#345b70,#507d91);
-  color:white
+  background:linear-gradient(
+    135deg,
+    #345b70,
+    #507d91
+  );
+  color:white;
 }
 
 .reviews{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:15px
+  gap:15px;
 }
 
 .review{
   background:white;
   padding:18px;
-  border-radius:18px
+  border-radius:18px;
 }
 
 form{
   background:white;
   padding:20px;
   border-radius:20px;
-  box-shadow:0 4px 18px #0000000b
+  box-shadow:0 4px 18px #0000000b;
 }
 
 .formGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px
+  gap:12px;
 }
 
-.field{margin-bottom:12px}
+.field{
+  margin-bottom:12px;
+}
 
 .field label{
   display:block;
   font-weight:bold;
-  margin-bottom:5px
+  margin-bottom:5px;
 }
 
 .field input,
@@ -303,19 +401,25 @@ form{
   padding:11px;
   border:1px solid #ddd;
   border-radius:11px;
-  outline:none
+  outline:none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:#345b70;
 }
 
 .field textarea{
   min-height:100px;
-  resize:vertical
+  resize:vertical;
 }
 
 footer{
   margin-top:40px;
   background:#294653;
   color:white;
-  padding:35px 20px
+  padding:35px 20px;
 }
 
 .footerGrid{
@@ -323,12 +427,12 @@ footer{
   margin:auto;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:25px
+  gap:25px;
 }
 
 footer h3{
   margin-bottom:8px;
-  color:#f2ca72
+  color:#f2ca72;
 }
 
 .contactBtn{
@@ -337,7 +441,7 @@ footer h3{
   color:white;
   padding:8px 13px;
   border-radius:10px;
-  margin-top:7px
+  margin-top:7px;
 }
 
 .modal{
@@ -348,10 +452,12 @@ footer h3{
   z-index:3000;
   align-items:center;
   justify-content:center;
-  padding:15px
+  padding:15px;
 }
 
-.modal.show{display:flex}
+.modal.show{
+  display:flex;
+}
 
 .modalBox{
   background:#fff;
@@ -360,7 +466,7 @@ footer h3{
   max-height:90vh;
   overflow:auto;
   padding:25px;
-  position:relative
+  position:relative;
 }
 
 .close{
@@ -370,7 +476,13 @@ footer h3{
   background:#eee;
   border-radius:50%;
   width:35px;
-  height:35px
+  height:35px;
+  z-index:10;
+  font-size:20px;
+}
+
+.close:hover{
+  background:#ddd;
 }
 
 .cartItem{
@@ -378,50 +490,53 @@ footer h3{
   align-items:center;
   gap:10px;
   padding:12px 0;
-  border-bottom:1px solid #eee
+  border-bottom:1px solid #eee;
 }
 
-.cartItem .grow{flex:1}
+.cartItem .grow{
+  flex:1;
+}
 
 .qty{
   display:flex;
   align-items:center;
-  gap:7px
+  gap:7px;
 }
 
 .qty button{
   width:30px;
   height:30px;
   border-radius:8px;
-  background:#eee
+  background:#eee;
+}
+
+.qty button:hover{
+  background:#ddd;
 }
 
 .total{
   font-size:20px;
   font-weight:bold;
-  margin:18px 0
+  margin:18px 0;
 }
 
 .empty{
   text-align:center;
   padding:30px;
-  color:#777
-}
-
-#map{
-  height:330px;
-  border-radius:15px;
-  margin:10px 0
+  color:#777;
+  grid-column:1/-1;
 }
 
 .userBox{
   background:#edf5f5;
   padding:15px;
   border-radius:15px;
-  margin-bottom:15px
+  margin-bottom:15px;
 }
 
-.hidden{display:none!important}
+.hidden{
+  display:none!important;
+}
 
 .toast{
   position:fixed;
@@ -432,53 +547,150 @@ footer h3{
   padding:13px 18px;
   border-radius:12px;
   z-index:5000;
-  display:none
+  display:none;
 }
 
+/* =========================
+   الخريطة
+========================= */
+
+.mapSearch{
+  display:flex;
+  gap:8px;
+  margin:10px 0;
+}
+
+.mapSearch input{
+  flex:1;
+  padding:11px;
+  border:1px solid #ddd;
+  border-radius:11px;
+  outline:none;
+}
+
+.mapSearch button{
+  background:#345b70;
+  color:white;
+  padding:10px 14px;
+  border-radius:11px;
+}
+
+.locationBtns{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+
+.locationBtn{
+  background:#edf4f5;
+  color:#345b70;
+  padding:9px 13px;
+  border-radius:11px;
+  font-weight:bold;
+}
+
+.locationBtn:hover{
+  background:#dcecef;
+}
+
+.locationStatus{
+  background:#f8f4ec;
+  border-radius:11px;
+  padding:9px;
+  margin-top:8px;
+  font-size:14px;
+}
+
+#map{
+  height:330px;
+  border-radius:15px;
+  margin:10px 0;
+  overflow:hidden;
+}
+
+.leaflet-container{
+  font-family:Arial,Tahoma,sans-serif;
+}
+
+.mapHint{
+  font-size:13px;
+  color:#777;
+  margin-bottom:5px;
+}
+
+/* =========================
+   responsive
+========================= */
+
 @media(max-width:900px){
-  .cards,.products{
-    grid-template-columns:repeat(3,1fr)
+
+  .cards,
+  .products{
+    grid-template-columns:repeat(3,1fr);
   }
 
   .reviews{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
+
 }
 
 @media(max-width:600px){
-  .top{flex-wrap:wrap}
+
+  .top{
+    flex-wrap:wrap;
+  }
 
   .search{
     order:3;
-    flex-basis:100%
+    flex-basis:100%;
   }
 
   .hero{
-    padding:30px 20px
+    padding:30px 20px;
   }
 
   .hero h1{
-    font-size:30px
+    font-size:30px;
   }
 
   .heroEmoji{
-    font-size:65px
+    font-size:65px;
   }
 
-  .cards,.products,.footerGrid{
-    grid-template-columns:repeat(2,1fr)
+  .cards,
+  .products,
+  .footerGrid{
+    grid-template-columns:repeat(2,1fr);
   }
 
   .formGrid{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
+
+  .productBtns{
+    flex-wrap:wrap;
+  }
+
+  .productBtns button{
+    min-width:30%;
+  }
+
+  .mapSearch{
+    flex-direction:column;
+  }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
 <header>
+
   <div class="top">
 
     <div class="logo">
@@ -486,53 +698,108 @@ footer h3{
     </div>
 
     <div class="search">
+
       <input
         id="searchInput"
         placeholder="ابحث عن لعبة، شنطة، أدوات مدرسية..."
       >
+
     </div>
 
     <div class="actions">
-      <button class="iconBtn" onclick="openAccount()">
+
+      <button
+        type="button"
+        class="iconBtn"
+        onclick="openAccount()">
         👤
       </button>
 
-      <button class="iconBtn" onclick="openWishlist()">
+      <button
+        type="button"
+        class="iconBtn"
+        onclick="openWishlist()">
         ❤️ <span id="favCount">0</span>
       </button>
 
-      <button class="iconBtn" onclick="openCart()">
+      <button
+        type="button"
+        class="iconBtn"
+        onclick="openCart()">
         🛒 <span id="cartCount">0</span>
       </button>
+
     </div>
 
   </div>
 
   <div class="nav">
-    <button onclick="filterCategory('all')">الكل</button>
-    <button onclick="filterCategory('school')">🎒 أدوات مدرسية</button>
-    <button onclick="filterCategory('toys')">🧸 ألعاب</button>
-    <button onclick="filterCategory('educational')">🧠 ألعاب تعليمية</button>
-    <button onclick="filterCategory('bags')">🎒 شنط</button>
-    <button onclick="scrollToSection('complaints')">📝 الشكاوى</button>
+
+    <button
+      type="button"
+      onclick="filterCategory('all')">
+      الكل
+    </button>
+
+    <button
+      type="button"
+      onclick="filterCategory('school')">
+      🎒 أدوات مدرسية
+    </button>
+
+    <button
+      type="button"
+      onclick="filterCategory('toys')">
+      🧸 ألعاب
+    </button>
+
+    <button
+      type="button"
+      onclick="filterCategory('educational')">
+      🧠 ألعاب تعليمية
+    </button>
+
+    <button
+      type="button"
+      onclick="filterCategory('bags')">
+      🎒 شنط
+    </button>
+
+    <button
+      type="button"
+      onclick="scrollToSection('complaints')">
+      📝 الشكاوى
+    </button>
+
   </div>
+
 </header>
 
 <section class="hero">
+
   <div>
-    <h1>كل اللي بتحبه في مكان واحد 💛</h1>
+
+    <h1>
+      كل اللي بتحبه في مكان واحد 💛
+    </h1>
+
     <p>
       ألعاب وأدوات مدرسية مختارة بعناية من مكتبة ماما زوزو.
     </p>
 
     <button
+      type="button"
       class="primary"
       onclick="scrollToSection('products')">
       تسوق دلوقتي 🛍️
     </button>
+
   </div>
 
-  <div class="heroEmoji">🧸🎒📚</div>
+  <div class="heroEmoji">
+    🧸🎒📚
+  </div>
+
 </section>
 
 <div class="container">
@@ -565,44 +832,102 @@ footer h3{
 
   </div>
 
-  <div class="sectionTitle" id="products">
-    <h2>🛍️ المنتجات</h2>
+  <div
+    class="sectionTitle"
+    id="products">
+
+    <h2>
+      🛍️ المنتجات
+    </h2>
+
   </div>
 
   <div class="filters">
 
-    <select id="categoryFilter" onchange="applyFilters()">
-      <option value="all">كل الأقسام</option>
-      <option value="school">أدوات مدرسية</option>
-      <option value="toys">ألعاب</option>
-      <option value="educational">ألعاب تعليمية</option>
-      <option value="bags">شنط</option>
+    <select
+      id="categoryFilter"
+      onchange="applyFilters()">
+
+      <option value="all">
+        كل الأقسام
+      </option>
+
+      <option value="school">
+        أدوات مدرسية
+      </option>
+
+      <option value="toys">
+        ألعاب
+      </option>
+
+      <option value="educational">
+        ألعاب تعليمية
+      </option>
+
+      <option value="bags">
+        شنط
+      </option>
+
     </select>
 
-    <select id="sortFilter" onchange="applyFilters()">
-      <option value="default">الترتيب</option>
-      <option value="low">السعر من الأقل</option>
-      <option value="high">السعر من الأعلى</option>
-      <option value="rating">الأعلى تقييمًا</option>
+    <select
+      id="sortFilter"
+      onchange="applyFilters()">
+
+      <option value="default">
+        الترتيب
+      </option>
+
+      <option value="low">
+        السعر من الأقل
+      </option>
+
+      <option value="high">
+        السعر من الأعلى
+      </option>
+
+      <option value="rating">
+        الأعلى تقييمًا
+      </option>
+
     </select>
 
   </div>
 
-  <div class="products" id="productsGrid"></div>
+  <div
+    class="products"
+    id="productsGrid">
+
+    <div class="empty">
+      جاري تحميل المنتجات...
+    </div>
+
+  </div>
 
   <div class="offer">
-    <h2>🎁 عرض ماما زوزو</h2>
+
+    <h2>
+      🎁 عرض ماما زوزو
+    </h2>
+
     <p>
-      استخدم الكود <b>MAMA10</b>
+      استخدم الكود
+      <b>MAMA10</b>
       واحصل على خصم 10 جنيه على الطلب.
     </p>
+
   </div>
 
   <div class="sectionTitle">
-    <h2>⭐ آراء العملاء</h2>
+
+    <h2>
+      ⭐ آراء العملاء
+    </h2>
+
   </div>
 
   <div class="reviews">
+
     <div class="review">
       ⭐⭐⭐⭐⭐<br>
       منتجات جميلة والتعامل ممتاز.
@@ -617,10 +942,17 @@ footer h3{
       ⭐⭐⭐⭐⭐<br>
       الشنطة والأدوات المدرسية ممتازة.
     </div>
+
   </div>
 
-  <div class="sectionTitle" id="complaints">
-    <h2>📝 الشكاوى والاقتراحات</h2>
+  <div
+    class="sectionTitle"
+    id="complaints">
+
+    <h2>
+      📝 الشكاوى والاقتراحات
+    </h2>
+
   </div>
 
   <form onsubmit="sendComplaint(event)">
@@ -628,33 +960,71 @@ footer h3{
     <div class="formGrid">
 
       <div class="field">
-        <label>الاسم</label>
-        <input id="complaintName" required>
+
+        <label>
+          الاسم
+        </label>
+
+        <input
+          id="complaintName"
+          required>
+
       </div>
 
       <div class="field">
-        <label>رقم الموبايل</label>
-        <input id="complaintPhone" required>
+
+        <label>
+          رقم الموبايل
+        </label>
+
+        <input
+          id="complaintPhone"
+          required>
+
       </div>
 
     </div>
 
     <div class="field">
-      <label>نوع الرسالة</label>
+
+      <label>
+        نوع الرسالة
+      </label>
 
       <select id="complaintType">
-        <option>شكوى</option>
-        <option>اقتراح</option>
-        <option>استفسار</option>
+
+        <option>
+          شكوى
+        </option>
+
+        <option>
+          اقتراح
+        </option>
+
+        <option>
+          استفسار
+        </option>
+
       </select>
+
     </div>
 
     <div class="field">
-      <label>الرسالة</label>
-      <textarea id="complaintText" required></textarea>
+
+      <label>
+        الرسالة
+      </label>
+
+      <textarea
+        id="complaintText"
+        required>
+      </textarea>
+
     </div>
 
-    <button class="primary">
+    <button
+      type="submit"
+      class="primary">
       إرسال
     </button>
 
@@ -667,43 +1037,79 @@ footer h3{
   <div class="footerGrid">
 
     <div>
-      <h3>🧸 مكتبة ماما زوزو</h3>
-      <p>ألعاب وأدوات مدرسية.</p>
+
+      <h3>
+        🧸 مكتبة ماما زوزو
+      </h3>
+
+      <p>
+        ألعاب وأدوات مدرسية.
+      </p>
+
     </div>
 
     <div>
-      <h3>📍 العنوان</h3>
-      <p>6 ش داليا - قليوب - القليوبية</p>
+
+      <h3>
+        📍 العنوان
+      </h3>
+
+      <p>
+        6 ش داليا - قليوب - القليوبية
+      </p>
+
     </div>
 
     <div>
-      <h3>📞 تواصل معنا</h3>
-      <p>0242131877</p>
-      <p>01006192349</p>
-      <p>01000607703</p>
 
-      <a class="contactBtn" href="tel:0242131877">
+      <h3>
+        📞 تواصل معنا
+      </h3>
+
+      <p>
+        0242131877
+      </p>
+
+      <p>
+        01006192349
+      </p>
+
+      <p>
+        01000607703
+      </p>
+
+      <a
+        class="contactBtn"
+        href="tel:0242131877">
         اتصل بنا
       </a>
 
       <a
         class="contactBtn"
         href="https://wa.me/201006192349"
-        target="_blank">
+        target="_blank"
+        rel="noopener">
         واتساب
       </a>
+
     </div>
 
   </div>
 
 </footer>
 
-<!-- الحساب -->
-<div class="modal" id="accountModal">
+<!-- =========================
+     الحساب
+========================= -->
+
+<div
+  class="modal"
+  id="accountModal">
 
   <div class="modalBox">
 
     <button
+      type="button"
       class="close"
       onclick="closeModal('accountModal')">
       ×
@@ -711,21 +1117,42 @@ footer h3{
 
     <div id="loggedOut">
 
-      <h2>👤 حساب ماما زوزو</h2>
+      <h2>
+        👤 حساب ماما زوزو
+      </h2>
 
       <form onsubmit="login(event)">
 
         <div class="field">
-          <label>الإيميل</label>
-          <input id="loginEmail" type="email" required>
+
+          <label>
+            الإيميل
+          </label>
+
+          <input
+            id="loginEmail"
+            type="email"
+            required>
+
         </div>
 
         <div class="field">
-          <label>كلمة المرور</label>
-          <input id="loginPassword" type="password" required>
+
+          <label>
+            كلمة المرور
+          </label>
+
+          <input
+            id="loginPassword"
+            type="password"
+            required>
+
         </div>
 
-        <button class="primary">
+        <button
+          id="loginBtn"
+          type="submit"
+          class="primary">
           تسجيل الدخول
         </button>
 
@@ -733,35 +1160,67 @@ footer h3{
 
       <hr style="margin:20px 0">
 
-      <h3>مستخدم جديد؟</h3>
+      <h3>
+        مستخدم جديد؟
+      </h3>
 
       <form onsubmit="register(event)">
 
         <div class="field">
-          <label>الاسم</label>
-          <input id="registerName" required>
+
+          <label>
+            الاسم
+          </label>
+
+          <input
+            id="registerName"
+            required>
+
         </div>
 
         <div class="field">
-          <label>رقم الموبايل</label>
-          <input id="registerPhone" required>
+
+          <label>
+            رقم الموبايل
+          </label>
+
+          <input
+            id="registerPhone"
+            required>
+
         </div>
 
         <div class="field">
-          <label>الإيميل</label>
-          <input id="registerEmail" type="email" required>
+
+          <label>
+            الإيميل
+          </label>
+
+          <input
+            id="registerEmail"
+            type="email"
+            required>
+
         </div>
 
         <div class="field">
-          <label>كلمة المرور</label>
+
+          <label>
+            كلمة المرور
+          </label>
+
           <input
             id="registerPassword"
             type="password"
             minlength="6"
             required>
+
         </div>
 
-        <button class="primary">
+        <button
+          id="registerBtn"
+          type="submit"
+          class="primary">
           إنشاء حساب
         </button>
 
@@ -769,24 +1228,40 @@ footer h3{
 
     </div>
 
-    <div id="loggedIn" class="hidden">
+    <div
+      id="loggedIn"
+      class="hidden">
 
       <h2>
-        أهلًا يا <span id="userName"></span> 👋
+        أهلًا يا
+        <span id="userName"></span>
+        👋
       </h2>
 
       <div class="userBox">
-        <p>📧 <span id="userEmail"></span></p>
-        <p>📱 <span id="userPhone"></span></p>
+
+        <p>
+          📧
+          <span id="userEmail"></span>
+        </p>
+
+        <p>
+          📱
+          <span id="userPhone"></span>
+        </p>
+
       </div>
 
-      <h3>📦 طلباتي</h3>
+      <h3>
+        📦 طلباتي
+      </h3>
 
       <div id="ordersBox">
         لا توجد طلبات حتى الآن.
       </div>
 
       <button
+        type="button"
         class="primary"
         style="margin-top:15px"
         onclick="logout()">
@@ -796,73 +1271,104 @@ footer h3{
     </div>
 
   </div>
+
 </div>
 
-<!-- السلة -->
-<div class="modal" id="cartModal">
+<!-- =========================
+     السلة
+========================= -->
+
+<div
+  class="modal"
+  id="cartModal">
 
   <div class="modalBox">
 
     <button
+      type="button"
       class="close"
       onclick="closeModal('cartModal')">
       ×
     </button>
 
-    <h2>🛒 سلة المشتريات</h2>
+    <h2>
+      🛒 سلة المشتريات
+    </h2>
 
     <div id="cartItems"></div>
 
     <div class="field">
-      <label>كود الخصم</label>
+
+      <label>
+        كود الخصم
+      </label>
 
       <input
         id="coupon"
         placeholder="مثال: MAMA10">
 
       <button
+        type="button"
         class="primary"
         style="margin-top:8px"
         onclick="applyCoupon()">
         تطبيق
       </button>
+
     </div>
 
     <div id="cartTotals"></div>
 
     <button
+      type="button"
       class="primary"
       onclick="openCheckout()">
       إتمام الطلب 📦
     </button>
 
   </div>
+
 </div>
 
-<!-- المفضلة -->
-<div class="modal" id="wishlistModal">
+<!-- =========================
+     المفضلة
+========================= -->
+
+<div
+  class="modal"
+  id="wishlistModal">
 
   <div class="modalBox">
 
     <button
+      type="button"
       class="close"
       onclick="closeModal('wishlistModal')">
       ×
     </button>
 
-    <h2>❤️ المفضلة</h2>
+    <h2>
+      ❤️ المفضلة
+    </h2>
 
     <div id="wishlistItems"></div>
 
   </div>
+
 </div>
 
-<!-- تفاصيل المنتج -->
-<div class="modal" id="productModal">
+<!-- =========================
+     تفاصيل المنتج
+========================= -->
+
+<div
+  class="modal"
+  id="productModal">
 
   <div class="modalBox">
 
     <button
+      type="button"
       class="close"
       onclick="closeModal('productModal')">
       ×
@@ -871,25 +1377,36 @@ footer h3{
     <div id="productDetails"></div>
 
   </div>
+
 </div>
 
-<!-- الدفع -->
-<div class="modal" id="checkoutModal">
+<!-- =========================
+     الدفع
+========================= -->
+
+<div
+  class="modal"
+  id="checkoutModal">
 
   <div class="modalBox">
 
     <button
+      type="button"
       class="close"
       onclick="closeModal('checkoutModal')">
       ×
     </button>
 
-    <h2>📦 تأكيد الطلب</h2>
+    <h2>
+      📦 تأكيد الطلب
+    </h2>
 
     <div
       id="checkoutLoginWarning"
       class="userBox hidden">
+
       لازم تسجل دخول أو تنشئ حساب الأول.
+
     </div>
 
     <form onsubmit="submitOrder(event)">
@@ -897,68 +1414,172 @@ footer h3{
       <div class="formGrid">
 
         <div class="field">
-          <label>الاسم</label>
-          <input id="orderName" required>
+
+          <label>
+            الاسم
+          </label>
+
+          <input
+            id="orderName"
+            required>
+
         </div>
 
         <div class="field">
-          <label>رقم الموبايل</label>
-          <input id="orderPhone" required>
+
+          <label>
+            رقم الموبايل
+          </label>
+
+          <input
+            id="orderPhone"
+            required>
+
         </div>
 
       </div>
 
       <div class="field">
-        <label>المحافظة</label>
+
+        <label>
+          المحافظة
+        </label>
 
         <select id="governorate">
-          <option>القليوبية</option>
-          <option>القاهرة</option>
-          <option>الجيزة</option>
-          <option>المنوفية</option>
-          <option>الشرقية</option>
-          <option>الدقهلية</option>
-          <option>أخرى</option>
+
+          <option>
+            القليوبية
+          </option>
+
+          <option>
+            القاهرة
+          </option>
+
+          <option>
+            الجيزة
+          </option>
+
+          <option>
+            المنوفية
+          </option>
+
+          <option>
+            الشرقية
+          </option>
+
+          <option>
+            الدقهلية
+          </option>
+
+          <option>
+            أخرى
+          </option>
+
         </select>
+
       </div>
 
       <div class="field">
-        <label>العنوان بالتفصيل</label>
+
+        <label>
+          العنوان بالتفصيل
+        </label>
 
         <textarea
           id="orderAddress"
           required
           placeholder="اسم الشارع، رقم البيت، الدور..."></textarea>
+
       </div>
 
-      <h3>📍 حدد مكانك على الخريطة</h3>
+      <h3>
+        📍 حدد مكان التوصيل
+      </h3>
 
-      <p>
-        اضغط على الخريطة في مكان التوصيل.
+      <p class="mapHint">
+        ابحث عن المكان، أو اضغط على الخريطة مباشرة.
       </p>
+
+      <div class="mapSearch">
+
+        <input
+          id="mapSearchInput"
+          placeholder="🔍 ابحث عن شارع أو منطقة أو مكان">
+
+        <button
+          type="button"
+          onclick="searchLocation()">
+          بحث 🔍
+        </button>
+
+      </div>
+
+      <div class="locationBtns">
+
+        <button
+          type="button"
+          class="locationBtn"
+          onclick="useMyLocation()">
+          📍 استخدم موقعي الحالي
+        </button>
+
+        <button
+          type="button"
+          class="locationBtn"
+          onclick="resetMap()">
+          🔄 إعادة الخريطة
+        </button>
+
+      </div>
 
       <div id="map"></div>
 
-      <input type="hidden" id="latitude">
-      <input type="hidden" id="longitude">
+      <div
+        id="locationStatus"
+        class="locationStatus">
+        لم يتم تحديد مكان التوصيل بعد.
+      </div>
+
+      <input
+        type="hidden"
+        id="latitude">
+
+      <input
+        type="hidden"
+        id="longitude">
 
       <div class="field">
-        <label>طريقة الدفع</label>
+
+        <label>
+          طريقة الدفع
+        </label>
 
         <select id="payment">
-          <option>الدفع عند الاستلام</option>
+
+          <option>
+            الدفع عند الاستلام
+          </option>
+
         </select>
+
       </div>
 
       <div class="field">
-        <label>ملاحظات</label>
+
+        <label>
+          ملاحظات
+        </label>
 
         <textarea
           id="orderNotes"
           placeholder="أي ملاحظات خاصة بالطلب..."></textarea>
+
       </div>
 
-      <div id="checkoutTotal" class="total"></div>
+      <div
+        id="checkoutTotal"
+        class="total">
+      </div>
 
       <button
         id="submitOrderBtn"
@@ -970,281 +1591,725 @@ footer h3{
     </form>
 
   </div>
+
 </div>
 
-<div class="toast" id="toast"></div>
+<div
+  class="toast"
+  id="toast">
+</div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
 
 <script>
+
+/* =====================================================
+   إعداد Supabase
+===================================================== */
+
 const SUPABASE_URL =
   "https://tzjtivfzawffqgisrowv.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+let supabaseClient = null;
+
+try{
+
+  if(
+    window.supabase &&
+    typeof window.supabase.createClient === "function"
+  ){
+
+    supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+  }
+
+}catch(error){
+
+  console.error(
+    "Supabase initialization error:",
+    error
   );
+
+}
+
+
+/* =====================================================
+   البيانات
+===================================================== */
 
 let products = [];
 
 let cart =
-  JSON.parse(localStorage.getItem("mz_cart") || "[]");
+  readStorage(
+    "mz_cart",
+    []
+  );
 
 let wishlist =
-  JSON.parse(localStorage.getItem("mz_wishlist") || "[]");
+  readStorage(
+    "mz_wishlist",
+    []
+  );
 
 let users =
-  JSON.parse(localStorage.getItem("mz_users") || "[]");
+  readStorage(
+    "mz_users",
+    []
+  );
 
 let currentUser =
-  JSON.parse(localStorage.getItem("mz_current") || "null");
+  readStorage(
+    "mz_current",
+    null
+  );
 
 let orders =
-  JSON.parse(localStorage.getItem("mz_orders") || "[]");
+  readStorage(
+    "mz_orders",
+    []
+  );
 
 let discount = 0;
+
 let map = null;
+
 let marker = null;
 
-function save(){
-  localStorage.setItem("mz_cart",JSON.stringify(cart));
-  localStorage.setItem("mz_wishlist",JSON.stringify(wishlist));
-  localStorage.setItem("mz_users",JSON.stringify(users));
-  localStorage.setItem("mz_orders",JSON.stringify(orders));
+
+/* =====================================================
+   أدوات عامة
+===================================================== */
+
+function readStorage(key,fallback){
+
+  try{
+
+    const value =
+      localStorage.getItem(key);
+
+    if(value === null)
+      return fallback;
+
+    return JSON.parse(value);
+
+  }catch(error){
+
+    console.error(
+      "Storage error:",
+      error
+    );
+
+    return fallback;
+
+  }
+
 }
+
+
+function save(){
+
+  try{
+
+    localStorage.setItem(
+      "mz_cart",
+      JSON.stringify(cart)
+    );
+
+    localStorage.setItem(
+      "mz_wishlist",
+      JSON.stringify(wishlist)
+    );
+
+    localStorage.setItem(
+      "mz_users",
+      JSON.stringify(users)
+    );
+
+    localStorage.setItem(
+      "mz_current",
+      JSON.stringify(currentUser)
+    );
+
+    localStorage.setItem(
+      "mz_orders",
+      JSON.stringify(orders)
+    );
+
+  }catch(error){
+
+    console.error(
+      "Save error:",
+      error
+    );
+
+  }
+
+}
+
 
 function money(n){
-  return Number(n || 0).toLocaleString("ar-EG")+" جنيه";
+
+  return Number(
+    n || 0
+  ).toLocaleString(
+    "ar-EG"
+  )+" جنيه";
+
 }
+
 
 function showToast(text){
-  const t=document.getElementById("toast");
 
-  t.textContent=text;
-  t.style.display="block";
+  const t =
+    document.getElementById("toast");
 
-  clearTimeout(window.toastTimer);
+  if(!t)return;
 
-  window.toastTimer=setTimeout(()=>{
-    t.style.display="none";
-  },2500);
+  t.textContent = text;
+
+  t.style.display = "block";
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+  window.toastTimer =
+    setTimeout(
+      ()=>{
+        t.style.display = "none";
+      },
+      2500
+    );
+
 }
+
+
+/* =====================================================
+   تحميل المنتجات
+===================================================== */
 
 async function loadProducts(){
 
-  const grid=document.getElementById("productsGrid");
+  const grid =
+    document.getElementById(
+      "productsGrid"
+    );
 
-  grid.innerHTML=
+  if(!grid)return;
+
+  grid.innerHTML =
     '<div class="empty">جاري تحميل المنتجات...</div>';
 
-  const {data,error}=await supabaseClient
-    .from("products")
-    .select(`
-      id,
-      name,
-      price,
-      description,
-      old_price,
-      stock,
-      category,
-      image_url,
-      video_url,
-      is_featured,
-      is_active,
-      created_at
-    `)
-    .eq("is_active",true)
-    .order("created_at",{ascending:false});
+  if(!supabaseClient){
 
-  if(error){
-
-    console.error(error);
-
-    grid.innerHTML=
-      '<div class="empty">حصل خطأ في تحميل المنتجات.</div>';
+    grid.innerHTML =
+      '<div class="empty">تعذر الاتصال بقاعدة البيانات حاليًا.</div>';
 
     return;
+
   }
 
-  products=(data || []).map(p=>({
-    id:p.id,
-    name:p.name,
-    cat:p.category || "other",
-    price:Number(p.price || 0),
-    old:Number(p.old_price || 0),
-    rating:5,
-    emoji:"🧸",
-    desc:p.description || "منتج من مكتبة ماما زوزو",
-    stock:Number(p.stock || 0),
-    image_url:p.image_url || "",
-    video_url:p.video_url || "",
-    is_featured:!!p.is_featured
-  }));
+  try{
 
-  cart=cart.filter(item=>
-    products.some(p=>
-      String(p.id)===String(item.id)
-    )
-  );
+    const query =
+      supabaseClient
+        .from("products")
+        .select(`
+          id,
+          name,
+          price,
+          description,
+          old_price,
+          stock,
+          category,
+          image_url,
+          video_url,
+          is_featured,
+          is_active,
+          created_at
+        `)
+        .eq(
+          "is_active",
+          true
+        )
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
 
-  wishlist=wishlist.filter(id=>
-    products.some(p=>
-      String(p.id)===String(id)
-    )
-  );
+    const timeout =
+      new Promise(
+        (_,reject)=>
+          setTimeout(
+            ()=>{
+              reject(
+                new Error(
+                  "انتهت مهلة تحميل المنتجات"
+                )
+              );
+            },
+            10000
+          )
+      );
 
-  save();
-  updateCounts();
-  applyFilters();
+    const result =
+      await Promise.race([
+        query,
+        timeout
+      ]);
+
+    const {
+      data,
+      error
+    } = result;
+
+    if(error)
+      throw error;
+
+    products =
+      (data || []).map(
+        p=>({
+
+          id:p.id,
+
+          name:p.name || "منتج",
+
+          cat:
+            p.category ||
+            "other",
+
+          price:
+            Number(
+              p.price || 0
+            ),
+
+          old:
+            Number(
+              p.old_price || 0
+            ),
+
+          rating:5,
+
+          emoji:"🧸",
+
+          desc:
+            p.description ||
+            "منتج من مكتبة ماما زوزو",
+
+          stock:
+            Number(
+              p.stock || 0
+            ),
+
+          image_url:
+            p.image_url ||
+            "",
+
+          video_url:
+            p.video_url ||
+            "",
+
+          is_featured:
+            !!p.is_featured
+
+        })
+      );
+
+    cart =
+      cart.filter(
+        item=>
+          products.some(
+            p=>
+              String(p.id) ===
+              String(item.id)
+          )
+      );
+
+    wishlist =
+      wishlist.filter(
+        id=>
+          products.some(
+            p=>
+              String(p.id) ===
+              String(id)
+          )
+      );
+
+    save();
+
+    updateCounts();
+
+    applyFilters();
+
+  }catch(error){
+
+    console.error(
+      "loadProducts error:",
+      error
+    );
+
+    grid.innerHTML = `
+
+      <div class="empty">
+
+        حصل خطأ في تحميل المنتجات ❌
+
+        <br>
+
+        <button
+          type="button"
+          class="primary"
+          style="margin-top:10px"
+          onclick="loadProducts()">
+          إعادة المحاولة 🔄
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
 }
+
+
+/* =====================================================
+   عرض المنتجات
+===================================================== */
 
 function renderProducts(list=products){
 
-  const grid=document.getElementById("productsGrid");
+  const grid =
+    document.getElementById(
+      "productsGrid"
+    );
+
+  if(!grid)return;
 
   if(!list.length){
-    grid.innerHTML=
+
+    grid.innerHTML =
       '<div class="empty">مفيش منتجات مطابقة للبحث.</div>';
+
     return;
+
   }
 
-  grid.innerHTML=list.map(p=>`
+  grid.innerHTML =
+    list.map(
+      p=>`
 
-    <div class="product">
+      <div class="product">
 
-      ${p.old>p.price
-        ? '<div class="badge">خصم</div>'
-        : ''}
-
-      <div class="productImg">
         ${
-          p.image_url
-          ? `<img src="${p.image_url}" alt="${p.name}">`
-          : p.emoji
+          p.old > p.price
+          ?
+          '<div class="badge">خصم</div>'
+          :
+          ''
         }
-      </div>
 
-      <div class="productInfo">
-
-        <h3>${p.name}</h3>
-
-        <div class="rating">
-          ★★★★★ ${p.rating}
-        </div>
-
-        <div>
-          <span class="price">
-            ${money(p.price)}
-          </span>
+        <div class="productImg">
 
           ${
-            p.old>p.price
-            ? `<span class="old">${money(p.old)}</span>`
-            : ''
+            p.image_url
+            ?
+            `
+              <img
+                src="${escapeHtml(p.image_url)}"
+                alt="${escapeHtml(p.name)}"
+                onerror="this.style.display='none';this.parentElement.textContent='🧸'"
+              >
+            `
+            :
+            p.emoji
           }
+
         </div>
 
-        <p>${p.desc}</p>
+        <div class="productInfo">
 
-        <div class="productBtns">
+          <h3>
+            ${escapeHtml(p.name)}
+          </h3>
 
-          <button
-            class="add"
-            onclick="addToCart(${p.id})">
-            🛒 أضف
-          </button>
+          <div class="rating">
+            ★★★★★ ${p.rating}
+          </div>
 
-          <button
-            class="fav"
-            onclick="toggleFav(${p.id})">
-            ❤️
-          </button>
+          <div>
 
-          <button
-            class="fav"
-            onclick="openProduct(${p.id})">
-            👁️
-          </button>
+            <span class="price">
+              ${money(p.price)}
+            </span>
+
+            ${
+              p.old > p.price
+              ?
+              `
+                <span class="old">
+                  ${money(p.old)}
+                </span>
+              `
+              :
+              ''
+            }
+
+          </div>
+
+          <p>
+            ${escapeHtml(p.desc)}
+          </p>
+
+          <div class="productBtns">
+
+            <button
+              type="button"
+              class="add"
+              onclick="addToCart(${Number(p.id)})">
+              🛒 أضف
+            </button>
+
+            <button
+              type="button"
+              class="fav"
+              onclick="toggleFav(${Number(p.id)})">
+              ❤️
+            </button>
+
+            <button
+              type="button"
+              class="fav"
+              onclick="openProduct(${Number(p.id)})">
+              👁️
+            </button>
+
+          </div>
 
         </div>
 
       </div>
-    </div>
 
-  `).join("");
+    `
+    ).join("");
+
 }
+
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* =====================================================
+   البحث والفلاتر
+===================================================== */
 
 function applyFilters(){
 
-  const search=
-    document.getElementById("searchInput")
-    .value
-    .toLowerCase()
-    .trim();
+  const searchInput =
+    document.getElementById(
+      "searchInput"
+    );
 
-  const cat=
-    document.getElementById("categoryFilter").value;
+  const categoryFilter =
+    document.getElementById(
+      "categoryFilter"
+    );
 
-  const sort=
-    document.getElementById("sortFilter").value;
+  const sortFilter =
+    document.getElementById(
+      "sortFilter"
+    );
 
-  let list=products.filter(p=>
-    (cat==="all" || p.cat===cat) &&
-    p.name.toLowerCase().includes(search)
-  );
+  if(
+    !searchInput ||
+    !categoryFilter ||
+    !sortFilter
+  ){
 
-  if(sort==="low")
-    list.sort((a,b)=>a.price-b.price);
+    return;
 
-  if(sort==="high")
-    list.sort((a,b)=>b.price-a.price);
+  }
 
-  if(sort==="rating")
-    list.sort((a,b)=>b.rating-a.rating);
+  const search =
+    searchInput.value
+      .toLowerCase()
+      .trim();
+
+  const cat =
+    categoryFilter.value;
+
+  const sort =
+    sortFilter.value;
+
+  let list =
+    products.filter(
+      p=>
+        (
+          cat === "all" ||
+          p.cat === cat
+        )
+        &&
+        (
+          p.name
+            .toLowerCase()
+            .includes(search)
+          ||
+          p.desc
+            .toLowerCase()
+            .includes(search)
+        )
+    );
+
+  if(sort === "low"){
+
+    list.sort(
+      (a,b)=>
+        a.price-b.price
+    );
+
+  }
+
+  if(sort === "high"){
+
+    list.sort(
+      (a,b)=>
+        b.price-a.price
+    );
+
+  }
+
+  if(sort === "rating"){
+
+    list.sort(
+      (a,b)=>
+        b.rating-a.rating
+    );
+
+  }
 
   renderProducts(list);
+
 }
 
-document
-  .getElementById("searchInput")
-  .addEventListener("input",applyFilters);
 
 function filterCategory(cat){
-  document.getElementById("categoryFilter").value=cat;
-  scrollToSection("products");
-  applyFilters();
-}
-  function addToCart(id){
 
-  const product=products.find(
-    x=>String(x.id)===String(id)
+  const categoryFilter =
+    document.getElementById(
+      "categoryFilter"
+    );
+
+  if(categoryFilter){
+
+    categoryFilter.value = cat;
+
+  }
+
+  scrollToSection(
+    "products"
   );
+
+  applyFilters();
+
+}
+
+
+/* =====================================================
+   السلة
+===================================================== */
+
+function addToCart(id){
+
+  const product =
+    products.find(
+      x=>
+        String(x.id) ===
+        String(id)
+    );
 
   if(!product){
-    showToast("المنتج غير متاح حاليًا");
+
+    showToast(
+      "المنتج غير متاح حاليًا"
+    );
+
     return;
+
   }
 
-  if(Number(product.stock)<=0){
-    showToast("المنتج غير متوفر حاليًا");
+  if(
+    Number(product.stock) <= 0
+  ){
+
+    showToast(
+      "المنتج غير متوفر حاليًا"
+    );
+
     return;
+
   }
 
-  const item=cart.find(
-    x=>String(x.id)===String(id)
-  );
+  const item =
+    cart.find(
+      x=>
+        String(x.id) ===
+        String(id)
+    );
 
   if(item){
 
-    if(item.qty>=Number(product.stock)){
-      showToast("وصلت لأقصى كمية متاحة");
+    if(
+      Number(item.qty) >=
+      Number(product.stock)
+    ){
+
+      showToast(
+        "وصلت لأقصى كمية متاحة"
+      );
+
       return;
+
     }
 
     item.qty++;
@@ -1252,163 +2317,279 @@ function filterCategory(cat){
   }else{
 
     cart.push({
+
       id:product.id,
+
       qty:1
+
     });
 
   }
 
   save();
+
   updateCounts();
 
-  showToast("تمت إضافة المنتج للسلة 🛒");
+  showToast(
+    "تمت إضافة المنتج للسلة 🛒"
+  );
+
 }
+
 
 function removeCart(id){
 
-  cart=cart.filter(
-    x=>String(x.id)!==String(id)
-  );
+  cart =
+    cart.filter(
+      x=>
+        String(x.id) !==
+        String(id)
+    );
 
   save();
+
   renderCart();
+
   updateCounts();
+
 }
+
 
 function changeQty(id,change){
 
-  const item=cart.find(
-    x=>String(x.id)===String(id)
-  );
+  const item =
+    cart.find(
+      x=>
+        String(x.id) ===
+        String(id)
+    );
 
   if(!item)return;
 
-  const product=products.find(
-    x=>String(x.id)===String(item.id)
-  );
+  const product =
+    products.find(
+      x=>
+        String(x.id) ===
+        String(item.id)
+    );
 
-  item.qty+=change;
+  item.qty =
+    Number(item.qty) +
+    Number(change);
 
-  if(product && item.qty>Number(product.stock)){
-    item.qty=Number(product.stock);
-    showToast("وصلت لأقصى كمية متاحة");
+  if(
+    product &&
+    item.qty >
+    Number(product.stock)
+  ){
+
+    item.qty =
+      Number(product.stock);
+
+    showToast(
+      "وصلت لأقصى كمية متاحة"
+    );
+
   }
 
-  if(item.qty<=0){
+  if(item.qty <= 0){
+
     removeCart(id);
+
     return;
+
   }
 
   save();
+
   renderCart();
+
   updateCounts();
+
 }
+
 
 function updateCounts(){
 
-  document.getElementById("cartCount").textContent=
-    cart.reduce((a,b)=>a+b.qty,0);
+  const cartCount =
+    document.getElementById(
+      "cartCount"
+    );
 
-  document.getElementById("favCount").textContent=
-    wishlist.length;
+  const favCount =
+    document.getElementById(
+      "favCount"
+    );
+
+  if(cartCount){
+
+    cartCount.textContent =
+      cart.reduce(
+        (a,b)=>
+          a +
+          Number(b.qty || 0),
+        0
+      );
+
+  }
+
+  if(favCount){
+
+    favCount.textContent =
+      wishlist.length;
+
+  }
+
 }
+
 
 function openCart(){
 
   renderCart();
 
-  document
-    .getElementById("cartModal")
-    .classList.add("show");
+  const modal =
+    document.getElementById(
+      "cartModal"
+    );
+
+  if(modal)
+    modal.classList.add("show");
+
 }
+
 
 function renderCart(){
 
-  const box=
-    document.getElementById("cartItems");
+  const box =
+    document.getElementById(
+      "cartItems"
+    );
+
+  const totals =
+    document.getElementById(
+      "cartTotals"
+    );
+
+  if(!box || !totals)return;
 
   if(!cart.length){
 
-    box.innerHTML=
+    box.innerHTML =
       '<div class="empty">السلة فاضية 🛒</div>';
 
-    document.getElementById("cartTotals").innerHTML="";
+    totals.innerHTML = "";
 
     return;
+
   }
 
-  let subtotal=0;
+  let subtotal = 0;
 
-  box.innerHTML=cart.map(item=>{
+  box.innerHTML =
+    cart.map(
+      item=>{
 
-    const p=products.find(
-      x=>String(x.id)===String(item.id)
-    );
+        const p =
+          products.find(
+            x=>
+              String(x.id) ===
+              String(item.id)
+          );
 
-    if(!p)return "";
+        if(!p)return "";
 
-    const total=p.price*item.qty;
+        const total =
+          p.price *
+          Number(item.qty);
 
-    subtotal+=total;
+        subtotal += total;
 
-    return `
-      <div class="cartItem">
+        return `
 
-        <div style="font-size:35px">
-          ${
-            p.image_url
-            ? `<img
-                 src="${p.image_url}"
-                 style="width:55px;height:55px;object-fit:contain">
-               `
-            : p.emoji
-          }
-        </div>
+          <div class="cartItem">
 
-        <div class="grow">
+            <div style="font-size:35px">
 
-          <b>${p.name}</b>
+              ${
+                p.image_url
+                ?
+                `
+                  <img
+                    src="${escapeHtml(p.image_url)}"
+                    style="
+                      width:55px;
+                      height:55px;
+                      object-fit:contain;
+                    "
+                  >
+                `
+                :
+                p.emoji
+              }
 
-          <div>
-            ${money(p.price)}
+            </div>
+
+            <div class="grow">
+
+              <b>
+                ${escapeHtml(p.name)}
+              </b>
+
+              <div>
+                ${money(p.price)}
+              </div>
+
+            </div>
+
+            <div class="qty">
+
+              <button
+                type="button"
+                onclick="changeQty(${Number(p.id)},-1)">
+                −
+              </button>
+
+              <span>
+                ${Number(item.qty)}
+              </span>
+
+              <button
+                type="button"
+                onclick="changeQty(${Number(p.id)},1)">
+                +
+              </button>
+
+            </div>
+
+            <button
+              type="button"
+              onclick="removeCart(${Number(p.id)})">
+              🗑️
+            </button>
+
           </div>
 
-        </div>
+        `;
 
-        <div class="qty">
+      }
+    ).join("");
 
-          <button
-            onclick="changeQty(${p.id},-1)">
-            −
-          </button>
+  const shipping =
+    subtotal > 0
+    ?
+    35
+    :
+    0;
 
-          <span>${item.qty}</span>
+  const final =
+    Math.max(
+      0,
+      subtotal +
+      shipping -
+      discount
+    );
 
-          <button
-            onclick="changeQty(${p.id},1)">
-            +
-          </button>
-
-        </div>
-
-        <button
-          onclick="removeCart(${p.id})">
-          🗑️
-        </button>
-
-      </div>
-    `;
-
-  }).join("");
-
-  const shipping=subtotal ? 35 : 0;
-
-  const final=Math.max(
-    0,
-    subtotal+shipping-discount
-  );
-
-  document.getElementById("cartTotals").innerHTML=`
+  totals.innerHTML = `
 
     <p>
       الإجمالي الفرعي:
@@ -1431,142 +2612,247 @@ function renderCart(){
     </div>
 
   `;
+
 }
+
 
 function applyCoupon(){
 
-  const code=
-    document.getElementById("coupon")
-    .value
-    .trim()
-    .toUpperCase();
+  const input =
+    document.getElementById(
+      "coupon"
+    );
 
-  if(code==="MAMA10"){
+  if(!input)return;
 
-    discount=10;
+  const code =
+    input.value
+      .trim()
+      .toUpperCase();
 
-    showToast("تم تطبيق الخصم 🎁");
+  if(code === "MAMA10"){
+
+    discount = 10;
+
+    showToast(
+      "تم تطبيق الخصم 🎁"
+    );
 
   }else{
 
-    discount=0;
+    discount = 0;
 
-    showToast("الكود غير صحيح");
+    showToast(
+      "الكود غير صحيح"
+    );
 
   }
 
   renderCart();
+
 }
+
+
+/* =====================================================
+   المفضلة
+===================================================== */
 
 function toggleFav(id){
 
-  const exists=wishlist.some(
-    x=>String(x)===String(id)
-  );
+  const exists =
+    wishlist.some(
+      x=>
+        String(x) ===
+        String(id)
+    );
 
   if(exists){
 
-    wishlist=wishlist.filter(
-      x=>String(x)!==String(id)
-    );
+    wishlist =
+      wishlist.filter(
+        x=>
+          String(x) !==
+          String(id)
+      );
 
-    showToast("تمت الإزالة من المفضلة");
+    showToast(
+      "تمت الإزالة من المفضلة"
+    );
 
   }else{
 
     wishlist.push(id);
 
-    showToast("تمت الإضافة للمفضلة ❤️");
+    showToast(
+      "تمت الإضافة للمفضلة ❤️"
+    );
 
   }
 
   save();
+
   updateCounts();
+
 }
+
 
 function openWishlist(){
 
-  const box=
-    document.getElementById("wishlistItems");
+  const box =
+    document.getElementById(
+      "wishlistItems"
+    );
 
-  const list=products.filter(p=>
-    wishlist.some(
-      id=>String(id)===String(p.id)
-    )
-  );
+  const modal =
+    document.getElementById(
+      "wishlistModal"
+    );
 
-  box.innerHTML=list.length
-    ? list.map(p=>`
+  if(!box || !modal)return;
 
-      <div class="cartItem">
+  const list =
+    products.filter(
+      p=>
+        wishlist.some(
+          id=>
+            String(id) ===
+            String(p.id)
+        )
+    );
 
-        <div style="font-size:35px">
-          ${
-            p.image_url
-            ? `<img
-                 src="${p.image_url}"
-                 style="width:55px;height:55px;object-fit:contain">
-               `
-            : p.emoji
-          }
+  box.innerHTML =
+    list.length
+    ?
+    list.map(
+      p=>`
+
+        <div class="cartItem">
+
+          <div style="font-size:35px">
+
+            ${
+              p.image_url
+              ?
+              `
+                <img
+                  src="${escapeHtml(p.image_url)}"
+                  style="
+                    width:55px;
+                    height:55px;
+                    object-fit:contain;
+                  "
+                >
+              `
+              :
+              p.emoji
+            }
+
+          </div>
+
+          <div class="grow">
+
+            <b>
+              ${escapeHtml(p.name)}
+            </b>
+
+            <br>
+
+            ${money(p.price)}
+
+          </div>
+
+          <button
+            type="button"
+            onclick="addToCart(${Number(p.id)})">
+            🛒
+          </button>
+
+          <button
+            type="button"
+            onclick="toggleFav(${Number(p.id)});openWishlist()">
+            ❌
+          </button>
+
         </div>
 
-        <div class="grow">
-          <b>${p.name}</b>
-          <br>
-          ${money(p.price)}
-        </div>
+      `
+    ).join("")
+    :
+    '<div class="empty">المفضلة فاضية ❤️</div>';
 
-        <button
-          onclick="addToCart(${p.id})">
-          🛒
-        </button>
+  modal.classList.add("show");
 
-        <button
-          onclick="toggleFav(${p.id});openWishlist()">
-          ❌
-        </button>
-
-      </div>
-
-    `).join("")
-    : '<div class="empty">المفضلة فاضية ❤️</div>';
-
-  document
-    .getElementById("wishlistModal")
-    .classList.add("show");
 }
+
+
+/* =====================================================
+   تفاصيل المنتج
+===================================================== */
 
 function openProduct(id){
 
-  const p=products.find(
-    x=>String(x.id)===String(id)
-  );
+  const p =
+    products.find(
+      x=>
+        String(x.id) ===
+        String(id)
+    );
 
-  if(!p)return;
+  if(!p){
 
-  document.getElementById("productDetails").innerHTML=`
+    showToast(
+      "المنتج غير موجود"
+    );
+
+    return;
+
+  }
+
+  const details =
+    document.getElementById(
+      "productDetails"
+    );
+
+  const modal =
+    document.getElementById(
+      "productModal"
+    );
+
+  if(!details || !modal)return;
+
+  details.innerHTML = `
 
     <div style="text-align:center">
 
       ${
         p.image_url
-        ? `<img
-             src="${p.image_url}"
-             alt="${p.name}"
-             style="
-               width:100%;
-               max-height:300px;
-               object-fit:contain;
-               border-radius:15px;
-             ">
-           `
-        : `<div style="font-size:100px">${p.emoji}</div>`
+        ?
+        `
+          <img
+            src="${escapeHtml(p.image_url)}"
+            alt="${escapeHtml(p.name)}"
+            style="
+              width:100%;
+              max-height:300px;
+              object-fit:contain;
+              border-radius:15px;
+            "
+          >
+        `
+        :
+        `
+          <div
+            style="font-size:100px">
+            ${p.emoji}
+          </div>
+        `
       }
 
     </div>
 
-    <h2>${p.name}</h2>
+    <h2>
+      ${escapeHtml(p.name)}
+    </h2>
 
     <div class="rating">
       ★★★★★ ${p.rating}
@@ -1577,23 +2863,30 @@ function openProduct(id){
     </h2>
 
     ${
-      p.old>p.price
-      ? `<p class="old">
-           ${money(p.old)}
-         </p>`
-      : ""
+      p.old > p.price
+      ?
+      `
+        <p class="old">
+          ${money(p.old)}
+        </p>
+      `
+      :
+      ""
     }
 
-    <p>${p.desc}</p>
+    <p>
+      ${escapeHtml(p.desc)}
+    </p>
 
     <p>
       المتاح:
-      ${p.stock}
+      ${Number(p.stock)}
     </p>
 
     ${
       p.video_url
-      ? `
+      ?
+      `
         <video
           controls
           style="
@@ -1602,18 +2895,23 @@ function openProduct(id){
             margin-top:15px;
             border-radius:15px;
           ">
-          <source src="${p.video_url}">
+
+          <source
+            src="${escapeHtml(p.video_url)}">
+
         </video>
       `
-      : ""
+      :
+      ""
     }
 
     <br>
 
     <button
+      type="button"
       class="primary"
       onclick="
-        addToCart(${p.id});
+        addToCart(${Number(p.id)});
         closeModal('productModal');
       ">
       أضف للسلة 🛒
@@ -1621,294 +2919,777 @@ function openProduct(id){
 
   `;
 
-  document
-    .getElementById("productModal")
-    .classList.add("show");
+  modal.classList.add("show");
+
 }
+
+
+/* =====================================================
+   الحساب
+===================================================== */
 
 function openAccount(){
 
   updateAccountUI();
 
-  document
-    .getElementById("accountModal")
-    .classList.add("show");
+  const modal =
+    document.getElementById(
+      "accountModal"
+    );
+
+  if(modal)
+    modal.classList.add("show");
+
 }
+
 
 function updateAccountUI(){
 
-  document
-    .getElementById("loggedOut")
-    .classList.toggle(
-      "hidden",
-      !!currentUser
+  const loggedOut =
+    document.getElementById(
+      "loggedOut"
     );
 
-  document
-    .getElementById("loggedIn")
-    .classList.toggle(
-      "hidden",
-      !currentUser
+  const loggedIn =
+    document.getElementById(
+      "loggedIn"
     );
 
-  if(!currentUser)return;
+  if(!loggedOut || !loggedIn)
+    return;
 
-  document.getElementById("userName")
-    .textContent=currentUser.name;
-
-  document.getElementById("userEmail")
-    .textContent=currentUser.email;
-
-  document.getElementById("userPhone")
-    .textContent=currentUser.phone;
-
-  const mine=orders.filter(
-    o=>o.email===currentUser.email
+  loggedOut.classList.toggle(
+    "hidden",
+    !!currentUser
   );
 
-  document.getElementById("ordersBox").innerHTML=
+  loggedIn.classList.toggle(
+    "hidden",
+    !currentUser
+  );
+
+  if(!currentUser)
+    return;
+
+  const userName =
+    document.getElementById(
+      "userName"
+    );
+
+  const userEmail =
+    document.getElementById(
+      "userEmail"
+    );
+
+  const userPhone =
+    document.getElementById(
+      "userPhone"
+    );
+
+  if(userName)
+    userName.textContent =
+      currentUser.name || "";
+
+  if(userEmail)
+    userEmail.textContent =
+      currentUser.email || "";
+
+  if(userPhone)
+    userPhone.textContent =
+      currentUser.phone || "";
+
+  const mine =
+    orders.filter(
+      o=>
+        o.email ===
+        currentUser.email
+    );
+
+  const ordersBox =
+    document.getElementById(
+      "ordersBox"
+    );
+
+  if(!ordersBox)return;
+
+  ordersBox.innerHTML =
     mine.length
+    ?
+    mine.map(
+      o=>`
 
-    ? mine.map(o=>`
+        <div class="userBox">
 
-      <div class="userBox">
+          <b>
+            طلب #${escapeHtml(o.id)}
+          </b>
 
-        <b>
-          طلب #${o.id}
-        </b>
+          <br>
 
-        <br>
+          الإجمالي:
+          ${money(o.total)}
 
-        الإجمالي:
-        ${money(o.total)}
+          <br>
 
-        <br>
+          الحالة:
+          ${escapeHtml(o.status || "new")}
 
-        الحالة:
-        ${o.status || "new"}
+        </div>
 
-      </div>
+      `
+    ).join("")
+    :
+    "لا توجد طلبات حتى الآن.";
 
-    `).join("")
-
-    : "لا توجد طلبات حتى الآن.";
 }
+
 
 function register(e){
 
   e.preventDefault();
 
-  const name=
-    document.getElementById("registerName")
-    .value.trim();
+  const name =
+    document.getElementById(
+      "registerName"
+    ).value.trim();
 
-  const phone=
-    document.getElementById("registerPhone")
-    .value.trim();
+  const phone =
+    document.getElementById(
+      "registerPhone"
+    ).value.trim();
 
-  const email=
-    document.getElementById("registerEmail")
-    .value.trim()
-    .toLowerCase();
+  const email =
+    document.getElementById(
+      "registerEmail"
+    ).value
+      .trim()
+      .toLowerCase();
 
-  const password=
-    document.getElementById("registerPassword")
-    .value;
+  const password =
+    document.getElementById(
+      "registerPassword"
+    ).value;
 
-  if(users.some(u=>u.email===email)){
+  if(
+    password.length < 6
+  ){
 
-    showToast("الإيميل مسجل بالفعل");
+    showToast(
+      "كلمة المرور لازم تكون 6 أحرف على الأقل"
+    );
 
     return;
+
   }
 
-  const user={
-    name,
-    phone,
-    email,
-    password
+  if(
+    users.some(
+      u=>
+        u.email === email
+    )
+  ){
+
+    showToast(
+      "الإيميل مسجل بالفعل"
+    );
+
+    return;
+
+  }
+
+  const user = {
+
+    name:name,
+
+    phone:phone,
+
+    email:email,
+
+    password:password
+
   };
 
   users.push(user);
 
-  currentUser=user;
+  currentUser = user;
 
   save();
+
   updateAccountUI();
 
-  showToast("تم إنشاء الحساب 🎉");
+  showToast(
+    "تم إنشاء الحساب 🎉"
+  );
+
 }
+
 
 function login(e){
 
   e.preventDefault();
 
-  const email=
-    document.getElementById("loginEmail")
-    .value.trim()
-    .toLowerCase();
+  const email =
+    document.getElementById(
+      "loginEmail"
+    ).value
+      .trim()
+      .toLowerCase();
 
-  const password=
-    document.getElementById("loginPassword")
-    .value;
+  const password =
+    document.getElementById(
+      "loginPassword"
+    ).value;
 
-  const user=users.find(
-    u=>
-      u.email===email &&
-      u.password===password
-  );
+  const user =
+    users.find(
+      u=>
+        u.email === email &&
+        u.password === password
+    );
 
   if(!user){
 
-    showToast("بيانات الدخول غير صحيحة");
+    showToast(
+      "بيانات الدخول غير صحيحة"
+    );
 
     return;
+
   }
 
-  currentUser=user;
+  currentUser = user;
 
   save();
+
   updateAccountUI();
 
-  showToast("تم تسجيل الدخول 👋");
+  showToast(
+    "تم تسجيل الدخول 👋"
+  );
+
 }
+
 
 function logout(){
 
-  currentUser=null;
+  currentUser = null;
 
   save();
+
   updateAccountUI();
 
-  showToast("تم تسجيل الخروج");
+  showToast(
+    "تم تسجيل الخروج"
+  );
+
 }
+
+
+/* =====================================================
+   الدفع
+===================================================== */
 
 function openCheckout(){
 
   if(!cart.length){
 
-    showToast("السلة فاضية");
+    showToast(
+      "السلة فاضية"
+    );
 
     return;
+
   }
 
-  closeModal("cartModal");
+  closeModal(
+    "cartModal"
+  );
+
+  const warning =
+    document.getElementById(
+      "checkoutLoginWarning"
+    );
 
   if(!currentUser){
 
-    document
-      .getElementById("checkoutLoginWarning")
-      .classList.remove("hidden");
+    warning.classList.remove(
+      "hidden"
+    );
 
   }else{
 
-    document
-      .getElementById("checkoutLoginWarning")
-      .classList.add("hidden");
+    warning.classList.add(
+      "hidden"
+    );
 
-    document.getElementById("orderName")
-      .value=currentUser.name;
+    document.getElementById(
+      "orderName"
+    ).value =
+      currentUser.name || "";
 
-    document.getElementById("orderPhone")
-      .value=currentUser.phone;
+    document.getElementById(
+      "orderPhone"
+    ).value =
+      currentUser.phone || "";
+
   }
 
-  const subtotal=cart.reduce(
-    (sum,item)=>{
+  const subtotal =
+    cart.reduce(
+      (sum,item)=>{
 
-      const p=products.find(
-        x=>String(x.id)===String(item.id)
-      );
+        const p =
+          products.find(
+            x=>
+              String(x.id) ===
+              String(item.id)
+          );
 
-      return sum+
-        (p ? p.price*item.qty : 0);
+        return sum +
+          (
+            p
+            ?
+            p.price *
+            Number(item.qty)
+            :
+            0
+          );
 
-    },
-    0
+      },
+      0
+    );
+
+  document.getElementById(
+    "checkoutTotal"
+  ).textContent =
+    "الإجمالي: " +
+    money(
+      Math.max(
+        0,
+        subtotal +
+        35 -
+        discount
+      )
+    );
+
+  const modal =
+    document.getElementById(
+      "checkoutModal"
+    );
+
+  modal.classList.add(
+    "show"
   );
 
-  document.getElementById("checkoutTotal")
-    .textContent=
-      "الإجمالي: "+
-      money(
-        Math.max(
-          0,
-          subtotal+35-discount
-        )
-      );
+  setTimeout(
+    ()=>{
+      initMap();
 
-  document
-    .getElementById("checkoutModal")
-    .classList.add("show");
+      if(map){
 
-  setTimeout(()=>{
+        map.invalidateSize();
 
-    initMap();
+      }
 
-    if(map){
-      map.invalidateSize();
-    }
+    },
+    250
+  );
 
-  },200);
 }
+
+
+/* =====================================================
+   الخريطة
+===================================================== */
 
 function initMap(){
 
-  if(map)return;
+  if(map)
+    return;
 
-  map=L.map("map")
-    .setView(
-      [30.1798,31.2056],
+  if(
+    typeof L ===
+    "undefined"
+  ){
+
+    showToast(
+      "الخريطة لم يتم تحميلها"
+    );
+
+    return;
+
+  }
+
+  const mapElement =
+    document.getElementById(
+      "map"
+    );
+
+  if(!mapElement)
+    return;
+
+  map =
+    L.map(
+      "map"
+    ).setView(
+      [
+        30.1798,
+        31.2056
+      ],
       12
     );
 
   L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
-      attribution:"© OpenStreetMap"
+      attribution:
+        "© OpenStreetMap contributors"
     }
   ).addTo(map);
 
-  map.on("click",function(e){
+  map.on(
+    "click",
+    function(e){
 
-    setLocation(
-      e.latlng.lat,
-      e.latlng.lng
-    );
+      setLocation(
+        e.latlng.lat,
+        e.latlng.lng
+      );
 
-  });
+    }
+  );
+
 }
 
-function setLocation(lat,lng){
 
-  document.getElementById("latitude")
-    .value=lat;
+function setLocation(
+  lat,
+  lng,
+  label=""
+){
 
-  document.getElementById("longitude")
-    .value=lng;
+  const latInput =
+    document.getElementById(
+      "latitude"
+    );
 
-  if(marker){
+  const lngInput =
+    document.getElementById(
+      "longitude"
+    );
 
-    marker.setLatLng([
-      lat,
-      lng
-    ]);
+  const status =
+    document.getElementById(
+      "locationStatus"
+    );
 
-  }else{
+  if(latInput)
+    latInput.value =
+      lat;
 
-    marker=L.marker([
-      lat,
-      lng
-    ]).addTo(map);
+  if(lngInput)
+    lngInput.value =
+      lng;
+
+  if(
+    map &&
+    typeof L !==
+    "undefined"
+  ){
+
+    if(marker){
+
+      marker.setLatLng([
+        lat,
+        lng
+      ]);
+
+    }else{
+
+      marker =
+        L.marker([
+          lat,
+          lng
+        ]).addTo(map);
+
+    }
+
+    map.setView(
+      [
+        lat,
+        lng
+      ],
+      16
+    );
 
   }
 
-  showToast("تم تحديد اللوكيشن 📍");
+  if(status){
+
+    status.innerHTML =
+      `
+        📍 تم تحديد مكان التوصيل
+        ${
+          label
+          ?
+          `<br>📌 ${escapeHtml(label)}`
+          :
+          ""
+        }
+        <br>
+        الإحداثيات:
+        ${Number(lat).toFixed(6)},
+        ${Number(lng).toFixed(6)}
+      `;
+
+  }
+
+  showToast(
+    "تم تحديد اللوكيشن 📍"
+  );
+
 }
 
-/* =========================
-   إنشاء الطلب في Supabase
-========================= */
+
+/* =====================================================
+   البحث في الخريطة
+===================================================== */
+
+async function searchLocation(){
+
+  const input =
+    document.getElementById(
+      "mapSearchInput"
+    );
+
+  if(!input)return;
+
+  const query =
+    input.value.trim();
+
+  if(!query){
+
+    showToast(
+      "اكتب اسم المكان الأول"
+    );
+
+    return;
+
+  }
+
+  showToast(
+    "جاري البحث عن المكان..."
+  );
+
+  try{
+
+    const url =
+      "https://nominatim.openstreetmap.org/search" +
+      "?format=json" +
+      "&limit=5" +
+      "&accept-language=ar" +
+      "&q=" +
+      encodeURIComponent(
+        query
+      );
+
+    const response =
+      await fetch(
+        url,
+        {
+          headers:{
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "فشل البحث"
+      );
+
+    }
+
+    const results =
+      await response.json();
+
+    if(
+      !results ||
+      !results.length
+    ){
+
+      showToast(
+        "ملقتش المكان ده"
+      );
+
+      return;
+
+    }
+
+    const result =
+      results[0];
+
+    const lat =
+      Number(result.lat);
+
+    const lng =
+      Number(result.lon);
+
+    setLocation(
+      lat,
+      lng,
+      result.display_name
+    );
+
+  }catch(error){
+
+    console.error(
+      "Map search error:",
+      error
+    );
+
+    showToast(
+      "حصل خطأ أثناء البحث عن المكان"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   موقعي الحالي
+===================================================== */
+
+function useMyLocation(){
+
+  if(
+    !navigator.geolocation
+  ){
+
+    showToast(
+      "المتصفح لا يدعم تحديد الموقع"
+    );
+
+    return;
+
+  }
+
+  showToast(
+    "جاري تحديد موقعك..."
+  );
+
+  navigator.geolocation.getCurrentPosition(
+
+    position=>{
+
+      const lat =
+        position.coords.latitude;
+
+      const lng =
+        position.coords.longitude;
+
+      setLocation(
+        lat,
+        lng,
+        "موقعي الحالي"
+      );
+
+    },
+
+    error=>{
+
+      console.error(
+        "Geolocation error:",
+        error
+      );
+
+      showToast(
+        "مش قادر أحدد موقعك. اسمح للموقع باستخدام الـ Location."
+      );
+
+    },
+
+    {
+      enableHighAccuracy:true,
+      timeout:10000,
+      maximumAge:0
+    }
+
+  );
+
+}
+
+
+function resetMap(){
+
+  if(!map)
+    return;
+
+  const defaultLat =
+    30.1798;
+
+  const defaultLng =
+    31.2056;
+
+  map.setView(
+    [
+      defaultLat,
+      defaultLng
+    ],
+    12
+  );
+
+  if(marker){
+
+    map.removeLayer(
+      marker
+    );
+
+    marker = null;
+
+  }
+
+  const latInput =
+    document.getElementById(
+      "latitude"
+    );
+
+  const lngInput =
+    document.getElementById(
+      "longitude"
+    );
+
+  const status =
+    document.getElementById(
+      "locationStatus"
+    );
+
+  if(latInput)
+    latInput.value = "";
+
+  if(lngInput)
+    lngInput.value = "";
+
+  if(status){
+
+    status.textContent =
+      "لم يتم تحديد مكان التوصيل بعد.";
+
+  }
+
+  showToast(
+    "تم إعادة الخريطة"
+  );
+
+}
+
+
+/* =====================================================
+   إنشاء الطلب
+===================================================== */
 
 async function submitOrder(e){
 
@@ -1916,131 +3697,195 @@ async function submitOrder(e){
 
   if(!currentUser){
 
-    showToast("سجل دخول الأول");
+    showToast(
+      "سجل دخول الأول"
+    );
+
+    openAccount();
 
     return;
+
   }
 
-  if(!document.getElementById("latitude").value){
+  const lat =
+    document.getElementById(
+      "latitude"
+    ).value;
+
+  const lng =
+    document.getElementById(
+      "longitude"
+    ).value;
+
+  if(!lat || !lng){
 
     showToast(
       "حدد مكانك على الخريطة 📍"
     );
 
     return;
+
   }
 
   if(!cart.length){
 
-    showToast("السلة فاضية 🛒");
+    showToast(
+      "السلة فاضية 🛒"
+    );
 
     return;
+
   }
 
-  const btn=
-    document.getElementById("submitOrderBtn");
+  const btn =
+    document.getElementById(
+      "submitOrderBtn"
+    );
 
-  btn.disabled=true;
-  btn.textContent=
+  btn.disabled = true;
+
+  btn.textContent =
     "جاري تسجيل الطلب...";
 
   try{
 
-    const subtotal=cart.reduce(
-      (sum,item)=>{
+    const subtotal =
+      cart.reduce(
+        (sum,item)=>{
 
-        const p=products.find(
-          x=>String(x.id)===String(item.id)
-        );
+          const p =
+            products.find(
+              x=>
+                String(x.id) ===
+                String(item.id)
+            );
 
-        return sum+
-          (p ? p.price*item.qty : 0);
+          return sum +
+            (
+              p
+              ?
+              p.price *
+              Number(item.qty)
+              :
+              0
+            );
 
-      },
-      0
-    );
-
-    const shipping=35;
-
-    const total=Math.max(
-      0,
-      subtotal+shipping-discount
-    );
-
-    const lat=
-      document.getElementById("latitude")
-      .value;
-
-    const lng=
-      document.getElementById("longitude")
-      .value;
-
-    const baseNotes=
-      document.getElementById("orderNotes")
-      .value
-      .trim();
-
-    const finalNotes=
-      baseNotes+
-      (baseNotes ? "\n" : "")+
-      "موقع التوصيل: "+
-      lat+
-      ", "+
-      lng;
-
-    const items=cart.map(item=>{
-
-      const p=products.find(
-        x=>String(x.id)===String(item.id)
+        },
+        0
       );
 
-      return {
-        product_id:p ? p.id : null,
-        product_name:p ? p.name : "منتج",
-        price:p ? p.price : 0,
-        quantity:item.qty
-      };
+    const shipping =
+      35;
 
-    });
+    const total =
+      Math.max(
+        0,
+        subtotal +
+        shipping -
+        discount
+      );
 
-    /* =========================
-       RPC create_order
-    ========================= */
+    const baseNotes =
+      document.getElementById(
+        "orderNotes"
+      ).value.trim();
+
+    const finalNotes =
+      baseNotes +
+      (
+        baseNotes
+        ?
+        "\n"
+        :
+        ""
+      ) +
+      "موقع التوصيل: " +
+      lat +
+      ", " +
+      lng;
+
+    const items =
+      cart.map(
+        item=>{
+
+          const p =
+            products.find(
+              x=>
+                String(x.id) ===
+                String(item.id)
+            );
+
+          return {
+
+            product_id:
+              p
+              ?
+              p.id
+              :
+              null,
+
+            product_name:
+              p
+              ?
+              p.name
+              :
+              "منتج",
+
+            price:
+              p
+              ?
+              p.price
+              :
+              0,
+
+            quantity:
+              Number(item.qty)
+
+          };
+
+        }
+      );
+
+    if(!supabaseClient){
+
+      throw new Error(
+        "قاعدة البيانات غير متاحة حاليًا"
+      );
+
+    }
 
     const {
       data:orderId,
       error
-    }=
+    } =
       await supabaseClient.rpc(
         "create_order",
         {
+
           p_customer_name:
-            document
-              .getElementById("orderName")
-              .value
-              .trim(),
+            document.getElementById(
+              "orderName"
+            ).value.trim(),
 
           p_phone:
-            document
-              .getElementById("orderPhone")
-              .value
-              .trim(),
+            document.getElementById(
+              "orderPhone"
+            ).value.trim(),
 
           p_governorate:
-            document
-              .getElementById("governorate")
-              .value,
+            document.getElementById(
+              "governorate"
+            ).value,
 
           p_address:
-            document
-              .getElementById("orderAddress")
-              .value
-              .trim(),
+            document.getElementById(
+              "orderAddress"
+            ).value.trim(),
 
           p_payment_method:
-            document
-              .getElementById("payment")
-              .value,
+            document.getElementById(
+              "payment"
+            ).value,
 
           p_notes:
             finalNotes,
@@ -2056,6 +3901,7 @@ async function submitOrder(e){
 
           p_items:
             items
+
         }
       );
 
@@ -2070,16 +3916,16 @@ async function submitOrder(e){
         error.message ||
         "فشل إنشاء الطلب"
       );
+
     }
 
     if(!orderId){
 
       throw new Error(
-        "لم يتم استلام رقم الطلب من Supabase"
+        "لم يتم استلام رقم الطلب"
       );
-    }
 
-    /* نسخة محلية */
+    }
 
     orders.push({
 
@@ -2089,51 +3935,58 @@ async function submitOrder(e){
         currentUser.email,
 
       name:
-        document
-          .getElementById("orderName")
-          .value,
+        document.getElementById(
+          "orderName"
+        ).value,
 
       phone:
-        document
-          .getElementById("orderPhone")
-          .value,
+        document.getElementById(
+          "orderPhone"
+        ).value,
 
       governorate:
-        document
-          .getElementById("governorate")
-          .value,
+        document.getElementById(
+          "governorate"
+        ).value,
 
       address:
-        document
-          .getElementById("orderAddress")
-          .value,
+        document.getElementById(
+          "orderAddress"
+        ).value,
 
       lat:lat,
 
       lng:lng,
 
       payment:
-        document
-          .getElementById("payment")
-          .value,
+        document.getElementById(
+          "payment"
+        ).value,
 
-      notes:finalNotes,
+      notes:
+        finalNotes,
 
-      items:[...cart],
+      items:[
+        ...cart
+      ],
 
-      subtotal:subtotal,
+      subtotal:
+        subtotal,
 
-      shipping:shipping,
+      shipping:
+        shipping,
 
-      total:total,
+      total:
+        total,
 
-      status:"new"
+      status:
+        "new"
 
     });
 
-    cart=[];
+    cart = [];
 
-    discount=0;
+    discount = 0;
 
     save();
 
@@ -2141,79 +3994,86 @@ async function submitOrder(e){
 
     updateAccountUI();
 
-    document
-      .getElementById("checkoutModal")
-      .classList.remove("show");
+    closeModal(
+      "checkoutModal"
+    );
 
     alert(
-      "تم تسجيل طلبك بنجاح ✅\n\n"+
-      "رقم الطلب: "+
-      orderId+
-      "\n"+
-      "الإجمالي: "+
+      "تم تسجيل طلبك بنجاح ✅\n\n" +
+      "رقم الطلب: " +
+      orderId +
+      "\n" +
+      "الإجمالي: " +
       money(total)
     );
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "submitOrder error:",
+      error
+    );
 
     alert(
-      "حصل خطأ أثناء تسجيل الطلب ❌\n\n"+
+      "حصل خطأ أثناء تسجيل الطلب ❌\n\n" +
       error.message
     );
 
   }finally{
 
-    btn.disabled=false;
+    btn.disabled = false;
 
-    btn.textContent=
+    btn.textContent =
       "تأكيد الطلب ✅";
+
   }
+
 }
 
-/* =========================
+
+/* =====================================================
    الشكاوى
-========================= */
+===================================================== */
 
 async function sendComplaint(e){
 
   e.preventDefault();
 
-  const complaint={
+  const complaint = {
 
     name:
-      document
-        .getElementById("complaintName")
-        .value
-        .trim(),
+      document.getElementById(
+        "complaintName"
+      ).value.trim(),
 
     phone:
-      document
-        .getElementById("complaintPhone")
-        .value
-        .trim(),
+      document.getElementById(
+        "complaintPhone"
+      ).value.trim(),
 
     type:
-      document
-        .getElementById("complaintType")
-        .value,
+      document.getElementById(
+        "complaintType"
+      ).value,
 
     text:
-      document
-        .getElementById("complaintText")
-        .value
-        .trim(),
+      document.getElementById(
+        "complaintText"
+      ).value.trim(),
 
     date:
       new Date()
-        .toLocaleString("ar-EG")
+        .toLocaleString(
+          "ar-EG"
+        )
 
   };
 
   localStorage.setItem(
     "mz_last_complaint",
-    JSON.stringify(complaint)
+    JSON.stringify(
+      complaint
+    )
   );
 
   e.target.reset();
@@ -2221,45 +4081,136 @@ async function sendComplaint(e){
   showToast(
     "تم تسجيل رسالتك ✅"
   );
+
 }
 
-/* =========================
-   UI
-========================= */
+
+/* =====================================================
+   واجهة المستخدم
+===================================================== */
 
 function closeModal(id){
 
-  document
-    .getElementById(id)
-    .classList
-    .remove("show");
+  const modal =
+    document.getElementById(
+      id
+    );
+
+  if(modal){
+
+    modal.classList.remove(
+      "show"
+    );
+
+  }
+
 }
+
 
 function scrollToSection(id){
 
-  const el=
-    document.getElementById(id);
+  const el =
+    document.getElementById(
+      id
+    );
 
   if(el){
 
     el.scrollIntoView({
-      behavior:"smooth"
+
+      behavior:"smooth",
+
+      block:"start"
+
     });
 
   }
+
 }
 
-/* =========================
-   START
-========================= */
 
-updateCounts();
+/* =====================================================
+   تشغيل الصفحة
+===================================================== */
 
-updateAccountUI();
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
 
-loadProducts();
+    updateCounts();
+
+    updateAccountUI();
+
+    const searchInput =
+      document.getElementById(
+        "searchInput"
+      );
+
+    if(searchInput){
+
+      searchInput.addEventListener(
+        "input",
+        applyFilters
+      );
+
+    }
+
+    loadProducts();
+
+  }
+);
+
+
+/* =====================================================
+   إغلاق المودال بالضغط خارج الصندوق
+===================================================== */
+
+document.addEventListener(
+  "click",
+  function(e){
+
+    if(
+      e.target.classList &&
+      e.target.classList.contains(
+        "modal"
+      )
+    ){
+
+      e.target.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   بحث الخريطة بالضغط Enter
+===================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(
+      e.key === "Enter" &&
+      document.activeElement &&
+      document.activeElement.id ===
+      "mapSearchInput"
+    ){
+
+      e.preventDefault();
+
+      searchLocation();
+
+    }
+
+  }
+);
 
 </script>
 
 </body>
-</html>
+  </html>
