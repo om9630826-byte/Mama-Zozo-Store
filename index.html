@@ -296,6 +296,12 @@ header{
   color:#e5a52f;
 }
 
+.ratingNumber{
+  color:#555;
+  font-size:13px;
+  margin-right:4px;
+}
+
 .price{
   font-size:20px;
   font-weight:bold;
@@ -369,6 +375,82 @@ header{
   background:white;
   padding:18px;
   border-radius:18px;
+}
+
+.reviewName{
+  font-weight:bold;
+  color:#345b70;
+  margin-bottom:4px;
+}
+
+.reviewStars{
+  color:#e5a52f;
+  letter-spacing:2px;
+}
+
+.reviewComment{
+  margin-top:5px;
+}
+
+.reviewDate{
+  color:#999;
+  font-size:12px;
+  margin-top:5px;
+}
+
+.reviewForm{
+  background:#f8f4ec;
+  padding:15px;
+  border-radius:16px;
+  margin-top:20px;
+}
+
+.starPicker{
+  display:flex;
+  gap:4px;
+  direction:rtl;
+  margin:8px 0 12px;
+}
+
+.starPicker button{
+  background:transparent;
+  color:#bbb;
+  font-size:30px;
+  padding:0 2px;
+}
+
+.starPicker button.active{
+  color:#e5a52f;
+}
+
+.productRatingSummary{
+  background:#f8f4ec;
+  padding:15px;
+  border-radius:15px;
+  margin:15px 0;
+  text-align:center;
+}
+
+.productRatingBig{
+  font-size:32px;
+  font-weight:bold;
+  color:#345b70;
+}
+
+.productRatingStars{
+  color:#e5a52f;
+  font-size:25px;
+}
+
+.productReviewsList{
+  margin-top:15px;
+}
+
+.productReview{
+  background:#f8f4ec;
+  padding:13px;
+  border-radius:13px;
+  margin-bottom:10px;
 }
 
 form{
@@ -918,6 +1000,10 @@ footer h3{
 
   </div>
 
+  <!-- =========================
+       آراء العملاء الحقيقية
+  ========================= -->
+
   <div class="sectionTitle">
 
     <h2>
@@ -926,21 +1012,12 @@ footer h3{
 
   </div>
 
-  <div class="reviews">
+  <div
+    class="reviews"
+    id="reviewsSection">
 
-    <div class="review">
-      ⭐⭐⭐⭐⭐<br>
-      منتجات جميلة والتعامل ممتاز.
-    </div>
-
-    <div class="review">
-      ⭐⭐⭐⭐⭐<br>
-      الألعاب التعليمية عجبت الأطفال جدًا.
-    </div>
-
-    <div class="review">
-      ⭐⭐⭐⭐⭐<br>
-      الشنطة والأدوات المدرسية ممتازة.
+    <div class="empty">
+      جاري تحميل التقييمات...
     </div>
 
   </div>
@@ -1652,6 +1729,8 @@ try{
 
 let products = [];
 
+let reviewsData = [];
+
 let cart =
   readStorage(
     "mz_cart",
@@ -1774,7 +1853,9 @@ function money(n){
 function showToast(text){
 
   const t =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
   if(!t)return;
 
@@ -1793,6 +1874,43 @@ function showToast(text){
       },
       2500
     );
+
+}
+
+
+/* =====================================================
+   النجوم
+===================================================== */
+
+function starsHTML(rating){
+
+  const value =
+    Math.max(
+      0,
+      Math.min(
+        5,
+        Number(rating || 0)
+      )
+    );
+
+  let html = "";
+
+  for(
+    let i=1;
+    i<=5;
+    i++
+  ){
+
+    html +=
+      i <= Math.round(value)
+      ?
+      "★"
+      :
+      "☆";
+
+  }
+
+  return html;
 
 }
 
@@ -1903,7 +2021,9 @@ async function loadProducts(){
               p.old_price || 0
             ),
 
-          rating:5,
+          rating:0,
+
+          reviewCount:0,
 
           emoji:"🧸",
 
@@ -1954,6 +2074,8 @@ async function loadProducts(){
 
     updateCounts();
 
+    await loadReviews();
+
     applyFilters();
 
   }catch(error){
@@ -1982,6 +2104,95 @@ async function loadProducts(){
       </div>
 
     `;
+
+  }
+
+}
+
+
+/* =====================================================
+   تحميل التقييمات
+===================================================== */
+
+async function loadReviews(){
+
+  if(!supabaseClient)
+    return;
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("reviews")
+        .select(`
+          id,
+          product_id,
+          customer_name,
+          rating,
+          comment,
+          created_at
+        `)
+        .eq(
+          "is_approved",
+          true
+        )
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
+
+    if(error)
+      throw error;
+
+    reviewsData =
+      data || [];
+
+    products.forEach(
+      product=>{
+
+        const productReviews =
+          reviewsData.filter(
+            review=>
+              String(review.product_id) ===
+              String(product.id)
+          );
+
+        product.reviewCount =
+          productReviews.length;
+
+        product.rating =
+          productReviews.length
+          ?
+          productReviews.reduce(
+            (sum,review)=>
+              sum +
+              Number(review.rating || 0),
+            0
+          ) /
+          productReviews.length
+          :
+          0;
+
+      }
+    );
+
+    renderCustomerReviews();
+
+  }catch(error){
+
+    console.error(
+      "loadReviews error:",
+      error
+    );
+
+    reviewsData = [];
+
+    renderCustomerReviews();
 
   }
 
@@ -2049,7 +2260,26 @@ function renderProducts(list=products){
           </h3>
 
           <div class="rating">
-            ★★★★★ ${p.rating}
+
+            ${starsHTML(p.rating)}
+
+            ${
+              p.reviewCount
+              ?
+              `
+                <span class="ratingNumber">
+                  ${Number(p.rating).toFixed(1)}
+                  (${p.reviewCount})
+                </span>
+              `
+              :
+              `
+                <span class="ratingNumber">
+                  لسه مفيش تقييمات
+                </span>
+              `
+            }
+
           </div>
 
           <div>
@@ -2820,6 +3050,13 @@ function openProduct(id){
 
   if(!details || !modal)return;
 
+  const productReviews =
+    reviewsData.filter(
+      review=>
+        String(review.product_id) ===
+        String(p.id)
+    );
+
   details.innerHTML = `
 
     <div style="text-align:center">
@@ -2855,7 +3092,27 @@ function openProduct(id){
     </h2>
 
     <div class="rating">
-      ★★★★★ ${p.rating}
+
+      ${starsHTML(p.rating)}
+
+      ${
+        p.reviewCount
+        ?
+        `
+          <span class="ratingNumber">
+            ${Number(p.rating).toFixed(1)}
+            من 5
+            (${p.reviewCount} تقييم)
+          </span>
+        `
+        :
+        `
+          <span class="ratingNumber">
+            لسه مفيش تقييمات
+          </span>
+        `
+      }
+
     </div>
 
     <h2 class="price">
@@ -2905,6 +3162,203 @@ function openProduct(id){
       ""
     }
 
+    <div class="productRatingSummary">
+
+      <div class="productRatingBig">
+        ${
+          p.reviewCount
+          ?
+          Number(p.rating).toFixed(1)
+          :
+          "—"
+        }
+        <span style="font-size:16px">
+          / 5
+        </span>
+      </div>
+
+      <div class="productRatingStars">
+        ${starsHTML(p.rating)}
+      </div>
+
+      <div>
+        ${
+          p.reviewCount
+          ?
+          `بناءً على ${p.reviewCount} تقييم`
+          :
+          "مفيش تقييمات للمنتج لسه"
+        }
+      </div>
+
+    </div>
+
+    <h3>
+      ⭐ تقييمات العملاء
+    </h3>
+
+    <div class="productReviewsList">
+
+      ${
+        productReviews.length
+        ?
+        productReviews.map(
+          review=>`
+
+            <div class="productReview">
+
+              <div class="reviewName">
+                ${escapeHtml(
+                  review.customer_name ||
+                  "عميل"
+                )}
+              </div>
+
+              <div class="reviewStars">
+                ${starsHTML(
+                  review.rating
+                )}
+              </div>
+
+              ${
+                review.comment
+                ?
+                `
+                  <div class="reviewComment">
+                    ${escapeHtml(
+                      review.comment
+                    )}
+                  </div>
+                `
+                :
+                ""
+              }
+
+              <div class="reviewDate">
+                ${formatReviewDate(
+                  review.created_at
+                )}
+              </div>
+
+            </div>
+
+          `
+        ).join("")
+        :
+        `
+          <div class="empty">
+            مفيش تقييمات للمنتج لسه ⭐
+          </div>
+        `
+      }
+
+    </div>
+
+    <div class="reviewForm">
+
+      <h3>
+        ✍️ قيّم المنتج
+      </h3>
+
+      <div class="field">
+
+        <label>
+          الاسم
+        </label>
+
+        <input
+          id="reviewName"
+          value="${escapeHtml(
+            currentUser
+            ?
+            currentUser.name || ""
+            :
+            ""
+          )}"
+          placeholder="اكتب اسمك">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          التقييم
+        </label>
+
+        <div
+          class="starPicker"
+          id="starPicker">
+
+          <button
+            type="button"
+            data-rating="5"
+            onclick="selectReviewRating(5)">
+            ★
+          </button>
+
+          <button
+            type="button"
+            data-rating="4"
+            onclick="selectReviewRating(4)">
+            ★
+          </button>
+
+          <button
+            type="button"
+            data-rating="3"
+            onclick="selectReviewRating(3)">
+            ★
+          </button>
+
+          <button
+            type="button"
+            data-rating="2"
+            onclick="selectReviewRating(2)">
+            ★
+          </button>
+
+          <button
+            type="button"
+            data-rating="1"
+            onclick="selectReviewRating(1)">
+            ★
+          </button>
+
+        </div>
+
+        <div
+          id="selectedRatingText"
+          style="
+            color:#777;
+            font-size:13px;
+          ">
+          اختار عدد النجوم
+        </div>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          تعليقك
+        </label>
+
+        <textarea
+          id="reviewComment"
+          placeholder="اكتب رأيك في المنتج..."></textarea>
+
+      </div>
+
+      <button
+        type="button"
+        id="submitReviewBtn"
+        class="primary"
+        onclick="submitReview(${Number(p.id)})">
+        إرسال التقييم ⭐
+      </button>
+
+    </div>
+
     <br>
 
     <button
@@ -2919,7 +3373,343 @@ function openProduct(id){
 
   `;
 
+  window.currentReviewRating = 0;
+
   modal.classList.add("show");
+
+}
+
+
+/* =====================================================
+   اختيار التقييم
+===================================================== */
+
+function selectReviewRating(rating){
+
+  window.currentReviewRating =
+    Number(rating);
+
+  const buttons =
+    document.querySelectorAll(
+      "#starPicker button"
+    );
+
+  buttons.forEach(
+    button=>{
+
+      const value =
+        Number(
+          button.dataset.rating
+        );
+
+      button.classList.toggle(
+        "active",
+        value <= rating
+      );
+
+    }
+  );
+
+  const text =
+    document.getElementById(
+      "selectedRatingText"
+    );
+
+  if(text){
+
+    text.textContent =
+      rating +
+      " من 5 نجوم ⭐";
+
+  }
+
+}
+
+
+/* =====================================================
+   إرسال التقييم
+===================================================== */
+
+async function submitReview(productId){
+
+  if(!supabaseClient){
+
+    showToast(
+      "قاعدة البيانات غير متاحة حاليًا"
+    );
+
+    return;
+
+  }
+
+  const nameInput =
+    document.getElementById(
+      "reviewName"
+    );
+
+  const commentInput =
+    document.getElementById(
+      "reviewComment"
+    );
+
+  const btn =
+    document.getElementById(
+      "submitReviewBtn"
+    );
+
+  const name =
+    nameInput
+    ?
+    nameInput.value.trim()
+    :
+    "";
+
+  const comment =
+    commentInput
+    ?
+    commentInput.value.trim()
+    :
+    "";
+
+  const rating =
+    Number(
+      window.currentReviewRating || 0
+    );
+
+  if(!name){
+
+    showToast(
+      "اكتب اسمك الأول"
+    );
+
+    return;
+
+  }
+
+  if(
+    rating < 1 ||
+    rating > 5
+  ){
+
+    showToast(
+      "اختار عدد النجوم الأول ⭐"
+    );
+
+    return;
+
+  }
+
+  if(!comment){
+
+    showToast(
+      "اكتب تعليقك الأول"
+    );
+
+    return;
+
+  }
+
+  if(btn){
+
+    btn.disabled = true;
+
+    btn.textContent =
+      "جاري إرسال التقييم...";
+
+  }
+
+  try{
+
+    const reviewData = {
+
+      product_id:
+        Number(productId),
+
+      customer_name:
+        name,
+
+      rating:
+        rating,
+
+      comment:
+        comment,
+
+      is_approved:
+        true
+
+    };
+
+    if(
+      currentUser &&
+      currentUser.email
+    ){
+
+      reviewData.user_id = null;
+
+    }
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("reviews")
+        .insert(
+          reviewData
+        );
+
+    if(error)
+      throw error;
+
+    showToast(
+      "تم إرسال تقييمك بنجاح ⭐❤️"
+    );
+
+    await loadReviews();
+
+    openProduct(
+      productId
+    );
+
+  }catch(error){
+
+    console.error(
+      "submitReview error:",
+      error
+    );
+
+    showToast(
+      "حصل خطأ أثناء إرسال التقييم ❌"
+    );
+
+  }finally{
+
+    if(btn){
+
+      btn.disabled = false;
+
+      btn.textContent =
+        "إرسال التقييم ⭐";
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   عرض آراء العملاء
+===================================================== */
+
+function renderCustomerReviews(){
+
+  const box =
+    document.getElementById(
+      "reviewsSection"
+    );
+
+  if(!box)return;
+
+  if(!reviewsData.length){
+
+    box.innerHTML = `
+
+      <div class="empty">
+
+        لسه مفيش تقييمات من العملاء ⭐
+
+        <br>
+
+        كن أول واحد يقيّم منتجاتنا ❤️
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  const list =
+    reviewsData.slice(
+      0,
+      6
+    );
+
+  box.innerHTML =
+    list.map(
+      review=>`
+
+        <div class="review">
+
+          <div class="reviewName">
+
+            👤
+            ${escapeHtml(
+              review.customer_name ||
+              "عميل"
+            )}
+
+          </div>
+
+          <div class="reviewStars">
+
+            ${starsHTML(
+              review.rating
+            )}
+
+          </div>
+
+          ${
+            review.comment
+            ?
+            `
+              <div class="reviewComment">
+
+                ${escapeHtml(
+                  review.comment
+                )}
+
+              </div>
+            `
+            :
+            ""
+          }
+
+          <div class="reviewDate">
+
+            ${formatReviewDate(
+              review.created_at
+            )}
+
+          </div>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+function formatReviewDate(date){
+
+  if(!date)
+    return "";
+
+  try{
+
+    return new Date(
+      date
+    ).toLocaleDateString(
+      "ar-EG"
+    );
+
+  }catch(error){
+
+    return "";
+
+  }
 
 }
 
@@ -4213,4 +5003,5 @@ document.addEventListener(
 </script>
 
 </body>
-  </html>
+
+        </html>
