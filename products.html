@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>إدارة المنتجات - مكتبة ماما زوزو</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#fff4fb;
+  color:#39263d;
+}
+
+header{
+  background:linear-gradient(135deg,#ff69b4,#9b6cff);
+  color:white;
+  padding:22px;
+  text-align:center;
+}
+
+.container{
+  max-width:1500px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin:15px 0;
+  box-shadow:0 5px 20px #0001;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:bold;
+  margin:4px;
+}
+
+.primary{background:#ff69b4;color:white}
+.blue{background:#6c63ff;color:white}
+.green{background:#20a464;color:white}
+.red{background:#e74c3c;color:white}
+.gray{background:#777;color:white}
+
+.hidden{display:none!important}
+
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:15px;
+  font-family:Arial,sans-serif;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:18px;
+}
+
+.product-card{
+  background:white;
+  border:1px solid #eadfea;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 4px 15px #00000012;
+}
+
+.product-image{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  display:block;
+  background:#f7efff;
+}
+
+.no-image{
+  width:100%;
+  height:190px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f7efff;
+  font-size:55px;
+}
+
+.product-body{
+  padding:14px;
+}
+
+.product-name{
+  margin:0 0 10px;
+  font-size:18px;
+}
+
+.detail{
+  margin:7px 0;
+  font-size:14px;
+}
+
+.price{
+  color:#9b3f9b;
+  font-size:19px;
+  font-weight:bold;
+}
+
+.stock{
+  color:#20a464;
+  font-weight:bold;
+}
+
+.actions{
+  display:flex;
+  gap:5px;
+  margin-top:12px;
+}
+
+.actions button{
+  flex:1;
+  margin:0;
+  padding:9px 5px;
+}
+
+.msg{
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.error{
+  background:#ffe0e0;
+  color:#a00000;
+}
+
+.success{
+  background:#dcffe9;
+  color:#087a35;
+}
+
+.top-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+@media(max-width:600px){
+
+  .container{
+    padding:10px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .products-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .product-image,
+  .no-image{
+    height:135px;
+  }
+
+  .product-body{
+    padding:10px;
+  }
+
+  .product-name{
+    font-size:15px;
+  }
+
+  .detail{
+    font-size:12px;
+  }
+
+  .price{
+    font-size:16px;
+  }
+
+  .actions{
+    display:block;
+  }
+
+  .actions button{
+    width:100%;
+    margin:3px 0;
+  }
+}
+
+@media(min-width:601px) and (max-width:1000px){
+
+  .products-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .product-image,
+  .no-image{
+    height:170px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎀 مكتبة ماما زوزو</h1>
+<p>📦 إدارة المنتجات</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<div class="top-actions">
+
+<h2>📦 المنتجات</h2>
+
+<div>
+<button class="green" onclick="showAddForm()">
+➕ إضافة منتج
+</button>
+
+<button class="gray" onclick="goAdmin()">
+⬅️ لوحة المدير
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ADD PRODUCT -->
+
+<div id="addBox" class="card hidden">
+
+<h2>➕ إضافة منتج جديد</h2>
+
+<div class="form-grid">
+
+<div>
+<label>اسم المنتج</label>
+<input id="name" placeholder="اسم المنتج">
+</div>
+
+<div>
+<label>السعر</label>
+<input id="price" type="number" step="0.01" placeholder="السعر">
+</div>
+
+<div>
+<label>السعر القديم</label>
+<input id="old_price" type="number" step="0.01" placeholder="السعر القديم">
+</div>
+
+<div>
+<label>المخزون</label>
+<input id="stock" type="number" min="0" value="0">
+</div>
+
+<div>
+<label>القسم</label>
+<input id="category" placeholder="مثال: ألعاب">
+</div>
+
+<div>
+<label>صورة المنتج</label>
+<input id="image" type="file" accept="image/*">
+</div>
+
+</div>
+
+<label>الوصف</label>
+
+<textarea
+id="description"
+placeholder="وصف المنتج"
+></textarea>
+
+<div>
+
+<label>
+<input
+id="is_active"
+type="checkbox"
+checked
+style="width:auto"
+>
+ المنتج نشط
+</label>
+
+<br>
+
+<label>
+<input
+id="is_featured"
+type="checkbox"
+style="width:auto"
+>
+ منتج مميز
+</label>
+
+</div>
+
+<button
+class="green"
+onclick="addProduct()"
+>
+💾 حفظ المنتج
+</button>
+
+<button
+class="gray"
+onclick="hideAddForm()"
+>
+إلغاء
+</button>
+
+<div id="addMsg"></div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div class="card">
+
+<div class="top-actions">
+
+<h2>📋 قائمة المنتجات</h2>
+
+<button
+class="blue"
+onclick="loadProducts()"
+>
+🔄 تحديث
+</button>
+
+</div>
+
+<div id="products">
+⏳ جاري تحميل المنتجات...
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://tzjtivfzawffqgisrowv.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
+
+const client =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =========================
+   SESSION
+========================= */
+
+async function checkSession(){
+
+const {data,error} =
+await client.auth.getSession();
+
+if(
+error ||
+!data ||
+!data.session
+){
+
+location.href="admin.html";
+
+return false;
+
+}
+
+return true;
+
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+function goAdmin(){
+
+location.href="admin.html";
+
+}
+
+
+/* =========================
+   ADD FORM
+========================= */
+
+function showAddForm(){
+
+document
+.getElementById("addBox")
+.classList.remove("hidden");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+function hideAddForm(){
+
+document
+.getElementById("addBox")
+.classList.add("hidden");
+
+}
+
+
+/* =========================
+   ADD PRODUCT
+========================= */
+
+async function addProduct(){
+
+const msg =
+document.getElementById("addMsg");
+
+const name =
+document.getElementById("name")
+.value
+.trim();
+
+const price =
+Number(
+document.getElementById("price")
+.value
+);
+
+const oldPriceValue =
+document.getElementById("old_price")
+.value;
+
+const oldPrice =
+oldPriceValue === ""
+? null
+: Number(oldPriceValue);
+
+const stock =
+Number(
+document.getElementById("stock")
+.value
+);
+
+const category =
+document.getElementById("category")
+.value
+.trim();
+
+const description =
+document.getElementById("description")
+.value
+.trim();
+
+const isActive =
+document.getElementById("is_active")
+.checked;
+
+const isFeatured =
+document.getElementById("is_featured")
+.checked;
+
+const imageFile =
+document.getElementById("image")
+.files[0];
+
+
+if(!name){
+
+msg.innerHTML =
+'<div class="msg error">❌ اكتب اسم المنتج.</div>';
+
+return;
+
+}
+
+if(!price || price < 0){
+
+msg.innerHTML =
+'<div class="msg error">❌ اكتب سعر صحيح.</div>';
+
+return;
+
+}
+
+if(stock < 0){
+
+msg.innerHTML =
+'<div class="msg error">❌ المخزون غير صحيح.</div>';
+
+return;
+
+}
+
+
+msg.innerHTML =
+"⏳ جاري إضافة المنتج...";
+
+
+try{
+
+/* CREATE PRODUCT */
+
+const {data,error} =
+await client
+.from("products")
+.insert({
+
+name:name,
+price:price,
+description:description,
+old_price:oldPrice,
+stock:stock,
+category:category,
+is_active:isActive,
+is_featured:isFeatured
+
+})
+.select()
+.single();
+
+
+if(error)
+throw error;
+
+
+let imageUrl = null;
+
+
+/* UPLOAD IMAGE */
+
+if(imageFile){
+
+const extension =
+imageFile.name
+.split(".")
+.pop();
+
+const fileName =
+data.id +
+"-" +
+Date.now() +
+"." +
+extension;
+
+const filePath =
+data.id +
+"/" +
+fileName;
+
+
+const upload =
+await client
+.storage
+.from("product-images")
+.upload(
+filePath,
+imageFile,
+{
+upsert:false
+}
+);
+
+
+if(upload.error)
+throw upload.error;
+
+
+const publicUrl =
+client
+.storage
+.from("product-images")
+.getPublicUrl(filePath);
+
+
+imageUrl =
+publicUrl
+.data
+.publicUrl;
+
+
+/* UPDATE PRODUCT IMAGE */
+
+const update =
+await client
+.from("products")
+.update({
+image_url:imageUrl
+})
+.eq(
+"id",
+data.id
+);
+
+if(update.error)
+throw update.error;
+
+}
+
+
+/* SUCCESS */
+
+msg.innerHTML =
+'<div class="msg success">✅ تم إضافة المنتج بنجاح.</div>';
+
+
+document
+.getElementById("name")
+.value="";
+
+document
+.getElementById("price")
+.value="";
+
+document
+.getElementById("old_price")
+.value="";
+
+document
+.getElementById("stock")
+.value="0";
+
+document
+.getElementById("category")
+.value="";
+
+document
+.getElementById("description")
+.value="";
+
+document
+.getElementById("image")
+.value="";
+
+document
+.getElementById("is_active")
+.checked=true;
+
+document
+.getElementById("is_featured")
+.checked=false;
+
+
+await loadProducts();
+
+}catch(error){
+
+console.error(error);
+
+msg.innerHTML =
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+}
+
+}
+
+
+/* =========================
+   LOAD PRODUCTS
+========================= */
+
+async function loadProducts(){
+
+const box =
+document.getElementById("products");
+
+box.innerHTML =
+"⏳ جاري تحميل المنتجات...";
+
+
+const {data,error} =
+await client
+.from("products")
+.select("*")
+.order(
+"id",
+{ascending:false}
+);
+
+
+if(error){
+
+box.innerHTML =
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+return;
+
+}
+
+
+if(!data || !data.length){
+
+box.innerHTML =
+"<p>لا توجد منتجات حتى الآن.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+
+`
+<div class="products-grid">
+
+${
+data.map(p => `
+
+<div class="product-card">
+
+${
+p.image_url
+
+?
+
+`
+<img
+class="product-image"
+src="${escapeAttr(p.image_url)}"
+alt="${escapeAttr(p.name)}"
+>
+`
+
+:
+
+`
+<div class="no-image">
+📦
+</div>
+`
+
+}
+
+
+<div class="product-body">
+
+<h3 class="product-name">
+${escapeHtml(p.name)}
+</h3>
+
+<div class="detail price">
+💰 ${p.price} جنيه
+</div>
+
+${
+p.old_price
+?
+`
+<div class="detail">
+السعر القديم:
+<s>${p.old_price} جنيه</s>
+</div>
+`
+:
+""
+}
+
+<div class="detail stock">
+📦 المخزون: ${p.stock}
+</div>
+
+<div class="detail">
+🏷️ القسم:
+${escapeHtml(p.category || "غير محدد")}
+</div>
+
+<div class="detail">
+${
+p.is_active
+?
+"🟢 المنتج نشط"
+:
+"🔴 المنتج غير نشط"
+}
+</div>
+
+${
+p.is_featured
+?
+`
+<div class="detail">
+⭐ منتج مميز
+</div>
+`
+:
+""
+}
+
+<div class="actions">
+
+<button
+class="blue"
+onclick="editProduct(${Number(p.id)})"
+>
+✏️ تعديل
+</button>
+
+<button
+class="red"
+onclick="deleteProduct(${Number(p.id)})"
+>
+🗑️ حذف
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("")
+}
+
+</div>
+`;
+
+}
+
+
+/* =========================
+   EDIT
+========================= */
+
+function editProduct(id){
+
+location.href =
+"edit-product.html?id="+
+encodeURIComponent(id);
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+async function deleteProduct(id){
+
+const ok =
+confirm(
+"⚠️ هل أنت متأكد من حذف المنتج؟"
+);
+
+if(!ok)
+return;
+
+
+const {error} =
+await client
+.from("products")
+.delete()
+.eq(
+"id",
+id
+);
+
+
+if(error){
+
+alert(
+"❌ فشل حذف المنتج:\n"+
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"✅ تم حذف المنتج"
+);
+
+await loadProducts();
+
+}
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHtml(value){
+
+return String(value ?? "")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+function escapeAttr(value){
+
+return escapeHtml(value);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+(async function(){
+
+const ok =
+await checkSession();
+
+if(ok){
+
+await loadProducts();
+
+}
+
+})();
+
+</script>
+
+</body>
+</html>
