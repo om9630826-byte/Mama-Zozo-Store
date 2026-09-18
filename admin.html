@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -113,17 +114,13 @@ input{
   font-size:20px;
 }
 
-/* =========================
-   PRODUCTS GRID
-========================= */
+/* PRODUCTS */
 
 .products-grid{
   display:grid;
   grid-template-columns:repeat(5,minmax(0,1fr));
   gap:18px;
 }
-
-/* كارت المنتج */
 
 .product-card{
   background:#fff;
@@ -201,9 +198,7 @@ input{
   font-size:13px;
 }
 
-/* =========================
-   MESSAGES
-========================= */
+/* MESSAGES */
 
 .msg{
   padding:12px;
@@ -221,9 +216,7 @@ input{
   color:#087a35;
 }
 
-/* =========================
-   MENU
-========================= */
+/* MENU */
 
 .menu{
   display:grid;
@@ -249,9 +242,7 @@ input{
   color:#9b6cff;
 }
 
-/* =========================
-   ORDERS / COMPLAINTS
-========================= */
+/* LIST */
 
 .list-item{
   background:#fff;
@@ -272,11 +263,7 @@ select{
   background:white;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-/* الموبايل: 2 منتجات */
+/* MOBILE */
 
 @media(max-width:600px){
 
@@ -321,7 +308,7 @@ select{
 
 }
 
-/* التابلت: 3 منتجات */
+/* TABLET */
 
 @media(min-width:601px) and (max-width:1000px){
 
@@ -337,7 +324,7 @@ select{
 
 }
 
-/* شاشة كبيرة: 5 منتجات */
+/* LARGE */
 
 @media(min-width:1001px){
 
@@ -348,6 +335,7 @@ select{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -360,18 +348,11 @@ select{
 
 </header>
 
-
 <div class="container">
 
+<!-- LOGIN -->
 
-<!-- =========================
-     LOGIN
-========================= -->
-
-<div
-id="loginBox"
-class="card"
->
+<div id="loginBox" class="card">
 
 <h2>🔐 تسجيل الدخول</h2>
 
@@ -411,15 +392,9 @@ onclick="login()"
 </div>
 
 
-<!-- =========================
-     ADMIN
-========================= -->
+<!-- ADMIN -->
 
-<div
-id="adminBox"
-class="hidden"
->
-
+<div id="adminBox" class="hidden">
 
 <!-- TOP -->
 
@@ -453,15 +428,15 @@ onclick="logout()"
 </div>
 
 
-<!-- =========================
-     MENU
-========================= -->
+<!-- MENU -->
 
 <div class="card">
 
 <h2>🎛️ أقسام الإدارة</h2>
 
 <div class="menu">
+
+<!-- PRODUCTS -->
 
 <button
 class="blue"
@@ -472,14 +447,20 @@ onclick="showSection('productsSection')"
 المنتجات
 </button>
 
+
+<!-- ORDERS -->
+
 <button
 class="green"
-onclick="showSection('ordersSection')"
+onclick="openOrders()"
 >
 🛒
 <br>
 الطلبات
 </button>
+
+
+<!-- COMPLAINTS -->
 
 <button
 class="primary"
@@ -490,6 +471,9 @@ onclick="showSection('complaintsSection')"
 الشكاوى والاقتراحات
 </button>
 
+
+<!-- COUPONS -->
+
 <button
 class="blue"
 onclick="alert('قسم الكوبونات هنضيفه في الخطوة القادمة')"
@@ -499,6 +483,9 @@ onclick="alert('قسم الكوبونات هنضيفه في الخطوة الق�
 الكوبونات
 </button>
 
+
+<!-- STAFF -->
+
 <button
 class="green"
 onclick="alert('قسم المشرفين والصلاحيات هنضيفه في الخطوة القادمة')"
@@ -507,6 +494,9 @@ onclick="alert('قسم المشرفين والصلاحيات هنضيفه في �
 <br>
 المشرفين والصلاحيات
 </button>
+
+
+<!-- SETTINGS -->
 
 <button
 class="primary"
@@ -522,9 +512,7 @@ onclick="alert('الإعدادات هنضيفها في الخطوة القادم
 </div>
 
 
-<!-- =========================
-     PRODUCTS
-========================= -->
+<!-- PRODUCTS SECTION -->
 
 <div
 id="productsSection"
@@ -561,36 +549,7 @@ onclick="loadProducts()"
 </div>
 
 
-<!-- =========================
-     ORDERS
-========================= -->
-
-<div
-id="ordersSection"
-class="card hidden"
->
-
-<div class="row">
-
-<h2>🛒 الطلبات</h2>
-
-<button
-class="blue"
-onclick="loadOrders()"
->
-🔄 تحديث
-</button>
-
-</div>
-
-<div id="orders"></div>
-
-</div>
-
-
-<!-- =========================
-     COMPLAINTS
-========================= -->
+<!-- COMPLAINTS SECTION -->
 
 <div
 id="complaintsSection"
@@ -614,7 +573,6 @@ onclick="loadComplaints()"
 
 </div>
 
-
 </div>
 
 </div>
@@ -622,9 +580,7 @@ onclick="loadComplaints()"
 
 <script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+/* SUPABASE */
 
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
@@ -639,9 +595,7 @@ SUPABASE_KEY
 );
 
 
-/* =====================================================
-   PASSWORD
-===================================================== */
+/* PASSWORD */
 
 function togglePassword(){
 
@@ -655,22 +609,20 @@ if(password.type === "password"){
 
 password.type = "text";
 
-button.textContent="🙈";
+button.textContent = "🙈";
 
 }else{
 
 password.type = "password";
 
-button.textContent="👁️";
+button.textContent = "👁️";
 
 }
 
 }
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
+/* LOGIN */
 
 async function login(){
 
@@ -711,7 +663,7 @@ password:password
 if(error)
 throw error;
 
-msg.innerHTML="";
+msg.innerHTML = "";
 
 await showAdmin();
 
@@ -727,9 +679,7 @@ escapeHtml(error.message)+
 }
 
 
-/* =====================================================
-   SHOW ADMIN
-===================================================== */
+/* SHOW ADMIN */
 
 async function showAdmin(){
 
@@ -746,9 +696,7 @@ await loadProducts();
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
+/* LOGOUT */
 
 async function logout(){
 
@@ -759,16 +707,25 @@ location.reload();
 }
 
 
-/* =====================================================
-   SECTIONS
-===================================================== */
+/* OPEN ORDERS */
+
+function openOrders(){
+
+window.location.href =
+"orders.html";
+
+}
+
+
+/* SECTIONS */
 
 function showSection(id){
 
-const sections=[
+const sections = [
+
 "productsSection",
-"ordersSection",
 "complaintsSection"
+
 ];
 
 sections.forEach(section=>{
@@ -784,19 +741,13 @@ document
 .classList.remove("hidden");
 
 
-if(id==="productsSection"){
+if(id === "productsSection"){
 
 loadProducts();
 
 }
 
-if(id==="ordersSection"){
-
-loadOrders();
-
-}
-
-if(id==="complaintsSection"){
+if(id === "complaintsSection"){
 
 loadComplaints();
 
@@ -805,9 +756,7 @@ loadComplaints();
 }
 
 
-/* =====================================================
-   LOAD PRODUCTS
-===================================================== */
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
@@ -850,20 +799,21 @@ return;
 }
 
 
-/* GRID */
-
 box.innerHTML =
+
 `
 <div class="products-grid">
 
 ${
-data.map(p=>`
+data.map(p => `
 
 <div class="product-card">
 
 ${
 p.image_url
+
 ?
+
 `
 <img
 class="product-image"
@@ -871,12 +821,15 @@ src="${escapeAttr(p.image_url)}"
 alt="${escapeAttr(p.name)}"
 >
 `
+
 :
+
 `
 <div class="no-image">
 📦
 </div>
 `
+
 }
 
 
@@ -896,15 +849,25 @@ ${escapeHtml(p.name)}
 
 ${
 p.old_price
+
 ?
+
 `
 <div class="product-detail">
+
 السعر القديم:
-<s>${p.old_price} جنيه</s>
+
+<s>
+${p.old_price} جنيه
+</s>
+
 </div>
 `
+
 :
+
 ""
+
 }
 
 
@@ -919,6 +882,7 @@ ${p.stock}
 <div class="product-detail product-category">
 
 🏷️ القسم:
+
 ${escapeHtml(
 p.category || "غير محدد"
 )}
@@ -930,10 +894,15 @@ p.category || "غير محدد"
 
 ${
 p.is_active
+
 ?
+
 "🟢 المنتج نشط"
+
 :
+
 "🔴 المنتج غير نشط"
+
 }
 
 </div>
@@ -947,6 +916,7 @@ onclick="editProduct(${Number(p.id)})"
 >
 ✏️ تعديل
 </button>
+
 
 <button
 class="red"
@@ -970,9 +940,7 @@ onclick="deleteProduct(${Number(p.id)})"
 }
 
 
-/* =====================================================
-   EDIT PRODUCT
-===================================================== */
+/* EDIT PRODUCT */
 
 function editProduct(id){
 
@@ -993,9 +961,7 @@ window.location.assign(url);
 }
 
 
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
+/* DELETE PRODUCT */
 
 async function deleteProduct(id){
 
@@ -1039,165 +1005,7 @@ await loadProducts();
 }
 
 
-/* =====================================================
-   ORDERS
-===================================================== */
-
-async function loadOrders(){
-
-const box =
-document.getElementById("orders");
-
-box.innerHTML =
-"⏳ جاري تحميل الطلبات...";
-
-
-const {data,error} =
-await client
-.from("orders")
-.select("*")
-.order(
-"created_at",
-{ascending:false}
-);
-
-
-if(error){
-
-box.innerHTML =
-'<div class="msg error">❌ '+
-escapeHtml(error.message)+
-'</div>';
-
-return;
-
-}
-
-
-if(!data || !data.length){
-
-box.innerHTML =
-"<p>لا توجد طلبات.</p>";
-
-return;
-
-}
-
-
-box.innerHTML =
-data.map(o=>`
-
-<div class="list-item">
-
-<h3>
-🛒 طلب #${o.id}
-</h3>
-
-<p>
-👤 العميل:
-${escapeHtml(o.customer_name)}
-</p>
-
-<p>
-📞 الهاتف:
-${escapeHtml(o.phone)}
-</p>
-
-<p>
-📍 العنوان:
-${escapeHtml(o.address || "")}
-</p>
-
-<p>
-💰 الإجمالي:
-<b>${o.total} جنيه</b>
-</p>
-
-<p>
-💳 طريقة الدفع:
-${escapeHtml(o.payment_method || "")}
-</p>
-
-<select
-onchange="
-updateOrderStatus(
-${o.id},
-this.value
-)
-"
->
-
-${
-[
-"pending",
-"confirmed",
-"processing",
-"shipped",
-"delivered",
-"cancelled"
-]
-.map(s=>`
-
-<option
-value="${s}"
-${o.status===s?"selected":""}
->
-${s}
-</option>
-
-`).join("")
-}
-
-</select>
-
-</div>
-
-`).join("");
-
-}
-
-
-/* =====================================================
-   UPDATE ORDER
-===================================================== */
-
-async function updateOrderStatus(
-id,
-status
-){
-
-const {error} =
-await client
-.from("orders")
-.update({
-status:status
-})
-.eq(
-"id",
-id
-);
-
-if(error){
-
-alert(
-"❌ فشل تحديث الطلب:\n"+
-error.message
-);
-
-return;
-
-}
-
-alert(
-"✅ تم تحديث حالة الطلب"
-);
-
-}
-
-
-/* =====================================================
-   COMPLAINTS
-===================================================== */
+/* LOAD COMPLAINTS */
 
 async function loadComplaints(){
 
@@ -1241,27 +1049,53 @@ return;
 
 
 box.innerHTML =
-data.map(c=>`
+
+data.map(c => `
 
 <div class="list-item">
 
 <h3>
-💬 ${escapeHtml(c.name || "عميل")}
+
+💬
+${escapeHtml(
+c.name || "عميل"
+)}
+
 </h3>
 
-<p>
-📞 ${escapeHtml(c.phone || "")}
-</p>
 
 <p>
-📝 ${escapeHtml(c.message || "")}
+
+📞
+${escapeHtml(
+c.phone || ""
+)}
+
 </p>
 
+
 <p>
+
+📝
+${escapeHtml(
+c.message || ""
+)}
+
+</p>
+
+
+<p>
+
 الحالة:
+
 <b>
-${escapeHtml(c.status || "new")}
+
+${escapeHtml(
+c.status || "new"
+)}
+
 </b>
+
 </p>
 
 </div>
@@ -1271,20 +1105,24 @@ ${escapeHtml(c.status || "new")}
 }
 
 
-/* =====================================================
-   SECURITY
-===================================================== */
+/* SECURITY */
 
 function escapeHtml(value){
 
 return String(value ?? "")
+
 .replaceAll("&","&amp;")
+
 .replaceAll("<","&lt;")
+
 .replaceAll(">","&gt;")
+
 .replaceAll('"',"&quot;")
+
 .replaceAll("'","&#039;");
 
 }
+
 
 function escapeAttr(value){
 
@@ -1293,9 +1131,7 @@ return escapeHtml(value);
 }
 
 
-/* =====================================================
-   SESSION
-===================================================== */
+/* SESSION */
 
 async function checkSession(){
 
@@ -1325,9 +1161,7 @@ error
 }
 
 
-/* =====================================================
-   START
-===================================================== */
+/* START */
 
 checkSession();
 
