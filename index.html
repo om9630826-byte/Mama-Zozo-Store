@@ -4829,51 +4829,94 @@ async function sendComplaint(e){
 
   e.preventDefault();
 
-  const complaint = {
+  if(!supabaseClient){
 
-    name:
-      document.getElementById(
-        "complaintName"
-      ).value.trim(),
+    showToast(
+      "قاعدة البيانات غير متاحة حاليًا ❌"
+    );
 
-    phone:
-      document.getElementById(
-        "complaintPhone"
-      ).value.trim(),
+    return;
 
-    type:
-      document.getElementById(
-        "complaintType"
-      ).value,
+  }
 
-    text:
-      document.getElementById(
-        "complaintText"
-      ).value.trim(),
+  const name =
+    document.getElementById(
+      "complaintName"
+    ).value.trim();
 
-    date:
-      new Date()
-        .toLocaleString(
-          "ar-EG"
-        )
+  const phone =
+    document.getElementById(
+      "complaintPhone"
+    ).value.trim();
 
-  };
+  const type =
+    document.getElementById(
+      "complaintType"
+    ).value;
 
-  localStorage.setItem(
-    "mz_last_complaint",
-    JSON.stringify(
-      complaint
-    )
-  );
+  const text =
+    document.getElementById(
+      "complaintText"
+    ).value.trim();
 
-  e.target.reset();
+  if(!name || !phone || !text){
 
-  showToast(
-    "تم تسجيل رسالتك ✅"
-  );
+    showToast(
+      "كمّل بيانات الرسالة الأول"
+    );
+
+    return;
+
+  }
+
+  try{
+
+    const message =
+      "نوع الرسالة: " +
+      type +
+      "\n\n" +
+      text;
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("complaints")
+        .insert({
+
+          name:name,
+
+          phone:phone,
+
+          message:message,
+
+          status:"new"
+
+        });
+
+    if(error)
+      throw error;
+
+    e.target.reset();
+
+    showToast(
+      "تم تسجيل رسالتك بنجاح ✅"
+    );
+
+  }catch(error){
+
+    console.error(
+      "sendComplaint error:",
+      error
+    );
+
+    showToast(
+      "حصل خطأ أثناء إرسال الرسالة ❌"
+    );
+
+  }
 
 }
-
 
 /* =====================================================
    واجهة المستخدم
