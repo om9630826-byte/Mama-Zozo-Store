@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>تفاصيل الطلب - مكتبة ماما زوزو</title>
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
+
+<title>
+  تفاصيل الطلب - مكتبة ماما زوزو
+</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -21,7 +31,11 @@ body{
 }
 
 header{
-  background:linear-gradient(135deg,#6c63ff,#8e7dff);
+  background:linear-gradient(
+    135deg,
+    #6c63ff,
+    #8e7dff
+  );
   color:white;
   padding:18px;
   box-shadow:0 3px 15px #0002;
@@ -119,6 +133,41 @@ button{
   text-align:left;
 }
 
+/* =========================
+   أزرار التواصل
+========================= */
+
+.contact-buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.contact-btn{
+  color:white;
+  padding:10px 14px;
+  text-decoration:none;
+  display:inline-block;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:bold;
+  border:0;
+  cursor:pointer;
+}
+
+.call-btn{
+  background:#2563eb;
+}
+
+.whatsapp-btn{
+  background:#22c55e;
+}
+
+/* =========================
+   الحالة
+========================= */
+
 .status{
   display:inline-block;
   padding:7px 12px;
@@ -167,6 +216,7 @@ button{
   font-weight:bold;
   color:#4f46c5;
   margin-bottom:10px;
+  font-size:16px;
 }
 
 .location-coordinates{
@@ -192,6 +242,11 @@ button{
 
 .map-btn:hover{
   opacity:.9;
+}
+
+.no-location{
+  color:#777;
+  line-height:1.8;
 }
 
 /* =========================
@@ -292,6 +347,10 @@ button{
   line-height:1.8;
 }
 
+/* =========================
+   موبايل
+========================= */
+
 @media(max-width:700px){
 
   .order-grid{
@@ -324,6 +383,10 @@ button{
     text-align:right;
   }
 
+  .contact-buttons{
+    justify-content:flex-start;
+  }
+
   .product-total{
     font-size:13px;
   }
@@ -332,16 +395,31 @@ button{
     width:58px;
     height:58px;
   }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .actions select,
+  .save-btn{
+    width:100%;
+  }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
 <header>
+
   <div class="header-inner">
 
-    <h1>📦 تفاصيل الطلب</h1>
+    <h1>
+      📦 تفاصيل الطلب
+    </h1>
 
     <button
       class="back"
@@ -351,6 +429,7 @@ button{
     </button>
 
   </div>
+
 </header>
 
 <div class="container">
@@ -367,6 +446,10 @@ button{
 
 <script>
 
+/* =========================
+   Supabase
+========================= */
+
 const SUPABASE_URL =
 "https://tzjtivfzawffqgisrowv.supabase.co";
 
@@ -382,13 +465,25 @@ supabase.createClient(
 let orderId = null;
 let currentOrder = null;
 
+
+/* =========================
+   أسماء الحالات
+========================= */
+
 const statusNames = {
+
   new:"جديد",
+
   preparing:"قيد التجهيز",
+
   shipped:"تم الشحن",
+
   delivered:"تم التسليم",
+
   cancelled:"ملغي"
+
 };
+
 
 /* =========================
    الحصول على رقم الطلب
@@ -397,19 +492,27 @@ const statusNames = {
 function getOrderId(){
 
   const params =
-    new URLSearchParams(location.search);
+    new URLSearchParams(
+      location.search
+    );
 
   return params.get("id");
 }
 
+
 /* =========================
-   التحقق من المدير
+   التحقق من تسجيل الدخول
 ========================= */
 
 async function checkUser(){
 
-  const { data, error } =
-    await supabaseClient.auth.getSession();
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .auth
+    .getSession();
 
   if(error){
 
@@ -424,7 +527,8 @@ async function checkUser(){
 
   if(!data.session){
 
-    location.href = "admin.html";
+    location.href =
+      "admin.html";
 
     return false;
   }
@@ -432,13 +536,15 @@ async function checkUser(){
   return true;
 }
 
+
 /* =========================
    تحميل الطلب
 ========================= */
 
 async function loadOrder(){
 
-  orderId = getOrderId();
+  orderId =
+    getOrderId();
 
   if(!orderId){
 
@@ -449,6 +555,7 @@ async function loadOrder(){
     return;
   }
 
+
   const {
     data: order,
     error: orderError
@@ -456,8 +563,12 @@ async function loadOrder(){
   await supabaseClient
     .from("orders")
     .select("*")
-    .eq("id", Number(orderId))
+    .eq(
+      "id",
+      Number(orderId)
+    )
     .single();
+
 
   if(orderError){
 
@@ -468,11 +579,14 @@ async function loadOrder(){
 
     showError(
       "حصل خطأ أثناء تحميل بيانات الطلب:<br><br>" +
-      escapeHtml(orderError.message)
+      escapeHtml(
+        orderError.message
+      )
     );
 
     return;
   }
+
 
   if(!order){
 
@@ -483,7 +597,10 @@ async function loadOrder(){
     return;
   }
 
-  currentOrder = order;
+
+  currentOrder =
+    order;
+
 
   /* =========================
      تحميل منتجات الطلب
@@ -517,6 +634,7 @@ async function loadOrder(){
       }
     );
 
+
   if(itemsError){
 
     console.error(
@@ -524,7 +642,8 @@ async function loadOrder(){
       itemsError
     );
 
-    currentOrder.items = [];
+    currentOrder.items =
+      [];
 
     currentOrder.itemsError =
       itemsError.message;
@@ -533,39 +652,48 @@ async function loadOrder(){
 
     currentOrder.items =
       Array.isArray(items)
-        ? items.map(item => ({
+        ? items.map(
+            item => ({
 
-            ...item,
+              ...item,
 
-            image_url:
-              item.products &&
-              item.products.image_url
-                ? item.products.image_url
-                : ""
+              image_url:
+                item.products &&
+                item.products.image_url
+                  ? item.products.image_url
+                  : ""
 
-          }))
+            })
+          )
         : [];
 
     currentOrder.itemsError =
       null;
+
   }
 
+
   renderOrder();
+
 }
 
+
 /* =========================
-   استخراج إحداثيات الموقع
+   استخراج موقع العميل
 ========================= */
 
 function getLocationFromNotes(notes){
 
   if(!notes){
+
     return null;
   }
 
+
   /*
-    يبحث عن:
-    موقع التوصيل: 30.12345, 31.12345
+    الشكل المتوقع:
+
+    موقع التوصيل: 30.123456, 31.123456
   */
 
   const match =
@@ -573,9 +701,12 @@ function getLocationFromNotes(notes){
       /موقع التوصيل\s*:\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/i
     );
 
+
   if(!match){
+
     return null;
   }
+
 
   const lat =
     Number(match[1]);
@@ -583,12 +714,15 @@ function getLocationFromNotes(notes){
   const lng =
     Number(match[2]);
 
+
   if(
     !Number.isFinite(lat) ||
     !Number.isFinite(lng)
   ){
+
     return null;
   }
+
 
   if(
     lat < -90 ||
@@ -596,17 +730,23 @@ function getLocationFromNotes(notes){
     lng < -180 ||
     lng > 180
   ){
+
     return null;
   }
 
+
   return {
+
     lat,
     lng
+
   };
+
 }
 
+
 /* =========================
-   إنشاء صندوق الموقع
+   عرض موقع العميل
 ========================= */
 
 function renderLocation(order){
@@ -616,27 +756,30 @@ function renderLocation(order){
       order.notes
     );
 
+
   if(!location){
 
     return `
+
       <div class="location-box">
 
         <div class="location-title">
           📍 موقع العميل
         </div>
 
-        <div
-          style="
-            color:#777;
-            line-height:1.8;
-          "
-        >
-          لم يتم تسجيل موقع على الخريطة لهذا الطلب.
+        <div class="no-location">
+
+          لم يتم تسجيل موقع العميل
+          على الخريطة لهذا الطلب.
+
         </div>
 
       </div>
+
     `;
+
   }
+
 
   const lat =
     location.lat;
@@ -644,11 +787,13 @@ function renderLocation(order){
   const lng =
     location.lng;
 
+
   const googleMapsUrl =
     "https://www.google.com/maps?q=" +
     encodeURIComponent(
       lat + "," + lng
     );
+
 
   return `
 
@@ -661,12 +806,16 @@ function renderLocation(order){
       <div class="location-coordinates">
 
         خط العرض:
-        ${escapeHtml(lat.toFixed(6))}
+        ${escapeHtml(
+          lat.toFixed(6)
+        )}
 
         <br>
 
         خط الطول:
-        ${escapeHtml(lng.toFixed(6))}
+        ${escapeHtml(
+          lng.toFixed(6)
+        )}
 
       </div>
 
@@ -682,7 +831,9 @@ function renderLocation(order){
     </div>
 
   `;
+
 }
+
 
 /* =========================
    عرض الطلب
@@ -699,21 +850,32 @@ function renderOrder(){
   const status =
     order.status || "new";
 
+
   const date =
     order.created_at
-      ? new Date(order.created_at)
-          .toLocaleString("ar-EG")
+      ? new Date(
+          order.created_at
+        ).toLocaleString("ar-EG")
       : "غير معروف";
 
-  document.getElementById("content").innerHTML = `
+
+  document.getElementById(
+    "content"
+  ).innerHTML = `
 
     <div class="order-grid">
 
-      <!-- بيانات الطلب -->
+
+      <!-- =====================
+           بيانات الطلب
+      ====================== -->
 
       <div class="card">
 
-        <h2>📋 بيانات الطلب</h2>
+        <h2>
+          📋 بيانات الطلب
+        </h2>
+
 
         <div class="info-row">
 
@@ -722,10 +884,13 @@ function renderOrder(){
           </span>
 
           <span class="value">
-            #${escapeHtml(order.id)}
+            #${escapeHtml(
+              order.id
+            )}
           </span>
 
         </div>
+
 
         <div class="info-row">
 
@@ -739,6 +904,7 @@ function renderOrder(){
 
         </div>
 
+
         <div class="info-row">
 
           <span class="label">
@@ -747,10 +913,13 @@ function renderOrder(){
 
           <span class="value">
 
-            <span class="status ${escapeHtml(status)}">
+            <span
+              class="status ${escapeHtml(status)}"
+            >
 
               ${escapeHtml(
-                statusNames[status] || status
+                statusNames[status] ||
+                status
               )}
 
             </span>
@@ -758,6 +927,7 @@ function renderOrder(){
           </span>
 
         </div>
+
 
         <div class="info-row">
 
@@ -778,11 +948,17 @@ function renderOrder(){
 
       </div>
 
-      <!-- بيانات العميل -->
+
+      <!-- =====================
+           بيانات العميل
+      ====================== -->
 
       <div class="card">
 
-        <h2>👤 بيانات العميل</h2>
+        <h2>
+          👤 بيانات العميل
+        </h2>
+
 
         <div class="info-row">
 
@@ -801,6 +977,7 @@ function renderOrder(){
 
         </div>
 
+
         <div class="info-row">
 
           <span class="label">
@@ -817,6 +994,59 @@ function renderOrder(){
           </span>
 
         </div>
+
+
+        <!-- =====================
+             أزرار التواصل
+        ====================== -->
+
+        <div class="info-row">
+
+          <span class="label">
+            📞 التواصل
+          </span>
+
+          <span class="value">
+
+            <div class="contact-buttons">
+
+              ${
+                order.phone
+                ?
+                `
+                <button
+                  class="contact-btn call-btn"
+                  onclick="callCustomer()"
+                >
+                  📞 اتصال
+                </button>
+
+                <button
+                  class="contact-btn whatsapp-btn"
+                  onclick="whatsappCustomer()"
+                >
+                  💬 واتساب
+                </button>
+                `
+                :
+                `
+                <span
+                  style="
+                    color:#999;
+                    font-size:13px;
+                  "
+                >
+                  لا يوجد رقم هاتف
+                </span>
+                `
+              }
+
+            </div>
+
+          </span>
+
+        </div>
+
 
         <div class="info-row">
 
@@ -835,6 +1065,7 @@ function renderOrder(){
 
         </div>
 
+
         <div class="info-row">
 
           <span class="label">
@@ -852,11 +1083,15 @@ function renderOrder(){
 
         </div>
 
+
         ${renderLocation(order)}
 
       </div>
 
-      <!-- المنتجات -->
+
+      <!-- =====================
+           المنتجات
+      ====================== -->
 
       <div class="card full">
 
@@ -864,10 +1099,12 @@ function renderOrder(){
           🛍️ منتجات الطلب
         </h2>
 
+
         ${
           order.itemsError
           ?
           `
+
           <div class="products-error">
 
             ❌ حصل خطأ أثناء تحميل المنتجات:
@@ -879,6 +1116,7 @@ function renderOrder(){
             )}
 
           </div>
+
           `
           :
           items.length
@@ -886,16 +1124,24 @@ function renderOrder(){
           items.map(item => {
 
             const quantity =
-              Number(item.quantity || 0);
+              Number(
+                item.quantity || 0
+              );
+
 
             const price =
-              Number(item.price || 0);
+              Number(
+                item.price || 0
+              );
+
 
             const total =
               price * quantity;
 
+
             const image =
               getProductImage(item);
+
 
             return `
 
@@ -905,10 +1151,15 @@ function renderOrder(){
                   class="product-image"
                   src="${escapeHtml(image)}"
                   alt="${escapeHtml(
-                    item.product_name || "منتج"
+                    item.product_name ||
+                    "منتج"
                   )}"
-                  onerror="this.onerror=null;this.src='${getFallbackImage()}'"
+                  onerror="
+                    this.onerror=null;
+                    this.src='${getFallbackImage()}'
+                  "
                 >
+
 
                 <div class="product-info">
 
@@ -921,9 +1172,11 @@ function renderOrder(){
 
                   </div>
 
+
                   <div class="product-meta">
 
                     الكمية:
+
                     <strong>
                       ${quantity}
                     </strong>
@@ -936,6 +1189,7 @@ function renderOrder(){
                   </div>
 
                 </div>
+
 
                 <div class="product-total">
 
@@ -951,15 +1205,19 @@ function renderOrder(){
           }).join("")
           :
           `
+
           <div class="empty-products">
 
             لا توجد منتجات مسجلة لهذا الطلب.
 
           </div>
+
           `
         }
 
+
         <div class="summary">
+
 
           <div class="summary-row">
 
@@ -979,6 +1237,7 @@ function renderOrder(){
 
           </div>
 
+
           <div class="summary-row">
 
             <span>
@@ -996,6 +1255,7 @@ function renderOrder(){
             </strong>
 
           </div>
+
 
           <div class="summary-row grand-total">
 
@@ -1015,11 +1275,15 @@ function renderOrder(){
 
           </div>
 
+
         </div>
 
       </div>
 
-      <!-- إدارة الطلب -->
+
+      <!-- =====================
+           إدارة الطلب
+      ====================== -->
 
       <div class="card full">
 
@@ -1027,10 +1291,12 @@ function renderOrder(){
           ⚙️ إدارة الطلب
         </h2>
 
+
         ${
           order.notes
           ?
           `
+
           <div class="info-row">
 
             <span class="label">
@@ -1046,19 +1312,23 @@ function renderOrder(){
             </span>
 
           </div>
+
           `
           :
           `
+
           <div
             style="
               color:#777;
-              margin-bottom:10px
+              margin-bottom:10px;
             "
           >
             لا توجد ملاحظات من العميل.
           </div>
+
           `
         }
+
 
         <div class="actions">
 
@@ -1071,12 +1341,14 @@ function renderOrder(){
               🟡 جديد
             </option>
 
+
             <option
               value="preparing"
               ${status==="preparing"?"selected":""}
             >
               🔵 قيد التجهيز
             </option>
+
 
             <option
               value="shipped"
@@ -1085,12 +1357,14 @@ function renderOrder(){
               🚚 تم الشحن
             </option>
 
+
             <option
               value="delivered"
               ${status==="delivered"?"selected":""}
             >
               🟢 تم التسليم
             </option>
+
 
             <option
               value="cancelled"
@@ -1100,6 +1374,7 @@ function renderOrder(){
             </option>
 
           </select>
+
 
           <button
             class="save-btn"
@@ -1115,7 +1390,9 @@ function renderOrder(){
     </div>
 
   `;
+
 }
+
 
 /* =========================
    صورة المنتج
@@ -1129,19 +1406,24 @@ function getProductImage(item){
   ){
 
     return item.image_url;
+
   }
 
   return getFallbackImage();
+
 }
 
+
 /* =========================
-   صورة افتراضية
+   الصورة الافتراضية
 ========================= */
 
 function getFallbackImage(){
 
   return "data:image/svg+xml;charset=UTF-8," +
+
     encodeURIComponent(`
+
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100"
@@ -1165,11 +1447,214 @@ function getFallbackImage(){
         </text>
 
       </svg>
+
     `);
+
 }
 
+
 /* =========================
-   حفظ الحالة
+   رقم العميل
+========================= */
+
+function getCustomerPhone(){
+
+  if(
+    !currentOrder ||
+    !currentOrder.phone
+  ){
+
+    return "";
+
+  }
+
+  return String(
+    currentOrder.phone
+  ).trim();
+
+}
+
+
+/* =========================
+   الاتصال بالعميل
+========================= */
+
+function callCustomer(){
+
+  const phone =
+    getCustomerPhone();
+
+
+  if(!phone){
+
+    alert(
+      "❌ رقم العميل غير موجود."
+    );
+
+    return;
+
+  }
+
+
+  window.location.href =
+    "tel:" + phone;
+
+}
+
+
+/* =========================
+   تحويل رقم واتساب
+========================= */
+
+function getWhatsAppPhone(phone){
+
+  let clean =
+    String(phone)
+      .replace(
+        /[^0-9+]/g,
+        ""
+      );
+
+
+  /*
+
+    01012345678
+    ↓
+    201012345678
+
+  */
+
+  if(
+    clean.startsWith("0")
+  ){
+
+    clean =
+      "20" +
+      clean.substring(1);
+
+  }
+
+
+  /*
+
+    +201012345678
+    ↓
+    201012345678
+
+  */
+
+  if(
+    clean.startsWith("+")
+  ){
+
+    clean =
+      clean.substring(1);
+
+  }
+
+
+  return clean;
+
+}
+
+
+/* =========================
+   واتساب العميل
+========================= */
+
+function whatsappCustomer(){
+
+  const phone =
+    getCustomerPhone();
+
+
+  if(!phone){
+
+    alert(
+      "❌ رقم العميل غير موجود."
+    );
+
+    return;
+
+  }
+
+
+  const whatsappPhone =
+    getWhatsAppPhone(
+      phone
+    );
+
+
+  if(
+    !whatsappPhone
+  ){
+
+    alert(
+      "❌ رقم الهاتف غير صالح."
+    );
+
+    return;
+
+  }
+
+
+  const order =
+    currentOrder;
+
+
+  const status =
+    statusNames[
+      order.status || "new"
+    ] ||
+    order.status ||
+    "جديد";
+
+
+  const customerName =
+    order.customer_name ||
+    "حضرتك";
+
+
+  const total =
+    Number(
+      order.total || 0
+    ).toFixed(2);
+
+
+  const message =
+
+`أهلاً ${customerName} 👋
+
+معاك مكتبة ماما زوزو 📚🧸
+
+بخصوص طلبك رقم #${order.id}:
+
+📦 حالة الطلب: ${status}
+
+💰 إجمالي الطلب: ${total} جنيه
+
+شكراً لثقتك في مكتبة ماما زوزو ❤️`;
+
+
+  const url =
+    "https://wa.me/" +
+    whatsappPhone +
+    "?text=" +
+    encodeURIComponent(
+      message
+    );
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =========================
+   حفظ حالة الطلب
 ========================= */
 
 async function saveStatus(){
@@ -1179,13 +1664,17 @@ async function saveStatus(){
       "statusSelect"
     );
 
+
   if(!select){
 
     return;
+
   }
+
 
   const newStatus =
     select.value;
+
 
   const {
     error
@@ -1193,12 +1682,16 @@ async function saveStatus(){
   await supabaseClient
     .from("orders")
     .update({
-      status:newStatus
+
+      status:
+        newStatus
+
     })
     .eq(
       "id",
       Number(orderId)
     );
+
 
   if(error){
 
@@ -1207,23 +1700,31 @@ async function saveStatus(){
       error
     );
 
+
     alert(
       "❌ حصل خطأ أثناء تحديث الحالة:\n\n" +
       error.message
     );
 
+
     return;
+
   }
+
 
   currentOrder.status =
     newStatus;
 
+
   renderOrder();
+
 
   alert(
     "✅ تم تحديث حالة الطلب بنجاح."
   );
+
 }
+
 
 /* =========================
    عرض الخطأ
@@ -1251,7 +1752,9 @@ function showError(message){
     </div>
 
   `;
+
 }
+
 
 /* =========================
    حماية HTML
@@ -1285,7 +1788,9 @@ function escapeHtml(value){
       /'/g,
       "&#039;"
     );
+
 }
+
 
 /* =========================
    تشغيل الصفحة
@@ -1295,6 +1800,7 @@ function escapeHtml(value){
 
   const logged =
     await checkUser();
+
 
   if(logged){
 
@@ -1307,4 +1813,5 @@ function escapeHtml(value){
 </script>
 
 </body>
-</html>
+
+  </html>
