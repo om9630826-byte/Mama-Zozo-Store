@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>إدارة المنتجات - مكتبة ماما زوزو</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -12,40 +11,40 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#fff4fb;
-  color:#39263d;
+margin:0;
+font-family:Arial,sans-serif;
+background:#fff4fb;
+color:#39263d
 }
 
 header{
-  background:linear-gradient(135deg,#ff69b4,#9b6cff);
-  color:white;
-  padding:22px;
-  text-align:center;
+background:linear-gradient(135deg,#ff69b4,#9b6cff);
+color:white;
+padding:22px;
+text-align:center
 }
 
 .container{
-  max-width:1500px;
-  margin:auto;
-  padding:20px;
+max-width:1500px;
+margin:auto;
+padding:20px
 }
 
 .card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  margin:15px 0;
-  box-shadow:0 5px 20px #0001;
+background:white;
+border-radius:18px;
+padding:20px;
+margin:15px 0;
+box-shadow:0 5px 20px #0001
 }
 
 button{
-  border:0;
-  border-radius:10px;
-  padding:11px 16px;
-  cursor:pointer;
-  font-weight:bold;
-  margin:4px;
+border:0;
+border-radius:10px;
+padding:11px 16px;
+cursor:pointer;
+font-weight:bold;
+margin:4px
 }
 
 .primary{background:#ff69b4;color:white}
@@ -57,225 +56,205 @@ button{
 .hidden{display:none!important}
 
 input,textarea,select{
-  width:100%;
-  padding:12px;
-  margin:7px 0;
-  border:1px solid #ddd;
-  border-radius:10px;
-  font-size:15px;
-  font-family:Arial,sans-serif;
+width:100%;
+padding:12px;
+margin:7px 0;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:15px;
+font-family:Arial,sans-serif
 }
 
 textarea{
-  min-height:100px;
-  resize:vertical;
+min-height:100px;
+resize:vertical
 }
 
 .form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px
 }
 
 .products-grid{
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:18px;
+display:grid;
+grid-template-columns:repeat(5,minmax(0,1fr));
+gap:18px
 }
 
 .product-card{
-  background:white;
-  border:1px solid #eadfea;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 4px 15px #00000012;
+background:white;
+border:1px solid #eadfea;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 4px 15px #00000012
 }
 
 .product-image{
-  width:100%;
-  height:190px;
-  object-fit:cover;
-  display:block;
-  background:#f7efff;
+width:100%;
+height:190px;
+object-fit:cover;
+display:block;
+background:#f7efff
 }
 
 .no-image{
-  width:100%;
-  height:190px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f7efff;
-  font-size:55px;
+width:100%;
+height:190px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#f7efff;
+font-size:55px
 }
 
 .product-body{
-  padding:14px;
+padding:14px
 }
 
 .product-name{
-  margin:0 0 10px;
-  font-size:18px;
+margin:0 0 10px;
+font-size:18px
 }
 
 .detail{
-  margin:7px 0;
-  font-size:14px;
+margin:7px 0;
+font-size:14px
 }
 
 .price{
-  color:#9b3f9b;
-  font-size:19px;
-  font-weight:bold;
+color:#9b3f9b;
+font-size:19px;
+font-weight:bold
 }
 
 .stock{
-  color:#20a464;
-  font-weight:bold;
+color:#20a464;
+font-weight:bold
 }
 
 .actions{
-  display:flex;
-  gap:5px;
-  margin-top:12px;
+display:flex;
+gap:5px;
+margin-top:12px
 }
 
 .actions button{
-  flex:1;
-  margin:0;
-  padding:9px 5px;
+flex:1;
+margin:0;
+padding:9px 5px
 }
 
 .msg{
-  padding:12px;
-  border-radius:10px;
-  margin-top:10px;
+padding:12px;
+border-radius:10px;
+margin-top:10px
 }
 
 .error{
-  background:#ffe0e0;
-  color:#a00000;
+background:#ffe0e0;
+color:#a00000
 }
 
 .success{
-  background:#dcffe9;
-  color:#087a35;
+background:#dcffe9;
+color:#087a35
 }
 
 .top-actions{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+flex-wrap:wrap
 }
 
-/* =========================
-   SEARCH + FILTER
-========================= */
-
 .search-filter{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:12px;
-  margin-top:15px;
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:12px;
+margin-top:15px
 }
 
 .search-box{
-  position:relative;
+position:relative
 }
 
 .search-box input{
-  margin:0;
-  padding-right:45px;
+margin:0;
+padding-right:45px
 }
 
 .search-icon{
-  position:absolute;
-  right:14px;
-  top:50%;
-  transform:translateY(-50%);
-  font-size:20px;
-  pointer-events:none;
+position:absolute;
+right:14px;
+top:50%;
+transform:translateY(-50%);
+font-size:20px;
+pointer-events:none
 }
 
 .filter-box select{
-  margin:0;
+margin:0
 }
 
 .results-info{
-  margin-top:12px;
-  color:#777;
-  font-size:14px;
+margin-top:12px;
+color:#777;
+font-size:14px
 }
 
 .no-results{
-  text-align:center;
-  padding:35px 10px;
-  color:#777;
-  font-size:16px;
+text-align:center;
+padding:35px 10px;
+color:#777;
+font-size:16px
 }
 
 @media(max-width:600px){
 
-  .container{
-    padding:10px;
-  }
+.container{padding:10px}
 
-  .form-grid{
-    grid-template-columns:1fr;
-  }
+.form-grid{grid-template-columns:1fr}
 
-  .search-filter{
-    grid-template-columns:1fr;
-  }
+.search-filter{grid-template-columns:1fr}
 
-  .products-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:10px;
-  }
+.products-grid{
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:10px
+}
 
-  .product-image,
-  .no-image{
-    height:135px;
-  }
+.product-image,
+.no-image{
+height:135px
+}
 
-  .product-body{
-    padding:10px;
-  }
+.product-body{padding:10px}
 
-  .product-name{
-    font-size:15px;
-  }
+.product-name{font-size:15px}
 
-  .detail{
-    font-size:12px;
-  }
+.detail{font-size:12px}
 
-  .price{
-    font-size:16px;
-  }
+.price{font-size:16px}
 
-  .actions{
-    display:block;
-  }
+.actions{display:block}
 
-  .actions button{
-    width:100%;
-    margin:3px 0;
-  }
+.actions button{
+width:100%;
+margin:3px 0
+}
 }
 
 @media(min-width:601px) and (max-width:1000px){
 
-  .products-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-  }
+.products-grid{
+grid-template-columns:repeat(3,minmax(0,1fr))
+}
 
-  .product-image,
-  .no-image{
-    height:170px;
-  }
+.product-image,
+.no-image{
+height:170px
+}
 }
 </style>
 </head>
@@ -310,9 +289,6 @@ textarea{
 </div>
 
 </div>
-
-
-<!-- ADD PRODUCT -->
 
 <div id="addBox" class="card hidden">
 
@@ -384,17 +360,11 @@ style="width:auto"
 
 </div>
 
-<button
-class="green"
-onclick="addProduct()"
->
+<button class="green" onclick="addProduct()">
 💾 حفظ المنتج
 </button>
 
-<button
-class="gray"
-onclick="hideAddForm()"
->
+<button class="gray" onclick="hideAddForm()">
 إلغاء
 </button>
 
@@ -402,26 +372,17 @@ onclick="hideAddForm()"
 
 </div>
 
-
-<!-- PRODUCTS -->
-
 <div class="card">
 
 <div class="top-actions">
 
 <h2>📋 قائمة المنتجات</h2>
 
-<button
-class="blue"
-onclick="loadProducts()"
->
+<button class="blue" onclick="loadProducts()">
 🔄 تحديث
 </button>
 
 </div>
-
-
-<!-- SEARCH + FILTER -->
 
 <div class="search-filter">
 
@@ -455,12 +416,7 @@ onchange="filterProducts()"
 
 </div>
 
-<div
-id="resultsInfo"
-class="results-info"
->
-</div>
-
+<div id="resultsInfo" class="results-info"></div>
 
 <div id="products">
 ⏳ جاري تحميل المنتجات...
@@ -469,7 +425,6 @@ class="results-info"
 </div>
 
 </div>
-
 
 <script>
 
@@ -487,47 +442,44 @@ SUPABASE_KEY
 
 let allProducts = [];
 
-
-/* =========================
-   SESSION
-========================= */
+/* SESSION */
 
 async function checkSession(){
+
+try{
 
 const {data,error} =
 await client.auth.getSession();
 
-if(
-error ||
-!data ||
-!data.session
-){
+if(error){
+console.error(error);
+return false;
+}
+
+if(!data || !data.session){
 
 location.href="admin.html";
-
 return false;
-
 }
 
 return true;
 
+}catch(error){
+
+console.error(error);
+return false;
+
 }
 
+}
 
-/* =========================
-   ADMIN
-========================= */
+/* ADMIN */
 
 function goAdmin(){
-
 location.href="admin.html";
-
 }
 
-
-/* =========================
-   ADD FORM
-========================= */
+/* ADD FORM */
 
 function showAddForm(){
 
@@ -550,10 +502,7 @@ document
 
 }
 
-
-/* =========================
-   ADD PRODUCT
-========================= */
+/* ADD PRODUCT */
 
 async function addProduct(){
 
@@ -561,19 +510,13 @@ const msg =
 document.getElementById("addMsg");
 
 const name =
-document.getElementById("name")
-.value
-.trim();
+document.getElementById("name").value.trim();
 
 const price =
-Number(
-document.getElementById("price")
-.value
-);
+Number(document.getElementById("price").value);
 
 const oldPriceValue =
-document.getElementById("old_price")
-.value;
+document.getElementById("old_price").value;
 
 const oldPrice =
 oldPriceValue === ""
@@ -581,33 +524,22 @@ oldPriceValue === ""
 : Number(oldPriceValue);
 
 const stock =
-Number(
-document.getElementById("stock")
-.value
-);
+Number(document.getElementById("stock").value);
 
 const category =
-document.getElementById("category")
-.value
-.trim();
+document.getElementById("category").value.trim();
 
 const description =
-document.getElementById("description")
-.value
-.trim();
+document.getElementById("description").value.trim();
 
 const isActive =
-document.getElementById("is_active")
-.checked;
+document.getElementById("is_active").checked;
 
 const isFeatured =
-document.getElementById("is_featured")
-.checked;
+document.getElementById("is_featured").checked;
 
 const imageFile =
-document.getElementById("image")
-.files[0];
-
+document.getElementById("image").files[0];
 
 if(!name){
 
@@ -615,31 +547,26 @@ msg.innerHTML =
 '<div class="msg error">❌ اكتب اسم المنتج.</div>';
 
 return;
-
 }
 
-if(!price || price < 0){
+if(isNaN(price) || price < 0){
 
 msg.innerHTML =
 '<div class="msg error">❌ اكتب سعر صحيح.</div>';
 
 return;
-
 }
 
-if(stock < 0){
+if(isNaN(stock) || stock < 0){
 
 msg.innerHTML =
 '<div class="msg error">❌ المخزون غير صحيح.</div>';
 
 return;
-
 }
-
 
 msg.innerHTML =
 "⏳ جاري إضافة المنتج...";
-
 
 try{
 
@@ -661,33 +588,21 @@ is_featured:isFeatured
 .select()
 .single();
 
-
-if(error)
-throw error;
-
-
-let imageUrl = null;
-
+if(error) throw error;
 
 if(imageFile){
 
 const extension =
-imageFile.name
-.split(".")
-.pop();
+imageFile.name.split(".").pop();
 
-const fileName =
+const filePath =
+data.id +
+"/" +
 data.id +
 "-" +
 Date.now() +
 "." +
 extension;
-
-const filePath =
-data.id +
-"/" +
-fileName;
-
 
 const upload =
 await client
@@ -696,49 +611,35 @@ await client
 .upload(
 filePath,
 imageFile,
-{
-upsert:false
-}
+{upsert:false}
 );
-
 
 if(upload.error)
 throw upload.error;
-
 
 const publicUrl =
 client
 .storage
 .from("product-images")
-.getPublicUrl(filePath);
-
-
-imageUrl =
-publicUrl
+.getPublicUrl(filePath)
 .data
 .publicUrl;
-
 
 const update =
 await client
 .from("products")
 .update({
-image_url:imageUrl
+image_url:publicUrl
 })
-.eq(
-"id",
-data.id
-);
+.eq("id",data.id);
 
 if(update.error)
 throw update.error;
 
 }
 
-
 msg.innerHTML =
 '<div class="msg success">✅ تم إضافة المنتج بنجاح.</div>';
-
 
 document.getElementById("name").value="";
 document.getElementById("price").value="";
@@ -750,7 +651,6 @@ document.getElementById("image").value="";
 document.getElementById("is_active").checked=true;
 document.getElementById("is_featured").checked=false;
 
-
 await loadProducts();
 
 }catch(error){
@@ -759,108 +659,133 @@ console.error(error);
 
 msg.innerHTML =
 '<div class="msg error">❌ '+
-escapeHtml(error.message)+
+escapeHtml(error.message || "حدث خطأ")+
 '</div>';
 
 }
 
 }
 
-
-/* =========================
-   LOAD PRODUCTS
-========================= */
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
 const box =
 document.getElementById("products");
 
+const info =
+document.getElementById("resultsInfo");
+
 box.innerHTML =
 "⏳ جاري تحميل المنتجات...";
 
+info.textContent="";
 
-const {data,error} =
-await client
+/*
+  لو الطلب علق، نظهر رسالة بدل ما الصفحة
+  تفضل للأبد على جاري التحميل.
+*/
+
+let timeoutId;
+
+try{
+
+const request =
+client
 .from("products")
 .select("*")
-.order(
-"id",
-{ascending:false}
+.order("id",{ascending:false});
+
+const timeout =
+new Promise((_,reject)=>{
+
+timeoutId =
+setTimeout(()=>{
+
+reject(
+new Error(
+"التحميل استغرق وقتًا طويلًا. تأكد من اتصال الإنترنت وصلاحيات جدول products."
+)
 );
 
+},10000);
 
-if(error){
+});
 
-box.innerHTML =
-'<div class="msg error">❌ '+
-escapeHtml(error.message)+
-'</div>';
+const result =
+await Promise.race([
+request,
+timeout
+]);
 
-return;
+clearTimeout(timeoutId);
 
-}
+const {data,error} = result;
 
+if(error)
+throw error;
 
 allProducts =
 Array.isArray(data)
 ? data
 : [];
 
-
 buildCategoryFilter();
-
 filterProducts();
+
+}catch(error){
+
+if(timeoutId)
+clearTimeout(timeoutId);
+
+console.error("LOAD PRODUCTS ERROR:",error);
+
+box.innerHTML =
+'<div class="msg error">❌ فشل تحميل المنتجات<br><br>'+
+escapeHtml(
+error.message ||
+"حدث خطأ أثناء تحميل المنتجات"
+)+
+'</div>';
+
+info.textContent="";
 
 }
 
+}
 
-/* =========================
-   CATEGORY FILTER
-========================= */
+/* CATEGORY FILTER */
 
 function buildCategoryFilter(){
 
 const select =
-document.getElementById(
-"categoryFilter"
-);
+document.getElementById("categoryFilter");
 
 const currentValue =
 select.value;
-
 
 const categories =
 [
 ...new Set(
 allProducts
 .map(p =>
-(p.category || "").trim()
+String(p.category || "").trim()
 )
 )
+]
 .filter(Boolean)
-.sort(
-(a,b) =>
-a.localeCompare(
-b,
-"ar"
-)
-);
-
+.sort((a,b)=>a.localeCompare(b,"ar"));
 
 select.innerHTML =
-
 `
 <option value="">
 📂 كل الأقسام
 </option>
 
 ${
-categories.map(category => `
+categories.map(category=>`
 
-<option
-value="${escapeAttr(category)}"
->
+<option value="${escapeAttr(category)}">
 ${escapeHtml(category)}
 </option>
 
@@ -868,77 +793,52 @@ ${escapeHtml(category)}
 }
 `;
 
-
-if(
-categories.includes(currentValue)
-){
-
-select.value =
-currentValue;
+if(categories.includes(currentValue))
+select.value=currentValue;
 
 }
 
-}
-
-
-/* =========================
-   FILTER PRODUCTS
-========================= */
+/* FILTER */
 
 function filterProducts(){
 
+const searchInput =
+document.getElementById("searchInput");
+
+const categoryInput =
+document.getElementById("categoryFilter");
+
 const search =
-document
-.getElementById("searchInput")
-.value
+String(searchInput.value || "")
 .trim()
 .toLowerCase();
 
 const category =
-document
-.getElementById("categoryFilter")
-.value;
-
+categoryInput.value;
 
 const filtered =
-allProducts.filter(product => {
+allProducts.filter(product=>{
 
 const name =
-String(
-product.name || ""
-)
+String(product.name || "")
 .toLowerCase();
 
-
-const matchesSearch =
-!search ||
-name.includes(search);
-
-
-const matchesCategory =
-!category ||
-String(
-product.category || ""
-)
-.trim() === category;
-
+const productCategory =
+String(product.category || "")
+.trim();
 
 return (
-matchesSearch &&
-matchesCategory
+(!search || name.includes(search)) &&
+(!category || productCategory === category)
 );
 
 });
-
 
 renderProducts(filtered);
 
 }
 
-
-/* =========================
-   RENDER PRODUCTS
-========================= */
+/* RENDER */
 
 function renderProducts(data){
 
@@ -948,43 +848,33 @@ document.getElementById("products");
 const info =
 document.getElementById("resultsInfo");
 
-
 info.textContent =
 `عرض ${data.length} من أصل ${allProducts.length} منتج`;
 
-
 if(!data.length){
 
-box.innerHTML = `
-
+box.innerHTML =
+`
 <div class="no-results">
-
 🔎 لا توجد منتجات مطابقة للبحث أو الفلترة.
-
 </div>
-
 `;
 
 return;
-
 }
 
-
 box.innerHTML =
-
 `
 <div class="products-grid">
 
 ${
-data.map(p => `
+data.map(p=>`
 
 <div class="product-card">
 
 ${
 p.image_url
-
 ?
-
 `
 <img
 class="product-image"
@@ -993,17 +883,13 @@ alt="${escapeAttr(p.name)}"
 onerror="this.style.display='none'"
 >
 `
-
 :
-
 `
 <div class="no-image">
 📦
 </div>
 `
-
 }
-
 
 <div class="product-body">
 
@@ -1038,7 +924,6 @@ ${escapeHtml(p.category || "غير محدد")}
 </div>
 
 <div class="detail">
-
 ${
 p.is_active
 ?
@@ -1046,7 +931,6 @@ p.is_active
 :
 "🔴 المنتج غير نشط"
 }
-
 </div>
 
 ${
@@ -1091,10 +975,7 @@ onclick="deleteProduct(${Number(p.id)})"
 
 }
 
-
-/* =========================
-   EDIT
-========================= */
+/* EDIT */
 
 function editProduct(id){
 
@@ -1104,10 +985,7 @@ encodeURIComponent(id);
 
 }
 
-
-/* =========================
-   DELETE
-========================= */
+/* DELETE */
 
 async function deleteProduct(id){
 
@@ -1116,19 +994,13 @@ confirm(
 "⚠️ هل أنت متأكد من حذف المنتج؟"
 );
 
-if(!ok)
-return;
-
+if(!ok)return;
 
 const {error} =
 await client
 .from("products")
 .delete()
-.eq(
-"id",
-id
-);
-
+.eq("id",id);
 
 if(error){
 
@@ -1138,22 +1010,15 @@ error.message
 );
 
 return;
-
 }
 
-
-alert(
-"✅ تم حذف المنتج"
-);
+alert("✅ تم حذف المنتج");
 
 await loadProducts();
 
 }
 
-
-/* =========================
-   ESCAPE
-========================= */
+/* ESCAPE */
 
 function escapeHtml(value){
 
@@ -1167,15 +1032,10 @@ return String(value ?? "")
 }
 
 function escapeAttr(value){
-
 return escapeHtml(value);
-
 }
 
-
-/* =========================
-   START
-========================= */
+/* START */
 
 (async function(){
 
@@ -1183,9 +1043,7 @@ const ok =
 await checkSession();
 
 if(ok){
-
 await loadProducts();
-
 }
 
 })();
