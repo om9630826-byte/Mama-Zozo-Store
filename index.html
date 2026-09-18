@@ -1,1606 +1,1357 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Mama Zozo store 🧸</title>
-
-<link
+<!DOCTYPE html>  <html lang="ar" dir="rtl">  <head>  <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title> Mama Zozo store 🧸</title>  <link
 rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
->
 
-<style>
+>  <style>    
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 body{
-  font-family:Arial,Tahoma,sans-serif;
-  background:#f8f4ec;
-  color:#263746;
-  line-height:1.7;
+font-family:Arial,Tahoma,sans-serif;
+background:#f8f4ec;
+color:#263746;
+line-height:1.7;
 }
 
 button,
 input,
 select,
 textarea{
-  font:inherit;
+font:inherit;
 }
 
 button{
-  cursor:pointer;
-  border:0;
+cursor:pointer;
+border:0;
 }
 
 a{
-  text-decoration:none;
-  color:inherit;
+text-decoration:none;
+color:inherit;
 }
 
 header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(12px);
-  box-shadow:0 3px 18px #0001;
+position:sticky;
+top:0;
+z-index:1000;
+background:rgba(255,255,255,.96);
+backdrop-filter:blur(12px);
+box-shadow:0 3px 18px #0001;
 }
 
 .top{
-  max-width:1200px;
-  margin:auto;
-  padding:14px 20px;
-  display:flex;
-  align-items:center;
-  gap:15px;
+max-width:1200px;
+margin:auto;
+padding:14px 20px;
+display:flex;
+align-items:center;
+gap:15px;
 }
 
 .logo{
-  font-size:24px;
-  font-weight:900;
-  color:#345b70;
-  white-space:nowrap;
+font-size:24px;
+font-weight:900;
+color:#345b70;
+white-space:nowrap;
 }
 
 .logo span{
-  color:#e6a83c;
+color:#e6a83c;
 }
 
 .search{
-  flex:1;
-  position:relative;
+flex:1;
+position:relative;
 }
 
 .search input{
-  width:100%;
-  padding:12px 18px;
-  border:1px solid #ddd;
-  border-radius:30px;
-  outline:none;
-  background:#fafafa;
+width:100%;
+padding:12px 18px;
+border:1px solid #ddd;
+border-radius:30px;
+outline:none;
+background:#fafafa;
 }
 
 .actions{
-  display:flex;
-  gap:8px;
+display:flex;
+gap:8px;
 }
 
 .iconBtn{
-  background:#edf4f5;
-  padding:10px 13px;
-  border-radius:14px;
-  font-size:18px;
-  transition:.2s;
+background:#edf4f5;
+padding:10px 13px;
+border-radius:14px;
+font-size:18px;
+transition:.2s;
 }
 
 .iconBtn:hover{
-  transform:translateY(-2px);
-  background:#dfeef0;
+transform:translateY(-2px);
+background:#dfeef0;
 }
 
 .nav{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  gap:8px;
-  padding:0 20px 12px;
-  overflow:auto;
+max-width:1200px;
+margin:auto;
+display:flex;
+gap:8px;
+padding:0 20px 12px;
+overflow:auto;
 }
 
 .nav button{
-  background:#f0e8d8;
-  padding:8px 15px;
-  border-radius:20px;
-  white-space:nowrap;
-  color:#345b70;
-  transition:.2s;
+background:#f0e8d8;
+padding:8px 15px;
+border-radius:20px;
+white-space:nowrap;
+color:#345b70;
+transition:.2s;
 }
 
 .nav button:hover{
-  background:#e6a83c;
-  color:white;
+background:#e6a83c;
+color:white;
 }
 
 .hero{
-  max-width:1200px;
-  margin:25px auto;
-  padding:45px 35px;
-  border-radius:28px;
+max-width:1200px;
+margin:25px auto;
+padding:45px 35px;
+border-radius:28px;
 
-  background:
-    radial-gradient(
-      circle at 85% 20%,
-      #f4d987 0 8%,
-      transparent 9%
-    ),
-    radial-gradient(
-      circle at 15% 80%,
-      #cfe3e7 0 10%,
-      transparent 11%
-    ),
-    linear-gradient(
-      135deg,
-      #dcecef,
-      #fff1cf
-    );
+background:
+radial-gradient(
+circle at 85% 20%,
+#f4d987 0 8%,
+transparent 9%
+),
+radial-gradient(
+circle at 15% 80%,
+#cfe3e7 0 10%,
+transparent 11%
+),
+linear-gradient(
+135deg,
+#dcecef,
+#fff1cf
+);
 
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:30px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:30px;
 }
 
 .hero h1{
-  font-size:42px;
-  color:#345b70;
-  margin-bottom:10px;
+font-size:42px;
+color:#345b70;
+margin-bottom:10px;
 }
 
 .hero p{
-  font-size:18px;
-  margin-bottom:20px;
+font-size:18px;
+margin-bottom:20px;
 }
 
 .primary{
-  background:#e6a83c;
-  color:white;
-  padding:12px 24px;
-  border-radius:14px;
-  font-weight:bold;
-  transition:.2s;
+background:#e6a83c;
+color:white;
+padding:12px 24px;
+border-radius:14px;
+font-weight:bold;
+transition:.2s;
 }
 
 .primary:hover{
-  transform:translateY(-2px);
-  filter:brightness(.96);
+transform:translateY(-2px);
+filter:brightness(.96);
 }
 
 .primary:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-  transform:none;
+opacity:.6;
+cursor:not-allowed;
+transform:none;
 }
 
 .heroEmoji{
-  font-size:100px;
+font-size:100px;
 }
 
 .container{
-  max-width:1200px;
-  margin:auto;
-  padding:15px 20px;
+max-width:1200px;
+margin:auto;
+padding:15px 20px;
 }
 
 .sectionTitle{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:25px 0 15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:25px 0 15px;
 }
 
 .sectionTitle h2{
-  color:#345b70;
+color:#345b70;
 }
 
 .cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
 }
 
 .infoCard{
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 4px 16px #0000000b;
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 4px 16px #0000000b;
 }
 
 .infoCard b{
-  display:block;
-  margin-bottom:5px;
+display:block;
+margin-bottom:5px;
 }
 
 .filters{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:18px;
 }
 
 .filters select{
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  background:white;
-  cursor:pointer;
+padding:10px;
+border:1px solid #ddd;
+border-radius:12px;
+background:white;
+cursor:pointer;
 }
 
 .products{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
 }
 
 .product{
-  background:white;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 5px 20px #0000000d;
-  position:relative;
-  transition:.2s;
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 5px 20px #0000000d;
+position:relative;
+transition:.2s;
 }
 
 .product:hover{
-  transform:translateY(-3px);
+transform:translateY(-3px);
 }
 
 .productImg{
-  height:190px;
-  background:linear-gradient(
-    135deg,
-    #edf5f5,
-    #fff0ce
-  );
+height:190px;
+background:linear-gradient(
+135deg,
+#edf5f5,
+#fff0ce
+);
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+display:flex;
+align-items:center;
+justify-content:center;
 
-  font-size:75px;
+font-size:75px;
 }
 
 .productImg img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
+width:100%;
+height:100%;
+object-fit:contain;
 }
 
 .productInfo{
-  padding:15px;
+padding:15px;
 }
 
 .productInfo h3{
-  font-size:17px;
-  margin-bottom:4px;
+font-size:17px;
+margin-bottom:4px;
 }
 
 .rating{
-  color:#e5a52f;
+color:#e5a52f;
 }
 
 .ratingNumber{
-  color:#555;
-  font-size:13px;
-  margin-right:4px;
+color:#555;
+font-size:13px;
+margin-right:4px;
 }
 
 .price{
-  font-size:20px;
-  font-weight:bold;
-  color:#345b70;
+font-size:20px;
+font-weight:bold;
+color:#345b70;
 }
 
 .old{
-  text-decoration:line-through;
-  color:#999;
-  font-size:13px;
-  margin-right:6px;
+text-decoration:line-through;
+color:#999;
+font-size:13px;
+margin-right:6px;
 }
 
 .badge{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:#d8785f;
-  color:white;
-  padding:4px 9px;
-  border-radius:15px;
-  font-size:12px;
-  z-index:2;
+position:absolute;
+top:10px;
+right:10px;
+background:#d8785f;
+color:white;
+padding:4px 9px;
+border-radius:15px;
+font-size:12px;
+z-index:2;
 }
 
 .productBtns{
-  display:flex;
-  gap:7px;
-  margin-top:10px;
+display:flex;
+gap:7px;
+margin-top:10px;
 }
 
 .productBtns button{
-  flex:1;
-  padding:9px;
-  border-radius:11px;
-  transition:.2s;
+flex:1;
+padding:9px;
+border-radius:11px;
+transition:.2s;
 }
 
 .productBtns button:hover{
-  transform:translateY(-1px);
+transform:translateY(-1px);
 }
 
 .add{
-  background:#345b70;
-  color:white;
+background:#345b70;
+color:white;
 }
 
 .fav{
-  background:#f1ece2;
+background:#f1ece2;
 }
 
 .offer{
-  margin-top:30px;
-  padding:25px;
-  border-radius:22px;
-  background:linear-gradient(
-    135deg,
-    #345b70,
-    #507d91
-  );
-  color:white;
+margin-top:30px;
+padding:25px;
+border-radius:22px;
+background:linear-gradient(
+135deg,
+#345b70,
+#507d91
+);
+color:white;
 }
 
 .reviews{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
 }
 
 .review{
-  background:white;
-  padding:18px;
-  border-radius:18px;
+background:white;
+padding:18px;
+border-radius:18px;
 }
 
 .reviewName{
-  font-weight:bold;
-  color:#345b70;
-  margin-bottom:4px;
+font-weight:bold;
+color:#345b70;
+margin-bottom:4px;
 }
 
 .reviewStars{
-  color:#e5a52f;
-  letter-spacing:2px;
+color:#e5a52f;
+letter-spacing:2px;
 }
 
 .reviewComment{
-  margin-top:5px;
+margin-top:5px;
 }
 
 .reviewDate{
-  color:#999;
-  font-size:12px;
-  margin-top:5px;
+color:#999;
+font-size:12px;
+margin-top:5px;
 }
 
 .reviewForm{
-  background:#f8f4ec;
-  padding:15px;
-  border-radius:16px;
-  margin-top:20px;
+background:#f8f4ec;
+padding:15px;
+border-radius:16px;
+margin-top:20px;
 }
 
 .starPicker{
-  display:flex;
-  gap:4px;
-  direction:rtl;
-  margin:8px 0 12px;
+display:flex;
+gap:4px;
+direction:rtl;
+margin:8px 0 12px;
 }
 
 .starPicker button{
-  background:transparent;
-  color:#bbb;
-  font-size:30px;
-  padding:0 2px;
+background:transparent;
+color:#bbb;
+font-size:30px;
+padding:0 2px;
 }
 
 .starPicker button.active{
-  color:#e5a52f;
+color:#e5a52f;
 }
 
 .productRatingSummary{
-  background:#f8f4ec;
-  padding:15px;
-  border-radius:15px;
-  margin:15px 0;
-  text-align:center;
+background:#f8f4ec;
+padding:15px;
+border-radius:15px;
+margin:15px 0;
+text-align:center;
 }
 
 .productRatingBig{
-  font-size:32px;
-  font-weight:bold;
-  color:#345b70;
+font-size:32px;
+font-weight:bold;
+color:#345b70;
 }
 
 .productRatingStars{
-  color:#e5a52f;
-  font-size:25px;
+color:#e5a52f;
+font-size:25px;
 }
 
 .productReviewsList{
-  margin-top:15px;
+margin-top:15px;
 }
 
 .productReview{
-  background:#f8f4ec;
-  padding:13px;
-  border-radius:13px;
-  margin-bottom:10px;
+background:#f8f4ec;
+padding:13px;
+border-radius:13px;
+margin-bottom:10px;
 }
 
 form{
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 4px 18px #0000000b;
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 4px 18px #0000000b;
 }
 
 .formGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
 }
 
 .field{
-  margin-bottom:12px;
+margin-bottom:12px;
 }
 
 .field label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:5px;
+display:block;
+font-weight:bold;
+margin-bottom:5px;
 }
 
 .field input,
 .field select,
 .field textarea{
-  width:100%;
-  padding:11px;
-  border:1px solid #ddd;
-  border-radius:11px;
-  outline:none;
+width:100%;
+padding:11px;
+border:1px solid #ddd;
+border-radius:11px;
+outline:none;
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus{
-  border-color:#345b70;
+border-color:#345b70;
 }
 
 .field textarea{
-  min-height:100px;
-  resize:vertical;
+min-height:100px;
+resize:vertical;
 }
 
 footer{
-  margin-top:40px;
-  background:#294653;
-  color:white;
-  padding:35px 20px;
+margin-top:40px;
+background:#294653;
+color:white;
+padding:35px 20px;
 }
 
 .footerGrid{
-  max-width:1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:25px;
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
 }
 
 footer h3{
-  margin-bottom:8px;
-  color:#f2ca72;
+margin-bottom:8px;
+color:#f2ca72;
 }
 
 .contactBtn{
-  display:inline-block;
-  background:#e6a83c;
-  color:white;
-  padding:8px 13px;
-  border-radius:10px;
-  margin-top:7px;
+display:inline-block;
+background:#e6a83c;
+color:white;
+padding:8px 13px;
+border-radius:10px;
+margin-top:7px;
 }
 
 .modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0008;
-  z-index:3000;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
+display:none;
+position:fixed;
+inset:0;
+background:#0008;
+z-index:3000;
+align-items:center;
+justify-content:center;
+padding:15px;
 }
 
 .modal.show{
-  display:flex;
+display:flex;
 }
 
 .modalBox{
-  background:#fff;
-  border-radius:22px;
-  width:min(650px,100%);
-  max-height:90vh;
-  overflow:auto;
-  padding:25px;
-  position:relative;
+background:#fff;
+border-radius:22px;
+width:min(650px,100%);
+max-height:90vh;
+overflow:auto;
+padding:25px;
+position:relative;
 }
 
 .close{
-  position:absolute;
-  left:15px;
-  top:12px;
-  background:#eee;
-  border-radius:50%;
-  width:35px;
-  height:35px;
-  z-index:10;
-  font-size:20px;
+position:absolute;
+left:15px;
+top:12px;
+background:#eee;
+border-radius:50%;
+width:35px;
+height:35px;
+z-index:10;
+font-size:20px;
 }
 
 .close:hover{
-  background:#ddd;
+background:#ddd;
 }
 
 .cartItem{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 0;
-  border-bottom:1px solid #eee;
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px 0;
+border-bottom:1px solid #eee;
 }
 
 .cartItem .grow{
-  flex:1;
+flex:1;
 }
 
 .qty{
-  display:flex;
-  align-items:center;
-  gap:7px;
+display:flex;
+align-items:center;
+gap:7px;
 }
 
 .qty button{
-  width:30px;
-  height:30px;
-  border-radius:8px;
-  background:#eee;
+width:30px;
+height:30px;
+border-radius:8px;
+background:#eee;
 }
 
 .qty button:hover{
-  background:#ddd;
+background:#ddd;
 }
 
 .total{
-  font-size:20px;
-  font-weight:bold;
-  margin:18px 0;
+font-size:20px;
+font-weight:bold;
+margin:18px 0;
 }
 
 .empty{
-  text-align:center;
-  padding:30px;
-  color:#777;
-  grid-column:1/-1;
+text-align:center;
+padding:30px;
+color:#777;
+grid-column:1/-1;
 }
 
 .userBox{
-  background:#edf5f5;
-  padding:15px;
-  border-radius:15px;
-  margin-bottom:15px;
+background:#edf5f5;
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
 }
 
 .hidden{
-  display:none!important;
+display:none!important;
 }
 
 .toast{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#294653;
-  color:white;
-  padding:13px 18px;
-  border-radius:12px;
-  z-index:5000;
-  display:none;
+position:fixed;
+bottom:20px;
+right:20px;
+background:#294653;
+color:white;
+padding:13px 18px;
+border-radius:12px;
+z-index:5000;
+display:none;
 }
 
+/* =========================
+الخريطة
+========================= */
+
 .mapSearch{
-  display:flex;
-  gap:8px;
-  margin:10px 0;
+display:flex;
+gap:8px;
+margin:10px 0;
 }
 
 .mapSearch input{
-  flex:1;
-  padding:11px;
-  border:1px solid #ddd;
-  border-radius:11px;
-  outline:none;
+flex:1;
+padding:11px;
+border:1px solid #ddd;
+border-radius:11px;
+outline:none;
 }
 
 .mapSearch button{
-  background:#345b70;
-  color:white;
-  padding:10px 14px;
-  border-radius:11px;
+background:#345b70;
+color:white;
+padding:10px 14px;
+border-radius:11px;
 }
 
 .locationBtns{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:10px;
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:10px;
 }
 
 .locationBtn{
-  background:#edf4f5;
-  color:#345b70;
-  padding:9px 13px;
-  border-radius:11px;
-  font-weight:bold;
+background:#edf4f5;
+color:#345b70;
+padding:9px 13px;
+border-radius:11px;
+font-weight:bold;
 }
 
 .locationBtn:hover{
-  background:#dcecef;
+background:#dcecef;
 }
 
 .locationStatus{
-  background:#f8f4ec;
-  border-radius:11px;
-  padding:9px;
-  margin-top:8px;
-  font-size:14px;
+background:#f8f4ec;
+border-radius:11px;
+padding:9px;
+margin-top:8px;
+font-size:14px;
 }
 
 #map{
-  height:330px;
-  border-radius:15px;
-  margin:10px 0;
-  overflow:hidden;
+height:330px;
+border-radius:15px;
+margin:10px 0;
+overflow:hidden;
 }
 
 .leaflet-container{
-  font-family:Arial,Tahoma,sans-serif;
+font-family:Arial,Tahoma,sans-serif;
 }
 
 .mapHint{
-  font-size:13px;
-  color:#777;
-  margin-bottom:5px;
+font-size:13px;
+color:#777;
+margin-bottom:5px;
 }
+
+/* =========================
+responsive
+========================= */
 
 @media(max-width:900px){
 
-  .cards,
-  .products{
-    grid-template-columns:repeat(3,1fr);
-  }
+.cards,
+.products{
+grid-template-columns:repeat(3,1fr);
+}
 
-  .reviews{
-    grid-template-columns:1fr;
-  }
+.reviews{
+grid-template-columns:1fr;
+}
 
 }
 
 @media(max-width:600px){
 
-  .top{
-    flex-wrap:wrap;
-  }
+.top{
+flex-wrap:wrap;
+}
 
-  .search{
-    order:3;
-    flex-basis:100%;
-  }
+.search{
+order:3;
+flex-basis:100%;
+}
 
-  .hero{
-    padding:30px 20px;
-  }
+.hero{
+padding:30px 20px;
+}
 
-  .hero h1{
-    font-size:30px;
-  }
+.hero h1{
+font-size:30px;
+}
 
-  .heroEmoji{
-    font-size:65px;
-  }
+.heroEmoji{
+font-size:65px;
+}
 
-  .cards,
-  .products,
-  .footerGrid{
-    grid-template-columns:repeat(2,1fr);
-  }
+.cards,
+.products,
+.footerGrid{
+grid-template-columns:repeat(2,1fr);
+}
 
-  .formGrid{
-    grid-template-columns:1fr;
-  }
+.formGrid{
+grid-template-columns:1fr;
+}
 
-  .productBtns{
-    flex-wrap:wrap;
-  }
+.productBtns{
+flex-wrap:wrap;
+}
 
-  .productBtns button{
-    min-width:30%;
-  }
+.productBtns button{
+min-width:30%;
+}
 
-  .mapSearch{
-    flex-direction:column;
-  }
+.mapSearch{
+flex-direction:column;
+}
 
 }
 
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-  <div class="top">
-
-    <div class="logo">
-      🧸 Mama Zozo<span>Store</span>
-    </div>
-
-    <div class="search">
-
-      <input
-        id="searchInput"
-        placeholder="ابحث عن لعبة، شنطة، أدوات مدرسية..."
-      >
-
-    </div>
-
-    <div class="actions">
-
-      <button
-        type="button"
-        class="iconBtn"
-        onclick="openAccount()">
-        👤
-      </button>
-
-      <button
-        type="button"
-        class="iconBtn"
-        onclick="openWishlist()">
-        ❤️ <span id="favCount">0</span>
-      </button>
-
-      <button
-        type="button"
-        class="iconBtn"
-        onclick="openCart()">
-        🛒 <span id="cartCount">0</span>
-      </button>
-
-    </div>
-
-  </div>
-
-  <div class="nav">
-
-    <button type="button" onclick="filterCategory('all')">
-      الكل
-    </button>
-
-    <button type="button" onclick="filterCategory('school')">
-      🎒 أدوات مدرسية
-    </button>
-
-    <button type="button" onclick="filterCategory('toys')">
-      🧸 ألعاب
-    </button>
-
-    <button type="button" onclick="filterCategory('educational')">
-      🧠 ألعاب تعليمية
-    </button>
-
-    <button type="button" onclick="filterCategory('bags')">
-      🎒 شنط
-    </button>
-
-    <button type="button" onclick="scrollToSection('complaints')">
-      📝 الشكاوى
-    </button>
-
-  </div>
-
-</header>
-
-<section class="hero">
-
-  <div>
-
-    <h1>
-      كل اللي بتحبه في مكان واحد 💛
-    </h1>
-
-    <p>
-      ألعاب وأدوات مدرسية مختارة بعناية من مكتبة ماما زوزو.
-    </p>
-
-    <button
-      type="button"
-      class="primary"
-      onclick="scrollToSection('products')">
-      تسوق دلوقتي 🛍️
-    </button>
-
-  </div>
-
-  <div class="heroEmoji">
-    🧸🎒📚
-  </div>
-
-</section>
-
-<div class="container">
-
-  <div class="cards">
-
-    <div class="infoCard">
-      🚚
-      <b>توصيل</b>
-      اطلب بسهولة من الموقع
-    </div>
-
-    <div class="infoCard">
-      💳
-      <b>دفع عند الاستلام</b>
-      اختيار متاح عند الطلب
-    </div>
-
-    <div class="infoCard">
-      ⭐
-      <b>اختيارات مميزة</b>
-      منتجات للأطفال والطلاب
-    </div>
-
-    <div class="infoCard">
-      📞
-      <b>تواصل معنا</b>
-      اتصل أو واتساب
-    </div>
-
-  </div>
-
-  <div class="sectionTitle" id="products">
-
-    <h2>
-      🛍️ المنتجات
-    </h2>
-
-  </div>
-
-  <div class="filters">
-
-    <select id="categoryFilter" onchange="applyFilters()">
-
-      <option value="all">
-        كل الأقسام
-      </option>
-
-      <option value="school">
-        أدوات مدرسية
-      </option>
-
-      <option value="toys">
-        ألعاب
-      </option>
-
-      <option value="educational">
-        ألعاب تعليمية
-      </option>
-
-      <option value="bags">
-        شنط
-      </option>
-
-    </select>
-
-    <select id="sortFilter" onchange="applyFilters()">
-
-      <option value="default">
-        الترتيب
-      </option>
-
-      <option value="low">
-        السعر من الأقل
-      </option>
-
-      <option value="high">
-        السعر من الأعلى
-      </option>
-
-      <option value="rating">
-        الأعلى تقييمًا
-      </option>
-
-    </select>
-
-  </div>
-
-  <div class="products" id="productsGrid">
-
-    <div class="empty">
-      جاري تحميل المنتجات...
-    </div>
-
-  </div>
-
-  <div class="offer">
-
-    <h2>
-      🎁 عرض ماما زوزو
-    </h2>
-
-    <p>
-      استخدم الكود
-      <b>MAMA10</b>
-      واحصل على خصم 10 جنيه على الطلب.
-    </p>
-
-  </div>
-
-  <div class="sectionTitle">
-
-    <h2>
-      ⭐ آراء العملاء
-    </h2>
-
-  </div>
-
-  <div class="reviews" id="reviewsSection">
-
-    <div class="empty">
-      جاري تحميل التقييمات...
-    </div>
-
-  </div>
-
-  <div class="sectionTitle" id="complaints">
-
-    <h2>
-      📝 الشكاوى والاقتراحات
-    </h2>
-
-  </div>
-
-  <form onsubmit="sendComplaint(event)">
-
-    <div class="formGrid">
-
-      <div class="field">
-
-        <label>الاسم</label>
-
-        <input
-          id="complaintName"
-          required>
-
-      </div>
-
-      <div class="field">
-
-        <label>رقم الموبايل</label>
-
-        <input
-          id="complaintPhone"
-          required>
-
-      </div>
-
-    </div>
-
-    <div class="field">
-
-      <label>نوع الرسالة</label>
-
-      <select id="complaintType">
-
-        <option>شكوى</option>
-        <option>اقتراح</option>
-        <option>استفسار</option>
-
-      </select>
-
-    </div>
-
-    <div class="field">
-
-      <label>الرسالة</label>
-
-      <textarea
-        id="complaintText"
-        required></textarea>
-
-    </div>
-
-    <button
-      type="submit"
-      class="primary">
-      إرسال
-    </button>
-
-  </form>
+</style>  </head>  <body>  <header>    <div class="top">  <div class="logo">
+
+🧸 Mama Zozo<span>Store</span>
+
+</div>  <div class="search">    <input
+id="searchInput"
+placeholder="ابحث عن لعبة، شنطة، أدوات مدرسية..."
+
+> 
+
+</div>    <div class="actions">    <button    
+type="button"    
+class="iconBtn"    
+onclick="openAccount()">
+👤
+</button>
+
+<button    
+type="button"    
+class="iconBtn"    
+onclick="openWishlist()">
+❤️ <span id="favCount">0</span>
+</button>
+
+<button    
+type="button"    
+class="iconBtn"    
+onclick="openCart()">
+🛒 <span id="cartCount">0</span>
+</button>
+
+</div>    </div>    <div class="nav">  <button    
+  type="button"    
+  onclick="filterCategory('all')">    
+  الكل    
+</button>    <button    
+type="button"    
+onclick="filterCategory('school')">
+🎒 أدوات مدرسية
+</button>
+
+<button    
+type="button"    
+onclick="filterCategory('toys')">
+🧸 ألعاب
+</button>
+
+<button    
+type="button"    
+onclick="filterCategory('educational')">
+🧠 ألعاب تعليمية
+</button>
+
+<button    
+type="button"    
+onclick="filterCategory('bags')">
+🎒 شنط
+</button>
+
+<button    
+type="button"    
+onclick="scrollToSection('complaints')">
+📝 الشكاوى
+</button>
+
+  </div>  </header>  <section class="hero">    <div>  <h1>    
+  كل اللي بتحبه في مكان واحد 💛    
+</h1>    <p>    
+  ألعاب وأدوات مدرسية مختارة بعناية من مكتبة ماما زوزو.    
+</p>    <button    
+type="button"    
+class="primary"    
+onclick="scrollToSection('products')">
+تسوق دلوقتي 🛍️
+</button>
+
+  </div>    <div class="heroEmoji">    
+    🧸🎒📚    
+  </div>  </section>  <div class="container">    <div class="cards">  <div class="infoCard">    
+  🚚    
+  <b>توصيل</b>    
+  اطلب بسهولة من الموقع    
+</div>    <div class="infoCard">    
+  💳    
+  <b>دفع عند الاستلام</b>    
+  اختيار متاح عند الطلب    
+</div>    <div class="infoCard">    
+  ⭐    
+  <b>اختيارات مميزة</b>    
+  منتجات للأطفال والطلاب    
+</div>    <div class="infoCard">    
+  📞    
+  <b>تواصل معنا</b>    
+  اتصل أو واتساب    
+</div>    </div>    <div    
+    class="sectionTitle"    
+    id="products">  <h2>    
+  🛍️ المنتجات    
+</h2>    </div>    <div class="filters">  <select    
+  id="categoryFilter"    
+  onchange="applyFilters()">      <option value="all">    
+    كل الأقسام    
+  </option>      <option value="school">    
+    أدوات مدرسية    
+  </option>      <option value="toys">    
+    ألعاب    
+  </option>      <option value="educational">    
+    ألعاب تعليمية    
+  </option>      <option value="bags">    
+    شنط    
+  </option>    </select>    <select    
+id="sortFilter"    
+onchange="applyFilters()">
+
+  <option value="default">    
+    الترتيب    
+  </option>      <option value="low">    
+    السعر من الأقل    
+  </option>      <option value="high">    
+    السعر من الأعلى    
+  </option>      <option value="rating">    
+    الأعلى تقييمًا    
+  </option>    </select>    </div>    <div    
+    class="products"    
+    id="productsGrid">  <div class="empty">    
+  جاري تحميل المنتجات...    
+</div>    </div>    <div class="offer">  <h2>    
+  🎁 عرض ماما زوزو    
+</h2>    <p>    
+  استخدم الكود    
+  <b>MAMA10</b>    
+  واحصل على خصم 10 جنيه على الطلب.    
+</p>    </div>    <!-- =========================    
+       آراء العملاء الحقيقية    
+  ========================= -->    <div class="sectionTitle">  <h2>    
+  ⭐ آراء العملاء    
+</h2>    </div>    <div    
+    class="reviews"    
+    id="reviewsSection">  <div class="empty">    
+  جاري تحميل التقييمات...    
+</div>    </div>    <div    
+    class="sectionTitle"    
+    id="complaints">  <h2>    
+  📝 الشكاوى والاقتراحات    
+</h2>    </div>    <form onsubmit="sendComplaint(event)">  <div class="formGrid">      <div class="field">    <label>    
+  الاسم    
+</label>    
+
+<input    
+  id="complaintName"    
+  required>
+
+  </div>      <div class="field">    <label>    
+  رقم الموبايل    
+</label>    
+
+<input    
+  id="complaintPhone"    
+  required>
+
+  </div>    </div>    <div class="field">      <label>    
+    نوع الرسالة    
+  </label>      <select id="complaintType">    <option>    
+  شكوى    
+</option>    
+
+<option>    
+  اقتراح    
+</option>    
+
+<option>    
+  استفسار    
+</option>
+
+  </select>    </div>    <div class="field">      <label>    
+    الرسالة    
+  </label>      <textarea    
+    id="complaintText"    
+    required>    
+  </textarea>    </div>    <button    
+type="submit"    
+class="primary">
+إرسال
+</button>
+
+  </form>  </div>  <footer>    <div class="footerGrid">  <div>      <h3>    
+    🧸 مكتبة ماما زوزو    
+  </h3>      <p>    
+    ألعاب وأدوات مدرسية.    
+  </p>    </div>    <div>      <h3>    
+    📍 العنوان    
+  </h3>      <p>    
+    6 ش داليا - امام البنك الأهلي - قليوب - القليوبية    
+  </p>    </div>    <div>      <h3>    
+    📞 تواصل معنا    
+  </h3>      <p>    
+    0242131877    
+  </p>      <p>    
+    01006192349    
+  </p>      <p>    
+    01000607703    
+  </p>    <a    
+class="contactBtn"    
+href="tel:0242131877">
+اتصل بنا
+</a>
+
+<a    
+class="contactBtn"    
+href="https://wa.me/201006192349"    
+target="_blank"    
+rel="noopener">
+واتساب
+</a>
+
+</div>    </div>  </footer>  <!-- =========================    
+     الحساب    
+========================= -->  <div    
+  class="modal"    
+  id="accountModal">    <div class="modalBox">  <button    
+  type="button"    
+  class="close"    
+  onclick="closeModal('accountModal')">    
+  ×    
+</button>    <div id="loggedOut">      <h2>    
+    👤 حساب ماما زوزو    
+  </h2>      <form onsubmit="login(event)">    <div class="field">    
+
+  <label>    
+    الإيميل    
+  </label>    
+
+  <input    
+    id="loginEmail"    
+    type="email"    
+    required>    
+
+</div>    
+
+<div class="field">    
+
+  <label>    
+    كلمة المرور    
+  </label>    
+
+  <input    
+    id="loginPassword"    
+    type="password"    
+    required>    
+
+</div>    
+
+<button    
+  id="loginBtn"    
+  type="submit"    
+  class="primary">    
+  تسجيل الدخول    
+</button>
+
+  </form>      <hr style="margin:20px 0">      <h3>    
+    مستخدم جديد؟    
+  </h3>      <form onsubmit="register(event)">    <div class="field">    
+
+  <label>    
+    الاسم    
+  </label>    
+
+  <input    
+    id="registerName"    
+    required>    
+
+</div>    
+
+<div class="field">    
+
+  <label>    
+    رقم الموبايل    
+  </label>    
+
+  <input    
+    id="registerPhone"    
+    required>    
+
+</div>    
+
+<div class="field">    
+
+  <label>    
+    الإيميل    
+  </label>    
+
+  <input    
+    id="registerEmail"    
+    type="email"    
+    required>    
+
+</div>    
+
+<div class="field">    
+
+  <label>    
+    كلمة المرور    
+  </label>    
+
+  <input    
+    id="registerPassword"    
+    type="password"    
+    minlength="6"    
+    required>    
+
+</div>    
+
+<button    
+  id="registerBtn"    
+  type="submit"    
+  class="primary">    
+  إنشاء حساب    
+</button>
+
+  </form>    </div>    <div    
+  id="loggedIn"    
+  class="hidden">      <h2>    
+    أهلًا يا    
+    <span id="userName"></span>    
+    👋    
+  </h2>      <div class="userBox">    <p>    
+  📧    
+  <span id="userEmail"></span>    
+</p>    
+
+<p>    
+  📱    
+  <span id="userPhone"></span>    
+</p>
+
+  </div>      <h3>    
+    📦 طلباتي    
+  </h3>      <div id="ordersBox">    
+    لا توجد طلبات حتى الآن.    
+  </div>    <button    
+type="button"    
+class="primary"    
+style="margin-top:15px"    
+onclick="logout()">
+تسجيل الخروج
+</button>
+
+</div>    </div>  </div>  <!-- =========================    
+     السلة    
+========================= -->  <div    
+  class="modal"    
+  id="cartModal">    <div class="modalBox">  <button    
+  type="button"    
+  class="close"    
+  onclick="closeModal('cartModal')">    
+  ×    
+</button>    <h2>    
+  🛒 سلة المشتريات    
+</h2>    <div id="cartItems"></div>    <div class="field">      <label>    
+    كود الخصم    
+  </label>    <input    
+id="coupon"    
+placeholder="مثال: MAMA10">
+
+<button    
+type="button"    
+class="primary"    
+style="margin-top:8px"    
+onclick="applyCoupon()">
+تطبيق
+</button>
+
+</div>    <div id="cartTotals"></div>    <button    
+type="button"    
+class="primary"    
+onclick="openCheckout()">
+إتمام الطلب 📦
+</button>
+
+  </div>  </div>  <!-- =========================    
+     المفضلة    
+========================= -->  <div    
+  class="modal"    
+  id="wishlistModal">    <div class="modalBox">  <button    
+  type="button"    
+  class="close"    
+  onclick="closeModal('wishlistModal')">    
+  ×    
+</button>    <h2>    
+  ❤️ المفضلة    
+</h2>    <div id="wishlistItems"></div>    </div>  </div>  <!-- =========================    
+     تفاصيل المنتج    
+========================= -->  <div    
+  class="modal"    
+  id="productModal">    <div class="modalBox">  <button    
+  type="button"    
+  class="close"    
+  onclick="closeModal('productModal')">    
+  ×    
+</button>    <div id="productDetails"></div>    </div>  </div>  <!-- =========================    
+     الدفع    
+========================= -->  <div    
+  class="modal"    
+  id="checkoutModal">    <div class="modalBox">  <button    
+  type="button"    
+  class="close"    
+  onclick="closeModal('checkoutModal')">    
+  ×    
+</button>    <h2>    
+  📦 تأكيد الطلب    
+</h2>    <div    
+  id="checkoutLoginWarning"    
+  class="userBox hidden">    لازم تسجل دخول أو تنشئ حساب الأول.
+
+</div>    <form onsubmit="submitOrder(event)">      <div class="formGrid">    <div class="field">    
+
+  <label>    
+    الاسم    
+  </label>    
+
+  <input    
+    id="orderName"    
+    required>    
+
+</div>    
+
+<div class="field">    
+
+  <label>    
+    رقم الموبايل    
+  </label>    
+
+  <input    
+    id="orderPhone"    
+    required>    
 
 </div>
 
-<footer>
-
-  <div class="footerGrid">
-
-    <div>
-
-      <h3>
-        🧸 مكتبة ماما زوزو
-      </h3>
-
-      <p>
-        ألعاب وأدوات مدرسية.
-      </p>
-
-    </div>
-
-    <div>
-
-      <h3>
-        📍 العنوان
-      </h3>
-
-      <p>
-        6 ش داليا - امام البنك الأهلي - قليوب - القليوبية
-      </p>
-
-    </div>
-
-    <div>
-
-      <h3>
-        📞 تواصل معنا
-      </h3>
-
-      <p>0242131877</p>
-      <p>01006192349</p>
-      <p>01000607703</p>
-
-      <a
-        class="contactBtn"
-        href="tel:0242131877">
-        اتصل بنا
-      </a>
-
-      <a
-        class="contactBtn"
-        href="https://wa.me/201006192349"
-        target="_blank"
-        rel="noopener">
-        واتساب
-      </a>
-
-    </div>
-
-  </div>
-
-</footer>
-
-<!-- الحساب -->
-
-<div class="modal" id="accountModal">
-
-  <div class="modalBox">
-
-    <button
-      type="button"
-      class="close"
-      onclick="closeModal('accountModal')">
-      ×
-    </button>
-
-    <div id="loggedOut">
-
-      <h2>
-        👤 حساب ماما زوزو
-      </h2>
-
-      <form onsubmit="login(event)">
-
-        <div class="field">
-
-          <label>الإيميل</label>
-
-          <input
-            id="loginEmail"
-            type="email"
-            autocomplete="email"
-            required>
-
-        </div>
-
-        <div class="field">
-
-          <label>كلمة المرور</label>
-
-          <input
-            id="loginPassword"
-            type="password"
-            autocomplete="current-password"
-            required>
-
-        </div>
-
-        <button
-          id="loginBtn"
-          type="submit"
-          class="primary">
-          تسجيل الدخول
-        </button>
-
-      </form>
-
-      <hr style="margin:20px 0">
-
-      <h3>
-        مستخدم جديد؟
-      </h3>
-
-      <form onsubmit="register(event)">
-
-        <div class="field">
-
-          <label>الاسم</label>
-
-          <input
-            id="registerName"
-            autocomplete="name"
-            required>
-
-        </div>
-
-        <div class="field">
-
-          <label>رقم الموبايل</label>
-
-          <input
-            id="registerPhone"
-            autocomplete="tel"
-            required>
-
-        </div>
-
-        <div class="field">
-
-          <label>الإيميل</label>
-
-          <input
-            id="registerEmail"
-            type="email"
-            autocomplete="email"
-            required>
-
-        </div>
-
-        <div class="field">
-
-          <label>كلمة المرور</label>
-
-          <input
-            id="registerPassword"
-            type="password"
-            minlength="6"
-            autocomplete="new-password"
-            required>
-
-        </div>
-
-        <button
-          id="registerBtn"
-          type="submit"
-          class="primary">
-          إنشاء حساب
-        </button>
-
-      </form>
-
-    </div>
-
-    <div id="loggedIn" class="hidden">
-
-      <h2>
-        أهلًا يا
-        <span id="userName"></span>
-        👋
-      </h2>
-
-      <div class="userBox">
-
-        <p>
-          📧
-          <span id="userEmail"></span>
-        </p>
-
-        <p>
-          📱
-          <span id="userPhone"></span>
-        </p>
-
-      </div>
-
-      <h3>
-        📦 طلباتي
-      </h3>
-
-      <div id="ordersBox">
-        لا توجد طلبات حتى الآن.
-      </div>
-
-      <button
-        type="button"
-        class="primary"
-        style="margin-top:15px"
-        onclick="logout()">
-        تسجيل الخروج
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- السلة -->
-
-<div class="modal" id="cartModal">
-
-  <div class="modalBox">
-
-    <button
-      type="button"
-      class="close"
-      onclick="closeModal('cartModal')">
-      ×
-    </button>
-
-    <h2>
-      🛒 سلة المشتريات
-    </h2>
-
-    <div id="cartItems"></div>
-
-    <div class="field">
-
-      <label>
-        كود الخصم
-      </label>
-
-      <input
-        id="coupon"
-        placeholder="مثال: MAMA10">
-
-      <button
-        type="button"
-        class="primary"
-        style="margin-top:8px"
-        onclick="applyCoupon()">
-        تطبيق
-      </button>
-
-    </div>
-
-    <div id="cartTotals"></div>
-
-    <button
-      type="button"
-      class="primary"
-      onclick="openCheckout()">
-      إتمام الطلب 📦
-    </button>
-
-  </div>
-
-</div>
-
-<!-- المفضلة -->
-
-<div class="modal" id="wishlistModal">
-
-  <div class="modalBox">
-
-    <button
-      type="button"
-      class="close"
-      onclick="closeModal('wishlistModal')">
-      ×
-    </button>
-
-    <h2>
-      ❤️ المفضلة
-    </h2>
-
-    <div id="wishlistItems"></div>
-
-  </div>
-
-</div>
-
-<!-- تفاصيل المنتج -->
-
-<div class="modal" id="productModal">
-
-  <div class="modalBox">
-
-    <button
-      type="button"
-      class="close"
-      onclick="closeModal('productModal')">
-      ×
-    </button>
-
-    <div id="productDetails"></div>
-
-  </div>
-
-</div>
-
-<!-- الدفع -->
-
-<div class="modal" id="checkoutModal">
-
-  <div class="modalBox">
-
-    <button
-      type="button"
-      class="close"
-      onclick="closeModal('checkoutModal')">
-      ×
-    </button>
-
-    <h2>
-      📦 تأكيد الطلب
-    </h2>
-
-    <div
-      id="checkoutLoginWarning"
-      class="userBox hidden">
-
-      لازم تسجل دخول أو تنشئ حساب الأول.
-
-    </div>
-
-    <form onsubmit="submitOrder(event)">
-
-      <div class="formGrid">
-
-        <div class="field">
-
-          <label>الاسم</label>
-
-          <input
-            id="orderName"
-            required>
-
-        </div>
-
-        <div class="field">
-
-          <label>رقم الموبايل</label>
-
-          <input
-            id="orderPhone"
-            required>
-
-        </div>
-
-      </div>
-
-      <div class="field">
-
-        <label>المحافظة</label>
-
-        <select id="governorate">
-
-          <option>القليوبية</option>
-          <option>القاهرة</option>
-          <option>الجيزة</option>
-          <option>المنوفية</option>
-          <option>الشرقية</option>
-          <option>الدقهلية</option>
-          <option>أخرى</option>
-
-        </select>
-
-      </div>
-
-      <div class="field">
-
-        <label>العنوان بالتفصيل</label>
-
-        <textarea
-          id="orderAddress"
-          required
-          placeholder="اسم الشارع، رقم البيت، الدور..."></textarea>
-
-      </div>
-
-      <h3>
-        📍 حدد مكان التوصيل
-      </h3>
-
-      <p class="mapHint">
-        ابحث عن المكان، أو اضغط على الخريطة مباشرة.
-      </p>
-
-      <div class="mapSearch">
-
-        <input
-          id="mapSearchInput"
-          placeholder="🔍 ابحث عن شارع أو منطقة أو مكان">
-
-        <button
-          type="button"
-          onclick="searchLocation()">
-          بحث 🔍
-        </button>
-
-      </div>
-
-      <div class="locationBtns">
-
-        <button
-          type="button"
-          class="locationBtn"
-          onclick="useMyLocation()">
-          📍 استخدم موقعي الحالي
-        </button>
-
-        <button
-          type="button"
-          class="locationBtn"
-          onclick="resetMap()">
-          🔄 إعادة الخريطة
-        </button>
-
-      </div>
-
-      <div id="map"></div>
-
-      <div
-        id="locationStatus"
-        class="locationStatus">
-        لم يتم تحديد مكان التوصيل بعد.
-      </div>
-
-      <input
-        type="hidden"
-        id="latitude">
-
-      <input
-        type="hidden"
-        id="longitude">
-
-      <div class="field">
-
-        <label>طريقة الدفع</label>
-
-        <select id="payment">
-
-          <option>
-            الدفع عند الاستلام
-          </option>
-
-        </select>
-
-      </div>
-
-      <div class="field">
-
-        <label>ملاحظات</label>
-
-        <textarea
-          id="orderNotes"
-          placeholder="أي ملاحظات خاصة بالطلب..."></textarea>
-
-      </div>
-
-      <div
-        id="checkoutTotal"
-        class="total">
-      </div>
-
-      <button
-        id="submitOrderBtn"
-        class="primary"
-        type="submit">
-        تأكيد الطلب ✅
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-
-<script
-src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-</script>
-
-<script>
-
-/* =====================================================
-   Supabase
+  </div>      <div class="field">    <label>    
+  المحافظة    
+</label>    
+
+<select id="governorate">    
+
+  <option>    
+    القليوبية    
+  </option>    
+
+  <option>    
+    القاهرة    
+  </option>    
+
+  <option>    
+    الجيزة    
+  </option>    
+
+  <option>    
+    المنوفية    
+  </option>    
+
+  <option>    
+    الشرقية    
+  </option>    
+
+  <option>    
+    الدقهلية    
+  </option>    
+
+  <option>    
+    أخرى    
+  </option>    
+
+</select>
+
+  </div>      <div class="field">    <label>    
+  العنوان بالتفصيل    
+</label>    
+
+<textarea    
+  id="orderAddress"    
+  required    
+  placeholder="اسم الشارع، رقم البيت، الدور..."></textarea>
+
+  </div>      <h3>    
+    📍 حدد مكان التوصيل    
+  </h3>      <p class="mapHint">    
+    ابحث عن المكان، أو اضغط على الخريطة مباشرة.    
+  </p>      <div class="mapSearch">    <input    
+  id="mapSearchInput"    
+  placeholder="🔍 ابحث عن شارع أو منطقة أو مكان">    
+
+<button    
+  type="button"    
+  onclick="searchLocation()">    
+  بحث 🔍    
+</button>
+
+  </div>      <div class="locationBtns">    <button    
+  type="button"    
+  class="locationBtn"    
+  onclick="useMyLocation()">    
+  📍 استخدم موقعي الحالي    
+</button>    
+
+<button    
+  type="button"    
+  class="locationBtn"    
+  onclick="resetMap()">    
+  🔄 إعادة الخريطة    
+</button>
+
+  </div>      <div id="map"></div>      <div    
+    id="locationStatus"    
+    class="locationStatus">    
+    لم يتم تحديد مكان التوصيل بعد.    
+  </div>    <input    
+type="hidden"    
+id="latitude">
+
+<input    
+type="hidden"    
+id="longitude">
+
+  <div class="field">    <label>    
+  طريقة الدفع    
+</label>    
+
+<select id="payment">    
+
+  <option>    
+    الدفع عند الاستلام    
+  </option>    
+
+</select>
+
+  </div>      <div class="field">    <label>    
+  ملاحظات    
+</label>    
+
+<textarea    
+  id="orderNotes"    
+  placeholder="أي ملاحظات خاصة بالطلب..."></textarea>
+
+  </div>      <div    
+    id="checkoutTotal"    
+    class="total">    
+  </div>    <button    
+id="submitOrderBtn"    
+class="primary"    
+type="submit">
+تأكيد الطلب ✅
+</button>
+
+</form>    </div>  </div>  <div    
+  class="toast"    
+  id="toast">    
+</div>  <script    
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">    
+</script>  <script    
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">    
+</script>  <script>    /* =====================================================
+إعداد Supabase
 ===================================================== */
 
 const SUPABASE_URL =
-  "https://tzjtivfzawffqgisrowv.supabase.co";
+"https://tzjtivfzawffqgisrowv.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
+"sb_publishable_2YSBOnUllXOqAztJ70MxeA_gZzD_l0i";
 
 let supabaseClient = null;
 
 try{
 
-  if(
-    window.supabase &&
-    typeof window.supabase.createClient === "function"
-  ){
+if(
+window.supabase &&
+typeof window.supabase.createClient === "function"
+){
 
-    supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-  }
-
-}catch(error){
-
-  console.error(
-    "Supabase initialization error:",
-    error
+supabaseClient =    
+  window.supabase.createClient(    
+    SUPABASE_URL,    
+    SUPABASE_KEY    
   );
 
 }
 
+}catch(error){
+
+console.error(
+"Supabase initialization error:",
+error
+);
+
+}
 
 /* =====================================================
-   البيانات
+البيانات
 ===================================================== */
 
 let products = [];
@@ -1608,31 +1359,34 @@ let products = [];
 let reviewsData = [];
 
 let cart =
-  readStorage(
-    "mz_cart",
-    []
-  );
+readStorage(
+"mz_cart",
+[]
+);
 
 let wishlist =
-  readStorage(
-    "mz_wishlist",
-    []
-  );
+readStorage(
+"mz_wishlist",
+[]
+);
 
-/*
-  تم إلغاء users و mz_current نهائيًا.
-  كلمة المرور لا يتم تخزينها في localStorage.
-*/
+let users =
+readStorage(
+"mz_users",
+[]
+);
 
-let currentUser = null;
-
-let currentAuthUser = null;
+let currentUser =
+readStorage(
+"mz_current",
+null
+);
 
 let orders =
-  readStorage(
-    "mz_orders",
-    []
-  );
+readStorage(
+"mz_orders",
+[]
+);
 
 let discount = 0;
 
@@ -1640,3856 +1394,3225 @@ let map = null;
 
 let marker = null;
 
-window.currentReviewRating = 0;
-
-
 /* =====================================================
-   أدوات عامة
+أدوات عامة
 ===================================================== */
 
 function readStorage(key,fallback){
 
-  try{
+try{
 
-    const value =
-      localStorage.getItem(key);
+const value =    
+  localStorage.getItem(key);    
 
-    if(value === null)
-      return fallback;
+if(value === null)    
+  return fallback;    
 
-    return JSON.parse(value);
+return JSON.parse(value);
 
-  }catch(error){
+}catch(error){
 
-    console.error(
-      "Storage error:",
-      error
-    );
+console.error(    
+  "Storage error:",    
+  error    
+);    
 
-    return fallback;
-
-  }
+return fallback;
 
 }
 
+}
 
 function save(){
 
-  try{
+try{
 
-    localStorage.setItem(
-      "mz_cart",
-      JSON.stringify(cart)
-    );
+localStorage.setItem(    
+  "mz_cart",    
+  JSON.stringify(cart)    
+);    
 
-    localStorage.setItem(
-      "mz_wishlist",
-      JSON.stringify(wishlist)
-    );
+localStorage.setItem(    
+  "mz_wishlist",    
+  JSON.stringify(wishlist)    
+);    
 
-    /*
-      الطلبات المحلية فقط للتاريخ الظاهر للمستخدم.
-      لا توجد كلمات مرور هنا.
-    */
+localStorage.setItem(    
+  "mz_users",    
+  JSON.stringify(users)    
+);    
 
-    localStorage.setItem(
-      "mz_orders",
-      JSON.stringify(orders)
-    );
+localStorage.setItem(    
+  "mz_current",    
+  JSON.stringify(currentUser)    
+);    
 
-  }catch(error){
+localStorage.setItem(    
+  "mz_orders",    
+  JSON.stringify(orders)    
+);
 
-    console.error(
-      "Save error:",
-      error
-    );
+}catch(error){
 
-  }
-
-}
-
-
-/*
-  مهم جدًا:
-  يسمح بتمرير ID سواء كان رقمًا أو UUID
-  داخل onclick بدون كسر الكود.
-*/
-
-function idParam(id){
-
-  return encodeURIComponent(
-    String(id)
-  );
+console.error(    
+  "Save error:",    
+  error    
+);
 
 }
 
-
-function decodeId(value){
-
-  try{
-
-    return decodeURIComponent(
-      String(value)
-    );
-
-  }catch(error){
-
-    return String(value);
-
-  }
-
 }
-
 
 function money(n){
 
-  return Number(
-    n || 0
-  ).toLocaleString(
-    "ar-EG"
-  ) + " جنيه";
+return Number(
+n || 0
+).toLocaleString(
+"ar-EG"
+)+" جنيه";
 
 }
-
 
 function showToast(text){
 
-  const t =
-    document.getElementById(
-      "toast"
-    );
+const t =
+document.getElementById(
+"toast"
+);
 
-  if(!t)return;
+if(!t)return;
 
-  t.textContent =
-    String(text || "");
+t.textContent = text;
 
-  t.style.display =
-    "block";
+t.style.display = "block";
 
-  clearTimeout(
-    window.toastTimer
-  );
+clearTimeout(
+window.toastTimer
+);
 
-  window.toastTimer =
-    setTimeout(
-      ()=>{
-        t.style.display =
-          "none";
-      },
-      3000
-    );
+window.toastTimer =
+setTimeout(
+()=>{
+t.style.display = "none";
+},
+2500
+);
 
 }
 
-
 /* =====================================================
-   النجوم
+النجوم
 ===================================================== */
 
 function starsHTML(rating){
 
-  const value =
-    Math.max(
-      0,
-      Math.min(
-        5,
-        Number(rating || 0)
-      )
-    );
+const value =
+Math.max(
+0,
+Math.min(
+5,
+Number(rating || 0)
+)
+);
 
-  let html = "";
+let html = "";
 
-  for(
-    let i = 1;
-    i <= 5;
-    i++
-  ){
+for(
+let i=1;
+i<=5;
+i++
+){
 
-    html +=
-      i <= Math.round(value)
-      ?
-      "★"
-      :
-      "☆";
-
-  }
-
-  return html;
+html +=    
+  i <= Math.round(value)    
+  ?    
+  "★"    
+  :    
+  "☆";
 
 }
 
+return html;
+
+}
 
 /* =====================================================
-   تحميل المنتجات
+تحميل المنتجات
 ===================================================== */
 
 async function loadProducts(){
 
-  const grid =
-    document.getElementById(
-      "productsGrid"
-    );
+const grid =
+document.getElementById(
+"productsGrid"
+);
 
-  if(!grid)return;
+if(!grid)return;
 
-  grid.innerHTML =
-    '<div class="empty">جاري تحميل المنتجات...</div>';
+grid.innerHTML =
+'<div class="empty">جاري تحميل المنتجات...</div>';
 
-  if(!supabaseClient){
+if(!supabaseClient){
 
-    grid.innerHTML =
-      '<div class="empty">تعذر الاتصال بقاعدة البيانات حاليًا.</div>';
+grid.innerHTML =    
+  '<div class="empty">تعذر الاتصال بقاعدة البيانات حاليًا.</div>';    
 
-    return;
-
-  }
-
-  try{
-
-    const query =
-      supabaseClient
-        .from("products")
-        .select(`
-          id,
-          name,
-          price,
-          description,
-          old_price,
-          stock,
-          category,
-          image_url,
-          video_url,
-          is_featured,
-          is_active,
-          created_at
-        `)
-        .eq(
-          "is_active",
-          true
-        )
-        .order(
-          "created_at",
-          {
-            ascending:false
-          }
-        );
-
-    const timeout =
-      new Promise(
-        (_,reject)=>
-          setTimeout(
-            ()=>{
-              reject(
-                new Error(
-                  "انتهت مهلة تحميل المنتجات"
-                )
-              );
-            },
-            10000
-          )
-      );
-
-    const result =
-      await Promise.race([
-        query,
-        timeout
-      ]);
-
-    const {
-      data,
-      error
-    } = result;
-
-    if(error)
-      throw error;
-
-    products =
-      (data || []).map(
-        p=>({
-
-          id:p.id,
-
-          name:
-            p.name ||
-            "منتج",
-
-          cat:
-            p.category ||
-            "other",
-
-          price:
-            Number(
-              p.price || 0
-            ),
-
-          old:
-            Number(
-              p.old_price || 0
-            ),
-
-          rating:0,
-
-          reviewCount:0,
-
-          emoji:"🧸",
-
-          desc:
-            p.description ||
-            "منتج من مكتبة ماما زوزو",
-
-          stock:
-            Number(
-              p.stock || 0
-            ),
-
-          image_url:
-            p.image_url ||
-            "",
-
-          video_url:
-            p.video_url ||
-            "",
-
-          is_featured:
-            !!p.is_featured
-
-        })
-      );
-
-    /*
-      إزالة المنتجات التي لم تعد موجودة
-      من السلة والمفضلة.
-    */
-
-    cart =
-      cart.filter(
-        item=>
-          products.some(
-            p=>
-              String(p.id) ===
-              String(item.id)
-          )
-      );
-
-    wishlist =
-      wishlist.filter(
-        id=>
-          products.some(
-            p=>
-              String(p.id) ===
-              String(id)
-          )
-      );
-
-    save();
-
-    updateCounts();
-
-    await loadReviews();
-
-    applyFilters();
-
-  }catch(error){
-
-    console.error(
-      "loadProducts error:",
-      error
-    );
-
-    grid.innerHTML = `
-
-      <div class="empty">
-
-        حصل خطأ في تحميل المنتجات ❌
-
-        <br>
-
-        <button
-          type="button"
-          class="primary"
-          style="margin-top:10px"
-          onclick="loadProducts()">
-          إعادة المحاولة 🔄
-        </button>
-
-      </div>
-
-    `;
-
-  }
+return;
 
 }
 
+try{
+
+const query =    
+  supabaseClient    
+    .from("products")    
+    .select(`    
+      id,    
+      name,    
+      price,    
+      description,    
+      old_price,    
+      stock,    
+      category,    
+      image_url,    
+      video_url,    
+      is_featured,    
+      is_active,    
+      created_at    
+    `)    
+    .eq(    
+      "is_active",    
+      true    
+    )    
+    .order(    
+      "created_at",    
+      {    
+        ascending:false    
+      }    
+    );    
+
+const timeout =    
+  new Promise(    
+    (_,reject)=>    
+      setTimeout(    
+        ()=>{    
+          reject(    
+            new Error(    
+              "انتهت مهلة تحميل المنتجات"    
+            )    
+          );    
+        },    
+        10000    
+      )    
+  );    
+
+const result =    
+  await Promise.race([    
+    query,    
+    timeout    
+  ]);    
+
+const {    
+  data,    
+  error    
+} = result;    
+
+if(error)    
+  throw error;    
+
+products =    
+  (data || []).map(    
+    p=>({    
+
+      id:p.id,    
+
+      name:p.name || "منتج",    
+
+      cat:    
+        p.category ||    
+        "other",    
+
+      price:    
+        Number(    
+          p.price || 0    
+        ),    
+
+      old:    
+        Number(    
+          p.old_price || 0    
+        ),    
+
+      rating:0,    
+
+      reviewCount:0,    
+
+      emoji:"🧸",    
+
+      desc:    
+        p.description ||    
+        "منتج من مكتبة ماما زوزو",    
+
+      stock:    
+        Number(    
+          p.stock || 0    
+        ),    
+
+      image_url:    
+        p.image_url ||    
+        "",    
+
+      video_url:    
+        p.video_url ||    
+        "",    
+
+      is_featured:    
+        !!p.is_featured    
+
+    })    
+  );    
+
+cart =    
+  cart.filter(    
+    item=>    
+      products.some(    
+        p=>    
+          String(p.id) ===    
+          String(item.id)    
+      )    
+  );    
+
+wishlist =    
+  wishlist.filter(    
+    id=>    
+      products.some(    
+        p=>    
+          String(p.id) ===    
+          String(id)    
+      )    
+  );    
+
+save();    
+
+updateCounts();    
+
+await loadReviews();    
+
+applyFilters();
+
+}catch(error){
+
+console.error(    
+  "loadProducts error:",    
+  error    
+);    
+
+grid.innerHTML = `    
+
+  <div class="empty">    
+
+    حصل خطأ في تحميل المنتجات ❌    
+
+    <br>    
+
+    <button    
+      type="button"    
+      class="primary"    
+      style="margin-top:10px"    
+      onclick="loadProducts()">    
+      إعادة المحاولة 🔄    
+    </button>    
+
+  </div>    
+
+`;
+
+}
+
+}
 
 /* =====================================================
-   تحميل التقييمات
+تحميل التقييمات
 ===================================================== */
 
 async function loadReviews(){
 
-  if(!supabaseClient)
-    return;
+if(!supabaseClient)
+return;
 
-  try{
+try{
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("reviews")
-        .select(`
-          id,
-          product_id,
-          customer_name,
-          rating,
-          comment,
-          created_at
-        `)
-        .eq(
-          "is_approved",
-          true
-        )
-        .order(
-          "created_at",
-          {
-            ascending:false
-          }
-        );
+const {    
+  data,    
+  error    
+} =    
+  await supabaseClient    
+    .from("reviews")    
+    .select(`    
+      id,    
+      product_id,    
+      customer_name,    
+      rating,    
+      comment,    
+      created_at    
+    `)    
+    .eq(    
+      "is_approved",    
+      true    
+    )    
+    .order(    
+      "created_at",    
+      {    
+        ascending:false    
+      }    
+    );    
 
-    if(error)
-      throw error;
+if(error)    
+  throw error;    
 
-    reviewsData =
-      data || [];
+reviewsData =    
+  data || [];    
 
-    products.forEach(
-      product=>{
+products.forEach(    
+  product=>{    
 
-        const productReviews =
-          reviewsData.filter(
-            review=>
-              String(review.product_id) ===
-              String(product.id)
-          );
+    const productReviews =    
+      reviewsData.filter(    
+        review=>    
+          String(review.product_id) ===    
+          String(product.id)    
+      );    
 
-        product.reviewCount =
-          productReviews.length;
+    product.reviewCount =    
+      productReviews.length;    
 
-        product.rating =
-          productReviews.length
-          ?
-          productReviews.reduce(
-            (sum,review)=>
-              sum +
-              Number(
-                review.rating || 0
-              ),
-            0
-          ) /
-          productReviews.length
-          :
-          0;
+    product.rating =    
+      productReviews.length    
+      ?    
+      productReviews.reduce(    
+        (sum,review)=>    
+          sum +    
+          Number(review.rating || 0),    
+        0    
+      ) /    
+      productReviews.length    
+      :    
+      0;    
 
-      }
-    );
+  }    
+);    
 
-    renderCustomerReviews();
+renderCustomerReviews();
 
-  }catch(error){
+}catch(error){
 
-    console.error(
-      "loadReviews error:",
-      error
-    );
+console.error(    
+  "loadReviews error:",    
+  error    
+);    
 
-    reviewsData = [];
+reviewsData = [];    
 
-    renderCustomerReviews();
-
-  }
+renderCustomerReviews();
 
 }
 
+}
 
 /* =====================================================
-   عرض المنتجات
+عرض المنتجات
 ===================================================== */
 
-function renderProducts(list = products){
+function renderProducts(list=products){
 
-  const grid =
-    document.getElementById(
-      "productsGrid"
-    );
+const grid =
+document.getElementById(
+"productsGrid"
+);
 
-  if(!grid)return;
+if(!grid)return;
 
-  if(!list.length){
+if(!list.length){
 
-    grid.innerHTML =
-      '<div class="empty">مفيش منتجات مطابقة للبحث.</div>';
+grid.innerHTML =    
+  '<div class="empty">مفيش منتجات مطابقة للبحث.</div>';    
 
-    return;
-
-  }
-
-  grid.innerHTML =
-    list.map(
-      p=>`
-
-      <div class="product">
-
-        ${
-          p.old > p.price
-          ?
-          '<div class="badge">خصم</div>'
-          :
-          ''
-        }
-
-        <div class="productImg">
-
-          ${
-            p.image_url
-            ?
-            `
-              <img
-                src="${escapeHtml(p.image_url)}"
-                alt="${escapeHtml(p.name)}"
-                onerror="
-                  this.style.display='none';
-                  this.parentElement.textContent='🧸'
-                "
-              >
-            `
-            :
-            p.emoji
-          }
-
-        </div>
-
-        <div class="productInfo">
-
-          <h3>
-            ${escapeHtml(p.name)}
-          </h3>
-
-          <div class="rating">
-
-            ${starsHTML(p.rating)}
-
-            ${
-              p.reviewCount
-              ?
-              `
-                <span class="ratingNumber">
-                  ${Number(p.rating).toFixed(1)}
-                  (${p.reviewCount})
-                </span>
-              `
-              :
-              `
-                <span class="ratingNumber">
-                  لسه مفيش تقييمات
-                </span>
-              `
-            }
-
-          </div>
-
-          <div>
-
-            <span class="price">
-              ${money(p.price)}
-            </span>
-
-            ${
-              p.old > p.price
-              ?
-              `
-                <span class="old">
-                  ${money(p.old)}
-                </span>
-              `
-              :
-              ''
-            }
-
-          </div>
-
-          <p>
-            ${escapeHtml(p.desc)}
-          </p>
-
-          <div class="productBtns">
-
-            <button
-              type="button"
-              class="add"
-              onclick="addToCart('${idParam(p.id)}')">
-              🛒 أضف
-            </button>
-
-            <button
-              type="button"
-              class="fav"
-              onclick="toggleFav('${idParam(p.id)}')">
-              ❤️
-            </button>
-
-            <button
-              type="button"
-              class="fav"
-              onclick="openProduct('${idParam(p.id)}')">
-              👁️
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `
-    ).join("");
+return;
 
 }
 
+grid.innerHTML =
+list.map(
+p=>`
+
+<div class="product">    
+
+    ${    
+      p.old > p.price    
+      ?    
+      '<div class="badge">خصم</div>'    
+      :    
+      ''    
+    }    
+
+    <div class="productImg">    
+
+      ${    
+        p.image_url    
+        ?    
+        `    
+          <img    
+            src="${escapeHtml(p.image_url)}"    
+            alt="${escapeHtml(p.name)}"    
+            onerror="this.style.display='none';this.parentElement.textContent='🧸'"    
+          >    
+        `    
+        :    
+        p.emoji    
+      }    
+
+    </div>    
+
+    <div class="productInfo">    
+
+      <h3>    
+        ${escapeHtml(p.name)}    
+      </h3>    
+
+      <div class="rating">    
+
+        ${starsHTML(p.rating)}    
+
+        ${    
+          p.reviewCount    
+          ?    
+          `    
+            <span class="ratingNumber">    
+              ${Number(p.rating).toFixed(1)}    
+              (${p.reviewCount})    
+            </span>    
+          `    
+          :    
+          `    
+            <span class="ratingNumber">    
+              لسه مفيش تقييمات    
+            </span>    
+          `    
+        }    
+
+      </div>    
+
+      <div>    
+
+        <span class="price">    
+          ${money(p.price)}    
+        </span>    
+
+        ${    
+          p.old > p.price    
+          ?    
+          `    
+            <span class="old">    
+              ${money(p.old)}    
+            </span>    
+          `    
+          :    
+          ''    
+        }    
+
+      </div>    
+
+      <p>    
+        ${escapeHtml(p.desc)}    
+      </p>    
+
+      <div class="productBtns">    
+
+        <button    
+          type="button"    
+          class="add"    
+          onclick="addToCart(${Number(p.id)})">    
+          🛒 أضف    
+        </button>    
+
+        <button    
+          type="button"    
+          class="fav"    
+          onclick="toggleFav(${Number(p.id)})">    
+          ❤️    
+        </button>    
+
+        <button    
+          type="button"    
+          class="fav"    
+          onclick="openProduct(${Number(p.id)})">    
+          👁️    
+        </button>    
+
+      </div>    
+
+    </div>    
+
+  </div>    
+
+`    
+).join("");
+
+}
 
 function escapeHtml(value){
 
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
+return String(
+value ?? ""
+)
+.replace(
+/&/g,
+"&"
+)
+.replace(
+/</g,
+"<"
+)
+.replace(
+/>/g,
+">"
+)
+.replace(
+/"/g,
+"""
+)
+.replace(
+/'/g,
+"'"
+);
 
 }
 
-
 /* =====================================================
-   البحث والفلاتر
+البحث والفلاتر
 ===================================================== */
 
 function applyFilters(){
 
-  const searchInput =
-    document.getElementById(
-      "searchInput"
-    );
+const searchInput =
+document.getElementById(
+"searchInput"
+);
 
-  const categoryFilter =
-    document.getElementById(
-      "categoryFilter"
-    );
+const categoryFilter =
+document.getElementById(
+"categoryFilter"
+);
 
-  const sortFilter =
-    document.getElementById(
-      "sortFilter"
-    );
+const sortFilter =
+document.getElementById(
+"sortFilter"
+);
 
-  if(
-    !searchInput ||
-    !categoryFilter ||
-    !sortFilter
-  ){
+if(
+!searchInput ||
+!categoryFilter ||
+!sortFilter
+){
 
-    return;
-
-  }
-
-  const search =
-    searchInput.value
-      .toLowerCase()
-      .trim();
-
-  const cat =
-    categoryFilter.value;
-
-  const sort =
-    sortFilter.value;
-
-  let list =
-    products.filter(
-      p=>
-        (
-          cat === "all" ||
-          p.cat === cat
-        )
-        &&
-        (
-          String(p.name)
-            .toLowerCase()
-            .includes(search)
-          ||
-          String(p.desc)
-            .toLowerCase()
-            .includes(search)
-        )
-    );
-
-  if(sort === "low"){
-
-    list.sort(
-      (a,b)=>
-        a.price - b.price
-    );
-
-  }
-
-  if(sort === "high"){
-
-    list.sort(
-      (a,b)=>
-        b.price - a.price
-    );
-
-  }
-
-  if(sort === "rating"){
-
-    list.sort(
-      (a,b)=>
-        b.rating - a.rating
-    );
-
-  }
-
-  renderProducts(list);
+return;
 
 }
 
+const search =
+searchInput.value
+.toLowerCase()
+.trim();
+
+const cat =
+categoryFilter.value;
+
+const sort =
+sortFilter.value;
+
+let list =
+products.filter(
+p=>
+(
+cat === "all" ||
+p.cat === cat
+)
+&&
+(
+p.name
+.toLowerCase()
+.includes(search)
+||
+p.desc
+.toLowerCase()
+.includes(search)
+)
+);
+
+if(sort === "low"){
+
+list.sort(    
+  (a,b)=>    
+    a.price-b.price    
+);
+
+}
+
+if(sort === "high"){
+
+list.sort(    
+  (a,b)=>    
+    b.price-a.price    
+);
+
+}
+
+if(sort === "rating"){
+
+list.sort(    
+  (a,b)=>    
+    b.rating-a.rating    
+);
+
+}
+
+renderProducts(list);
+
+}
 
 function filterCategory(cat){
 
-  const categoryFilter =
-    document.getElementById(
-      "categoryFilter"
-    );
+const categoryFilter =
+document.getElementById(
+"categoryFilter"
+);
 
-  if(categoryFilter){
+if(categoryFilter){
 
-    categoryFilter.value =
-      cat;
-
-  }
-
-  scrollToSection(
-    "products"
-  );
-
-  applyFilters();
+categoryFilter.value = cat;
 
 }
 
+scrollToSection(
+"products"
+);
+
+applyFilters();
+
+}
 
 /* =====================================================
-   السلة
+السلة
 ===================================================== */
 
 function addToCart(id){
 
-  id =
-    decodeId(id);
+const product =
+products.find(
+x=>
+String(x.id) ===
+String(id)
+);
 
-  const product =
-    products.find(
-      x=>
-        String(x.id) ===
-        String(id)
-    );
+if(!product){
 
-  if(!product){
+showToast(    
+  "المنتج غير متاح حاليًا"    
+);    
 
-    showToast(
-      "المنتج غير متاح حاليًا"
-    );
+return;
 
-    return;
+}
 
-  }
+if(
+Number(product.stock) <= 0
+){
 
-  if(
-    Number(product.stock) <= 0
-  ){
+showToast(    
+  "المنتج غير متوفر حاليًا"    
+);    
 
-    showToast(
-      "المنتج غير متوفر حاليًا"
-    );
+return;
 
-    return;
+}
 
-  }
+const item =
+cart.find(
+x=>
+String(x.id) ===
+String(id)
+);
 
-  const item =
-    cart.find(
-      x=>
-        String(x.id) ===
-        String(id)
-    );
+if(item){
 
-  if(item){
+if(    
+  Number(item.qty) >=    
+  Number(product.stock)    
+){    
 
-    if(
-      Number(item.qty) >=
-      Number(product.stock)
-    ){
+  showToast(    
+    "وصلت لأقصى كمية متاحة"    
+  );    
 
-      showToast(
-        "وصلت لأقصى كمية متاحة"
-      );
+  return;    
 
-      return;
+}    
 
-    }
+item.qty++;
 
-    item.qty++;
+}else{
 
-  }else{
+cart.push({    
 
-    cart.push({
+  id:product.id,    
 
-      id:product.id,
+  qty:1    
 
-      qty:1
+});
 
-    });
+}
 
-  }
+save();
 
-  save();
+updateCounts();
 
-  updateCounts();
+showToast(
+"تمت إضافة المنتج للسلة 🛒"
+);
 
-  showToast(
-    "تمت إضافة المنتج للسلة 🛒"
+}
+
+function removeCart(id){
+
+cart =
+cart.filter(
+x=>
+String(x.id) !==
+String(id)
+);
+
+save();
+
+renderCart();
+
+updateCounts();
+
+}
+
+function changeQty(id,change){
+
+const item =
+cart.find(
+x=>
+String(x.id) ===
+String(id)
+);
+
+if(!item)return;
+
+const product =
+products.find(
+x=>
+String(x.id) ===
+String(item.id)
+);
+
+item.qty =
+Number(item.qty) +
+Number(change);
+
+if(
+product &&
+item.qty >
+Number(product.stock)
+){
+
+item.qty =    
+  Number(product.stock);    
+
+showToast(    
+  "وصلت لأقصى كمية متاحة"    
+);
+
+}
+
+if(item.qty <= 0){
+
+removeCart(id);    
+
+return;
+
+}
+
+save();
+
+renderCart();
+
+updateCounts();
+
+}
+
+function updateCounts(){
+
+const cartCount =
+document.getElementById(
+"cartCount"
+);
+
+const favCount =
+document.getElementById(
+"favCount"
+);
+
+if(cartCount){
+
+cartCount.textContent =    
+  cart.reduce(    
+    (a,b)=>    
+      a +    
+      Number(b.qty || 0),    
+    0    
   );
 
 }
 
+if(favCount){
 
-function removeCart(id){
-
-  id =
-    decodeId(id);
-
-  cart =
-    cart.filter(
-      x=>
-        String(x.id) !==
-        String(id)
-    );
-
-  save();
-
-  renderCart();
-
-  updateCounts();
+favCount.textContent =    
+  wishlist.length;
 
 }
 
-
-function changeQty(id,change){
-
-  id =
-    decodeId(id);
-
-  const item =
-    cart.find(
-      x=>
-        String(x.id) ===
-        String(id)
-    );
-
-  if(!item)return;
-
-  const product =
-    products.find(
-      x=>
-        String(x.id) ===
-        String(item.id)
-    );
-
-  item.qty =
-    Number(item.qty) +
-    Number(change);
-
-  if(
-    product &&
-    item.qty >
-    Number(product.stock)
-  ){
-
-    item.qty =
-      Number(product.stock);
-
-    showToast(
-      "وصلت لأقصى كمية متاحة"
-    );
-
-  }
-
-  if(item.qty <= 0){
-
-    removeCart(id);
-
-    return;
-
-  }
-
-  save();
-
-  renderCart();
-
-  updateCounts();
-
 }
-
-
-function updateCounts(){
-
-  const cartCount =
-    document.getElementById(
-      "cartCount"
-    );
-
-  const favCount =
-    document.getElementById(
-      "favCount"
-    );
-
-  if(cartCount){
-
-    cartCount.textContent =
-      cart.reduce(
-        (a,b)=>
-          a +
-          Number(b.qty || 0),
-        0
-      );
-
-  }
-
-  if(favCount){
-
-    favCount.textContent =
-      wishlist.length;
-
-  }
-
-}
-
 
 function openCart(){
 
-  renderCart();
+renderCart();
 
-  const modal =
-    document.getElementById(
-      "cartModal"
-    );
+const modal =
+document.getElementById(
+"cartModal"
+);
 
-  if(modal)
-    modal.classList.add(
-      "show"
-    );
+if(modal)
+modal.classList.add("show");
 
 }
-
 
 function renderCart(){
 
-  const box =
-    document.getElementById(
-      "cartItems"
-    );
+const box =
+document.getElementById(
+"cartItems"
+);
 
-  const totals =
-    document.getElementById(
-      "cartTotals"
-    );
+const totals =
+document.getElementById(
+"cartTotals"
+);
 
-  if(!box || !totals)return;
+if(!box || !totals)return;
 
-  if(!cart.length){
+if(!cart.length){
 
-    box.innerHTML =
-      '<div class="empty">السلة فاضية 🛒</div>';
+box.innerHTML =    
+  '<div class="empty">السلة فاضية 🛒</div>';    
 
-    totals.innerHTML =
-      "";
+totals.innerHTML = "";    
 
-    return;
-
-  }
-
-  let subtotal = 0;
-
-  box.innerHTML =
-    cart.map(
-      item=>{
-
-        const p =
-          products.find(
-            x=>
-              String(x.id) ===
-              String(item.id)
-          );
-
-        if(!p)return "";
-
-        const total =
-          p.price *
-          Number(item.qty);
-
-        subtotal += total;
-
-        return `
-
-          <div class="cartItem">
-
-            <div style="font-size:35px">
-
-              ${
-                p.image_url
-                ?
-                `
-                  <img
-                    src="${escapeHtml(p.image_url)}"
-                    style="
-                      width:55px;
-                      height:55px;
-                      object-fit:contain;
-                    "
-                    alt="${escapeHtml(p.name)}"
-                  >
-                `
-                :
-                p.emoji
-              }
-
-            </div>
-
-            <div class="grow">
-
-              <b>
-                ${escapeHtml(p.name)}
-              </b>
-
-              <div>
-                ${money(p.price)}
-              </div>
-
-            </div>
-
-            <div class="qty">
-
-              <button
-                type="button"
-                onclick="changeQty('${idParam(p.id)}',-1)">
-                −
-              </button>
-
-              <span>
-                ${Number(item.qty)}
-              </span>
-
-              <button
-                type="button"
-                onclick="changeQty('${idParam(p.id)}',1)">
-                +
-              </button>
-
-            </div>
-
-            <button
-              type="button"
-              onclick="removeCart('${idParam(p.id)}')">
-              🗑️
-            </button>
-
-          </div>
-
-        `;
-
-      }
-    ).join("");
-
-  const shipping =
-    subtotal > 0
-    ?
-    35
-    :
-    0;
-
-  const final =
-    Math.max(
-      0,
-      subtotal +
-      shipping -
-      discount
-    );
-
-  totals.innerHTML = `
-
-    <p>
-      الإجمالي الفرعي:
-      ${money(subtotal)}
-    </p>
-
-    <p>
-      التوصيل:
-      ${money(shipping)}
-    </p>
-
-    <p>
-      الخصم:
-      ${money(discount)}
-    </p>
-
-    <div class="total">
-      الإجمالي:
-      ${money(final)}
-    </div>
-
-  `;
+return;
 
 }
 
+let subtotal = 0;
+
+box.innerHTML =
+cart.map(
+item=>{
+
+const p =    
+      products.find(    
+        x=>    
+          String(x.id) ===    
+          String(item.id)    
+      );    
+
+    if(!p)return "";    
+
+    const total =    
+      p.price *    
+      Number(item.qty);    
+
+    subtotal += total;    
+
+    return `    
+
+      <div class="cartItem">    
+
+        <div style="font-size:35px">    
+
+          ${    
+            p.image_url    
+            ?    
+            `    
+              <img    
+                src="${escapeHtml(p.image_url)}"    
+                style="    
+                  width:55px;    
+                  height:55px;    
+                  object-fit:contain;    
+                "    
+              >    
+            `    
+            :    
+            p.emoji    
+          }    
+
+        </div>    
+
+        <div class="grow">    
+
+          <b>    
+            ${escapeHtml(p.name)}    
+          </b>    
+
+          <div>    
+            ${money(p.price)}    
+          </div>    
+
+        </div>    
+
+        <div class="qty">    
+
+          <button    
+            type="button"    
+            onclick="changeQty(${Number(p.id)},-1)">    
+            −    
+          </button>    
+
+          <span>    
+            ${Number(item.qty)}    
+          </span>    
+
+          <button    
+            type="button"    
+            onclick="changeQty(${Number(p.id)},1)">    
+            +    
+          </button>    
+
+        </div>    
+
+        <button    
+          type="button"    
+          onclick="removeCart(${Number(p.id)})">    
+          🗑️    
+        </button>    
+
+      </div>    
+
+    `;    
+
+  }    
+).join("");
+
+const shipping =
+subtotal > 0
+?
+35
+:
+0;
+
+const final =
+Math.max(
+0,
+subtotal +
+shipping -
+discount
+);
+
+totals.innerHTML = `
+
+<p>    
+  الإجمالي الفرعي:    
+  ${money(subtotal)}    
+</p>    
+
+<p>    
+  التوصيل:    
+  ${money(shipping)}    
+</p>    
+
+<p>    
+  الخصم:    
+  ${money(discount)}    
+</p>    
+
+<div class="total">    
+  الإجمالي:    
+  ${money(final)}    
+</div>
+
+`;
+
+}
 
 function applyCoupon(){
 
-  const input =
-    document.getElementById(
-      "coupon"
-    );
+const input =
+document.getElementById(
+"coupon"
+);
 
-  if(!input)return;
+if(!input)return;
 
-  const code =
-    input.value
-      .trim()
-      .toUpperCase();
+const code =
+input.value
+.trim()
+.toUpperCase();
 
-  if(code === "MAMA10"){
+if(code === "MAMA10"){
 
-    discount = 10;
+discount = 10;    
 
-    showToast(
-      "تم تطبيق الخصم 🎁"
-    );
+showToast(    
+  "تم تطبيق الخصم 🎁"    
+);
 
-  }else{
+}else{
 
-    discount = 0;
+discount = 0;    
 
-    showToast(
-      "الكود غير صحيح"
-    );
-
-  }
-
-  renderCart();
+showToast(    
+  "الكود غير صحيح"    
+);
 
 }
 
+renderCart();
+
+}
 
 /* =====================================================
-   المفضلة
+المفضلة
 ===================================================== */
 
 function toggleFav(id){
 
-  id =
-    decodeId(id);
+const exists =
+wishlist.some(
+x=>
+String(x) ===
+String(id)
+);
 
-  const exists =
-    wishlist.some(
-      x=>
-        String(x) ===
-        String(id)
-    );
+if(exists){
 
-  if(exists){
+wishlist =    
+  wishlist.filter(    
+    x=>    
+      String(x) !==    
+      String(id)    
+  );    
 
-    wishlist =
-      wishlist.filter(
-        x=>
-          String(x) !==
-          String(id)
-      );
+showToast(    
+  "تمت الإزالة من المفضلة"    
+);
 
-    showToast(
-      "تمت الإزالة من المفضلة"
-    );
+}else{
 
-  }else{
+wishlist.push(id);    
 
-    const product =
-      products.find(
-        p=>
-          String(p.id) ===
-          String(id)
-      );
-
-    wishlist.push(
-      product
-      ?
-      product.id
-      :
-      id
-    );
-
-    showToast(
-      "تمت الإضافة للمفضلة ❤️"
-    );
-
-  }
-
-  save();
-
-  updateCounts();
+showToast(    
+  "تمت الإضافة للمفضلة ❤️"    
+);
 
 }
 
+save();
+
+updateCounts();
+
+}
 
 function openWishlist(){
 
-  const box =
-    document.getElementById(
-      "wishlistItems"
-    );
+const box =
+document.getElementById(
+"wishlistItems"
+);
 
-  const modal =
-    document.getElementById(
-      "wishlistModal"
-    );
+const modal =
+document.getElementById(
+"wishlistModal"
+);
 
-  if(!box || !modal)return;
+if(!box || !modal)return;
 
-  const list =
-    products.filter(
-      p=>
-        wishlist.some(
-          id=>
-            String(id) ===
-            String(p.id)
-        )
-    );
+const list =
+products.filter(
+p=>
+wishlist.some(
+id=>
+String(id) ===
+String(p.id)
+)
+);
 
-  box.innerHTML =
-    list.length
-    ?
-    list.map(
-      p=>`
+box.innerHTML =
+list.length
+?
+list.map(
+p=>`
 
-        <div class="cartItem">
+<div class="cartItem">    
 
-          <div style="font-size:35px">
+      <div style="font-size:35px">    
 
-            ${
-              p.image_url
-              ?
-              `
-                <img
-                  src="${escapeHtml(p.image_url)}"
-                  style="
-                    width:55px;
-                    height:55px;
-                    object-fit:contain;
-                  "
-                  alt="${escapeHtml(p.name)}"
-                >
-              `
-              :
-              p.emoji
-            }
+        ${    
+          p.image_url    
+          ?    
+          `    
+            <img    
+              src="${escapeHtml(p.image_url)}"    
+              style="    
+                width:55px;    
+                height:55px;    
+                object-fit:contain;    
+              "    
+            >    
+          `    
+          :    
+          p.emoji    
+        }    
 
-          </div>
+      </div>    
 
-          <div class="grow">
+      <div class="grow">    
 
-            <b>
-              ${escapeHtml(p.name)}
-            </b>
+        <b>    
+          ${escapeHtml(p.name)}    
+        </b>    
 
-            <br>
+        <br>    
 
-            ${money(p.price)}
+        ${money(p.price)}    
 
-          </div>
+      </div>    
 
-          <button
-            type="button"
-            onclick="addToCart('${idParam(p.id)}')">
-            🛒
-          </button>
+      <button    
+        type="button"    
+        onclick="addToCart(${Number(p.id)})">    
+        🛒    
+      </button>    
 
-          <button
-            type="button"
-            onclick="
-              toggleFav('${idParam(p.id)}');
-              openWishlist();
-            ">
-            ❌
-          </button>
+      <button    
+        type="button"    
+        onclick="toggleFav(${Number(p.id)});openWishlist()">    
+        ❌    
+      </button>    
 
-        </div>
+    </div>    
 
-      `
-    ).join("")
-    :
-    '<div class="empty">المفضلة فاضية ❤️</div>';
+  `    
+).join("")    
+:    
+'<div class="empty">المفضلة فاضية ❤️</div>';
 
-  modal.classList.add(
-    "show"
-  );
+modal.classList.add("show");
 
 }
 
-
 /* =====================================================
-   تفاصيل المنتج
+تفاصيل المنتج
 ===================================================== */
 
 function openProduct(id){
 
-  id =
-    decodeId(id);
-
-  const p =
-    products.find(
-      x=>
-        String(x.id) ===
-        String(id)
-    );
-
-  if(!p){
-
-    showToast(
-      "المنتج غير موجود"
-    );
-
-    return;
-
-  }
-
-  const details =
-    document.getElementById(
-      "productDetails"
-    );
-
-  const modal =
-    document.getElementById(
-      "productModal"
-    );
-
-  if(!details || !modal)
-    return;
-
-  const productReviews =
-    reviewsData.filter(
-      review=>
-        String(review.product_id) ===
-        String(p.id)
-    );
-
-  details.innerHTML = `
-
-    <div style="text-align:center">
-
-      ${
-        p.image_url
-        ?
-        `
-          <img
-            src="${escapeHtml(p.image_url)}"
-            alt="${escapeHtml(p.name)}"
-            style="
-              width:100%;
-              max-height:300px;
-              object-fit:contain;
-              border-radius:15px;
-            "
-          >
-        `
-        :
-        `
-          <div style="font-size:100px">
-            ${p.emoji}
-          </div>
-        `
-      }
-
-    </div>
-
-    <h2>
-      ${escapeHtml(p.name)}
-    </h2>
-
-    <div class="rating">
-
-      ${starsHTML(p.rating)}
-
-      ${
-        p.reviewCount
-        ?
-        `
-          <span class="ratingNumber">
-            ${Number(p.rating).toFixed(1)}
-            من 5
-            (${p.reviewCount} تقييم)
-          </span>
-        `
-        :
-        `
-          <span class="ratingNumber">
-            لسه مفيش تقييمات
-          </span>
-        `
-      }
-
-    </div>
-
-    <h2 class="price">
-      ${money(p.price)}
-    </h2>
-
-    ${
-      p.old > p.price
-      ?
-      `
-        <p class="old">
-          ${money(p.old)}
-        </p>
-      `
-      :
-      ""
-    }
-
-    <p>
-      ${escapeHtml(p.desc)}
-    </p>
-
-    <p>
-      المتاح:
-      ${Number(p.stock)}
-    </p>
-
-    ${
-      p.video_url
-      ?
-      `
-        <video
-          controls
-          style="
-            width:100%;
-            max-height:300px;
-            margin-top:15px;
-            border-radius:15px;
-          ">
-
-          <source
-            src="${escapeHtml(p.video_url)}">
-
-        </video>
-      `
-      :
-      ""
-    }
-
-    <div class="productRatingSummary">
-
-      <div class="productRatingBig">
-
-        ${
-          p.reviewCount
-          ?
-          Number(p.rating).toFixed(1)
-          :
-          "—"
-        }
-
-        <span style="font-size:16px">
-          / 5
-        </span>
-
-      </div>
-
-      <div class="productRatingStars">
-        ${starsHTML(p.rating)}
-      </div>
-
-      <div>
-
-        ${
-          p.reviewCount
-          ?
-          `بناءً على ${p.reviewCount} تقييم`
-          :
-          "مفيش تقييمات للمنتج لسه"
-        }
-
-      </div>
-
-    </div>
-
-    <h3>
-      ⭐ تقييمات العملاء
-    </h3>
-
-    <div class="productReviewsList">
-
-      ${
-        productReviews.length
-        ?
-        productReviews.map(
-          review=>`
-
-            <div class="productReview">
-
-              <div class="reviewName">
-
-                ${escapeHtml(
-                  review.customer_name ||
-                  "عميل"
-                )}
-
-              </div>
-
-              <div class="reviewStars">
-
-                ${starsHTML(
-                  review.rating
-                )}
-
-              </div>
-
-              ${
-                review.comment
-                ?
-                `
-                  <div class="reviewComment">
-                    ${escapeHtml(
-                      review.comment
-                    )}
-                  </div>
-                `
-                :
-                ""
-              }
-
-              <div class="reviewDate">
-
-                ${formatReviewDate(
-                  review.created_at
-                )}
-
-              </div>
-
-            </div>
-
-          `
-        ).join("")
-        :
-        `
-          <div class="empty">
-            مفيش تقييمات للمنتج لسه ⭐
-          </div>
-        `
-      }
-
-    </div>
-
-    <div class="reviewForm">
-
-      <h3>
-        ✍️ قيّم المنتج
-      </h3>
-
-      <div class="field">
-
-        <label>
-          الاسم
-        </label>
-
-        <input
-          id="reviewName"
-          value="${escapeHtml(
-            currentUser
-            ?
-            currentUser.name || ""
-            :
-            ""
-          )}"
-          placeholder="اكتب اسمك">
-
-      </div>
-
-      <div class="field">
-
-        <label>
-          التقييم
-        </label>
-
-        <div
-          class="starPicker"
-          id="starPicker">
-
-          <button
-            type="button"
-            data-rating="5"
-            onclick="selectReviewRating(5)">
-            ★
-          </button>
-
-          <button
-            type="button"
-            data-rating="4"
-            onclick="selectReviewRating(4)">
-            ★
-          </button>
-
-          <button
-            type="button"
-            data-rating="3"
-            onclick="selectReviewRating(3)">
-            ★
-          </button>
-
-          <button
-            type="button"
-            data-rating="2"
-            onclick="selectReviewRating(2)">
-            ★
-          </button>
-
-          <button
-            type="button"
-            data-rating="1"
-            onclick="selectReviewRating(1)">
-            ★
-          </button>
-
-        </div>
-
-        <div
-          id="selectedRatingText"
-          style="
-            color:#777;
-            font-size:13px;
-          ">
-          اختار عدد النجوم
-        </div>
-
-      </div>
-
-      <div class="field">
-
-        <label>
-          تعليقك
-        </label>
-
-        <textarea
-          id="reviewComment"
-          placeholder="اكتب رأيك في المنتج..."></textarea>
-
-      </div>
-
-      <button
-        type="button"
-        id="submitReviewBtn"
-        class="primary"
-        onclick="submitReview('${idParam(p.id)}')">
-        إرسال التقييم ⭐
-      </button>
-
-    </div>
-
-    <br>
-
-    <button
-      type="button"
-      class="primary"
-      onclick="
-        addToCart('${idParam(p.id)}');
-        closeModal('productModal');
-      ">
-      أضف للسلة 🛒
-    </button>
-
-  `;
-
-  window.currentReviewRating =
-    0;
-
-  modal.classList.add(
-    "show"
-  );
+const p =
+products.find(
+x=>
+String(x.id) ===
+String(id)
+);
+
+if(!p){
+
+showToast(    
+  "المنتج غير موجود"    
+);    
+
+return;
 
 }
 
+const details =
+document.getElementById(
+"productDetails"
+);
+
+const modal =
+document.getElementById(
+"productModal"
+);
+
+if(!details || !modal)return;
+
+const productReviews =
+reviewsData.filter(
+review=>
+String(review.product_id) ===
+String(p.id)
+);
+
+details.innerHTML = `
+
+<div style="text-align:center">    
+
+  ${    
+    p.image_url    
+    ?    
+    `    
+      <img    
+        src="${escapeHtml(p.image_url)}"    
+        alt="${escapeHtml(p.name)}"    
+        style="    
+          width:100%;    
+          max-height:300px;    
+          object-fit:contain;    
+          border-radius:15px;    
+        "    
+      >    
+    `    
+    :    
+    `    
+      <div    
+        style="font-size:100px">    
+        ${p.emoji}    
+      </div>    
+    `    
+  }    
+
+</div>    
+
+<h2>    
+  ${escapeHtml(p.name)}    
+</h2>    
+
+<div class="rating">    
+
+  ${starsHTML(p.rating)}    
+
+  ${    
+    p.reviewCount    
+    ?    
+    `    
+      <span class="ratingNumber">    
+        ${Number(p.rating).toFixed(1)}    
+        من 5    
+        (${p.reviewCount} تقييم)    
+      </span>    
+    `    
+    :    
+    `    
+      <span class="ratingNumber">    
+        لسه مفيش تقييمات    
+      </span>    
+    `    
+  }    
+
+</div>    
+
+<h2 class="price">    
+  ${money(p.price)}    
+</h2>    
+
+${    
+  p.old > p.price    
+  ?    
+  `    
+    <p class="old">    
+      ${money(p.old)}    
+    </p>    
+  `    
+  :    
+  ""    
+}    
+
+<p>    
+  ${escapeHtml(p.desc)}    
+</p>    
+
+<p>    
+  المتاح:    
+  ${Number(p.stock)}    
+</p>    
+
+${    
+  p.video_url    
+  ?    
+  `    
+    <video    
+      controls    
+      style="    
+        width:100%;    
+        max-height:300px;    
+        margin-top:15px;    
+        border-radius:15px;    
+      ">    
+
+      <source    
+        src="${escapeHtml(p.video_url)}">    
+
+    </video>    
+  `    
+  :    
+  ""    
+}    
+
+<div class="productRatingSummary">    
+
+  <div class="productRatingBig">    
+    ${    
+      p.reviewCount    
+      ?    
+      Number(p.rating).toFixed(1)    
+      :    
+      "—"    
+    }    
+    <span style="font-size:16px">    
+      / 5    
+    </span>    
+  </div>    
+
+  <div class="productRatingStars">    
+    ${starsHTML(p.rating)}    
+  </div>    
+
+  <div>    
+    ${    
+      p.reviewCount    
+      ?    
+      `بناءً على ${p.reviewCount} تقييم`    
+      :    
+      "مفيش تقييمات للمنتج لسه"    
+    }    
+  </div>    
+
+</div>    
+
+<h3>    
+  ⭐ تقييمات العملاء    
+</h3>    
+
+<div class="productReviewsList">    
+
+  ${    
+    productReviews.length    
+    ?    
+    productReviews.map(    
+      review=>`    
+
+        <div class="productReview">    
+
+          <div class="reviewName">    
+            ${escapeHtml(    
+              review.customer_name ||    
+              "عميل"    
+            )}    
+          </div>    
+
+          <div class="reviewStars">    
+            ${starsHTML(    
+              review.rating    
+            )}    
+          </div>    
+
+          ${    
+            review.comment    
+            ?    
+            `    
+              <div class="reviewComment">    
+                ${escapeHtml(    
+                  review.comment    
+                )}    
+              </div>    
+            `    
+            :    
+            ""    
+          }    
+
+          <div class="reviewDate">    
+            ${formatReviewDate(    
+              review.created_at    
+            )}    
+          </div>    
+
+        </div>    
+
+      `    
+    ).join("")    
+    :    
+    `    
+      <div class="empty">    
+        مفيش تقييمات للمنتج لسه ⭐    
+      </div>    
+    `    
+  }    
+
+</div>    
+
+<div class="reviewForm">    
+
+  <h3>    
+    ✍️ قيّم المنتج    
+  </h3>    
+
+  <div class="field">    
+
+    <label>    
+      الاسم    
+    </label>    
+
+    <input    
+      id="reviewName"    
+      value="${escapeHtml(    
+        currentUser    
+        ?    
+        currentUser.name || ""    
+        :    
+        ""    
+      )}"    
+      placeholder="اكتب اسمك">    
+
+  </div>    
+
+  <div class="field">    
+
+    <label>    
+      التقييم    
+    </label>    
+
+    <div    
+      class="starPicker"    
+      id="starPicker">    
+
+      <button    
+        type="button"    
+        data-rating="5"    
+        onclick="selectReviewRating(5)">    
+        ★    
+      </button>    
+
+      <button    
+        type="button"    
+        data-rating="4"    
+        onclick="selectReviewRating(4)">    
+        ★    
+      </button>    
+
+      <button    
+        type="button"    
+        data-rating="3"    
+        onclick="selectReviewRating(3)">    
+        ★    
+      </button>    
+
+      <button    
+        type="button"    
+        data-rating="2"    
+        onclick="selectReviewRating(2)">    
+        ★    
+      </button>    
+
+      <button    
+        type="button"    
+        data-rating="1"    
+        onclick="selectReviewRating(1)">    
+        ★    
+      </button>    
+
+    </div>    
+
+    <div    
+      id="selectedRatingText"    
+      style="    
+        color:#777;    
+        font-size:13px;    
+      ">    
+      اختار عدد النجوم    
+    </div>    
+
+  </div>    
+
+  <div class="field">    
+
+    <label>    
+      تعليقك    
+    </label>    
+
+    <textarea    
+      id="reviewComment"    
+      placeholder="اكتب رأيك في المنتج..."></textarea>  </div>
+
+<button    
+type="button"    
+id="submitReviewBtn"    
+class="primary"    
+onclick="submitReview(${Number(p.id)})">
+إرسال التقييم ⭐
+</button>
+
+</div>    <br>    <button    
+type="button"    
+class="primary"    
+onclick="    
+addToCart(${Number(p.id)});    
+closeModal('productModal');    
+">
+أضف للسلة 🛒
+</button>
+
+`;
+
+window.currentReviewRating = 0;
+
+modal.classList.add("show");
+
+}
 
 /* =====================================================
-   اختيار التقييم
+اختيار التقييم
 ===================================================== */
 
 function selectReviewRating(rating){
 
-  window.currentReviewRating =
-    Number(rating);
+window.currentReviewRating =
+Number(rating);
 
-  const buttons =
-    document.querySelectorAll(
-      "#starPicker button"
-    );
+const buttons =
+document.querySelectorAll(
+"#starPicker button"
+);
 
-  buttons.forEach(
-    button=>{
+buttons.forEach(
+button=>{
 
-      const value =
-        Number(
-          button.dataset.rating
-        );
+const value =
+Number(
+button.dataset.rating
+);
 
-      button.classList.toggle(
-        "active",
-        value <= rating
-      );
-
-    }
-  );
-
-  const text =
-    document.getElementById(
-      "selectedRatingText"
-    );
-
-  if(text){
-
-    text.textContent =
-      rating +
-      " من 5 نجوم ⭐";
-
-  }
+button.classList.toggle(
+"active",
+value <= rating
+);
 
 }
 
+);
+
+const text =
+document.getElementById(
+"selectedRatingText"
+);
+
+if(text){
+
+text.textContent =
+rating +
+" من 5 نجوم ⭐";
+
+}
+
+}
 
 /* =====================================================
-   إرسال التقييم
+إرسال التقييم
 ===================================================== */
 
 async function submitReview(productId){
 
-  productId =
-    decodeId(productId);
+if(!supabaseClient){
 
-  if(!supabaseClient){
+showToast(
+"قاعدة البيانات غير متاحة حاليًا"
+);
 
-    showToast(
-      "قاعدة البيانات غير متاحة حاليًا"
-    );
-
-    return;
-
-  }
-
-  const nameInput =
-    document.getElementById(
-      "reviewName"
-    );
-
-  const commentInput =
-    document.getElementById(
-      "reviewComment"
-    );
-
-  const btn =
-    document.getElementById(
-      "submitReviewBtn"
-    );
-
-  const name =
-    nameInput
-    ?
-    nameInput.value.trim()
-    :
-    "";
-
-  const comment =
-    commentInput
-    ?
-    commentInput.value.trim()
-    :
-    "";
-
-  const rating =
-    Number(
-      window.currentReviewRating || 0
-    );
-
-  if(!name){
-
-    showToast(
-      "اكتب اسمك الأول"
-    );
-
-    return;
-
-  }
-
-  if(
-    rating < 1 ||
-    rating > 5
-  ){
-
-    showToast(
-      "اختار عدد النجوم الأول ⭐"
-    );
-
-    return;
-
-  }
-
-  if(!comment){
-
-    showToast(
-      "اكتب تعليقك الأول"
-    );
-
-    return;
-
-  }
-
-  if(btn){
-
-    btn.disabled = true;
-
-    btn.textContent =
-      "جاري إرسال التقييم...";
-
-  }
-
-  try{
-
-    /*
-      لا نضع user_id يدويًا من المتصفح.
-      ولو كان المستخدم مسجلًا، يمكن ربطه
-      بالـ Auth داخل قاعدة البيانات إذا كان
-      العمود موجودًا وRLS يسمح بذلك.
-
-      is_approved = false
-      حتى لا يظهر التقييم قبل المراجعة.
-    */
-
-    const reviewData = {
-
-      product_id:
-        productId,
-
-      customer_name:
-        name,
-
-      rating:
-        rating,
-
-      comment:
-        comment,
-
-      is_approved:
-        false
-
-    };
-
-    /*
-      لو جدول reviews عندك يحتوي user_id
-      ويمكنه قبول UUID من auth.users،
-      نرسل ID المستخدم الحقيقي.
-    */
-
-    if(
-      currentAuthUser &&
-      currentAuthUser.id
-    ){
-
-      reviewData.user_id =
-        currentAuthUser.id;
-
-    }
-
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("reviews")
-        .insert(
-          reviewData
-        );
-
-    if(error)
-      throw error;
-
-    showToast(
-      "تم إرسال تقييمك للمراجعة ⭐❤️"
-    );
-
-    window.currentReviewRating =
-      0;
-
-    await loadReviews();
-
-    openProduct(
-      productId
-    );
-
-  }catch(error){
-
-    console.error(
-      "submitReview error:",
-      error
-    );
-
-    showToast(
-      "حصل خطأ أثناء إرسال التقييم ❌"
-    );
-
-  }finally{
-
-    if(btn){
-
-      btn.disabled = false;
-
-      btn.textContent =
-        "إرسال التقييم ⭐";
-
-    }
-
-  }
+return;
 
 }
 
+const nameInput =
+document.getElementById(
+"reviewName"
+);
+
+const commentInput =
+document.getElementById(
+"reviewComment"
+);
+
+const btn =
+document.getElementById(
+"submitReviewBtn"
+);
+
+const name =
+nameInput
+?
+nameInput.value.trim()
+:
+"";
+
+const comment =
+commentInput
+?
+commentInput.value.trim()
+:
+"";
+
+const rating =
+Number(
+window.currentReviewRating || 0
+);
+
+if(!name){
+
+showToast(
+"اكتب اسمك الأول"
+);
+
+return;
+
+}
+
+if(
+rating < 1 ||
+rating > 5
+){
+
+showToast(
+"اختار عدد النجوم الأول ⭐"
+);
+
+return;
+
+}
+
+if(!comment){
+
+showToast(
+"اكتب تعليقك الأول"
+);
+
+return;
+
+}
+
+if(btn){
+
+btn.disabled = true;
+
+btn.textContent =
+"جاري إرسال التقييم...";
+
+}
+
+try{
+
+const reviewData = {
+
+product_id:
+Number(productId),
+
+customer_name:
+name,
+
+rating:
+rating,
+
+comment:
+comment,
+
+is_approved:
+true
+
+};
+
+if(
+currentUser &&
+currentUser.email
+){
+
+reviewData.user_id = null;
+
+}
+
+const {
+error
+} =
+await supabaseClient
+.from("reviews")
+.insert(
+reviewData
+);
+
+if(error)
+throw error;
+
+showToast(
+"تم إرسال تقييمك بنجاح ⭐❤️"
+);
+
+await loadReviews();
+
+openProduct(
+productId
+);
+
+}catch(error){
+
+console.error(
+"submitReview error:",
+error
+);
+
+showToast(
+"حصل خطأ أثناء إرسال التقييم ❌"
+);
+
+}finally{
+
+if(btn){
+
+btn.disabled = false;
+
+btn.textContent =
+"إرسال التقييم ⭐";
+
+}
+
+}
+
+}
 
 /* =====================================================
-   عرض آراء العملاء
+عرض آراء العملاء
 ===================================================== */
 
 function renderCustomerReviews(){
 
-  const box =
-    document.getElementById(
-      "reviewsSection"
-    );
+const box =
+document.getElementById(
+"reviewsSection"
+);
 
-  if(!box)return;
+if(!box)return;
 
-  if(!reviewsData.length){
+if(!reviewsData.length){
 
-    box.innerHTML = `
+box.innerHTML = `
 
-      <div class="empty">
+  <div class="empty">    لسه مفيش تقييمات من العملاء ⭐    
 
-        لسه مفيش تقييمات من العملاء ⭐
+<br>    
 
-        <br>
+كن أول واحد يقيّم منتجاتنا ❤️
 
-        كن أول واحد يقيّم منتجاتنا ❤️
+  </div>    `;
 
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-  const list =
-    reviewsData.slice(
-      0,
-      6
-    );
-
-  box.innerHTML =
-    list.map(
-      review=>`
-
-        <div class="review">
-
-          <div class="reviewName">
-
-            👤
-            ${escapeHtml(
-              review.customer_name ||
-              "عميل"
-            )}
-
-          </div>
-
-          <div class="reviewStars">
-
-            ${starsHTML(
-              review.rating
-            )}
-
-          </div>
-
-          ${
-            review.comment
-            ?
-            `
-              <div class="reviewComment">
-
-                ${escapeHtml(
-                  review.comment
-                )}
-
-              </div>
-            `
-            :
-            ""
-          }
-
-          <div class="reviewDate">
-
-            ${formatReviewDate(
-              review.created_at
-            )}
-
-          </div>
-
-        </div>
-
-      `
-    ).join("");
+return;
 
 }
 
+const list =
+reviewsData.slice(
+0,
+6
+);
+
+box.innerHTML =
+list.map(
+review=>`
+
+<div class="review">    <div class="reviewName">    
+
+    👤    
+    ${escapeHtml(    
+      review.customer_name ||    
+      "عميل"    
+    )}    
+
+  </div>    
+
+  <div class="reviewStars">    
+
+    ${starsHTML(    
+      review.rating    
+    )}    
+
+  </div>    
+
+  ${    
+    review.comment    
+    ?    
+    `    
+      <div class="reviewComment">    
+
+        ${escapeHtml(    
+          review.comment    
+        )}    
+
+      </div>    
+    `    
+    :    
+    ""    
+  }    
+
+  <div class="reviewDate">    
+
+    ${formatReviewDate(    
+      review.created_at    
+    )}    
+
+  </div>    
+
+</div>
+
+`
+).join("");
+
+}
 
 function formatReviewDate(date){
 
-  if(!date)
-    return "";
+if(!date)
+return "";
 
-  try{
+try{
 
-    return new Date(
-      date
-    ).toLocaleDateString(
-      "ar-EG"
-    );
+return new Date(
+date
+).toLocaleDateString(
+"ar-EG"
+);
 
-  }catch(error){
+}catch(error){
 
-    return "";
-
-  }
+return "";
 
 }
 
+}
 
 /* =====================================================
-   Supabase Auth
-===================================================== */
-
-async function initAuth(){
-
-  if(!supabaseClient)
-    return;
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth.getUser();
-
-    if(
-      error &&
-      error.message
-    ){
-
-      console.warn(
-        "Auth:",
-        error.message
-      );
-
-    }
-
-    await setCurrentUser(
-      data?.user || null
-    );
-
-  }catch(error){
-
-    console.error(
-      "Auth initialization error:",
-      error
-    );
-
-    currentUser = null;
-
-    currentAuthUser = null;
-
-    updateAccountUI();
-
-  }
-
-  /*
-    مراقبة تسجيل الدخول والخروج
-  */
-
-  supabaseClient.auth.onAuthStateChange(
-    async (
-      event,
-      session
-    )=>{
-
-      const user =
-        session?.user || null;
-
-      await setCurrentUser(
-        user
-      );
-
-      if(
-        event === "SIGNED_OUT"
-      ){
-
-        currentUser = null;
-
-        currentAuthUser = null;
-
-      }
-
-      updateAccountUI();
-
-    }
-  );
-
-}
-
-
-async function setCurrentUser(user){
-
-  currentAuthUser =
-    user || null;
-
-  if(!user){
-
-    currentUser =
-      null;
-
-    updateAccountUI();
-
-    return;
-
-  }
-
-  const metadata =
-    user.user_metadata || {};
-
-  currentUser = {
-
-    id:
-      user.id,
-
-    email:
-      user.email || "",
-
-    name:
-      metadata.name ||
-      metadata.full_name ||
-      "",
-
-    phone:
-      metadata.phone ||
-      ""
-
-  };
-
-  updateAccountUI();
-
-}
-
-
-/* =====================================================
-   الحساب
+الحساب
 ===================================================== */
 
 function openAccount(){
 
-  updateAccountUI();
+updateAccountUI();
 
-  const modal =
-    document.getElementById(
-      "accountModal"
-    );
+const modal =
+document.getElementById(
+"accountModal"
+);
 
-  if(modal)
-    modal.classList.add(
-      "show"
-    );
+if(modal)
+modal.classList.add("show");
 
 }
-
 
 function updateAccountUI(){
 
-  const loggedOut =
-    document.getElementById(
-      "loggedOut"
-    );
+const loggedOut =
+document.getElementById(
+"loggedOut"
+);
 
-  const loggedIn =
-    document.getElementById(
-      "loggedIn"
-    );
+const loggedIn =
+document.getElementById(
+"loggedIn"
+);
 
-  if(!loggedOut || !loggedIn)
-    return;
+if(!loggedOut || !loggedIn)
+return;
 
-  loggedOut.classList.toggle(
-    "hidden",
-    !!currentUser
-  );
+loggedOut.classList.toggle(
+"hidden",
+!!currentUser
+);
 
-  loggedIn.classList.toggle(
-    "hidden",
-    !currentUser
-  );
+loggedIn.classList.toggle(
+"hidden",
+!currentUser
+);
 
-  if(!currentUser)
-    return;
+if(!currentUser)
+return;
 
-  const userName =
-    document.getElementById(
-      "userName"
-    );
+const userName =
+document.getElementById(
+"userName"
+);
 
-  const userEmail =
-    document.getElementById(
-      "userEmail"
-    );
+const userEmail =
+document.getElementById(
+"userEmail"
+);
 
-  const userPhone =
-    document.getElementById(
-      "userPhone"
-    );
+const userPhone =
+document.getElementById(
+"userPhone"
+);
 
-  if(userName)
-    userName.textContent =
-      currentUser.name || "عميل";
+if(userName)
+userName.textContent =
+currentUser.name || "";
 
-  if(userEmail)
-    userEmail.textContent =
-      currentUser.email || "";
+if(userEmail)
+userEmail.textContent =
+currentUser.email || "";
 
-  if(userPhone)
-    userPhone.textContent =
-      currentUser.phone || "";
+if(userPhone)
+userPhone.textContent =
+currentUser.phone || "";
 
-  /*
-    الطلبات الموجودة محليًا
-    لهذا المستخدم فقط.
-  */
+const mine =
+orders.filter(
+o=>
+o.email ===
+currentUser.email
+);
 
-  const mine =
-    orders.filter(
-      o=>
-        o.email ===
-        currentUser.email
-    );
+const ordersBox =
+document.getElementById(
+"ordersBox"
+);
 
-  const ordersBox =
-    document.getElementById(
-      "ordersBox"
-    );
+if(!ordersBox)return;
 
-  if(!ordersBox)return;
+ordersBox.innerHTML =
+mine.length
+?
+mine.map(
+o=>`
 
-  ordersBox.innerHTML =
-    mine.length
-    ?
-    mine.map(
-      o=>`
+<div class="userBox">    <b>    
+    طلب #${escapeHtml(o.id)}    
+  </b>    
 
-        <div class="userBox">
+  <br>    
 
-          <b>
-            طلب #${escapeHtml(o.id)}
-          </b>
+  الإجمالي:    
+  ${money(o.total)}    
 
-          <br>
+  <br>    
 
-          الإجمالي:
-          ${money(o.total)}
+  الحالة:    
+  ${escapeHtml(o.status || "new")}    
 
-          <br>
+</div>
 
-          الحالة:
-          ${escapeHtml(
-            o.status || "new"
-          )}
-
-        </div>
-
-      `
-    ).join("")
-    :
-    "لا توجد طلبات حتى الآن.";
+`
+).join("")
+:
+"لا توجد طلبات حتى الآن.";
 
 }
 
+function register(e){
 
-/* =====================================================
-   إنشاء الحساب
-===================================================== */
+e.preventDefault();
 
-async function register(e){
+const name =
+document.getElementById(
+"registerName"
+).value.trim();
 
-  e.preventDefault();
+const phone =
+document.getElementById(
+"registerPhone"
+).value.trim();
 
-  if(!supabaseClient){
+const email =
+document.getElementById(
+"registerEmail"
+).value
+.trim()
+.toLowerCase();
 
-    showToast(
-      "قاعدة البيانات غير متاحة حاليًا"
-    );
+const password =
+document.getElementById(
+"registerPassword"
+).value;
 
-    return;
+if(
+password.length < 6
+){
 
-  }
+showToast(
+"كلمة المرور لازم تكون 6 أحرف على الأقل"
+);
 
-  const name =
-    document.getElementById(
-      "registerName"
-    ).value.trim();
-
-  const phone =
-    document.getElementById(
-      "registerPhone"
-    ).value.trim();
-
-  const email =
-    document.getElementById(
-      "registerEmail"
-    ).value
-      .trim()
-      .toLowerCase();
-
-  const password =
-    document.getElementById(
-      "registerPassword"
-    ).value;
-
-  const btn =
-    document.getElementById(
-      "registerBtn"
-    );
-
-  if(
-    password.length < 6
-  ){
-
-    showToast(
-      "كلمة المرور لازم تكون 6 أحرف على الأقل"
-    );
-
-    return;
-
-  }
-
-  if(
-    !name ||
-    !phone ||
-    !email
-  ){
-
-    showToast(
-      "كمّل بيانات الحساب الأول"
-    );
-
-    return;
-
-  }
-
-  if(btn){
-
-    btn.disabled = true;
-
-    btn.textContent =
-      "جاري إنشاء الحساب...";
-
-  }
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth.signUp({
-
-        email:
-          email,
-
-        password:
-          password,
-
-        options:{
-
-          data:{
-            name:name,
-            phone:phone
-          },
-
-          emailRedirectTo:
-            window.location.origin +
-            window.location.pathname
-
-        }
-
-      });
-
-    if(error)
-      throw error;
-
-    /*
-      لو Supabase رجع session،
-      يبقى الحساب دخل مباشرة.
-    */
-
-    if(
-      data &&
-      data.user
-    ){
-
-      await setCurrentUser(
-        data.user
-      );
-
-    }
-
-    if(
-      data &&
-      data.session
-    ){
-
-      showToast(
-        "تم إنشاء الحساب وتسجيل الدخول 🎉"
-      );
-
-      closeModal(
-        "accountModal"
-      );
-
-    }else{
-
-      showToast(
-        "تم إنشاء الحساب. راجع إيميلك لتأكيد الحساب 📧"
-      );
-
-    }
-
-    e.target.reset();
-
-  }catch(error){
-
-    console.error(
-      "register error:",
-      error
-    );
-
-    let message =
-      error?.message ||
-      "حصل خطأ أثناء إنشاء الحساب";
-
-    /*
-      رسائل أوضح للمستخدم.
-    */
-
-    if(
-      message.toLowerCase()
-        .includes("already registered")
-    ){
-
-      message =
-        "الإيميل مسجل بالفعل";
-
-    }
-
-    showToast(
-      message
-    );
-
-  }finally{
-
-    if(btn){
-
-      btn.disabled = false;
-
-      btn.textContent =
-        "إنشاء حساب";
-
-    }
-
-  }
+return;
 
 }
 
+if(
+users.some(
+u=>
+u.email === email
+)
+){
 
-/* =====================================================
-   تسجيل الدخول
-===================================================== */
+showToast(
+"الإيميل مسجل بالفعل"
+);
 
-async function login(e){
-
-  e.preventDefault();
-
-  if(!supabaseClient){
-
-    showToast(
-      "قاعدة البيانات غير متاحة حاليًا"
-    );
-
-    return;
-
-  }
-
-  const email =
-    document.getElementById(
-      "loginEmail"
-    ).value
-      .trim()
-      .toLowerCase();
-
-  const password =
-    document.getElementById(
-      "loginPassword"
-    ).value;
-
-  const btn =
-    document.getElementById(
-      "loginBtn"
-    );
-
-  if(
-    !email ||
-    !password
-  ){
-
-    showToast(
-      "اكتب الإيميل وكلمة المرور"
-    );
-
-    return;
-
-  }
-
-  if(btn){
-
-    btn.disabled = true;
-
-    btn.textContent =
-      "جاري تسجيل الدخول...";
-
-  }
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth
-        .signInWithPassword({
-
-          email:
-            email,
-
-          password:
-            password
-
-        });
-
-    if(error)
-      throw error;
-
-    await setCurrentUser(
-      data?.user || null
-    );
-
-    showToast(
-      "تم تسجيل الدخول 👋"
-    );
-
-    e.target.reset();
-
-  }catch(error){
-
-    console.error(
-      "login error:",
-      error
-    );
-
-    showToast(
-      error?.message ||
-      "بيانات الدخول غير صحيحة"
-    );
-
-  }finally{
-
-    if(btn){
-
-      btn.disabled = false;
-
-      btn.textContent =
-        "تسجيل الدخول";
-
-    }
-
-  }
+return;
 
 }
 
+const user = {
 
-/* =====================================================
-   تسجيل الخروج
-===================================================== */
+name:name,
 
-async function logout(){
+phone:phone,
 
-  if(!supabaseClient){
+email:email,
 
-    currentUser = null;
+password:password
 
-    currentAuthUser = null;
+};
 
-    updateAccountUI();
+users.push(user);
 
-    return;
+currentUser = user;
 
-  }
+save();
 
-  try{
+updateAccountUI();
 
-    const {
-      error
-    } =
-      await supabaseClient.auth
-        .signOut();
-
-    if(error)
-      throw error;
-
-    currentUser = null;
-
-    currentAuthUser = null;
-
-    updateAccountUI();
-
-    showToast(
-      "تم تسجيل الخروج 👋"
-    );
-
-  }catch(error){
-
-    console.error(
-      "logout error:",
-      error
-    );
-
-    showToast(
-      error?.message ||
-      "حصل خطأ أثناء تسجيل الخروج"
-    );
-
-  }
+showToast(
+"تم إنشاء الحساب 🎉"
+);
 
 }
 
+function login(e){
+
+e.preventDefault();
+
+const email =
+document.getElementById(
+"loginEmail"
+).value
+.trim()
+.toLowerCase();
+
+const password =
+document.getElementById(
+"loginPassword"
+).value;
+
+const user =
+users.find(
+u=>
+u.email === email &&
+u.password === password
+);
+
+if(!user){
+
+showToast(
+"بيانات الدخول غير صحيحة"
+);
+
+return;
+
+}
+
+currentUser = user;
+
+save();
+
+updateAccountUI();
+
+showToast(
+"تم تسجيل الدخول 👋"
+);
+
+}
+
+function logout(){
+
+currentUser = null;
+
+save();
+
+updateAccountUI();
+
+showToast(
+"تم تسجيل الخروج"
+);
+
+}
 
 /* =====================================================
-   الدفع
+الدفع
 ===================================================== */
 
 function openCheckout(){
 
-  if(!cart.length){
+if(!cart.length){
 
-    showToast(
-      "السلة فاضية"
-    );
+showToast(
+"السلة فاضية"
+);
 
-    return;
-
-  }
-
-  closeModal(
-    "cartModal"
-  );
-
-  const warning =
-    document.getElementById(
-      "checkoutLoginWarning"
-    );
-
-  if(!currentUser){
-
-    warning.classList.remove(
-      "hidden"
-    );
-
-  }else{
-
-    warning.classList.add(
-      "hidden"
-    );
-
-    document.getElementById(
-      "orderName"
-    ).value =
-      currentUser.name || "";
-
-    document.getElementById(
-      "orderPhone"
-    ).value =
-      currentUser.phone || "";
-
-  }
-
-  const subtotal =
-    cart.reduce(
-      (sum,item)=>{
-
-        const p =
-          products.find(
-            x=>
-              String(x.id) ===
-              String(item.id)
-          );
-
-        return sum +
-          (
-            p
-            ?
-            p.price *
-            Number(item.qty)
-            :
-            0
-          );
-
-      },
-      0
-    );
-
-  const shipping =
-    subtotal > 0
-    ?
-    35
-    :
-    0;
-
-  document.getElementById(
-    "checkoutTotal"
-  ).textContent =
-    "الإجمالي: " +
-    money(
-      Math.max(
-        0,
-        subtotal +
-        shipping -
-        discount
-      )
-    );
-
-  const modal =
-    document.getElementById(
-      "checkoutModal"
-    );
-
-  modal.classList.add(
-    "show"
-  );
-
-  setTimeout(
-    ()=>{
-
-      initMap();
-
-      if(map){
-
-        map.invalidateSize();
-
-      }
-
-    },
-    250
-  );
+return;
 
 }
 
+closeModal(
+"cartModal"
+);
+
+const warning =
+document.getElementById(
+"checkoutLoginWarning"
+);
+
+if(!currentUser){
+
+warning.classList.remove(
+"hidden"
+);
+
+}else{
+
+warning.classList.add(
+"hidden"
+);
+
+document.getElementById(
+"orderName"
+).value =
+currentUser.name || "";
+
+document.getElementById(
+"orderPhone"
+).value =
+currentUser.phone || "";
+
+}
+
+const subtotal =
+cart.reduce(
+(sum,item)=>{
+
+const p =
+products.find(
+x=>
+String(x.id) ===
+String(item.id)
+);
+
+return sum +    
+  (    
+    p    
+    ?    
+    p.price *    
+    Number(item.qty)    
+    :    
+    0    
+  );
+
+},
+0
+);
+
+document.getElementById(
+"checkoutTotal"
+).textContent =
+"الإجمالي: " +
+money(
+Math.max(
+0,
+subtotal +
+35 -
+discount
+)
+);
+
+const modal =
+document.getElementById(
+"checkoutModal"
+);
+
+modal.classList.add(
+"show"
+);
+
+setTimeout(
+()=>{
+initMap();
+
+if(map){
+
+map.invalidateSize();
+
+}
+
+},
+250
+
+);
+
+}
 
 /* =====================================================
-   الخريطة
+الخريطة
 ===================================================== */
 
 function initMap(){
 
-  if(map)
-    return;
+if(map)
+return;
 
-  if(
-    typeof L ===
-    "undefined"
-  ){
-
-    showToast(
-      "الخريطة لم يتم تحميلها"
-    );
-
-    return;
-
-  }
-
-  const mapElement =
-    document.getElementById(
-      "map"
-    );
-
-  if(!mapElement)
-    return;
-
-  map =
-    L.map(
-      "map"
-    ).setView(
-      [
-        30.1798,
-        31.2056
-      ],
-      12
-    );
-
-  L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-      attribution:
-        "© OpenStreetMap contributors"
-    }
-  ).addTo(map);
-
-  map.on(
-    "click",
-    function(e){
-
-      setLocation(
-        e.latlng.lat,
-        e.latlng.lng
-      );
-
-    }
-  );
-
-}
-
-
-function setLocation(
-  lat,
-  lng,
-  label = ""
+if(
+typeof L ===
+"undefined"
 ){
 
-  const latInput =
-    document.getElementById(
-      "latitude"
-    );
+showToast(
+"الخريطة لم يتم تحميلها"
+);
 
-  const lngInput =
-    document.getElementById(
-      "longitude"
-    );
-
-  const status =
-    document.getElementById(
-      "locationStatus"
-    );
-
-  if(latInput)
-    latInput.value =
-      lat;
-
-  if(lngInput)
-    lngInput.value =
-      lng;
-
-  if(
-    map &&
-    typeof L !==
-    "undefined"
-  ){
-
-    if(marker){
-
-      marker.setLatLng([
-        lat,
-        lng
-      ]);
-
-    }else{
-
-      marker =
-        L.marker([
-          lat,
-          lng
-        ]).addTo(map);
-
-    }
-
-    map.setView(
-      [
-        lat,
-        lng
-      ],
-      16
-    );
-
-  }
-
-  if(status){
-
-    status.innerHTML =
-      `
-        📍 تم تحديد مكان التوصيل
-
-        ${
-          label
-          ?
-          `<br>📌 ${escapeHtml(label)}`
-          :
-          ""
-        }
-
-        <br>
-
-        الإحداثيات:
-        ${Number(lat).toFixed(6)},
-        ${Number(lng).toFixed(6)}
-      `;
-
-  }
-
-  showToast(
-    "تم تحديد اللوكيشن 📍"
-  );
+return;
 
 }
 
+const mapElement =
+document.getElementById(
+"map"
+);
+
+if(!mapElement)
+return;
+
+map =
+L.map(
+"map"
+).setView(
+[
+30.1798,
+31.2056
+],
+12
+);
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+attribution:
+"© OpenStreetMap contributors"
+}
+).addTo(map);
+
+map.on(
+"click",
+function(e){
+
+setLocation(
+e.latlng.lat,
+e.latlng.lng
+);
+
+}
+
+);
+
+}
+
+function setLocation(
+lat,
+lng,
+label=""
+){
+
+const latInput =
+document.getElementById(
+"latitude"
+);
+
+const lngInput =
+document.getElementById(
+"longitude"
+);
+
+const status =
+document.getElementById(
+"locationStatus"
+);
+
+if(latInput)
+latInput.value =
+lat;
+
+if(lngInput)
+lngInput.value =
+lng;
+
+if(
+map &&
+typeof L !==
+"undefined"
+){
+
+if(marker){
+
+marker.setLatLng([
+lat,
+lng
+]);
+
+}else{
+
+marker =
+L.marker([
+lat,
+lng
+]).addTo(map);
+
+}
+
+map.setView(
+[
+lat,
+lng
+],
+16
+);
+
+}
+
+if(status){
+
+status.innerHTML =
+    📍 تم تحديد مكان التوصيل     ${     label     ?    <br>📌 ${escapeHtml(label)}    :     ""     }     <br>     الإحداثيات:     ${Number(lat).toFixed(6)},     ${Number(lng).toFixed(6)}    ;
+
+}
+
+showToast(
+"تم تحديد اللوكيشن 📍"
+);
+
+}
 
 /* =====================================================
-   البحث في الخريطة
+البحث في الخريطة
 ===================================================== */
 
 async function searchLocation(){
 
-  const input =
-    document.getElementById(
-      "mapSearchInput"
-    );
+const input =
+document.getElementById(
+"mapSearchInput"
+);
 
-  if(!input)return;
+if(!input)return;
 
-  const query =
-    input.value.trim();
+const query =
+input.value.trim();
 
-  if(!query){
+if(!query){
 
-    showToast(
-      "اكتب اسم المكان الأول"
-    );
+showToast(
+"اكتب اسم المكان الأول"
+);
 
-    return;
-
-  }
-
-  showToast(
-    "جاري البحث عن المكان..."
-  );
-
-  try{
-
-    const url =
-      "https://nominatim.openstreetmap.org/search" +
-      "?format=json" +
-      "&limit=5" +
-      "&accept-language=ar" +
-      "&q=" +
-      encodeURIComponent(
-        query
-      );
-
-    const response =
-      await fetch(
-        url,
-        {
-          headers:{
-            "Accept":
-              "application/json"
-          }
-        }
-      );
-
-    if(!response.ok){
-
-      throw new Error(
-        "فشل البحث"
-      );
-
-    }
-
-    const results =
-      await response.json();
-
-    if(
-      !results ||
-      !results.length
-    ){
-
-      showToast(
-        "ملقتش المكان ده"
-      );
-
-      return;
-
-    }
-
-    const result =
-      results[0];
-
-    const lat =
-      Number(result.lat);
-
-    const lng =
-      Number(result.lon);
-
-    setLocation(
-      lat,
-      lng,
-      result.display_name
-    );
-
-  }catch(error){
-
-    console.error(
-      "Map search error:",
-      error
-    );
-
-    showToast(
-      "حصل خطأ أثناء البحث عن المكان"
-    );
-
-  }
+return;
 
 }
 
+showToast(
+"جاري البحث عن المكان..."
+);
+
+try{
+
+const url =
+"https://nominatim.openstreetmap.org/search" +
+"?format=json" +
+"&limit=5" +
+"&accept-language=ar" +
+"&q=" +
+encodeURIComponent(
+query
+);
+
+const response =
+await fetch(
+url,
+{
+headers:{
+"Accept":
+"application/json"
+}
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+"فشل البحث"
+);
+
+}
+
+const results =
+await response.json();
+
+if(
+!results ||
+!results.length
+){
+
+showToast(
+"ملقتش المكان ده"
+);
+
+return;
+
+}
+
+const result =
+results[0];
+
+const lat =
+Number(result.lat);
+
+const lng =
+Number(result.lon);
+
+setLocation(
+lat,
+lng,
+result.display_name
+);
+
+}catch(error){
+
+console.error(
+"Map search error:",
+error
+);
+
+showToast(
+"حصل خطأ أثناء البحث عن المكان"
+);
+
+}
+
+}
 
 /* =====================================================
-   موقعي الحالي
+موقعي الحالي
 ===================================================== */
 
 function useMyLocation(){
 
-  if(
-    !navigator.geolocation
-  ){
+if(
+!navigator.geolocation
+){
 
-    showToast(
-      "المتصفح لا يدعم تحديد الموقع"
-    );
+showToast(
+"المتصفح لا يدعم تحديد الموقع"
+);
 
-    return;
-
-  }
-
-  showToast(
-    "جاري تحديد موقعك..."
-  );
-
-  navigator.geolocation.getCurrentPosition(
-
-    position=>{
-
-      const lat =
-        position.coords.latitude;
-
-      const lng =
-        position.coords.longitude;
-
-      setLocation(
-        lat,
-        lng,
-        "موقعي الحالي"
-      );
-
-    },
-
-    error=>{
-
-      console.error(
-        "Geolocation error:",
-        error
-      );
-
-      showToast(
-        "مش قادر أحدد موقعك. اسمح للموقع باستخدام الـ Location."
-      );
-
-    },
-
-    {
-      enableHighAccuracy:true,
-      timeout:10000,
-      maximumAge:0
-    }
-
-  );
+return;
 
 }
 
+showToast(
+"جاري تحديد موقعك..."
+);
+
+navigator.geolocation.getCurrentPosition(
+
+position=>{
+
+const lat =
+position.coords.latitude;
+
+const lng =
+position.coords.longitude;
+
+setLocation(
+lat,
+lng,
+"موقعي الحالي"
+);
+
+},
+
+error=>{
+
+console.error(
+"Geolocation error:",
+error
+);
+
+showToast(
+"مش قادر أحدد موقعك. اسمح للموقع باستخدام الـ Location."
+);
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:10000,
+maximumAge:0
+}
+
+);
+
+}
 
 function resetMap(){
 
-  if(!map)
-    return;
+if(!map)
+return;
 
-  const defaultLat =
-    30.1798;
+const defaultLat =
+30.1798;
 
-  const defaultLng =
-    31.2056;
+const defaultLng =
+31.2056;
 
-  map.setView(
-    [
-      defaultLat,
-      defaultLng
-    ],
-    12
-  );
+map.setView(
+[
+defaultLat,
+defaultLng
+],
+12
+);
 
-  if(marker){
+if(marker){
 
-    map.removeLayer(
-      marker
-    );
+map.removeLayer(
+marker
+);
 
-    marker = null;
-
-  }
-
-  const latInput =
-    document.getElementById(
-      "latitude"
-    );
-
-  const lngInput =
-    document.getElementById(
-      "longitude"
-    );
-
-  const status =
-    document.getElementById(
-      "locationStatus"
-    );
-
-  if(latInput)
-    latInput.value = "";
-
-  if(lngInput)
-    lngInput.value = "";
-
-  if(status){
-
-    status.textContent =
-      "لم يتم تحديد مكان التوصيل بعد.";
-
-  }
-
-  showToast(
-    "تم إعادة الخريطة"
-  );
+marker = null;
 
 }
 
+const latInput =
+document.getElementById(
+"latitude"
+);
+
+const lngInput =
+document.getElementById(
+"longitude"
+);
+
+const status =
+document.getElementById(
+"locationStatus"
+);
+
+if(latInput)
+latInput.value = "";
+
+if(lngInput)
+lngInput.value = "";
+
+if(status){
+
+status.textContent =
+"لم يتم تحديد مكان التوصيل بعد.";
+
+}
+
+showToast(
+"تم إعادة الخريطة"
+);
+
+}
 
 /* =====================================================
-   إنشاء الطلب
+إنشاء الطلب
 ===================================================== */
 
 async function submitOrder(e){
 
-  e.preventDefault();
+e.preventDefault();
 
-  if(!currentUser){
+if(!currentUser){
 
-    showToast(
-      "سجل دخول الأول"
-    );
+showToast(
+"سجل دخول الأول"
+);
 
-    closeModal(
-      "checkoutModal"
-    );
+openAccount();
 
-    openAccount();
-
-    return;
-
-  }
-
-  const lat =
-    document.getElementById(
-      "latitude"
-    ).value;
-
-  const lng =
-    document.getElementById(
-      "longitude"
-    ).value;
-
-  if(!lat || !lng){
-
-    showToast(
-      "حدد مكانك على الخريطة 📍"
-    );
-
-    return;
-
-  }
-
-  if(!cart.length){
-
-    showToast(
-      "السلة فاضية 🛒"
-    );
-
-    return;
-
-  }
-
-  const btn =
-    document.getElementById(
-      "submitOrderBtn"
-    );
-
-  if(btn){
-
-    btn.disabled = true;
-
-    btn.textContent =
-      "جاري تسجيل الطلب...";
-
-  }
-
-  try{
-
-    /*
-      إعادة التحقق من المنتجات والكميات
-      قبل إرسال الطلب.
-    */
-
-    for(const item of cart){
-
-      const p =
-        products.find(
-          x=>
-            String(x.id) ===
-            String(item.id)
-        );
-
-      if(!p){
-
-        throw new Error(
-          "يوجد منتج لم يعد متاحًا."
-        );
-
-      }
-
-      if(
-        Number(item.qty) <= 0 ||
-        Number(item.qty) >
-        Number(p.stock)
-      ){
-
-        throw new Error(
-          "الكمية المطلوبة غير متاحة للمنتج: " +
-          p.name
-        );
-
-      }
-
-    }
-
-    const subtotal =
-      cart.reduce(
-        (sum,item)=>{
-
-          const p =
-            products.find(
-              x=>
-                String(x.id) ===
-                String(item.id)
-            );
-
-          return sum +
-            (
-              p
-              ?
-              p.price *
-              Number(item.qty)
-              :
-              0
-            );
-
-        },
-        0
-      );
-
-    const shipping =
-      35;
-
-    const total =
-      Math.max(
-        0,
-        subtotal +
-        shipping -
-        discount
-      );
-
-    const baseNotes =
-      document.getElementById(
-        "orderNotes"
-      ).value.trim();
-
-    const finalNotes =
-      baseNotes +
-      (
-        baseNotes
-        ?
-        "\n"
-        :
-        ""
-      ) +
-      "موقع التوصيل: " +
-      lat +
-      ", " +
-      lng;
-
-    const items =
-      cart.map(
-        item=>{
-
-          const p =
-            products.find(
-              x=>
-                String(x.id) ===
-                String(item.id)
-            );
-
-          return {
-
-            product_id:
-              p
-              ?
-              p.id
-              :
-              null,
-
-            product_name:
-              p
-              ?
-              p.name
-              :
-              "منتج",
-
-            price:
-              p
-              ?
-              p.price
-              :
-              0,
-
-            quantity:
-              Number(item.qty)
-
-          };
-
-        }
-      );
-
-    if(!supabaseClient){
-
-      throw new Error(
-        "قاعدة البيانات غير متاحة حاليًا"
-      );
-
-    }
-
-    const {
-      data:orderId,
-      error
-    } =
-      await supabaseClient.rpc(
-        "create_order",
-        {
-
-          p_customer_name:
-            document.getElementById(
-              "orderName"
-            ).value.trim(),
-
-          p_phone:
-            document.getElementById(
-              "orderPhone"
-            ).value.trim(),
-
-          p_governorate:
-            document.getElementById(
-              "governorate"
-            ).value,
-
-          p_address:
-            document.getElementById(
-              "orderAddress"
-            ).value.trim(),
-
-          p_payment_method:
-            document.getElementById(
-              "payment"
-            ).value,
-
-          p_notes:
-            finalNotes,
-
-          p_subtotal:
-            subtotal,
-
-          p_shipping:
-            shipping,
-
-          p_total:
-            total,
-
-          p_items:
-            items
-
-        }
-      );
-
-    if(error){
-
-      console.error(
-        "create_order error:",
-        error
-      );
-
-      throw new Error(
-        error.message ||
-        "فشل إنشاء الطلب"
-      );
-
-    }
-
-    if(!orderId){
-
-      throw new Error(
-        "لم يتم استلام رقم الطلب"
-      );
-
-    }
-
-    /*
-      حفظ نسخة محلية لعرض الطلب
-      في حساب العميل.
-    */
-
-    orders.push({
-
-      id:
-        orderId,
-
-      email:
-        currentUser.email,
-
-      name:
-        document.getElementById(
-          "orderName"
-        ).value,
-
-      phone:
-        document.getElementById(
-          "orderPhone"
-        ).value,
-
-      governorate:
-        document.getElementById(
-          "governorate"
-        ).value,
-
-      address:
-        document.getElementById(
-          "orderAddress"
-        ).value,
-
-      lat:
-        lat,
-
-      lng:
-        lng,
-
-      payment:
-        document.getElementById(
-          "payment"
-        ).value,
-
-      notes:
-        finalNotes,
-
-      items:[
-        ...cart
-      ],
-
-      subtotal:
-        subtotal,
-
-      shipping:
-        shipping,
-
-      total:
-        total,
-
-      status:
-        "new"
-
-    });
-
-    cart = [];
-
-    discount = 0;
-
-    save();
-
-    updateCounts();
-
-    updateAccountUI();
-
-    closeModal(
-      "checkoutModal"
-    );
-
-    alert(
-      "تم تسجيل طلبك بنجاح ✅\n\n" +
-      "رقم الطلب: " +
-      orderId +
-      "\n" +
-      "الإجمالي: " +
-      money(total)
-    );
-
-  }catch(error){
-
-    console.error(
-      "submitOrder error:",
-      error
-    );
-
-    alert(
-      "حصل خطأ أثناء تسجيل الطلب ❌\n\n" +
-      (
-        error?.message ||
-        "خطأ غير معروف"
-      )
-    );
-
-  }finally{
-
-    if(btn){
-
-      btn.disabled = false;
-
-      btn.textContent =
-        "تأكيد الطلب ✅";
-
-    }
-
-  }
+return;
 
 }
 
+const lat =
+document.getElementById(
+"latitude"
+).value;
+
+const lng =
+document.getElementById(
+"longitude"
+).value;
+
+if(!lat || !lng){
+
+showToast(
+"حدد مكانك على الخريطة 📍"
+);
+
+return;
+
+}
+
+if(!cart.length){
+
+showToast(
+"السلة فاضية 🛒"
+);
+
+return;
+
+}
+
+const btn =
+document.getElementById(
+"submitOrderBtn"
+);
+
+btn.disabled = true;
+
+btn.textContent =
+"جاري تسجيل الطلب...";
+
+try{
+
+const subtotal =
+cart.reduce(
+(sum,item)=>{
+
+const p =    
+    products.find(    
+      x=>    
+        String(x.id) ===    
+        String(item.id)    
+    );    
+
+  return sum +    
+    (    
+      p    
+      ?    
+      p.price *    
+      Number(item.qty)    
+      :    
+      0    
+    );    
+
+},    
+0
+
+);
+
+const shipping =
+35;
+
+const total =
+Math.max(
+0,
+subtotal +
+shipping -
+discount
+);
+
+const baseNotes =
+document.getElementById(
+"orderNotes"
+).value.trim();
+
+const finalNotes =
+baseNotes +
+(
+baseNotes
+?
+"\n"
+:
+""
+) +
+"موقع التوصيل: " +
+lat +
+", " +
+lng;
+
+const items =
+cart.map(
+item=>{
+
+const p =    
+    products.find(    
+      x=>    
+        String(x.id) ===    
+        String(item.id)    
+    );    
+
+  return {    
+
+    product_id:    
+      p    
+      ?    
+      p.id    
+      :    
+      null,    
+
+    product_name:    
+      p    
+      ?    
+      p.name    
+      :    
+      "منتج",    
+
+    price:    
+      p    
+      ?    
+      p.price    
+      :    
+      0,    
+
+    quantity:    
+      Number(item.qty)    
+
+  };    
+
+}
+
+);
+
+if(!supabaseClient){
+
+throw new Error(
+"قاعدة البيانات غير متاحة حاليًا"
+);
+
+}
+
+const {
+data:orderId,
+error
+} =
+await supabaseClient.rpc(
+"create_order",
+{
+
+p_customer_name:    
+    document.getElementById(    
+      "orderName"    
+    ).value.trim(),    
+
+  p_phone:    
+    document.getElementById(    
+      "orderPhone"    
+    ).value.trim(),    
+
+  p_governorate:    
+    document.getElementById(    
+      "governorate"    
+    ).value,    
+
+  p_address:    
+    document.getElementById(    
+      "orderAddress"    
+    ).value.trim(),    
+
+  p_payment_method:    
+    document.getElementById(    
+      "payment"    
+    ).value,    
+
+  p_notes:    
+    finalNotes,    
+
+  p_subtotal:    
+    subtotal,    
+
+  p_shipping:    
+    shipping,    
+
+  p_total:    
+    total,    
+
+  p_items:    
+    items    
+
+}
+
+);
+
+if(error){
+
+console.error(
+"create_order error:",
+error
+);
+
+throw new Error(
+error.message ||
+"فشل إنشاء الطلب"
+);
+
+}
+
+if(!orderId){
+
+throw new Error(
+"لم يتم استلام رقم الطلب"
+);
+
+}
+
+orders.push({
+
+id:orderId,
+
+email:
+currentUser.email,
+
+name:
+document.getElementById(
+"orderName"
+).value,
+
+phone:
+document.getElementById(
+"orderPhone"
+).value,
+
+governorate:
+document.getElementById(
+"governorate"
+).value,
+
+address:
+document.getElementById(
+"orderAddress"
+).value,
+
+lat:lat,
+
+lng:lng,
+
+payment:
+document.getElementById(
+"payment"
+).value,
+
+notes:
+finalNotes,
+
+items:[
+...cart
+],
+
+subtotal:
+subtotal,
+
+shipping:
+shipping,
+
+total:
+total,
+
+status:
+"new"
+
+});
+
+cart = [];
+
+discount = 0;
+
+save();
+
+updateCounts();
+
+updateAccountUI();
+
+closeModal(
+"checkoutModal"
+);
+
+alert(
+"تم تسجيل طلبك بنجاح ✅\n\n" +
+"رقم الطلب: " +
+orderId +
+"\n" +
+"الإجمالي: " +
+money(total)
+);
+
+}catch(error){
+
+console.error(
+"submitOrder error:",
+error
+);
+
+alert(
+"حصل خطأ أثناء تسجيل الطلب ❌\n\n" +
+error.message
+);
+
+}finally{
+
+btn.disabled = false;
+
+btn.textContent =
+"تأكيد الطلب ✅";
+
+}
+
+}
 
 /* =====================================================
-   الشكاوى
+الشكاوى
 ===================================================== */
 
 async function sendComplaint(e){
 
-  e.preventDefault();
+e.preventDefault();
 
-  if(!supabaseClient){
+if(!supabaseClient){
 
-    showToast(
-      "قاعدة البيانات غير متاحة حاليًا ❌"
-    );
+showToast(
+"قاعدة البيانات غير متاحة حاليًا ❌"
+);
 
-    return;
-
-  }
-
-  const name =
-    document.getElementById(
-      "complaintName"
-    ).value.trim();
-
-  const phone =
-    document.getElementById(
-      "complaintPhone"
-    ).value.trim();
-
-  const type =
-    document.getElementById(
-      "complaintType"
-    ).value;
-
-  const text =
-    document.getElementById(
-      "complaintText"
-    ).value.trim();
-
-  if(
-    !name ||
-    !phone ||
-    !text
-  ){
-
-    showToast(
-      "كمّل بيانات الرسالة الأول"
-    );
-
-    return;
-
-  }
-
-  try{
-
-    const message =
-      "نوع الرسالة: " +
-      type +
-      "\n\n" +
-      text;
-
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("complaints")
-        .insert({
-
-          name:
-            name,
-
-          phone:
-            phone,
-
-          message:
-            message,
-
-          status:
-            "new"
-
-        });
-
-    if(error)
-      throw error;
-
-    e.target.reset();
-
-    showToast(
-      "تم تسجيل رسالتك بنجاح ✅"
-    );
-
-  }catch(error){
-
-    console.error(
-      "sendComplaint error:",
-      error
-    );
-
-    showToast(
-      "حصل خطأ أثناء إرسال الرسالة ❌"
-    );
-
-    console.error(
-      error?.message
-    );
-
-  }
+return;
 
 }
 
+const name =
+document.getElementById(
+"complaintName"
+).value.trim();
+
+const phone =
+document.getElementById(
+"complaintPhone"
+).value.trim();
+
+const type =
+document.getElementById(
+"complaintType"
+).value;
+
+const text =
+document.getElementById(
+"complaintText"
+).value.trim();
+
+if(!name || !phone || !text){
+
+showToast(
+"كمّل بيانات الرسالة الأول"
+);
+
+return;
+
+}
+
+try{
+
+const message =
+"نوع الرسالة: " +
+type +
+"\n\n" +
+text;
+
+const {
+error
+} =
+await supabaseClient
+.from("complaints")
+.insert({
+
+name:name,    
+
+  phone:phone,    
+
+  message:message,    
+
+  status:"new"    
+
+});
+
+if(error)
+throw error;
+
+e.target.reset();
+
+showToast(
+"تم تسجيل رسالتك بنجاح ✅"
+);
+
+}catch(error){
+
+console.error(
+"sendComplaint error:",
+error
+);
+
+showToast(
+
+"خطأ: " + error.message
+);
+
+alert(
+"خطأ Supabase:\n\n" +
+error.message
+);
+
+}
+
+}
 
 /* =====================================================
-   واجهة المستخدم
+واجهة المستخدم
 ===================================================== */
 
 function closeModal(id){
 
-  const modal =
-    document.getElementById(
-      id
-    );
+const modal =
+document.getElementById(
+id
+);
 
-  if(modal){
+if(modal){
 
-    modal.classList.remove(
-      "show"
-    );
-
-  }
+modal.classList.remove(
+"show"
+);
 
 }
 
+}
 
 function scrollToSection(id){
 
-  const el =
-    document.getElementById(
-      id
-    );
+const el =
+document.getElementById(
+id
+);
 
-  if(el){
+if(el){
 
-    el.scrollIntoView({
+el.scrollIntoView({
 
-      behavior:"smooth",
+behavior:"smooth",
 
-      block:"start"
+block:"start"
 
-    });
-
-  }
+});
 
 }
 
+}
 
 /* =====================================================
-   تشغيل الصفحة
+تشغيل الصفحة
 ===================================================== */
 
 document.addEventListener(
-  "DOMContentLoaded",
-  async function(){
+"DOMContentLoaded",
+function(){
 
-    updateCounts();
+updateCounts();
 
-    updateAccountUI();
+updateAccountUI();
 
-    const searchInput =
-      document.getElementById(
-        "searchInput"
-      );
-
-    if(searchInput){
-
-      searchInput.addEventListener(
-        "input",
-        applyFilters
-      );
-
-    }
-
-    /*
-      تشغيل Auth أولًا
-      ثم تحميل المنتجات.
-    */
-
-    await initAuth();
-
-    await loadProducts();
-
-  }
+const searchInput =
+document.getElementById(
+"searchInput"
 );
 
+if(searchInput){
 
-/* =====================================================
-   إغلاق المودال بالضغط خارجه
-===================================================== */
-
-document.addEventListener(
-  "click",
-  function(e){
-
-    if(
-      e.target.classList &&
-      e.target.classList.contains(
-        "modal"
-      )
-    ){
-
-      e.target.classList.remove(
-        "show"
-      );
-
-    }
-
-  }
+searchInput.addEventListener(
+"input",
+applyFilters
 );
 
+}
+
+loadProducts();
+
+}
+);
 
 /* =====================================================
-   Enter في بحث الخريطة
+إغلاق المودال بالضغط خارج الصندوق
 ===================================================== */
 
 document.addEventListener(
-  "keydown",
-  function(e){
+"click",
+function(e){
 
-    if(
-      e.key === "Enter" &&
-      document.activeElement &&
-      document.activeElement.id ===
-      "mapSearchInput"
-    ){
+if(
+e.target.classList &&
+e.target.classList.contains(
+"modal"
+)
+){
 
-      e.preventDefault();
+e.target.classList.remove(
+"show"
+);
 
-      searchLocation();
+}
 
-    }
+}
+);
 
-  }
+/* =====================================================
+بحث الخريطة بالضغط Enter
+===================================================== */
+
+document.addEventListener(
+"keydown",
+function(e){
+
+if(
+e.key === "Enter" &&
+document.activeElement &&
+document.activeElement.id ===
+"mapSearchInput"
+){
+
+e.preventDefault();
+
+searchLocation();
+
+}
+
+}
 );
 
 </script>
-
-</body>
-
-  </html>
+</body> 
+</html>
