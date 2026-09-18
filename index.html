@@ -1132,7 +1132,7 @@ footer h3{
       </h3>
 
       <p>
-        6 ش داليا - قليوب - القليوبية
+        6 ش داليا - امام البنك الأهلي - قليوب - القليوبية
       </p>
 
     </div>
@@ -4911,8 +4911,13 @@ async function sendComplaint(e){
     );
 
     showToast(
-      "حصل خطأ أثناء إرسال الرسالة ❌"
-    );
+  "خطأ: " + error.message
+);
+
+alert(
+  "خطأ Supabase:\n\n" +
+  error.message
+);
 
   }
 
