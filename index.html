@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title> Mama Zozo store 🧸</title>
+<title>Mama Zozo store 🧸</title>
 
 <link
 rel="stylesheet"
@@ -632,10 +632,6 @@ footer h3{
   display:none;
 }
 
-/* =========================
-   الخريطة
-========================= */
-
 .mapSearch{
   display:flex;
   gap:8px;
@@ -700,10 +696,6 @@ footer h3{
   color:#777;
   margin-bottom:5px;
 }
-
-/* =========================
-   responsive
-========================= */
 
 @media(max-width:900px){
 
@@ -776,7 +768,7 @@ footer h3{
   <div class="top">
 
     <div class="logo">
-   🧸 Mama Zozo<span>Store</span>
+      🧸 Mama Zozo<span>Store</span>
     </div>
 
     <div class="search">
@@ -817,39 +809,27 @@ footer h3{
 
   <div class="nav">
 
-    <button
-      type="button"
-      onclick="filterCategory('all')">
+    <button type="button" onclick="filterCategory('all')">
       الكل
     </button>
 
-    <button
-      type="button"
-      onclick="filterCategory('school')">
+    <button type="button" onclick="filterCategory('school')">
       🎒 أدوات مدرسية
     </button>
 
-    <button
-      type="button"
-      onclick="filterCategory('toys')">
+    <button type="button" onclick="filterCategory('toys')">
       🧸 ألعاب
     </button>
 
-    <button
-      type="button"
-      onclick="filterCategory('educational')">
+    <button type="button" onclick="filterCategory('educational')">
       🧠 ألعاب تعليمية
     </button>
 
-    <button
-      type="button"
-      onclick="filterCategory('bags')">
+    <button type="button" onclick="filterCategory('bags')">
       🎒 شنط
     </button>
 
-    <button
-      type="button"
-      onclick="scrollToSection('complaints')">
+    <button type="button" onclick="scrollToSection('complaints')">
       📝 الشكاوى
     </button>
 
@@ -914,9 +894,7 @@ footer h3{
 
   </div>
 
-  <div
-    class="sectionTitle"
-    id="products">
+  <div class="sectionTitle" id="products">
 
     <h2>
       🛍️ المنتجات
@@ -926,9 +904,7 @@ footer h3{
 
   <div class="filters">
 
-    <select
-      id="categoryFilter"
-      onchange="applyFilters()">
+    <select id="categoryFilter" onchange="applyFilters()">
 
       <option value="all">
         كل الأقسام
@@ -952,9 +928,7 @@ footer h3{
 
     </select>
 
-    <select
-      id="sortFilter"
-      onchange="applyFilters()">
+    <select id="sortFilter" onchange="applyFilters()">
 
       <option value="default">
         الترتيب
@@ -976,9 +950,7 @@ footer h3{
 
   </div>
 
-  <div
-    class="products"
-    id="productsGrid">
+  <div class="products" id="productsGrid">
 
     <div class="empty">
       جاري تحميل المنتجات...
@@ -1000,10 +972,6 @@ footer h3{
 
   </div>
 
-  <!-- =========================
-       آراء العملاء الحقيقية
-  ========================= -->
-
   <div class="sectionTitle">
 
     <h2>
@@ -1012,9 +980,7 @@ footer h3{
 
   </div>
 
-  <div
-    class="reviews"
-    id="reviewsSection">
+  <div class="reviews" id="reviewsSection">
 
     <div class="empty">
       جاري تحميل التقييمات...
@@ -1022,9 +988,7 @@ footer h3{
 
   </div>
 
-  <div
-    class="sectionTitle"
-    id="complaints">
+  <div class="sectionTitle" id="complaints">
 
     <h2>
       📝 الشكاوى والاقتراحات
@@ -1038,9 +1002,7 @@ footer h3{
 
       <div class="field">
 
-        <label>
-          الاسم
-        </label>
+        <label>الاسم</label>
 
         <input
           id="complaintName"
@@ -1050,9 +1012,7 @@ footer h3{
 
       <div class="field">
 
-        <label>
-          رقم الموبايل
-        </label>
+        <label>رقم الموبايل</label>
 
         <input
           id="complaintPhone"
@@ -1064,23 +1024,13 @@ footer h3{
 
     <div class="field">
 
-      <label>
-        نوع الرسالة
-      </label>
+      <label>نوع الرسالة</label>
 
       <select id="complaintType">
 
-        <option>
-          شكوى
-        </option>
-
-        <option>
-          اقتراح
-        </option>
-
-        <option>
-          استفسار
-        </option>
+        <option>شكوى</option>
+        <option>اقتراح</option>
+        <option>استفسار</option>
 
       </select>
 
@@ -1088,14 +1038,11 @@ footer h3{
 
     <div class="field">
 
-      <label>
-        الرسالة
-      </label>
+      <label>الرسالة</label>
 
       <textarea
         id="complaintText"
-        required>
-      </textarea>
+        required></textarea>
 
     </div>
 
@@ -1143,17 +1090,9 @@ footer h3{
         📞 تواصل معنا
       </h3>
 
-      <p>
-        0242131877
-      </p>
-
-      <p>
-        01006192349
-      </p>
-
-      <p>
-        01000607703
-      </p>
+      <p>0242131877</p>
+      <p>01006192349</p>
+      <p>01000607703</p>
 
       <a
         class="contactBtn"
@@ -1175,13 +1114,9 @@ footer h3{
 
 </footer>
 
-<!-- =========================
-     الحساب
-========================= -->
+<!-- الحساب -->
 
-<div
-  class="modal"
-  id="accountModal">
+<div class="modal" id="accountModal">
 
   <div class="modalBox">
 
@@ -1202,26 +1137,24 @@ footer h3{
 
         <div class="field">
 
-          <label>
-            الإيميل
-          </label>
+          <label>الإيميل</label>
 
           <input
             id="loginEmail"
             type="email"
+            autocomplete="email"
             required>
 
         </div>
 
         <div class="field">
 
-          <label>
-            كلمة المرور
-          </label>
+          <label>كلمة المرور</label>
 
           <input
             id="loginPassword"
             type="password"
+            autocomplete="current-password"
             required>
 
         </div>
@@ -1245,51 +1178,47 @@ footer h3{
 
         <div class="field">
 
-          <label>
-            الاسم
-          </label>
+          <label>الاسم</label>
 
           <input
             id="registerName"
+            autocomplete="name"
             required>
 
         </div>
 
         <div class="field">
 
-          <label>
-            رقم الموبايل
-          </label>
+          <label>رقم الموبايل</label>
 
           <input
             id="registerPhone"
+            autocomplete="tel"
             required>
 
         </div>
 
         <div class="field">
 
-          <label>
-            الإيميل
-          </label>
+          <label>الإيميل</label>
 
           <input
             id="registerEmail"
             type="email"
+            autocomplete="email"
             required>
 
         </div>
 
         <div class="field">
 
-          <label>
-            كلمة المرور
-          </label>
+          <label>كلمة المرور</label>
 
           <input
             id="registerPassword"
             type="password"
             minlength="6"
+            autocomplete="new-password"
             required>
 
         </div>
@@ -1305,9 +1234,7 @@ footer h3{
 
     </div>
 
-    <div
-      id="loggedIn"
-      class="hidden">
+    <div id="loggedIn" class="hidden">
 
       <h2>
         أهلًا يا
@@ -1351,13 +1278,9 @@ footer h3{
 
 </div>
 
-<!-- =========================
-     السلة
-========================= -->
+<!-- السلة -->
 
-<div
-  class="modal"
-  id="cartModal">
+<div class="modal" id="cartModal">
 
   <div class="modalBox">
 
@@ -1407,13 +1330,9 @@ footer h3{
 
 </div>
 
-<!-- =========================
-     المفضلة
-========================= -->
+<!-- المفضلة -->
 
-<div
-  class="modal"
-  id="wishlistModal">
+<div class="modal" id="wishlistModal">
 
   <div class="modalBox">
 
@@ -1434,13 +1353,9 @@ footer h3{
 
 </div>
 
-<!-- =========================
-     تفاصيل المنتج
-========================= -->
+<!-- تفاصيل المنتج -->
 
-<div
-  class="modal"
-  id="productModal">
+<div class="modal" id="productModal">
 
   <div class="modalBox">
 
@@ -1457,13 +1372,9 @@ footer h3{
 
 </div>
 
-<!-- =========================
-     الدفع
-========================= -->
+<!-- الدفع -->
 
-<div
-  class="modal"
-  id="checkoutModal">
+<div class="modal" id="checkoutModal">
 
   <div class="modalBox">
 
@@ -1492,9 +1403,7 @@ footer h3{
 
         <div class="field">
 
-          <label>
-            الاسم
-          </label>
+          <label>الاسم</label>
 
           <input
             id="orderName"
@@ -1504,9 +1413,7 @@ footer h3{
 
         <div class="field">
 
-          <label>
-            رقم الموبايل
-          </label>
+          <label>رقم الموبايل</label>
 
           <input
             id="orderPhone"
@@ -1518,39 +1425,17 @@ footer h3{
 
       <div class="field">
 
-        <label>
-          المحافظة
-        </label>
+        <label>المحافظة</label>
 
         <select id="governorate">
 
-          <option>
-            القليوبية
-          </option>
-
-          <option>
-            القاهرة
-          </option>
-
-          <option>
-            الجيزة
-          </option>
-
-          <option>
-            المنوفية
-          </option>
-
-          <option>
-            الشرقية
-          </option>
-
-          <option>
-            الدقهلية
-          </option>
-
-          <option>
-            أخرى
-          </option>
+          <option>القليوبية</option>
+          <option>القاهرة</option>
+          <option>الجيزة</option>
+          <option>المنوفية</option>
+          <option>الشرقية</option>
+          <option>الدقهلية</option>
+          <option>أخرى</option>
 
         </select>
 
@@ -1558,9 +1443,7 @@ footer h3{
 
       <div class="field">
 
-        <label>
-          العنوان بالتفصيل
-        </label>
+        <label>العنوان بالتفصيل</label>
 
         <textarea
           id="orderAddress"
@@ -1627,9 +1510,7 @@ footer h3{
 
       <div class="field">
 
-        <label>
-          طريقة الدفع
-        </label>
+        <label>طريقة الدفع</label>
 
         <select id="payment">
 
@@ -1643,9 +1524,7 @@ footer h3{
 
       <div class="field">
 
-        <label>
-          ملاحظات
-        </label>
+        <label>ملاحظات</label>
 
         <textarea
           id="orderNotes"
@@ -1671,10 +1550,7 @@ footer h3{
 
 </div>
 
-<div
-  class="toast"
-  id="toast">
-</div>
+<div class="toast" id="toast"></div>
 
 <script
 src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
@@ -1687,7 +1563,7 @@ src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 <script>
 
 /* =====================================================
-   إعداد Supabase
+   Supabase
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1743,17 +1619,14 @@ let wishlist =
     []
   );
 
-let users =
-  readStorage(
-    "mz_users",
-    []
-  );
+/*
+  تم إلغاء users و mz_current نهائيًا.
+  كلمة المرور لا يتم تخزينها في localStorage.
+*/
 
-let currentUser =
-  readStorage(
-    "mz_current",
-    null
-  );
+let currentUser = null;
+
+let currentAuthUser = null;
 
 let orders =
   readStorage(
@@ -1766,6 +1639,8 @@ let discount = 0;
 let map = null;
 
 let marker = null;
+
+window.currentReviewRating = 0;
 
 
 /* =====================================================
@@ -1812,15 +1687,10 @@ function save(){
       JSON.stringify(wishlist)
     );
 
-    localStorage.setItem(
-      "mz_users",
-      JSON.stringify(users)
-    );
-
-    localStorage.setItem(
-      "mz_current",
-      JSON.stringify(currentUser)
-    );
+    /*
+      الطلبات المحلية فقط للتاريخ الظاهر للمستخدم.
+      لا توجد كلمات مرور هنا.
+    */
 
     localStorage.setItem(
       "mz_orders",
@@ -1839,13 +1709,45 @@ function save(){
 }
 
 
+/*
+  مهم جدًا:
+  يسمح بتمرير ID سواء كان رقمًا أو UUID
+  داخل onclick بدون كسر الكود.
+*/
+
+function idParam(id){
+
+  return encodeURIComponent(
+    String(id)
+  );
+
+}
+
+
+function decodeId(value){
+
+  try{
+
+    return decodeURIComponent(
+      String(value)
+    );
+
+  }catch(error){
+
+    return String(value);
+
+  }
+
+}
+
+
 function money(n){
 
   return Number(
     n || 0
   ).toLocaleString(
     "ar-EG"
-  )+" جنيه";
+  ) + " جنيه";
 
 }
 
@@ -1859,9 +1761,11 @@ function showToast(text){
 
   if(!t)return;
 
-  t.textContent = text;
+  t.textContent =
+    String(text || "");
 
-  t.style.display = "block";
+  t.style.display =
+    "block";
 
   clearTimeout(
     window.toastTimer
@@ -1870,9 +1774,10 @@ function showToast(text){
   window.toastTimer =
     setTimeout(
       ()=>{
-        t.style.display = "none";
+        t.style.display =
+          "none";
       },
-      2500
+      3000
     );
 
 }
@@ -1896,8 +1801,8 @@ function starsHTML(rating){
   let html = "";
 
   for(
-    let i=1;
-    i<=5;
+    let i = 1;
+    i <= 5;
     i++
   ){
 
@@ -2005,7 +1910,9 @@ async function loadProducts(){
 
           id:p.id,
 
-          name:p.name || "منتج",
+          name:
+            p.name ||
+            "منتج",
 
           cat:
             p.category ||
@@ -2049,6 +1956,11 @@ async function loadProducts(){
 
         })
       );
+
+    /*
+      إزالة المنتجات التي لم تعد موجودة
+      من السلة والمفضلة.
+    */
 
     cart =
       cart.filter(
@@ -2171,7 +2083,9 @@ async function loadReviews(){
           productReviews.reduce(
             (sum,review)=>
               sum +
-              Number(review.rating || 0),
+              Number(
+                review.rating || 0
+              ),
             0
           ) /
           productReviews.length
@@ -2203,7 +2117,7 @@ async function loadReviews(){
    عرض المنتجات
 ===================================================== */
 
-function renderProducts(list=products){
+function renderProducts(list = products){
 
   const grid =
     document.getElementById(
@@ -2244,7 +2158,10 @@ function renderProducts(list=products){
               <img
                 src="${escapeHtml(p.image_url)}"
                 alt="${escapeHtml(p.name)}"
-                onerror="this.style.display='none';this.parentElement.textContent='🧸'"
+                onerror="
+                  this.style.display='none';
+                  this.parentElement.textContent='🧸'
+                "
               >
             `
             :
@@ -2311,21 +2228,21 @@ function renderProducts(list=products){
             <button
               type="button"
               class="add"
-              onclick="addToCart(${Number(p.id)})">
+              onclick="addToCart('${idParam(p.id)}')">
               🛒 أضف
             </button>
 
             <button
               type="button"
               class="fav"
-              onclick="toggleFav(${Number(p.id)})">
+              onclick="toggleFav('${idParam(p.id)}')">
               ❤️
             </button>
 
             <button
               type="button"
               class="fav"
-              onclick="openProduct(${Number(p.id)})">
+              onclick="openProduct('${idParam(p.id)}')">
               👁️
             </button>
 
@@ -2421,11 +2338,11 @@ function applyFilters(){
         )
         &&
         (
-          p.name
+          String(p.name)
             .toLowerCase()
             .includes(search)
           ||
-          p.desc
+          String(p.desc)
             .toLowerCase()
             .includes(search)
         )
@@ -2435,7 +2352,7 @@ function applyFilters(){
 
     list.sort(
       (a,b)=>
-        a.price-b.price
+        a.price - b.price
     );
 
   }
@@ -2444,7 +2361,7 @@ function applyFilters(){
 
     list.sort(
       (a,b)=>
-        b.price-a.price
+        b.price - a.price
     );
 
   }
@@ -2453,7 +2370,7 @@ function applyFilters(){
 
     list.sort(
       (a,b)=>
-        b.rating-a.rating
+        b.rating - a.rating
     );
 
   }
@@ -2472,7 +2389,8 @@ function filterCategory(cat){
 
   if(categoryFilter){
 
-    categoryFilter.value = cat;
+    categoryFilter.value =
+      cat;
 
   }
 
@@ -2490,6 +2408,9 @@ function filterCategory(cat){
 ===================================================== */
 
 function addToCart(id){
+
+  id =
+    decodeId(id);
 
   const product =
     products.find(
@@ -2569,6 +2490,9 @@ function addToCart(id){
 
 function removeCart(id){
 
+  id =
+    decodeId(id);
+
   cart =
     cart.filter(
       x=>
@@ -2586,6 +2510,9 @@ function removeCart(id){
 
 
 function changeQty(id,change){
+
+  id =
+    decodeId(id);
 
   const item =
     cart.find(
@@ -2683,7 +2610,9 @@ function openCart(){
     );
 
   if(modal)
-    modal.classList.add("show");
+    modal.classList.add(
+      "show"
+    );
 
 }
 
@@ -2707,7 +2636,8 @@ function renderCart(){
     box.innerHTML =
       '<div class="empty">السلة فاضية 🛒</div>';
 
-    totals.innerHTML = "";
+    totals.innerHTML =
+      "";
 
     return;
 
@@ -2751,6 +2681,7 @@ function renderCart(){
                       height:55px;
                       object-fit:contain;
                     "
+                    alt="${escapeHtml(p.name)}"
                   >
                 `
                 :
@@ -2775,7 +2706,7 @@ function renderCart(){
 
               <button
                 type="button"
-                onclick="changeQty(${Number(p.id)},-1)">
+                onclick="changeQty('${idParam(p.id)}',-1)">
                 −
               </button>
 
@@ -2785,7 +2716,7 @@ function renderCart(){
 
               <button
                 type="button"
-                onclick="changeQty(${Number(p.id)},1)">
+                onclick="changeQty('${idParam(p.id)}',1)">
                 +
               </button>
 
@@ -2793,7 +2724,7 @@ function renderCart(){
 
             <button
               type="button"
-              onclick="removeCart(${Number(p.id)})">
+              onclick="removeCart('${idParam(p.id)}')">
               🗑️
             </button>
 
@@ -2889,6 +2820,9 @@ function applyCoupon(){
 
 function toggleFav(id){
 
+  id =
+    decodeId(id);
+
   const exists =
     wishlist.some(
       x=>
@@ -2911,7 +2845,20 @@ function toggleFav(id){
 
   }else{
 
-    wishlist.push(id);
+    const product =
+      products.find(
+        p=>
+          String(p.id) ===
+          String(id)
+      );
+
+    wishlist.push(
+      product
+      ?
+      product.id
+      :
+      id
+    );
 
     showToast(
       "تمت الإضافة للمفضلة ❤️"
@@ -2971,6 +2918,7 @@ function openWishlist(){
                     height:55px;
                     object-fit:contain;
                   "
+                  alt="${escapeHtml(p.name)}"
                 >
               `
               :
@@ -2993,13 +2941,16 @@ function openWishlist(){
 
           <button
             type="button"
-            onclick="addToCart(${Number(p.id)})">
+            onclick="addToCart('${idParam(p.id)}')">
             🛒
           </button>
 
           <button
             type="button"
-            onclick="toggleFav(${Number(p.id)});openWishlist()">
+            onclick="
+              toggleFav('${idParam(p.id)}');
+              openWishlist();
+            ">
             ❌
           </button>
 
@@ -3010,7 +2961,9 @@ function openWishlist(){
     :
     '<div class="empty">المفضلة فاضية ❤️</div>';
 
-  modal.classList.add("show");
+  modal.classList.add(
+    "show"
+  );
 
 }
 
@@ -3020,6 +2973,9 @@ function openWishlist(){
 ===================================================== */
 
 function openProduct(id){
+
+  id =
+    decodeId(id);
 
   const p =
     products.find(
@@ -3048,7 +3004,8 @@ function openProduct(id){
       "productModal"
     );
 
-  if(!details || !modal)return;
+  if(!details || !modal)
+    return;
 
   const productReviews =
     reviewsData.filter(
@@ -3078,8 +3035,7 @@ function openProduct(id){
         `
         :
         `
-          <div
-            style="font-size:100px">
+          <div style="font-size:100px">
             ${p.emoji}
           </div>
         `
@@ -3165,6 +3121,7 @@ function openProduct(id){
     <div class="productRatingSummary">
 
       <div class="productRatingBig">
+
         ${
           p.reviewCount
           ?
@@ -3172,9 +3129,11 @@ function openProduct(id){
           :
           "—"
         }
+
         <span style="font-size:16px">
           / 5
         </span>
+
       </div>
 
       <div class="productRatingStars">
@@ -3182,6 +3141,7 @@ function openProduct(id){
       </div>
 
       <div>
+
         ${
           p.reviewCount
           ?
@@ -3189,6 +3149,7 @@ function openProduct(id){
           :
           "مفيش تقييمات للمنتج لسه"
         }
+
       </div>
 
     </div>
@@ -3208,16 +3169,20 @@ function openProduct(id){
             <div class="productReview">
 
               <div class="reviewName">
+
                 ${escapeHtml(
                   review.customer_name ||
                   "عميل"
                 )}
+
               </div>
 
               <div class="reviewStars">
+
                 ${starsHTML(
                   review.rating
                 )}
+
               </div>
 
               ${
@@ -3235,9 +3200,11 @@ function openProduct(id){
               }
 
               <div class="reviewDate">
+
                 ${formatReviewDate(
                   review.created_at
                 )}
+
               </div>
 
             </div>
@@ -3353,7 +3320,7 @@ function openProduct(id){
         type="button"
         id="submitReviewBtn"
         class="primary"
-        onclick="submitReview(${Number(p.id)})">
+        onclick="submitReview('${idParam(p.id)}')">
         إرسال التقييم ⭐
       </button>
 
@@ -3365,7 +3332,7 @@ function openProduct(id){
       type="button"
       class="primary"
       onclick="
-        addToCart(${Number(p.id)});
+        addToCart('${idParam(p.id)}');
         closeModal('productModal');
       ">
       أضف للسلة 🛒
@@ -3373,9 +3340,12 @@ function openProduct(id){
 
   `;
 
-  window.currentReviewRating = 0;
+  window.currentReviewRating =
+    0;
 
-  modal.classList.add("show");
+  modal.classList.add(
+    "show"
+  );
 
 }
 
@@ -3431,6 +3401,9 @@ function selectReviewRating(rating){
 ===================================================== */
 
 async function submitReview(productId){
+
+  productId =
+    decodeId(productId);
 
   if(!supabaseClient){
 
@@ -3520,10 +3493,20 @@ async function submitReview(productId){
 
   try{
 
+    /*
+      لا نضع user_id يدويًا من المتصفح.
+      ولو كان المستخدم مسجلًا، يمكن ربطه
+      بالـ Auth داخل قاعدة البيانات إذا كان
+      العمود موجودًا وRLS يسمح بذلك.
+
+      is_approved = false
+      حتى لا يظهر التقييم قبل المراجعة.
+    */
+
     const reviewData = {
 
       product_id:
-        Number(productId),
+        productId,
 
       customer_name:
         name,
@@ -3535,16 +3518,23 @@ async function submitReview(productId){
         comment,
 
       is_approved:
-        true
+        false
 
     };
 
+    /*
+      لو جدول reviews عندك يحتوي user_id
+      ويمكنه قبول UUID من auth.users،
+      نرسل ID المستخدم الحقيقي.
+    */
+
     if(
-      currentUser &&
-      currentUser.email
+      currentAuthUser &&
+      currentAuthUser.id
     ){
 
-      reviewData.user_id = null;
+      reviewData.user_id =
+        currentAuthUser.id;
 
     }
 
@@ -3561,8 +3551,11 @@ async function submitReview(productId){
       throw error;
 
     showToast(
-      "تم إرسال تقييمك بنجاح ⭐❤️"
+      "تم إرسال تقييمك للمراجعة ⭐❤️"
     );
+
+    window.currentReviewRating =
+      0;
 
     await loadReviews();
 
@@ -3715,6 +3708,132 @@ function formatReviewDate(date){
 
 
 /* =====================================================
+   Supabase Auth
+===================================================== */
+
+async function initAuth(){
+
+  if(!supabaseClient)
+    return;
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getUser();
+
+    if(
+      error &&
+      error.message
+    ){
+
+      console.warn(
+        "Auth:",
+        error.message
+      );
+
+    }
+
+    await setCurrentUser(
+      data?.user || null
+    );
+
+  }catch(error){
+
+    console.error(
+      "Auth initialization error:",
+      error
+    );
+
+    currentUser = null;
+
+    currentAuthUser = null;
+
+    updateAccountUI();
+
+  }
+
+  /*
+    مراقبة تسجيل الدخول والخروج
+  */
+
+  supabaseClient.auth.onAuthStateChange(
+    async (
+      event,
+      session
+    )=>{
+
+      const user =
+        session?.user || null;
+
+      await setCurrentUser(
+        user
+      );
+
+      if(
+        event === "SIGNED_OUT"
+      ){
+
+        currentUser = null;
+
+        currentAuthUser = null;
+
+      }
+
+      updateAccountUI();
+
+    }
+  );
+
+}
+
+
+async function setCurrentUser(user){
+
+  currentAuthUser =
+    user || null;
+
+  if(!user){
+
+    currentUser =
+      null;
+
+    updateAccountUI();
+
+    return;
+
+  }
+
+  const metadata =
+    user.user_metadata || {};
+
+  currentUser = {
+
+    id:
+      user.id,
+
+    email:
+      user.email || "",
+
+    name:
+      metadata.name ||
+      metadata.full_name ||
+      "",
+
+    phone:
+      metadata.phone ||
+      ""
+
+  };
+
+  updateAccountUI();
+
+}
+
+
+/* =====================================================
    الحساب
 ===================================================== */
 
@@ -3728,7 +3847,9 @@ function openAccount(){
     );
 
   if(modal)
-    modal.classList.add("show");
+    modal.classList.add(
+      "show"
+    );
 
 }
 
@@ -3778,7 +3899,7 @@ function updateAccountUI(){
 
   if(userName)
     userName.textContent =
-      currentUser.name || "";
+      currentUser.name || "عميل";
 
   if(userEmail)
     userEmail.textContent =
@@ -3787,6 +3908,11 @@ function updateAccountUI(){
   if(userPhone)
     userPhone.textContent =
       currentUser.phone || "";
+
+  /*
+    الطلبات الموجودة محليًا
+    لهذا المستخدم فقط.
+  */
 
   const mine =
     orders.filter(
@@ -3822,7 +3948,9 @@ function updateAccountUI(){
           <br>
 
           الحالة:
-          ${escapeHtml(o.status || "new")}
+          ${escapeHtml(
+            o.status || "new"
+          )}
 
         </div>
 
@@ -3834,9 +3962,23 @@ function updateAccountUI(){
 }
 
 
-function register(e){
+/* =====================================================
+   إنشاء الحساب
+===================================================== */
+
+async function register(e){
 
   e.preventDefault();
+
+  if(!supabaseClient){
+
+    showToast(
+      "قاعدة البيانات غير متاحة حاليًا"
+    );
+
+    return;
+
+  }
 
   const name =
     document.getElementById(
@@ -3860,6 +4002,11 @@ function register(e){
       "registerPassword"
     ).value;
 
+  const btn =
+    document.getElementById(
+      "registerBtn"
+    );
+
   if(
     password.length < 6
   ){
@@ -3873,50 +4020,161 @@ function register(e){
   }
 
   if(
-    users.some(
-      u=>
-        u.email === email
-    )
+    !name ||
+    !phone ||
+    !email
   ){
 
     showToast(
-      "الإيميل مسجل بالفعل"
+      "كمّل بيانات الحساب الأول"
     );
 
     return;
 
   }
 
-  const user = {
+  if(btn){
 
-    name:name,
+    btn.disabled = true;
 
-    phone:phone,
+    btn.textContent =
+      "جاري إنشاء الحساب...";
 
-    email:email,
+  }
 
-    password:password
+  try{
 
-  };
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signUp({
 
-  users.push(user);
+        email:
+          email,
 
-  currentUser = user;
+        password:
+          password,
 
-  save();
+        options:{
 
-  updateAccountUI();
+          data:{
+            name:name,
+            phone:phone
+          },
 
-  showToast(
-    "تم إنشاء الحساب 🎉"
-  );
+          emailRedirectTo:
+            window.location.origin +
+            window.location.pathname
+
+        }
+
+      });
+
+    if(error)
+      throw error;
+
+    /*
+      لو Supabase رجع session،
+      يبقى الحساب دخل مباشرة.
+    */
+
+    if(
+      data &&
+      data.user
+    ){
+
+      await setCurrentUser(
+        data.user
+      );
+
+    }
+
+    if(
+      data &&
+      data.session
+    ){
+
+      showToast(
+        "تم إنشاء الحساب وتسجيل الدخول 🎉"
+      );
+
+      closeModal(
+        "accountModal"
+      );
+
+    }else{
+
+      showToast(
+        "تم إنشاء الحساب. راجع إيميلك لتأكيد الحساب 📧"
+      );
+
+    }
+
+    e.target.reset();
+
+  }catch(error){
+
+    console.error(
+      "register error:",
+      error
+    );
+
+    let message =
+      error?.message ||
+      "حصل خطأ أثناء إنشاء الحساب";
+
+    /*
+      رسائل أوضح للمستخدم.
+    */
+
+    if(
+      message.toLowerCase()
+        .includes("already registered")
+    ){
+
+      message =
+        "الإيميل مسجل بالفعل";
+
+    }
+
+    showToast(
+      message
+    );
+
+  }finally{
+
+    if(btn){
+
+      btn.disabled = false;
+
+      btn.textContent =
+        "إنشاء حساب";
+
+    }
+
+  }
 
 }
 
 
-function login(e){
+/* =====================================================
+   تسجيل الدخول
+===================================================== */
+
+async function login(e){
 
   e.preventDefault();
+
+  if(!supabaseClient){
+
+    showToast(
+      "قاعدة البيانات غير متاحة حاليًا"
+    );
+
+    return;
+
+  }
 
   const email =
     document.getElementById(
@@ -3930,47 +4188,143 @@ function login(e){
       "loginPassword"
     ).value;
 
-  const user =
-    users.find(
-      u=>
-        u.email === email &&
-        u.password === password
+  const btn =
+    document.getElementById(
+      "loginBtn"
     );
 
-  if(!user){
+  if(
+    !email ||
+    !password
+  ){
 
     showToast(
-      "بيانات الدخول غير صحيحة"
+      "اكتب الإيميل وكلمة المرور"
     );
 
     return;
 
   }
 
-  currentUser = user;
+  if(btn){
 
-  save();
+    btn.disabled = true;
 
-  updateAccountUI();
+    btn.textContent =
+      "جاري تسجيل الدخول...";
 
-  showToast(
-    "تم تسجيل الدخول 👋"
-  );
+  }
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth
+        .signInWithPassword({
+
+          email:
+            email,
+
+          password:
+            password
+
+        });
+
+    if(error)
+      throw error;
+
+    await setCurrentUser(
+      data?.user || null
+    );
+
+    showToast(
+      "تم تسجيل الدخول 👋"
+    );
+
+    e.target.reset();
+
+  }catch(error){
+
+    console.error(
+      "login error:",
+      error
+    );
+
+    showToast(
+      error?.message ||
+      "بيانات الدخول غير صحيحة"
+    );
+
+  }finally{
+
+    if(btn){
+
+      btn.disabled = false;
+
+      btn.textContent =
+        "تسجيل الدخول";
+
+    }
+
+  }
 
 }
 
 
-function logout(){
+/* =====================================================
+   تسجيل الخروج
+===================================================== */
 
-  currentUser = null;
+async function logout(){
 
-  save();
+  if(!supabaseClient){
 
-  updateAccountUI();
+    currentUser = null;
 
-  showToast(
-    "تم تسجيل الخروج"
-  );
+    currentAuthUser = null;
+
+    updateAccountUI();
+
+    return;
+
+  }
+
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient.auth
+        .signOut();
+
+    if(error)
+      throw error;
+
+    currentUser = null;
+
+    currentAuthUser = null;
+
+    updateAccountUI();
+
+    showToast(
+      "تم تسجيل الخروج 👋"
+    );
+
+  }catch(error){
+
+    console.error(
+      "logout error:",
+      error
+    );
+
+    showToast(
+      error?.message ||
+      "حصل خطأ أثناء تسجيل الخروج"
+    );
+
+  }
 
 }
 
@@ -4049,6 +4403,13 @@ function openCheckout(){
       0
     );
 
+  const shipping =
+    subtotal > 0
+    ?
+    35
+    :
+    0;
+
   document.getElementById(
     "checkoutTotal"
   ).textContent =
@@ -4057,7 +4418,7 @@ function openCheckout(){
       Math.max(
         0,
         subtotal +
-        35 -
+        shipping -
         discount
       )
     );
@@ -4073,6 +4434,7 @@ function openCheckout(){
 
   setTimeout(
     ()=>{
+
       initMap();
 
       if(map){
@@ -4155,7 +4517,7 @@ function initMap(){
 function setLocation(
   lat,
   lng,
-  label=""
+  label = ""
 ){
 
   const latInput =
@@ -4219,6 +4581,7 @@ function setLocation(
     status.innerHTML =
       `
         📍 تم تحديد مكان التوصيل
+
         ${
           label
           ?
@@ -4226,7 +4589,9 @@ function setLocation(
           :
           ""
         }
+
         <br>
+
         الإحداثيات:
         ${Number(lat).toFixed(6)},
         ${Number(lng).toFixed(6)}
@@ -4491,6 +4856,10 @@ async function submitOrder(e){
       "سجل دخول الأول"
     );
 
+    closeModal(
+      "checkoutModal"
+    );
+
     openAccount();
 
     return;
@@ -4532,12 +4901,53 @@ async function submitOrder(e){
       "submitOrderBtn"
     );
 
-  btn.disabled = true;
+  if(btn){
 
-  btn.textContent =
-    "جاري تسجيل الطلب...";
+    btn.disabled = true;
+
+    btn.textContent =
+      "جاري تسجيل الطلب...";
+
+  }
 
   try{
+
+    /*
+      إعادة التحقق من المنتجات والكميات
+      قبل إرسال الطلب.
+    */
+
+    for(const item of cart){
+
+      const p =
+        products.find(
+          x=>
+            String(x.id) ===
+            String(item.id)
+        );
+
+      if(!p){
+
+        throw new Error(
+          "يوجد منتج لم يعد متاحًا."
+        );
+
+      }
+
+      if(
+        Number(item.qty) <= 0 ||
+        Number(item.qty) >
+        Number(p.stock)
+      ){
+
+        throw new Error(
+          "الكمية المطلوبة غير متاحة للمنتج: " +
+          p.name
+        );
+
+      }
+
+    }
 
     const subtotal =
       cart.reduce(
@@ -4717,9 +5127,15 @@ async function submitOrder(e){
 
     }
 
+    /*
+      حفظ نسخة محلية لعرض الطلب
+      في حساب العميل.
+    */
+
     orders.push({
 
-      id:orderId,
+      id:
+        orderId,
 
       email:
         currentUser.email,
@@ -4744,9 +5160,11 @@ async function submitOrder(e){
           "orderAddress"
         ).value,
 
-      lat:lat,
+      lat:
+        lat,
 
-      lng:lng,
+      lng:
+        lng,
 
       payment:
         document.getElementById(
@@ -4806,15 +5224,22 @@ async function submitOrder(e){
 
     alert(
       "حصل خطأ أثناء تسجيل الطلب ❌\n\n" +
-      error.message
+      (
+        error?.message ||
+        "خطأ غير معروف"
+      )
     );
 
   }finally{
 
-    btn.disabled = false;
+    if(btn){
 
-    btn.textContent =
-      "تأكيد الطلب ✅";
+      btn.disabled = false;
+
+      btn.textContent =
+        "تأكيد الطلب ✅";
+
+    }
 
   }
 
@@ -4859,7 +5284,11 @@ async function sendComplaint(e){
       "complaintText"
     ).value.trim();
 
-  if(!name || !phone || !text){
+  if(
+    !name ||
+    !phone ||
+    !text
+  ){
 
     showToast(
       "كمّل بيانات الرسالة الأول"
@@ -4884,13 +5313,17 @@ async function sendComplaint(e){
         .from("complaints")
         .insert({
 
-          name:name,
+          name:
+            name,
 
-          phone:phone,
+          phone:
+            phone,
 
-          message:message,
+          message:
+            message,
 
-          status:"new"
+          status:
+            "new"
 
         });
 
@@ -4911,17 +5344,17 @@ async function sendComplaint(e){
     );
 
     showToast(
-  "خطأ: " + error.message
-);
+      "حصل خطأ أثناء إرسال الرسالة ❌"
+    );
 
-alert(
-  "خطأ Supabase:\n\n" +
-  error.message
-);
+    console.error(
+      error?.message
+    );
 
   }
 
 }
+
 
 /* =====================================================
    واجهة المستخدم
@@ -4973,7 +5406,7 @@ function scrollToSection(id){
 
 document.addEventListener(
   "DOMContentLoaded",
-  function(){
+  async function(){
 
     updateCounts();
 
@@ -4993,14 +5426,21 @@ document.addEventListener(
 
     }
 
-    loadProducts();
+    /*
+      تشغيل Auth أولًا
+      ثم تحميل المنتجات.
+    */
+
+    await initAuth();
+
+    await loadProducts();
 
   }
 );
 
 
 /* =====================================================
-   إغلاق المودال بالضغط خارج الصندوق
+   إغلاق المودال بالضغط خارجه
 ===================================================== */
 
 document.addEventListener(
@@ -5025,7 +5465,7 @@ document.addEventListener(
 
 
 /* =====================================================
-   بحث الخريطة بالضغط Enter
+   Enter في بحث الخريطة
 ===================================================== */
 
 document.addEventListener(
@@ -5052,4 +5492,4 @@ document.addEventListener(
 
 </body>
 
-        </html>
+  </html>
