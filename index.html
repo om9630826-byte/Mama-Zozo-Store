@@ -1611,12 +1611,11 @@ src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 ===================================================== */
 
 const SUPABASE_URL =
-"https://tzjtivfzawffqgisrowv.supabase.co";
+"https://tzjtivfzawffqgisrowt.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_2YSBOnUllXOqAztJ70mxeA_gZzD_l0i";
 
-  console.log("Supabase:", !!supabaseClient);
 let supabaseClient = null;
 
 try{
@@ -1630,6 +1629,17 @@ supabaseClient =
 window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
+);
+
+console.log(
+"Supabase connected:",
+!!supabaseClient
+);
+
+}else{
+
+console.error(
+"Supabase library not loaded"
 );
 
 }
@@ -1856,8 +1866,11 @@ return;
 
 try{
 
-const query =
-supabaseClient
+const {
+data,
+error
+} =
+await supabaseClient
 .from("products")
 .select(`
 id,
@@ -1883,32 +1896,6 @@ true
 ascending:false
 }
 );
-
-const timeout =
-new Promise(
-(_,reject)=>
-setTimeout(
-()=>{
-reject(
-new Error(
-"انتهت مهلة تحميل المنتجات"
-)
-);
-},
-10000
-)
-);
-
-const result =
-await Promise.race([
-query,
-timeout
-]);
-
-const {
-data,
-error
-} = result;
 
 if(error)
 throw error;
@@ -3531,15 +3518,6 @@ true
 
 };
 
-if(
-currentUser &&
-currentUser.email
-){
-
-reviewData.user_id = null;
-
-}
-
 const {
 error
 } =
@@ -5005,8 +4983,7 @@ e.target.classList.remove(
 
 }
 
-}
-);
+});
 
 /* =====================================================
 بحث الخريطة بالضغط Enter
