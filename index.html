@@ -1944,73 +1944,199 @@ p.image_url ||
 video_url:
 p.video_url ||
 "",
+async function loadProducts(){
 
-is_featured:
-!!p.is_featured
+  const grid = document.getElementById("productsGrid");
 
-})
-);
+  if(!grid) return;
 
-cart =
-cart.filter(
-item=>
-products.some(
-p=>
-String(p.id) ===
-String(item.id)
-)
-);
+  grid.innerHTML = `
+    <div class="empty">
+      جاري تحميل المنتجات...
+    </div>
+  `;
 
-wishlist =
-wishlist.filter(
-id=>
-products.some(
-p=>
-String(p.id) ===
-String(id)
-)
-);
+  if(!supabaseClient){
 
-save();
+    grid.innerHTML = `
+      <div class="empty">
+        تعذر الاتصال بقاعدة البيانات حاليًا ❌
+      </div>
+    `;
 
-updateCounts();
+    return;
+  }
 
-await loadReviews();
+  try{
 
-applyFilters();
+    console.log("بدأ تحميل المنتجات من Supabase...");
 
-}catch(error){
+    const queryPromise = supabaseClient
+      .from("products")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", {
+        ascending:false
+      });
 
-console.error(
-"loadProducts error:",
-error
-);
+    const timeoutPromise = new Promise((_, reject) => {
 
-grid.innerHTML = `
+      setTimeout(() => {
 
-<div class="empty">
+        reject(
+          new Error("انتهت مهلة تحميل المنتجات")
+        );
 
-حصل خطأ في تحميل المنتجات ❌
+      }, 10000);
 
-<br>
+    });
 
-<button
-type="button"
-class="primary"
-style="margin-top:10px"
-onclick="loadProducts()">
+    const {
+      data,
+      error
+    } = await Promise.race([
+      queryPromise,
+      timeoutPromise
+    ]);
 
-إعادة المحاولة 🔄
+    if(error){
 
-</button>
+      console.error(
+        "Supabase products error:",
+        error
+      );
 
-</div>
+      throw error;
+    }
 
-`;
+    console.log(
+      "المنتجات التي تم تحميلها:",
+      data
+    );
 
-}
+    products = (data || []).map(p => ({
 
-}
+      id: p.id,
+
+      name:
+        p.name ||
+        "منتج",
+
+      cat:
+        p.category ||
+        "other",
+
+      price:
+        Number(p.price || 0),
+
+      old:
+        Number(p.old_price || 0),
+
+      rating: 0,
+
+      reviewCount: 0,
+
+      emoji: "🧸",
+
+      desc:
+        p.description ||
+        "منتج من مكتبة ماما زوزو",
+
+      stock:
+        Number(p.stock || 0),
+
+      image_url:
+        p.image_url ||
+        "",
+
+      video_url:
+        p.video_url ||
+        "",
+
+      is_featured:
+        !!p.is_featured
+
+    }));
+
+    cart = cart.filter(item =>
+      products.some(p =>
+        String(p.id) === String(item.id)
+      )
+    );
+
+    wishlist = wishlist.filter(id =>
+      products.some(p =>
+        String(p.id) === String(id)
+      )
+    );
+
+    save();
+
+    updateCounts();
+
+    /*
+      عرض المنتجات فورًا
+      بدون انتظار التقييمات
+    */
+
+    applyFilters();
+
+    /*
+      تحميل التقييمات بعد ظهور المنتجات
+    */
+
+    loadReviews().catch(error => {
+
+      console.error(
+        "Reviews loading error:",
+        error
+      );
+
+    });
+
+  }catch(error){
+
+    console.error(
+      "loadProducts error:",
+      error
+    );
+
+    grid.innerHTML = `
+
+      <div class="empty">
+
+        حصل خطأ في تحميل المنتجات ❌
+
+        <br>
+
+        <small style="
+          display:block;
+          margin-top:8px;
+          color:#999;
+        ">
+          ${escapeHtml(
+            error.message ||
+            "خطأ غير معروف"
+          )}
+        </small>
+
+        <button
+          type="button"
+          class="primary"
+          style="margin-top:10px"
+          onclick="loadProducts()">
+
+          إعادة المحاولة 🔄
+
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  }
 
 /* =====================================================
 تحميل التقييمات
