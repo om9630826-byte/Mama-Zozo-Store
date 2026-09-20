@@ -1840,7 +1840,7 @@ return html;
 }
 
 /* =====================================================
-تحميل المنتجات
+تحميل المنتجات - تم إصلاحها
 ===================================================== */
 
 async function loadProducts(){
@@ -1850,15 +1850,22 @@ document.getElementById(
 "productsGrid"
 );
 
-if(!grid)return;
+if(!grid)
+return;
 
-grid.innerHTML =
-'<div class="empty">جاري تحميل المنتجات...</div>';
+grid.innerHTML = `
+<div class="empty">
+جاري تحميل المنتجات...
+</div>
+`;
 
 if(!supabaseClient){
 
-grid.innerHTML =
-'<div class="empty">تعذر الاتصال بقاعدة البيانات حاليًا.</div>';
+grid.innerHTML = `
+<div class="empty">
+تعذر الاتصال بقاعدة البيانات حاليًا ❌
+</div>
+`;
 
 return;
 
@@ -1866,11 +1873,12 @@ return;
 
 try{
 
-const {
-data,
-error
-} =
-await supabaseClient
+console.log(
+"بدأ تحميل المنتجات من Supabase..."
+);
+
+const queryPromise =
+supabaseClient
 .from("products")
 .select(`
 id,
@@ -1897,16 +1905,61 @@ ascending:false
 }
 );
 
-if(error)
+const timeoutPromise =
+new Promise(
+(_,reject)=>{
+
+setTimeout(
+()=>{
+
+reject(
+new Error(
+"انتهت مهلة تحميل المنتجات"
+)
+);
+
+},
+10000
+);
+
+}
+);
+
+const {
+data,
+error
+} =
+await Promise.race([
+queryPromise,
+timeoutPromise
+]);
+
+if(error){
+
+console.error(
+"Supabase products error:",
+error
+);
+
 throw error;
+
+}
+
+console.log(
+"المنتجات التي تم تحميلها:",
+data
+);
 
 products =
 (data || []).map(
 p=>({
 
-id:p.id,
+id:
+p.id,
 
-name:p.name || "منتج",
+name:
+p.name ||
+"منتج",
 
 cat:
 p.category ||
@@ -1922,11 +1975,14 @@ Number(
 p.old_price || 0
 ),
 
-rating:0,
+rating:
+0,
 
-reviewCount:0,
+reviewCount:
+0,
 
-emoji:"🧸",
+emoji:
+"🧸",
 
 desc:
 p.description ||
@@ -1944,204 +2000,107 @@ p.image_url ||
 video_url:
 p.video_url ||
 "",
-async function loadProducts(){
 
-  const grid = document.getElementById("productsGrid");
+is_featured:
+!!p.is_featured
 
-  if(!grid) return;
+})
+);
 
-  grid.innerHTML = `
-    <div class="empty">
-      جاري تحميل المنتجات...
-    </div>
-  `;
+cart =
+cart.filter(
+item =>
+products.some(
+p =>
+String(p.id) ===
+String(item.id)
+)
+);
 
-  if(!supabaseClient){
+wishlist =
+wishlist.filter(
+id =>
+products.some(
+p =>
+String(p.id) ===
+String(id)
+)
+);
 
-    grid.innerHTML = `
-      <div class="empty">
-        تعذر الاتصال بقاعدة البيانات حاليًا ❌
-      </div>
-    `;
+save();
 
-    return;
-  }
+updateCounts();
 
-  try{
+/* عرض المنتجات فورًا */
+applyFilters();
 
-    console.log("بدأ تحميل المنتجات من Supabase...");
+/* تحميل التقييمات بعد ظهور المنتجات */
+loadReviews().catch(
+error=>{
 
-    const queryPromise = supabaseClient
-      .from("products")
-      .select("*")
-      .eq("is_active", true)
-      .order("created_at", {
-        ascending:false
-      });
+console.error(
+"Reviews loading error:",
+error
+);
 
-    const timeoutPromise = new Promise((_, reject) => {
+}
+);
 
-      setTimeout(() => {
+}catch(error){
 
-        reject(
-          new Error("انتهت مهلة تحميل المنتجات")
-        );
-
-      }, 10000);
-
-    });
-
-    const {
-      data,
-      error
-    } = await Promise.race([
-      queryPromise,
-      timeoutPromise
-    ]);
-
-    if(error){
-
-      console.error(
-        "Supabase products error:",
-        error
-      );
-
-      throw error;
-    }
-
-    console.log(
-      "المنتجات التي تم تحميلها:",
-      data
-    );
-
-    products = (data || []).map(p => ({
-
-      id: p.id,
-
-      name:
-        p.name ||
-        "منتج",
-
-      cat:
-        p.category ||
-        "other",
-
-      price:
-        Number(p.price || 0),
-
-      old:
-        Number(p.old_price || 0),
-
-      rating: 0,
-
-      reviewCount: 0,
-
-      emoji: "🧸",
-
-      desc:
-        p.description ||
-        "منتج من مكتبة ماما زوزو",
-
-      stock:
-        Number(p.stock || 0),
-
-      image_url:
-        p.image_url ||
-        "",
-
-      video_url:
-        p.video_url ||
-        "",
-
-      is_featured:
-        !!p.is_featured
-
-    }));
-
-    cart = cart.filter(item =>
-      products.some(p =>
-        String(p.id) === String(item.id)
-      )
-    );
-
-    wishlist = wishlist.filter(id =>
-      products.some(p =>
-        String(p.id) === String(id)
-      )
-    );
-
-    save();
-
-    updateCounts();
-
-    /*
-      عرض المنتجات فورًا
-      بدون انتظار التقييمات
-    */
-
-    applyFilters();
-
-    /*
-      تحميل التقييمات بعد ظهور المنتجات
-    */
-
-    loadReviews().catch(error => {
-
-      console.error(
-        "Reviews loading error:",
-        error
-      );
-
-    });
-
-  }catch(error){
-
-   console.error(
-  "loadProducts error:",
-  error
+console.error(
+"loadProducts error:",
+error
 );
 
 alert(
-  "خطأ تحميل المنتجات:\n" +
-  (error?.message || error)
-); 
+"خطأ تحميل المنتجات:\n" +
+(
+error?.message ||
+error
+)
+);
 
-    grid.innerHTML = `
+grid.innerHTML = `
 
-      <div class="empty">
+<div class="empty">
 
-        حصل خطأ في تحميل المنتجات ❌
+حصل خطأ في تحميل المنتجات ❌
 
-        <br>
+<br>
 
-        <small style="
-          display:block;
-          margin-top:8px;
-          color:#999;
-        ">
-          ${escapeHtml(
-            error.message ||
-            "خطأ غير معروف"
-          )}
-        </small>
+<small
+style="
+display:block;
+margin-top:8px;
+color:#999;
+">
 
-        <button
-          type="button"
-          class="primary"
-          style="margin-top:10px"
-          onclick="loadProducts()">
+${escapeHtml(
+error?.message ||
+"خطأ غير معروف"
+)}
 
-          إعادة المحاولة 🔄
+</small>
 
-        </button>
+<br>
 
-      </div>
+<button
+type="button"
+class="primary"
+onclick="loadProducts()">
 
-    `;
+إعادة المحاولة 🔄
 
-  }
+</button>
 
-  }
+</div>
+
+`;
+
+}
+
+}
 
 /* =====================================================
 تحميل التقييمات
@@ -2190,7 +2149,7 @@ product=>{
 
 const productReviews =
 reviewsData.filter(
-review=>
+review =>
 String(review.product_id) ===
 String(product.id)
 );
@@ -2204,7 +2163,9 @@ productReviews.length
 productReviews.reduce(
 (sum,review)=>
 sum +
-Number(review.rating || 0),
+Number(
+review.rating || 0
+),
 0
 ) /
 productReviews.length
@@ -2215,6 +2176,8 @@ productReviews.length
 );
 
 renderCustomerReviews();
+
+applyFilters();
 
 }catch(error){
 
@@ -2235,19 +2198,26 @@ renderCustomerReviews();
 عرض المنتجات
 ===================================================== */
 
-function renderProducts(list=products){
+function renderProducts(
+list=products
+){
 
 const grid =
 document.getElementById(
 "productsGrid"
 );
 
-if(!grid)return;
+if(!grid)
+return;
 
 if(!list.length){
 
 grid.innerHTML =
-'<div class="empty">مفيش منتجات مطابقة للبحث.</div>';
+`
+<div class="empty">
+مفيش منتجات مطابقة للبحث.
+</div>
+`;
 
 return;
 
@@ -2260,35 +2230,32 @@ p=>`
 <div class="product">
 
 ${
-
 p.old > p.price
 ?
 '<div class="badge">خصم</div>'
 :
 ''
-
 }
 
 <div class="productImg">
 
 ${
-
 p.image_url
 ?
 
 `
-
 <img
 src="${escapeHtml(p.image_url)}"
 alt="${escapeHtml(p.name)}"
-onerror="this.style.display='none';this.parentElement.textContent='🧸'">
-
+onerror="
+this.style.display='none';
+this.parentElement.textContent='🧸';
+">
 `
 
 :
 
 p.emoji
-
 }
 
 </div>
@@ -2304,29 +2271,23 @@ ${escapeHtml(p.name)}
 ${starsHTML(p.rating)}
 
 ${
-
 p.reviewCount
 ?
 
 `
-
 <span class="ratingNumber">
 ${Number(p.rating).toFixed(1)}
 (${p.reviewCount})
 </span>
-
 `
 
 :
 
 `
-
 <span class="ratingNumber">
 لسه مفيش تقييمات
 </span>
-
 `
-
 }
 
 </div>
@@ -2338,22 +2299,18 @@ ${money(p.price)}
 </span>
 
 ${
-
 p.old > p.price
 ?
 
 `
-
 <span class="old">
 ${money(p.old)}
 </span>
-
 `
 
 :
 
 ''
-
 }
 
 </div>
@@ -2362,27 +2319,44 @@ ${money(p.old)}
 ${escapeHtml(p.desc)}
 </p>
 
+<p style="font-size:13px;color:#777;margin-top:5px;">
+المتاح:
+${
+Number(p.stock) > 0
+?
+Number(p.stock) + " قطعة"
+:
+"غير متوفر"
+}
+</p>
+
 <div class="productBtns">
 
 <button
 type="button"
 class="add"
 onclick="addToCart(${Number(p.id)})">
+
 🛒 أضف
+
 </button>
 
 <button
 type="button"
 class="fav"
 onclick="toggleFav(${Number(p.id)})">
+
 ❤️
+
 </button>
 
 <button
 type="button"
 class="fav"
 onclick="openProduct(${Number(p.id)})">
+
 👁️
+
 </button>
 
 </div>
@@ -2397,17 +2371,34 @@ onclick="openProduct(${Number(p.id)})">
 }
 
 /* =====================================================
-إصلاح حماية النصوص
+حماية النصوص
 ===================================================== */
 
 function escapeHtml(value){
 
-return String(value ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+return String(
+value ?? ""
+)
+.replace(
+/&/g,
+"&amp;"
+)
+.replace(
+/</g,
+"&lt;"
+)
+.replace(
+/>/g,
+"&gt;"
+)
+.replace(
+/"/g,
+"&quot;"
+)
+.replace(
+/'/g,
+"&#039;"
+);
 
 }
 
@@ -2462,11 +2453,11 @@ p.cat === cat
 )
 &&
 (
-p.name
+String(p.name || "")
 .toLowerCase()
 .includes(search)
 ||
-p.desc
+String(p.desc || "")
 .toLowerCase()
 .includes(search)
 )
@@ -2512,7 +2503,8 @@ document.getElementById(
 
 if(categoryFilter){
 
-categoryFilter.value = cat;
+categoryFilter.value =
+cat;
 
 }
 
@@ -2532,7 +2524,7 @@ function addToCart(id){
 
 const product =
 products.find(
-x=>
+x =>
 String(x.id) ===
 String(id)
 );
@@ -2561,7 +2553,7 @@ return;
 
 const item =
 cart.find(
-x=>
+x =>
 String(x.id) ===
 String(id)
 );
@@ -2587,9 +2579,11 @@ item.qty++;
 
 cart.push({
 
-id:product.id,
+id:
+product.id,
 
-qty:1
+qty:
+1
 
 });
 
@@ -2609,7 +2603,7 @@ function removeCart(id){
 
 cart =
 cart.filter(
-x=>
+x =>
 String(x.id) !==
 String(id)
 );
@@ -2626,16 +2620,17 @@ function changeQty(id,change){
 
 const item =
 cart.find(
-x=>
+x =>
 String(x.id) ===
 String(id)
 );
 
-if(!item)return;
+if(!item)
+return;
 
 const product =
 products.find(
-x=>
+x =>
 String(x.id) ===
 String(item.id)
 );
@@ -2693,7 +2688,9 @@ cartCount.textContent =
 cart.reduce(
 (a,b)=>
 a +
-Number(b.qty || 0),
+Number(
+b.qty || 0
+),
 0
 );
 
@@ -2734,14 +2731,20 @@ document.getElementById(
 "cartTotals"
 );
 
-if(!box || !totals)return;
+if(!box || !totals)
+return;
 
 if(!cart.length){
 
 box.innerHTML =
-'<div class="empty">السلة فاضية 🛒</div>';
+`
+<div class="empty">
+السلة فاضية 🛒
+</div>
+`;
 
-totals.innerHTML = "";
+totals.innerHTML =
+"";
 
 return;
 
@@ -2755,12 +2758,13 @@ item=>{
 
 const p =
 products.find(
-x=>
+x =>
 String(x.id) ===
 String(item.id)
 );
 
-if(!p)return "";
+if(!p)
+return "";
 
 const total =
 p.price *
@@ -2775,12 +2779,10 @@ return `
 <div style="font-size:35px">
 
 ${
-
 p.image_url
 ?
 
 `
-
 <img
 src="${escapeHtml(p.image_url)}"
 style="
@@ -2788,13 +2790,11 @@ width:55px;
 height:55px;
 object-fit:contain;
 ">
-
 `
 
 :
 
 p.emoji
-
 }
 
 </div>
@@ -2834,7 +2834,9 @@ onclick="changeQty(${Number(p.id)},1)">
 <button
 type="button"
 onclick="removeCart(${Number(p.id)})">
+
 🗑️
+
 </button>
 
 </div>
@@ -2892,7 +2894,8 @@ document.getElementById(
 "coupon"
 );
 
-if(!input)return;
+if(!input)
+return;
 
 const code =
 input.value
@@ -2929,7 +2932,7 @@ function toggleFav(id){
 
 const exists =
 wishlist.some(
-x=>
+x =>
 String(x) ===
 String(id)
 );
@@ -2938,7 +2941,7 @@ if(exists){
 
 wishlist =
 wishlist.filter(
-x=>
+x =>
 String(x) !==
 String(id)
 );
@@ -2975,13 +2978,14 @@ document.getElementById(
 "wishlistModal"
 );
 
-if(!box || !modal)return;
+if(!box || !modal)
+return;
 
 const list =
 products.filter(
-p=>
+p =>
 wishlist.some(
-id=>
+id =>
 String(id) ===
 String(p.id)
 )
@@ -2999,12 +3003,10 @@ p=>`
 <div style="font-size:35px">
 
 ${
-
 p.image_url
 ?
 
 `
-
 <img
 src="${escapeHtml(p.image_url)}"
 style="
@@ -3012,13 +3014,11 @@ width:55px;
 height:55px;
 object-fit:contain;
 ">
-
 `
 
 :
 
 p.emoji
-
 }
 
 </div>
@@ -3043,7 +3043,10 @@ onclick="addToCart(${Number(p.id)})">
 
 <button
 type="button"
-onclick="toggleFav(${Number(p.id)});openWishlist()">
+onclick="
+toggleFav(${Number(p.id)});
+openWishlist();
+">
 ❌
 </button>
 
@@ -3054,7 +3057,11 @@ onclick="toggleFav(${Number(p.id)});openWishlist()">
 
 :
 
-'<div class="empty">المفضلة فاضية ❤️</div>';
+`
+<div class="empty">
+المفضلة فاضية ❤️
+</div>
+`;
 
 modal.classList.add("show");
 
@@ -3068,7 +3075,7 @@ function openProduct(id){
 
 const p =
 products.find(
-x=>
+x =>
 String(x.id) ===
 String(id)
 );
@@ -3093,11 +3100,12 @@ document.getElementById(
 "productModal"
 );
 
-if(!details || !modal)return;
+if(!details || !modal)
+return;
 
 const productReviews =
 reviewsData.filter(
-review=>
+review =>
 String(review.product_id) ===
 String(p.id)
 );
@@ -3107,12 +3115,10 @@ details.innerHTML = `
 <div style="text-align:center">
 
 ${
-
 p.image_url
 ?
 
 `
-
 <img
 src="${escapeHtml(p.image_url)}"
 alt="${escapeHtml(p.name)}"
@@ -3122,19 +3128,15 @@ max-height:300px;
 object-fit:contain;
 border-radius:15px;
 ">
-
 `
 
 :
 
 `
-
 <div style="font-size:100px">
 ${p.emoji}
 </div>
-
 `
-
 }
 
 </div>
@@ -3148,30 +3150,24 @@ ${escapeHtml(p.name)}
 ${starsHTML(p.rating)}
 
 ${
-
 p.reviewCount
 ?
 
 `
-
 <span class="ratingNumber">
 ${Number(p.rating).toFixed(1)}
 من 5
 (${p.reviewCount} تقييم)
 </span>
-
 `
 
 :
 
 `
-
 <span class="ratingNumber">
 لسه مفيش تقييمات
 </span>
-
 `
-
 }
 
 </div>
@@ -3181,22 +3177,18 @@ ${money(p.price)}
 </h2>
 
 ${
-
 p.old > p.price
 ?
 
 `
-
 <p class="old">
 ${money(p.old)}
 </p>
-
 `
 
 :
 
 ""
-
 }
 
 <p>
@@ -3209,12 +3201,10 @@ ${Number(p.stock)}
 </p>
 
 ${
-
 p.video_url
 ?
 
 `
-
 <video
 controls
 style="
@@ -3228,13 +3218,11 @@ border-radius:15px;
 src="${escapeHtml(p.video_url)}">
 
 </video>
-
 `
 
 :
 
 ""
-
 }
 
 <div class="productRatingSummary">
@@ -3262,7 +3250,6 @@ ${starsHTML(p.rating)}
 <div>
 
 ${
-
 p.reviewCount
 ?
 
@@ -3271,7 +3258,6 @@ p.reviewCount
 :
 
 "مفيش تقييمات للمنتج لسه"
-
 }
 
 </div>
@@ -3285,7 +3271,6 @@ p.reviewCount
 <div class="productReviewsList">
 
 ${
-
 productReviews.length
 ?
 
@@ -3316,21 +3301,16 @@ review.comment
 ?
 
 `
-
 <div class="reviewComment">
-
 ${escapeHtml(
 review.comment
 )}
-
 </div>
-
 `
 
 :
 
 ""
-
 }
 
 <div class="reviewDate">
@@ -3349,13 +3329,10 @@ review.created_at
 :
 
 `
-
 <div class="empty">
 مفيش تقييمات للمنتج لسه ⭐
 </div>
-
 `
-
 }
 
 </div>
@@ -3708,7 +3685,8 @@ document.getElementById(
 "reviewsSection"
 );
 
-if(!box)return;
+if(!box)
+return;
 
 if(!reviewsData.length){
 
@@ -3761,26 +3739,20 @@ review.rating
 </div>
 
 ${
-
 review.comment
 ?
 
 `
-
 <div class="reviewComment">
-
 ${escapeHtml(
 review.comment
 )}
-
 </div>
-
 `
 
 :
 
 ""
-
 }
 
 <div class="reviewDate">
@@ -3894,7 +3866,7 @@ currentUser.phone || "";
 
 const mine =
 orders.filter(
-o=>
+o =>
 o.email ===
 currentUser.email
 );
@@ -3904,7 +3876,8 @@ document.getElementById(
 "ordersBox"
 );
 
-if(!ordersBox)return;
+if(!ordersBox)
+return;
 
 ordersBox.innerHTML =
 mine.length
@@ -3927,7 +3900,10 @@ ${money(o.total)}
 <br>
 
 الحالة:
-${escapeHtml(o.status || "new")}
+${escapeHtml(
+o.status ||
+"new"
+)}
 
 </div>
 
@@ -3980,7 +3956,7 @@ return;
 
 if(
 users.some(
-u=>
+u =>
 u.email === email
 )
 ){
@@ -4037,7 +4013,7 @@ document.getElementById(
 
 const user =
 users.find(
-u=>
+u =>
 u.email === email &&
 u.password === password
 );
@@ -4133,7 +4109,7 @@ cart.reduce(
 
 const p =
 products.find(
-x=>
+x =>
 String(x.id) ===
 String(item.id)
 );
@@ -4353,7 +4329,8 @@ document.getElementById(
 "mapSearchInput"
 );
 
-if(!input)return;
+if(!input)
+return;
 
 const query =
 input.value.trim();
@@ -4643,7 +4620,7 @@ cart.reduce(
 
 const p =
 products.find(
-x=>
+x =>
 String(x.id) ===
 String(item.id)
 );
@@ -4698,7 +4675,7 @@ item=>{
 
 const p =
 products.find(
-x=>
+x =>
 String(x.id) ===
 String(item.id)
 );
@@ -5008,7 +4985,8 @@ error
 );
 
 showToast(
-"خطأ: " + error.message
+"خطأ: " +
+error.message
 );
 
 alert(
@@ -5143,4 +5121,4 @@ searchLocation();
 </script>
 
 </body>
-  </html>
+</html>
